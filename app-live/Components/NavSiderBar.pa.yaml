@@ -1,0 +1,300 @@
+ComponentDefinitions:
+  NavSiderBar:
+    DefinitionType: CanvasComponent
+    AccessAppScope: true
+    CustomProperties:
+      SidebarWidth:
+        PropertyKind: Input
+        DisplayName: Sidebar Width
+        Description: A custom property
+        DataType: Number
+        Default: =240
+    Properties:
+      Height: =App.Height
+      Width: =App.Width
+    Children:
+      - conNavContainer:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+          Children:
+            - conSiderPanel:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.Regular
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =16
+                  PaddingBottom: =5
+                  PaddingTop: =5
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =NavSiderBar.SidebarWidth
+                Children:
+                  - galMain:
+                      Control: Gallery
+                      Variant: VariableHeight
+                      Properties:
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        Items: =Filter(colNavigationItems,Visible)
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =16
+                        ShowScrollbar: =false
+                        TemplateFill: |-
+                          =If(
+                              ThisItem.ID = varSelectedMenuId,
+                              RGBA(220, 252, 231, 1),
+                              RGBA(255, 255, 255, 1)
+                          )
+                        TemplatePadding: =10
+                        TemplateSize: =galSubMenu.TemplateHeight + galSubMenu.TemplatePadding
+                      Children:
+                        - conMenuItemContainer:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Fill: |-
+                                =If(
+                                    ThisItem.ID = varSelectedMenuId,
+                                    RGBA(220, 252, 231, 1),
+                                    RGBA(0, 0, 0, 0)
+                                )
+                              Height: =conMenuItemSpacer.Y + conMenuItemSpacer.Height
+                              LayoutDirection: =LayoutDirection.Vertical
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.TemplateWidth
+                            Children:
+                              - conMenuItemButton:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(0,0,0,0)
+                                    FillPortions: =0
+                                    Height: =50
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
+                                    Width: =Parent.Width
+                                  Children:
+                                    - btnMenuItem:
+                                        Control: ModernButton
+                                        Properties:
+                                          Align: =Align.Left
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Appearance: =ButtonAppearance.Transparent
+                                          Color: |-
+                                            =If(
+                                                ThisItem.ID = varSelectedMenuId,
+                                                RGBA(22, 163, 74, 1),
+                                                RGBA(31, 41, 55, 1)
+                                            )
+                                          FillPortions: =1
+                                          Font: =fxFontFamily
+                                          Height: =Parent.Height
+                                          Icon: =ThisItem.Icon
+                                          IconStyle: |-
+                                            =If(
+                                                ThisItem.ID = varSelectedMenuId Or
+                                                (
+                                                    CountRows(
+                                                        Filter(
+                                                            ThisItem.SubMenu,
+                                                            ID = varSelectedMenuId
+                                                        )
+                                                    ) > 0 And !ThisItem.IsGroup
+                                                ),
+                                                "Filled",
+                                                "Outline"
+                                            )
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          OnSelect: |-
+                                            =// ==========================================
+                                            // Xử lý click menu navigation
+                                            // ==========================================
+                                            If(
+
+                                                // --------------------------------------
+                                                // Menu Thoát ứng dụng (ID = 99)
+                                                // --------------------------------------
+                                                ThisItem.ID = 99,
+                                                Exit(),
+
+                                                // --------------------------------------
+                                                // Menu có submenu
+                                                // Expand / Collapse nhóm menu
+                                                // --------------------------------------
+                                                CountRows(ThisItem.SubMenu) > 0,
+                                                Patch(
+                                                    colNavigationItems,
+                                                    ThisItem,
+                                                    {
+                                                        IsGroup: !ThisItem.IsGroup
+                                                    }
+                                                ),
+
+                                                // --------------------------------------
+                                                // Menu màn hình thông thường
+                                                // Chọn menu + đóng nav + điều hướng
+                                                // --------------------------------------
+                                                Set(
+                                                    varSelectedMenuId,
+                                                    ThisItem.ID
+                                                );
+
+                                                Set(
+                                                    varIsNavVisible,
+                                                    false
+                                                );
+
+                                                Navigate(
+                                                    ThisItem.Screen,
+                                                    ScreenTransition.Fade
+                                                )
+                                            )
+                                          Size: =fxFontSizeLG
+                                          Text: =ThisItem.Title
+                                          VerticalAlign: =VerticalAlign.Middle
+                                    - btnOpenSubMenu:
+                                        Control: ModernButton
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Appearance: =ButtonAppearance.Transparent
+                                          Font: =fxFontFamily
+                                          Height: =Parent.Height
+                                          Icon: =If(ThisItem.IsGroup, "ChevronUp", "ChevronDown")
+                                          Layout: =ButtonLayout.IconOnly
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          OnSelect: |-
+                                            =Patch(
+                                                    colNavigationItems,
+                                                    ThisItem,
+                                                    {IsGroup: !ThisItem.IsGroup}
+                                                )
+                                          Text: =""
+                                          Visible: =!IsEmpty(ThisItem.SubMenu)
+                                          Width: =30
+                              - galSubMenu:
+                                  Control: Gallery
+                                  Variant: Vertical
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    BorderColor: =RGBA(0, 18, 107, 1)
+                                    DelayItemLoading: =false
+                                    Fill: |-
+                                      =If(
+                                          ThisItem.ID = varSelectedMenuId,
+                                          RGBA(220, 252, 231, 1),
+                                          RGBA(255, 255, 255, 1)
+                                      )
+                                    FillPortions: =0
+                                    Height: =(CountRows(Filter(ThisItem.SubMenu,Visible = true)) * Self.TemplateHeight)+ (CountRows(Filter(ThisItem.SubMenu,Visible = true)) * Self.TemplatePadding)
+                                    Items: =Filter(ThisItem.SubMenu,Visible = true)
+                                    LayoutMaxHeight: |
+                                      =CountRows(ThisItem.SubMenu) * Self.TemplateHeight
+                                    LayoutMinHeight: |
+                                      =0
+                                    LayoutMinWidth: =16
+                                    LoadingSpinner: =LoadingSpinner.None
+                                    ShowScrollbar: =false
+                                    TemplateSize: =35
+                                    Visible: =ThisItem.IsGroup && CountRows(ThisItem.SubMenu) > 0
+                                    Width: =Parent.Width
+                                  Children:
+                                    - conSubmenuItemButton:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Height: =Parent.TemplateHeight
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          PaddingLeft: =23
+                                          RadiusBottomLeft: =0
+                                          RadiusBottomRight: =0
+                                          RadiusTopLeft: =0
+                                          RadiusTopRight: =0
+                                          Width: =galSubMenu.Width
+                                        Children:
+                                          - conSubmenuIndicator:
+                                              Control: GroupContainer
+                                              Variant: ManualLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: |-
+                                                  =If(
+                                                      ThisItem.ID = varSelectedMenuId,
+                                                      App.Theme.Colors.Primary,
+                                                      ColorFade(Color.LightGray, 40%)
+                                                  )
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                LayoutMinWidth: =16
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Width: =2
+                                          - btnSubmenuItem:
+                                              Control: ModernButton
+                                              Properties:
+                                                Align: =Align.Left
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                Appearance: =ButtonAppearance.Transparent
+                                                Color: |-
+                                                  =If(
+                                                      ThisItem.ID = varSelectedMenuId,
+                                                      App.Theme.Colors.Primary,
+                                                      fxTextSecondary
+                                                  )
+                                                FillPortions: =1
+                                                Font: =fxFontFamily
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                OnSelect: |-
+                                                  =Set(varSelectedMenuId, ThisItem.ID);
+                                                  Set(varIsNavVisible, false);
+                                                  //UpdateIf(colNavigationItems, IsGroup, {IsGroup: false});
+                                                  Navigate(ThisItem.Screen, ScreenTransition.Fade)
+                                                Size: =fxFontSizeLG
+                                                Text: =ThisItem.Title
+                              - conMenuItemSpacer:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =3
+                                    LayoutMinHeight: =1
+                                    LayoutMinWidth: =0
+                                    RadiusBottomLeft: =1
+                                    RadiusBottomRight: =1
+                                    RadiusTopLeft: =1
+                                    RadiusTopRight: =1
+                                    Width: =Parent.Width

@@ -1,0 +1,67 @@
+App:
+  Properties:
+    OnStart: |-
+      =ClearCollect(
+          colPlants,
+          [
+              {Value:"Đồng Nai"},
+              {Value:"Long An"},
+              {Value:"Hưng Yên"}
+          ]
+      );
+
+      ClearCollect(
+          colSpecies,
+          [
+              {Value:"Gia súc"},
+              {Value:"Gia cầm"},
+              {Value:"Thủy sản"}
+          ]
+      );
+
+      ClearCollect(
+          colRuns,
+
+          {
+              ID:1,
+              RunId:"15.10.2026.001",
+              ProductCode:"9104V100",
+              ProductName:"Thức ăn hỗn hợp gia súc",
+              Plant:"1010",
+              PlantName:"Đồng Nai",
+              Species:"Gia súc",
+              Stage:"Bagging",
+              SampleCount:7,
+              ApprovedTon:50,
+              RejectedTon:20
+          },
+
+          {
+              ID:2,
+              RunId:"15.10.2026.002",
+              ProductCode:"9201V200",
+              ProductName:"Thức ăn hỗn hợp gia cầm",
+              Plant:"1010",
+              PlantName:"Đồng Nai",
+              Species:"Gia cầm",
+              Stage:"Pelleting",
+              SampleCount:3,
+              ApprovedTon:15,
+              RejectedTon:2
+          },
+
+          {
+              ID:3,
+              RunId:"15.10.2026.003",
+              ProductCode:"8801F100",
+              ProductName:"Thức ăn thủy sản",
+              Plant:"1020",
+              PlantName:"Long An",
+              Species:"Thủy sản",
+              Stage:"Mixing",
+              SampleCount:2,
+              ApprovedTon:0,
+              RejectedTon:0
+          }
+      );
+    Theme: =PowerAppsTheme

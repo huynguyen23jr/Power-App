@@ -1,0 +1,739 @@
+Screens:
+  scrDanhMucDensity:
+    Properties:
+      OnVisible: |-
+        =Clear(col_SelectedDanhMucDensity);
+        varShowMenuUser && scrDanhMucDensity.Size <> 1
+    Children:
+      - con_MainDanhMucDensity:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+          Children:
+            - con_HeaderDanhMucDensity:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =55
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - cmp_HeaderDanhMucDensity:
+                      Control: CanvasComponent
+                      ComponentName: Header
+                      Properties:
+                        Height: =App.Height
+                        IDRecord: =100
+                        Width: =App.Width - Parent.PaddingLeft * 2 - 5
+                        varSizeScreen: =scrDanhMucDensity.Size
+            - con_BodyDanhMucDensity:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: |-
+                    =
+                    If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
+                  FillPortions: =0
+                  Height: =Parent.Height - con_HeaderDanhMucDensity.Height
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =If(!varShowMenuUser,0,5)
+                  PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                  PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                  PaddingRight: =If(!varShowMenuUser, 0, 5)
+                  PaddingTop: =If(!varShowMenuUser, 0, 5)
+                  RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                Children:
+                  - con_MenuDanhMucDensity:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semilight
+                        FillPortions: =0
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        Visible: =scrDanhMucDensity.Size <> 1
+                        Width: =If(varShowMenuUser, 240, 0)
+                      Children:
+                        - cmp_NavSidebarDanhMucDensity:
+                            Control: CanvasComponent
+                            ComponentName: NavSiderBar
+                            Properties:
+                              Height: =Parent.Height
+                              SidebarWidth: =Parent.Width
+                              Width: =Parent.Width
+                  - con_ContentDanhMucDensity:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: |-
+                          =If(
+                              scrDanhMucBin.Size = 1,
+                              DropShadow.Semibold,
+                              DropShadow.None
+                          )
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                        RadiusTopRight: =0
+                      Children:
+                        - con_ActionHeaderDanhMucDensity:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =40
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =10
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                            Children:
+                              - btn_AddDanhMucDensity:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Add"
+                                    OnSelect: |-
+                                      =Set(varDensityDetail, {});
+                                      Navigate(scrDanhMucDensityForm, ScreenTransition.CoverRight)
+                                    Size: =fxFontSizeMD
+                                    Text: ="Thêm"
+                              - btn_AddMasterSanPham_3:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Print"
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: |-
+                                      =Set(varShowUploadFile, true);
+                                      Reset(attFile_2);
+                                    Size: =fxFontSizeMD
+                                    Text: ="Import"
+                              - btn_RefreshDanhMucDensity:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="ArrowSync"
+                                    OnSelect: =Refresh('QLK List Density')
+                                    Size: =fxFontSizeMD
+                                    Text: ="Làm mới"
+                                    Width: =120
+                              - btn_RefreshDanhMucDensity_1:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Delete"
+                                    OnSelect: |+
+                                      =If(
+                                          Confirm(
+                                              "Bạn có chắc muốn xóa " & CountRows(col_SelectedDanhMucDensity) & " bản ghi đã chọn không?",
+                                              {
+                                                  Title: "Xác nhận xóa",
+                                                  Subtitle: "Hành động này không thể hoàn tác.",
+                                                  ConfirmButton: "Xóa",
+                                                  CancelButton: "Hủy"
+                                              }
+                                          ),
+                                          IfError(
+                                              Remove('QLK List Density', col_SelectedDanhMucDensity);
+                                              Clear(col_SelectedDanhMucDensity),
+                                              Notify("Xóa không thành công", NotificationType.Error, 2000),
+                                              Notify("Đã xóa thành công!", NotificationType.Success, 2000)
+                                          )
+                                      )
+                                    Size: =fxFontSizeMD
+                                    Text: ="Xóa"
+                                    Visible: '=CountRows(col_SelectedDanhMucDensity) > 0 '
+                                    Width: =100
+                        - lbl_TitleDanhMucDensity:
+                            Control: ModernText
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =RGBA(45, 128, 40, 1)
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightSemiBold
+                              Height: =40
+                              PaddingLeft: =10
+                              Size: =fxFontSizeXL
+                              Text: ="Danh mục Density"
+                        - con_FilterDanhMucDensity:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =40
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =10
+                              LayoutMinWidth: =Parent.LayoutMinWidth
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                            Children:
+                              - txt_SearchDanhMucDensity:
+                                  Control: ModernTextInput
+                                  Properties:
+                                    FillPortions: =1
+                                    LayoutMinWidth: =16
+                                    Placeholder: ="Tìm kiếm Code SAP hoặc Code rút gọn"
+                              - btn_FilterDanhMucDensity:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Filter"
+                                    OnSelect: |-
+                                      =UpdateContext({varPopUpFilterDanhMucDensity: true})
+                                    Text: ="Bộ lọc"
+                        - con_ListDanhMucDensity:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Start
+                              BorderColor: =RGBA(156, 39, 176, 1)
+                              BorderStyle: =BorderStyle.None
+                              DropShadow: =If(scrDanhMucDensity.Size = 1, DropShadow.None, DropShadow.Semibold)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutOverflowX: =LayoutOverflow.Scroll
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              RadiusBottomLeft: =6
+                              RadiusBottomRight: =6
+                              RadiusTopLeft: =If(scrDanhMucDensity.Size = 1, 0, 5)
+                              RadiusTopRight: =6
+                              Width: =Parent.Width - Parent.PaddingLeft * 2
+                            Children:
+                              - con_TableHeaderDanhMucDensity:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(250, 250, 250, 1)
+                                    FillPortions: =0
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =5
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Visible: =scrDanhMucDensity.Size <> 1
+                                  Children:
+                                    - chk_DanhMucDensity_SelectAll:
+                                        Control: CheckBox
+                                        Properties:
+                                          Checked: |-
+                                            =CountRows(col_SelectedDanhMucDensity) = CountRows(gal_DanhMucDensity.AllItems) &&
+                                            CountRows(gal_DanhMucDensity.AllItems) > 0
+                                          Label: =""
+                                          OnCheck: =ClearCollect(col_SelectedDanhMucDensity, gal_DanhMucDensity.AllItems)
+                                          OnUncheck: =Clear(col_SelectedDanhMucDensity)
+                                          Width: =32
+                                    - lbl_HeaderCodeSAPDensity:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Code SAP"
+                                          Width: =Parent.Width * 0.3
+                                          Wrap: =false
+                                    - lbl_HeaderShortCodeDensity:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Code rút gọn"
+                                          Width: =Parent.Width * 0.3
+                                          Wrap: =false
+                                    - lbl_HeaderDensityValue:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Khối lượng riêng"
+                                          Width: =Parent.Width * 0.25
+                                          Wrap: =false
+                                    - lbl_HeaderActionDensity:
+                                        Control: ModernText
+                                        Properties:
+                                          FillPortions: =1
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Thao tác"
+                                          Width: =100
+                                          Wrap: =false
+                              - gal_DanhMucDensity:
+                                  Control: Gallery
+                                  Variant: Vertical
+                                  Properties:
+                                    BorderStyle: =BorderStyle.None
+                                    Height: =Parent.Height - con_TableHeaderDanhMucDensity.Height - lbl_TotalRowsDanhMucDensity.Height
+                                    Items: |-
+                                      =SortByColumns(
+                                          Filter(
+                                              'QLK List Density',
+                                              IsBlank(txt_SearchDanhMucDensity.Text) ||   StartsWith(CodeSAP, txt_SearchDanhMucDensity.Text) ||   StartsWith(ShortCode, txt_SearchDanhMucDensity.Text),
+                                              PlantCode = varUserInPlant.PlantCode
+                                          ),
+                                          "CodeSAP",
+                                          SortOrder.Ascending
+                                      )
+                                    ShowScrollbar: =false
+                                    TemplateSize: =If(scrDanhMucDensity.Size = 1, lbl_CodeSAPDensity.Height * 4, 48)
+                                    Width: =Parent.Width
+                                  Children:
+                                    - con_RowMasterDensity:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =If(scrDanhMucDensity.Size = 1, DropShadow.Light, DropShadow.None)
+                                          Height: =gal_DanhMucDensity.TemplateHeight
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =If(scrDanhMucDensity.Size = 1, 5, 0)
+                                          PaddingLeft: =5
+                                          RadiusTopLeft: =If(scrDanhMucDensity.Size = 1, 4, 0)
+                                          Width: =If(scrDanhMucDensity.Size = 1, Parent.Width - 10, Parent.Width)
+                                        Children:
+                                          - chk_DanhMucDensity_SelectRow:
+                                              Control: CheckBox
+                                              Properties:
+                                                Checked: =ThisItem.ID in col_SelectedDanhMucDensity.ID
+                                                Label: =""
+                                                OnCheck: =Collect(col_SelectedDanhMucDensity, ThisItem)
+                                                OnUncheck: =Remove(col_SelectedDanhMucDensity, ThisItem)
+                                                Visible: =scrDanhMucDensity.Size <> 1
+                                                Width: =32
+                                          - con_RowDanhMucDensity:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.SetByContainer
+                                                BorderColor: =RGBA(229, 231, 235, 1)
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(255, 255, 255, 1)
+                                                FillPortions: =0
+                                                Height: =If(scrDanhMucDensity.Size = 1, gal_DanhMucDensity.TemplateHeight, 48)
+                                                LayoutAlignItems: =If(scrDanhMucDensity.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
+                                                LayoutDirection: =If(scrDanhMucDensity.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                                LayoutGap: =If(scrDanhMucDensity.Size = 1, 4, 5)
+                                                LayoutMinHeight: =Parent.Height
+                                                PaddingLeft: =If(scrDanhMucDensity.Size = 1, 10, 5)
+                                                PaddingRight: =If(scrDanhMucDensity.Size = 1, 10, 5)
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Width: =If(scrDanhMucDensity.Size = 1, Parent.Width / 1.2, Parent.Width - Parent.PaddingRight * 2 - Parent.LayoutGap - 10)
+                                              Children:
+                                                - lbl_CodeSAPDensity:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrDanhMucDensity.Size = 1, "Code SAP: ", "") & ThisItem.CodeSAP
+                                                      Width: =If(scrDanhMucDensity.Size = 1, Parent.Width - 20, lbl_HeaderCodeSAPDensity.Width)
+                                                      Wrap: =false
+                                                - lbl_ShortCodeDensity:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrDanhMucDensity.Size = 1, "Code rút gọn: ", "") & ThisItem.ShortCode
+                                                      Width: =If(scrDanhMucDensity.Size = 1, Parent.Width - 20, lbl_HeaderShortCodeDensity.Width)
+                                                      Wrap: =false
+                                                - lbl_DensityValue:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrDanhMucDensity.Size = 1, "Khối lượng riêng: ", "") & Text(ThisItem.Density)
+                                                      Width: =If(scrDanhMucDensity.Size = 1, Parent.Width - 20, lbl_HeaderDensityValue.Width)
+                                                      Wrap: =false
+                                                - con_ActionDanhMucDensity:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =32
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutMinHeight: =Parent.Height
+                                                      Visible: =scrDanhMucDensity.Size <> 1
+                                                      Width: =100
+                                                    Children:
+                                                      - btn_ViewDanhMucDensity:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Eye"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |-
+                                                              =Set(varDensityDetail, ThisItem);
+                                                              Navigate(scrDanhMucDensityForm, ScreenTransition.CoverRight)
+                                                            Width: =32
+                                                      - btn_DeleteDanhMucDensity:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Delete"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |-
+                                                              =If(
+                                                                  Confirm(
+                                                                      "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                      {
+                                                                          Title: "Xác nhận xóa",
+                                                                          Subtitle: "Hành động này không thể hoàn tác.",
+                                                                          ConfirmButton: "Xóa",
+                                                                          CancelButton: "Hủy"
+                                                                      }
+                                                                  ),
+                                                                  IfError(
+                                                                      Remove('QLK List Density', ThisItem),
+                                                                      Notify("Xóa không thành công", NotificationType.Error,2000),
+                                                                      Notify("Đã xóa thành công!", NotificationType.Success,2000)
+                                                                  )
+                                                              )
+                                                            Width: =32
+                                          - con_MobileActionDanhMucDensity:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.SetByContainer
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =gal_DanhMucDensity.TemplateHeight
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Visible: =scrDanhMucDensity.Size = 1
+                                                Width: =Parent.Width - con_RowDanhMucDensity.Width
+                                              Children:
+                                                - btn_MobileOpenDanhMucDensity:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Start
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Height: =gal_DanhMucDensity.TemplateHeight/2
+                                                      Icon: ="Eye"
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      OnSelect: |-
+                                                        =Set(varDensityDetail, ThisItem);
+                                                        Navigate(scrDanhMucDensityForm, ScreenTransition.CoverRight)
+                                                      Width: =Parent.Width - 10
+                                                - btn_DeleteDanhMucDensity_1:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Start
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Height: =gal_DanhMucDensity.TemplateHeight/2
+                                                      Icon: ="Delete"
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      OnSelect: |-
+                                                        =If(
+                                                            Confirm(
+                                                                "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                {
+                                                                    Title: "Xác nhận xóa",
+                                                                    Subtitle: "Hành động này không thể hoàn tác.",
+                                                                    ConfirmButton: "Xóa",
+                                                                    CancelButton: "Hủy"
+                                                                }
+                                                            ),
+                                                            IfError(
+                                                                Remove('QLK List Density', ThisItem),
+                                                                Notify("Xóa không thành công", NotificationType.Error,2000),
+                                                                Notify("Đã xóa thành công!", NotificationType.Success,2000)
+                                                            )
+                                                        )
+                                                      Width: =Parent.Width - 10
+                                    - con_RowDividerDanhMucDensity:
+                                        Control: GroupContainer
+                                        Variant: ManualLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(229, 231, 235, 1)
+                                          Height: =1
+                                          Visible: =scrDanhMucDensity.Size <> 1
+                                          Width: =Parent.Width - 10
+                                          Y: =gal_DanhMucDensity.TemplateHeight
+                              - lbl_TotalRowsDanhMucDensity:
+                                  Control: ModernText
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightBold
+                                    Size: =fxFontSizeMD
+                                    Text: ="Hiển thị " & CountRows(gal_DanhMucDensity.AllItems) & " dòng"
+      - con_MenuOverlayDanhMucDensity:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height - 55
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =5
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowMenuUser && scrMasterSanPham.Size = 1
+            Width: =Parent.Width
+            Y: =55
+          Children:
+            - con_MenuPanelMasterDanhMucDensity:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =743
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Visible: |-
+                    =If(
+                        scrMasterSanPham.Size = 1,
+                        true,
+                        false
+                    )
+                  Width: =Parent.Width*0.7
+                  Y: |
+                    =55
+                Children:
+                  - cmp_NavSidebarMasterSanPhamMobile_2:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width - 10
+            - btn_CloseMenuOverlayMasterDanhMucDensity:
+                Control: ModernButton
+                Properties:
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Appearance: =ButtonAppearance.Transparent
+                  FillPortions: =1
+                  Layout: =ButtonLayout.TextOnly
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =Set(
+                        varShowMenuUser,
+                        !varShowMenuUser
+                    )
+                  Text: =
+      - Container_DialogImportExcel_2:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.3)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            Visible: =varShowUploadFile
+            Width: =Parent.Width
+          Children:
+            - Container4_2:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.SetByContainer
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =250
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                  LayoutMaxHeight: =
+                  LayoutMaxWidth: =
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Width: |
+                    =// In the Height property of a screen or container:
+                    Switch(
+                        scrMasterSanPham.Size,
+                        ScreenSize.Small,      300,
+                        ScreenSize.Medium,     450,
+                        ScreenSize.Large,      600,
+                        ScreenSize.ExtraLarge, 800
+                    )
+                Children:
+                  - Container5_2:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =35
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                      Children:
+                        - TextCanvas7_2:
+                            Control: Text
+                            Properties:
+                              Size: =18
+                              Text: ="Đính kèm"
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width
+                              X: =5
+                              Y: =2
+                  - attFile_2:
+                      Control: Attachments
+                      Properties:
+                        AddAttachmentText: ="Đính kèm tệp"
+                        BorderColor: =
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        Height: =100
+                        HoverFill: =RGBA(186, 202, 226, 1)
+                        ItemColor: =RGBA(255, 255, 255, 1)
+                        ItemFill: =RGBA(56, 96, 178, 1)
+                        ItemHoverFill: =RGBA(186, 202, 226, 1)
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                        MaxAttachmentSize: =100
+                        MaxAttachments: =1
+                        MaxAttachmentsText: ="Đã đạt số lượng file tối đa."
+                        NoAttachmentsText: ="Chưa có tệp đính kèm nào."
+                        PaddingBottom: =5
+                        PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(0, 18, 107, 1)
+                        Tooltip: =
+                        Width: =Parent.Width - 15
+                        X: =25
+                        Y: =57
+                  - Container9_3:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =40
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                        PaddingLeft: =10
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =Parent.Width
+                        Y: =226
+                      Children:
+                        - btn_UploadFile_2:
+                            Control: Button
+                            Properties:
+                              BasePaletteColor: =RGBA(8, 222, 8, 1)
+                              Icon: ="ArrowUp"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: "=If(\r\n        Or(\r\n            IsEmpty(attFile_2.Attachments),\r\n            IsBlank(First(attFile_2.Attachments).Name)\r\n        ),\r\n        // No file selected\r\n        Notify(\"Không có tệp nào được chọn! Vui lòng chọn tệp .xlsx!\", NotificationType.Error,2000),\r\n\r\n        // Otherwise, a file is selected. Now check if it's .xlsx\r\n        If(\r\n            EndsWith(Lower(First(attFile_2.Attachments).Name), \".xlsx\"),\r\n            \r\n            Set(varShowUploadFile, false);\r\n            UpdateContext({varShowPopupProcessing:true});\r\n            // If it's an .xlsx file, proceed with the upload or call your flow\r\n            Notify(\"Đang tải lên tệp Excel hợp lệ...\", NotificationType.Success,2000);\r\n\r\n            Set(\r\n                varResult,\r\n               'QLK|UploadFileExcelMasterDensity'.Run( varUserInPlant.PlantCode, varUserInPlant.PlantName,\r\n                    {\r\n                        file: {\r\n                            contentBytes: First(attFile_2.Attachments).Value,\r\n                            name: First(attFile_2.Attachments).Name\r\n                        }\r\n                    }\r\n                ).result\r\n            );\r\n\r\n            Set(varLoading, false);\r\n            UpdateContext({varShowPopupProcessing:false});\r\n            Refresh('QLK List Density');\r\n            ,\r\n            // Otherwise, it's not an .xlsx file\r\n            Notify(\"Chỉ cho phép tệp .xlsx!\", NotificationType.Error,2000)\r\n        )\r\n    );"
+                              Text: ="Tải lên"
+                              Width: =140
+                              X: =25
+                              Y: =258
+                        - ButtonCanvas2_3:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Secondary
+                              Icon: ="DismissCircle"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: =Set(varShowUploadFile, false);
+                              Text: ="Đóng"
+                              Width: =120
+                              X: =185
+                              Y: =258
+      - con_PopupProcessingKiemKho_3:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: |+
+              =varShowPopupProcessing
+            Width: =Parent.Width
+          Children:
+            - DialogProccessingKiemKho_4:
+                Control: CanvasComponent
+                ComponentName: DialogProccessing
+                Properties:
+                  Height: =App.Height
+                  Width: =App.Width

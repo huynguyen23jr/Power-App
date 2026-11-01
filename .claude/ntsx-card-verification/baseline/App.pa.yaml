@@ -1,0 +1,475 @@
+App:
+  Properties:
+    ConfirmExit: =true
+    Formulas: |-
+      =// ============================================================
+      // APP INFO
+      // ============================================================
+
+      // Tên ứng dụng — dùng chung toàn app
+      varAppName = "Quản Lý Kho";
+
+      // ============================================================
+      // FONT FAMILY
+      // ============================================================
+
+      fxFontFamily = Font.'Segoe UI';
+
+      // ============================================================
+      // FONT SIZE
+      // ============================================================
+
+      fxFontSizeXS  = 10;    // Caption
+      fxFontSizeSM  = 12;    // Text phụ
+      fxFontSizeMD  = 14;    // Text mặc định
+      fxFontSizeLG  = 16;    // Tiêu đề card
+      fxFontSizeXL  = 20;    // Tiêu đề màn hình
+      fxFontSizeXXL = 24;    // Dashboard
+
+      // ============================================================
+      // FONT WEIGHT
+      // ============================================================
+
+      fxFontWeightNormal   = FontWeight.Normal;
+      fxFontWeightSemiBold = FontWeight.Semibold;
+      fxFontWeightBold     = FontWeight.Bold;
+
+      // ============================================================
+      // TEXT COLOR
+      // ============================================================
+
+      fxTextPrimary   = RGBA(31, 41, 55, 1);
+      fxTextSecondary = RGBA(107, 114, 128, 1);
+      fxTextDisabled  = RGBA(156, 163, 175, 1);
+      fxTextWhite     = RGBA(255, 255, 255, 1);
+
+      // ============================================================
+      // ROLE
+      // ============================================================
+
+      col_RoleUser = 'QLK List Role';
+
+      // ============================================================
+      // PRODUCT GROUPS
+      // ============================================================
+
+      col_ProductGroups = 'QLK List Product Groups';
+
+      // ============================================================
+      // PRODUCT TYPES
+      // ============================================================
+
+      col_ProductTypes = 'QLK List Product Types';
+
+      // ============================================================
+      // PRODUCT CATEGORY STATIC
+      // ============================================================
+
+      colProductCategories = 'QLK List Business Group';
+
+      // ============================================================
+      // LANGUAGE
+      // ============================================================
+
+      // Danh sách ngôn ngữ hỗ trợ trong app
+      col_lan = Table(
+          {
+              Code: "VN",
+              Name: "Tiếng Việt"
+          },
+          {
+              Code: "EN",
+              Name: "English"
+          }
+      );
+
+      // ============================================================
+      // PRODUCT CATEGORIES
+      // Nguyên liệu hoặc thành phẩm
+      // ============================================================
+
+      col_ProductCategories = 'QLK List Product Categories';
+
+      // ============================================================
+      // APPROVAL TYPES
+      // Loại phê duyệt
+      // ============================================================
+
+      col_ApprovalTypes = 'QLK List Approval Types';
+
+      // ============================================================
+      // RULE TYPES
+      // Quy tắc duyệt
+      // ============================================================
+
+      col_RuleTypes = 'QLK List Rule Types';
+
+      // ============================================================
+      // WORKFLOW STATUS
+      // Trạng thái workflow
+      // ============================================================
+
+      col_WorkflowStatus = 'QLK List Workflow Status';
+
+      // ============================================================
+      // SHIFT NAME
+      // Danh sách ca
+      // ============================================================
+
+      col_ShiftName = Table(
+          {
+              ShiftCode: "S1",
+              ShiftNo: 1,
+              ShiftNameVI: "Ca 1",
+              ShiftNameEN: "Shift 1"
+          },
+          {
+              ShiftCode: "S2",
+              ShiftNo: 2,
+              ShiftNameVI: "Ca 2",
+              ShiftNameEN: "Shift 2"
+          },
+          {
+              ShiftCode: "S3",
+              ShiftNo: 3,
+              ShiftNameVI: "Ca 3",
+              ShiftNameEN: "Shift 3"
+          }
+      );
+
+      // ============================================================
+      // RECEIPT TYPE
+      // Loại phiếu nhập
+      // ============================================================
+
+      col_ReceiptType = 'QLK List Receipt Type';
+
+
+      // Danh sách giờ 00-23 dùng cho combobox chọn giờ
+      col_Hours = ForAll(
+          Sequence(24, 0),
+          {
+              Value: Text(Value, "00")
+          }
+      );
+
+      // Danh sách phút/giây 00-59 dùng chung cho combobox phút và giây
+      col_MinSec = ForAll(
+          Sequence(60, 0),
+          {
+              Value: Text(Value, "00")
+          }
+      );
+
+      // ============================================================
+      // IssueType
+      // Loại phiếu xuất
+      // ============================================================
+      col_IssueType = 'QLK List Issue Type';
+
+      // ============================================================
+      // StockCountType
+      // Loại kiểm kê
+      // ============================================================
+      col_StockCountType = 'QLK List Stock Count Type';
+
+
+
+      // ============================================================
+      // WarehouseFormTabs
+      // Tab dùng chung cho màn hình nhập kho và xuất kho
+      // ============================================================
+      col_WarehouseFormTabs = Table(
+          {
+              Code: "GENERAL",
+              NameVI: "Thông tin chung",
+              NameEN: "General information",
+              SortOrder: 1
+          },
+          {
+              Code: "APPROVAL",
+              NameVI: "Danh sách duyệt",
+              NameEN: "APPROVAL",
+              SortOrder: 2
+          },
+          {
+              Code: "HISTORY",
+              NameVI: "Lịch sử",
+              NameEN: "History",
+              SortOrder: 3
+          }
+      );
+
+
+
+      // ============================================================
+      // Action
+      // Danh mục hành động dùng chung cho workflow / popup / nút xử lý
+      // Nguồn dữ liệu: QLK List Action
+      // ============================================================
+      col_Action = 'QLK List Action';
+
+      // ============================================================
+      // REPORT CODE
+      // ============================================================
+
+      // Danh sách mã báo cáo dùng để phân loại Movement Type
+      col_ReportCodes =
+      Table(
+          {
+              ReportCode: "NHAP_SAN_XUAT",
+              ReportName: "Sản xuất",
+              ReportType: "NHAP"
+          },
+          {
+              ReportCode: "NHAP_THAY_BAO",
+              ReportName: "Thay bao",
+              ReportType: "NHAP"
+          },
+          {
+              ReportCode: "NHAP_HANG_NOI_BO",
+              ReportName: "Hàng nội bộ",
+              ReportType: "NHAP"
+          },
+          {
+              ReportCode: "NHAP_KHAC",
+              ReportName: "Nhập khác",
+              ReportType: "NHAP"
+          },
+          {
+              ReportCode: "XUAT_BAN_DAI_LY",
+              ReportName: "Bán đại lý",
+              ReportType: "XUAT"
+          },
+          {
+              ReportCode: "XUAT_BAN_NOI_BO",
+              ReportName: "Bán nội bộ/Depot",
+              ReportType: "XUAT"
+          },
+          {
+              ReportCode: "XUAT_THAY_BAO",
+              ReportName: "Thay bao",
+              ReportType: "XUAT"
+          },
+          {
+              ReportCode: "XUAT_TAI_CHE",
+              ReportName: "Tái chế",
+              ReportType: "XUAT"
+          },
+          {
+              ReportCode: "XUAT_TRA_SAN_XUAT",
+              ReportName: "Trả sản xuất",
+              ReportType: "XUAT"
+          },
+          {
+              ReportCode: "XUAT_KHAC",
+              ReportName: "Xuất khác",
+              ReportType: "XUAT"
+          }
+      );
+
+      col_ProductCategory = Table(
+          {
+              ProductCategoryCode: "GS",
+              ProductCategoryName: "Gia súc"
+          },
+          {
+              ProductCategoryCode: "TS",
+              ProductCategoryName: "Thủy sản"
+          }
+      )
+    OnStart: |+
+      =// varCurrentUser phải load trước
+      Set(varCurrentUser, LookUp('GFVN_SharePointListHREmployeesURL', G_Email = User().Email));
+      //Set(varCurrentUser, LookUp('GFVN_SharePointListHREmployeesURL', G_Email = "tung.lt1@greenfeed.com.vn"));
+
+      // varUserInPlant phụ thuộc varCurrentUser, và các mục bên dưới phụ thuộc varUserInPlant.Role
+      Set(varUserInPlant, LookUp('QLK List User In Plant', UserEmail = varCurrentUser.G_Email));
+
+      // Các lệnh còn lại độc lập → chạy song song
+      Concurrent(
+          Set(varHasAutoNavigated, true),
+          Set(_defaultLanguage,        LookUp(col_lan, Code = "VN")),
+          Set(varSelectedMenuId,       1),
+          Set(varLoad,       1),
+          //Set(varShowMenuUser,         true),
+          Set(varSelectedWarehouseTab, LookUp(col_WarehouseFormTabs, Code = "GENERAL")),
+          With(
+              {
+                  rc1:  Index(col_RoleUser,1).RoleCode,   // FG_WH         - Thủ kho thành phẩm
+                  rc2:  Index(col_RoleUser,2).RoleCode,   // FG_SUP        - Giám sát thành phẩm
+                  rc3:  Index(col_RoleUser,3).RoleCode,   // RM_WH         - Thủ kho nguyên liệu
+                  rc4:  Index(col_RoleUser,4).RoleCode,   // RM_SUP        - Giám sát nguyên liệu
+                  rc5:  Index(col_RoleUser,5).RoleCode,   // WH_STAT       - Thống kê kho
+                  rc6:  Index(col_RoleUser,6).RoleCode,   // PROD_STAT     - Thống kê sản xuất
+                  rc7:  Index(col_RoleUser,7).RoleCode,   // WH_MGR        - Trưởng bộ phận kho
+                  rc8:  Index(col_RoleUser,8).RoleCode,   // PLANT_DIR     - Giám đốc nhà máy
+                  rc9:  Index(col_RoleUser,9).RoleCode,   // VHSX_HO       - VHSX HO
+                  rc10: Index(col_RoleUser,10).RoleCode,  // FUNC_HEAD     - Trưởng khối chức năng
+                  rc11: Index(col_RoleUser,11).RoleCode,  // SYS_ADMIN     - Quản trị hệ thống
+                  rc12: Index(col_RoleUser,12).RoleCode,  // PROD_ASST     - Trợ lý sản xuất
+                  rc13: Index(col_RoleUser,13).RoleCode,  // VHSX_DD       - P.TGĐ VHSX
+                  rc14: Index(col_RoleUser,14).RoleCode,  // INV_STAFF     - Nhân viên kiểm kê/xe nâng
+                  rc15: Index(col_RoleUser,15).RoleCode,  // SHIFT_LEADER  - Trưởng ca
+                  rc16: Index(col_RoleUser,16).RoleCode,  // FG_STAFF      - Nhân viên kho thành phẩm
+                  rc17: Index(col_RoleUser,17).RoleCode,  // WH_ACC        - Kế toán kho
+                  rc18: Index(col_RoleUser,18).RoleCode   // SALES_ACC     - Kế toán bán hàng
+              },
+              ClearCollect(
+                  colNavigationItems,
+                  {
+                      ID: 1, Title: "Thông tin người dùng", Icon: "People", Screen: scrUsers, IsGroup: false, Sort: 1,
+                      Visible: varUserInPlant.Role in [rc9],
+                      SubMenu: []
+                  },
+                  {
+                      ID: 2, Title: "Danh mục", Icon: "Database", Screen: Blank(), IsGroup: false, Sort: 2,
+                      Visible: varUserInPlant.Role in [rc7, rc6, rc12, rc9, rc2],
+                      SubMenu: [
+                          {
+                              ID: 21, Title: "Master data sản phẩm", Icon: "Tag", Screen: scrMasterSanPham, Sort: 2.1,
+                              Visible: varUserInPlant.Role in [rc7, rc6, rc12, rc9, rc2]
+                          },
+                          {
+                              ID: 22, Title: "Danh mục bin", Icon: "GridView", Screen: scrDanhMucBin, Sort: 2.2,
+                              Visible: varUserInPlant.Role in [rc7, rc9, rc2]
+                          },
+                          {
+                              ID: 23, Title: "Danh mục density", Icon: "Calculator", Screen: scrDanhMucDensity, Sort: 2.3,
+                              Visible: varUserInPlant.Role in [rc7, rc9, rc2]
+                          },
+                          {
+                              ID: 24, Title: "Ma trận phê duyệt", Icon: "CheckBadge", Screen: scrMaTranPheDuyet, Sort: 2.4,
+                              Visible: varUserInPlant.Role in [rc9]
+                          },
+                          /*{
+                              ID: 25, Title: "Danh mục khách hàng", Icon: "OfficeBuilding", Screen: scrDanhMucKhachHang, Sort: 2.5,
+                              Visible: varUserInPlant.Role in [rc9]
+                          },*/
+                          {
+                              ID: 26, Title: "Phê duyệt chênh lệch", Icon: "Warning", Screen: scrPheDuyetChenhLech, Sort: 2.6,
+                              Visible: false
+                          },
+                          {
+                              ID: 27, Title: "Nhà máy", Icon: "Warning", Screen: scrPlant, Sort: 2.7,
+                              Visible: varUserInPlant.Role in [rc9]
+                          }
+                      ]
+                  },
+                  {
+                      ID: 3, Title: "Nhập kho", Icon: "ArrowDownload", Screen: scrNhapTuSanXuat, IsGroup: false, Sort: 3,
+                      Visible: varUserInPlant.Role in [rc15, rc6, rc12, rc9, rc17, rc18, rc1, rc16, rc2],
+                      SubMenu: [
+                          {
+                              ID: 31, Title: "Nhập kho", Icon: "Factory", Screen: scrNhapTuSanXuat, Sort: 3.1,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc12, rc16, rc1]
+                          },
+                          /*{
+                              ID: 32, Title: "Nhập từ hàng bao", Icon: "Factory", Screen: scrNhapTuSanXuatHangBao, Sort: 3.2,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc12,rc16]
+                          },
+                          {
+                              ID: 33, Title: "Nhập từ hàng xá", Icon: "Factory", Screen: scrNhapTuSanXuatXa, Sort: 3.3,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc1]
+                          },*/
+                          {
+                              ID: 34, Title: "Nhập khác", Icon: "Document", Screen: scrNhapKhac, Sort: 3.4,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                          }
+                      ]
+                      //SubMenu : []
+                  },
+                  {
+                      ID: 4, Title: "Xuất kho", Icon: "ArrowUp", Screen: scrXuatKho, IsGroup: false, Sort: 4,
+                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2,rc6],
+                      /*SubMenu: [
+                          {
+                              ID: 41, Title: "Xuất kho", Icon: "Truck", Screen: scrXuatKho, Sort: 4.1,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                          },
+                          {
+                              ID: 42, Title: "Xuất đại lý", Icon: "Truck", Screen: scrXuatDaiLy, Sort: 4.2,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                          },
+                          {
+                              ID: 43, Title: "Xuất nội bộ", Icon: "Home", Screen: scrXuatNoiBo, Sort: 4.3,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                          },
+                          {
+                              ID: 44, Title: "Xuất khác", Icon: "Switch", Screen: scrXuatKhac, Sort: 4.4,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2,rc6]
+                          }
+                      ]*/
+                      SubMenu : []
+                  },
+                  {
+                      ID: 5, Title: "Kiểm kho", Icon: "DocumentBulletList", Screen: Blank(), IsGroup: false, Sort: 5,
+                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16],
+                      SubMenu: [
+                          {
+                              ID: 51, Title: "Kiểm kho hàng bao", Icon: "Check", Screen: scrKiemKhoHangBao, Sort: 5.1,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16]
+                          },
+                          {
+                              ID: 52, Title: "Kiểm kho hàng xá", Icon: "Check", Screen: scrKiemKhoHangXa, Sort: 5.2,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16]
+                          },
+                          {
+                              ID: 53, Title: "Kiểm kho hàng bigbag", Icon: "Check", Screen: scrKiemKeBigbag, Sort: 5.3,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc16, rc1, rc7, rc6,rc2]
+                          },
+                          {
+                              ID: 54, Title: "Sai lệch ngày", Icon: "Warning", Screen: scrDanhMucChenhLech, Sort: 5.4,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc6, rc12, rc1]
+                          }
+                      ]
+                  },
+                  {
+                      ID: 6, Title: "Báo cáo NXT", Icon: "Document", Screen: scrNXT, IsGroup: false, Sort: 6,
+                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc15, rc12, rc8, rc13, rc1, rc7, rc6],
+                      SubMenu: [
+                          {
+                              ID: 61, Title: "Danh sách XNT", Icon: "Check", Screen: scrNXT, Sort: 6.1,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc15, rc12, rc8, rc13, rc1, rc7, rc6]
+                          }
+                      ]
+                  },
+                  {
+                      ID: 7, Title: "Báo cáo khác", Icon: "Document", Screen: Blank(), IsGroup: false, Sort: 7,
+                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc15, rc6, rc12, rc13, rc1, rc8],
+                      SubMenu: [
+                          {
+                              ID: 71, Title: "Quá hạn lưu kho", Icon: "Cube", Screen: scrAgingStockCount, Sort: 7.1,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc15, rc6, rc12, rc13, rc1, rc8]
+                          },
+                          /*{
+                              ID: 72, Title: "FIFO", Icon: "Cube", Screen: scrNXTForm, Sort: 7.2,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc7, rc15, rc6, rc12, rc13, rc8]
+                          }*/
+                      ]
+                  },
+                  {
+                      ID: 8, Title: "Tồn kho - SAP", Icon: "GlobeArrowUp", Screen: Blank(), IsGroup: false, Sort: 8,
+                      Visible: false,
+                      SubMenu: [
+                          {
+                              ID: 81, Title: "Tồn kho gia súc", Icon: "Cube", Screen: scrNXTForm, Sort: 8.1,
+                              Visible: false
+                          }
+                      ]
+                  },
+                  {
+                      ID: 99,
+                      Title: "Thoát ứng dụng",
+                      Icon: "ArrowExit",
+                      Screen: Blank(),
+                      IsGroup: false,
+                      Sort: 99,
+                      Visible: App.Width <= 600,
+                      Action: "EXIT",
+                      SubMenu: []
+                  }
+              )
+          )
+      );
+    Theme: =GreenTheme

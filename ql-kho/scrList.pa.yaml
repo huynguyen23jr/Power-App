@@ -1,0 +1,2377 @@
+Screens:
+  scrList:
+    Properties:
+      Fill: =RGBA(244, 247, 245, 1)
+      OnVisible: |-
+        =ClearCollect(
+          colQCDemo,
+          {
+            ID: GUID(),
+            RunID: "QC-20261026-001",
+            ProductCode: "TP-001",
+            ProductName: "Thức ăn heo Grow 35",
+            Plant: "Bình Dương",
+            Stage: "Thành phẩm",
+            SampleCount: 12,
+            Result: "Đạt",
+            Status: "Hoàn thành",
+            CreatedAt: DateTime(2026, 10, 26, 8, 20, 0)
+          },
+          {
+            ID: GUID(),
+            RunID: "QC-20261026-002",
+            ProductCode: "TP-002",
+            ProductName: "Thức ăn gà đẻ GF",
+            Plant: "Đồng Nai",
+            Stage: "Đóng gói",
+            SampleCount: 8,
+            Result: "Chờ kiểm tra",
+            Status: "Chờ kiểm tra",
+            CreatedAt: DateTime(2026, 10, 26, 8, 5, 0)
+          },
+          {
+            ID: GUID(),
+            RunID: "QC-20261025-003", 
+            ProductCode: "TP-003",
+            ProductName: "Thức ăn vịt siêu thịt",
+            Plant: "Long An",
+            Stage: "Thành phẩm",
+            SampleCount: 10,
+            Result: "Không đạt",
+            Status: "Xử lý",
+            CreatedAt: DateTime(2026, 10, 25, 16, 40, 0)
+          },
+          {
+            ID: GUID(),
+            RunID: "QC-20261025-004",
+            ProductCode: "TP-004",
+            ProductName: "Thức ăn heo nái",
+            Plant: "Hà Nam",
+            Stage: "Đóng gói",
+            SampleCount: 15,
+            Result: "Đạt",
+            Status: "Hoàn thành",
+            CreatedAt: DateTime(2026, 10, 25, 15, 15, 0)
+          },
+          {
+            ID: GUID(),
+            RunID: "QC-20261025-005",
+            ProductCode: "TP-005",
+            ProductName: "Thức ăn cá tra 28%",
+            Plant: "Bình Dương",
+            Stage: "Thành phẩm",
+            SampleCount: 6,
+            Result: "Chờ kiểm tra",
+            Status: "Chờ kiểm tra",
+            CreatedAt: DateTime(2026, 10, 25, 13, 30, 0)
+          },
+          {
+            ID: GUID(),
+            RunID: "QC-20261024-006",
+            ProductCode: "TP-006",
+            ProductName: "Thức ăn gà thịt",
+            Plant: "Đồng Nai",
+            Stage: "Đóng gói",
+            SampleCount: 9,
+            Result: "Không đạt",
+            Status: "Xử lý",
+            CreatedAt: DateTime(2026, 10, 24, 17, 45, 0)
+          },
+          {
+            ID: GUID(),
+            RunID: "QC-20261024-007",
+            ProductCode: "TP-007",
+            ProductName: "Thức ăn bò sữa",
+            Plant: "Long An",
+            Stage: "Thành phẩm",
+            SampleCount: 11,
+            Result: "Đạt",
+            Status: "Hoàn thành",
+            CreatedAt: DateTime(2026, 10, 24, 10, 10, 0)
+          },
+          {
+            ID: GUID(),
+            RunID: "QC-20261023-008",
+            ProductCode: "TP-008",
+            ProductName: "Thức ăn heo thịt",
+            Plant: "Hà Nam",
+            Stage: "Đóng gói",
+            SampleCount: 7,
+            Result: "Chờ kiểm tra",
+            Status: "Chờ kiểm tra",
+            CreatedAt: DateTime(2026, 10, 23, 9, 0, 0)
+          }
+        );
+        Set(varShowCreate, false);
+        Set(varShowDetail, false);
+        Set(varShowFilter, false);
+        Set(varSelectedQC, Blank())
+    Children:
+      - conListRoot:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(244, 247, 245, 1)
+            Height: =Parent.Height
+            Width: =Parent.Width
+          Children:
+            - conSidebar:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =Parent.Height
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =8
+                  Visible: =scrList.Width >= 768
+                  Width: =If(scrList.Width >= 1200, 230, If(scrList.Width >= 768, 64, 0))
+                Children:
+                  - lblBrand:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(0, 107, 79, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Height: =34
+                        Size: =If(scrList.Width >= 1200, 19.5, 14)
+                        Text: ="VHSX"
+                        Width: =Parent.Width - 24
+                        X: =If(scrList.Width >= 1200, 20, 8)
+                        Y: =18
+                  - lblNavQC:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(0, 107, 79, 1)
+                        Fill: =RGBA(225, 241, 234, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =46
+                        PaddingLeft: =If(scrList.Width >= 1200, 44, 0)
+                        PaddingRight: =8
+                        Size: =10.5
+                        Text: =If(scrList.Width >= 1200, "Hồ sơ QC", "")
+                        Width: =Parent.Width - 24
+                        X: =12
+                        Y: =88
+                  - btnNavReport:
+                      Control: ModernButton
+                      Properties:
+                        Align: =Align.Left
+                        Appearance: =ButtonAppearance.Subtle
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(104, 122, 114, 1)
+                        FontWeight: =FontWeight.Normal
+                        Height: =46
+                        OnSelect: =Notify("Báo cáo là chức năng minh họa.", NotificationType.Information)
+                        PaddingLeft: =If(scrList.Width >= 1200, 44, 0)
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Text: =If(scrList.Width >= 1200, "Báo cáo", "")
+                        Width: =Parent.Width - 24
+                        X: =12
+                        Y: =142
+                  - btnNavHistory:
+                      Control: ModernButton
+                      Properties:
+                        Align: =Align.Left
+                        Appearance: =ButtonAppearance.Subtle
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(104, 122, 114, 1)
+                        FontWeight: =FontWeight.Normal
+                        Height: =46
+                        OnSelect: =Notify("Lịch sử XML là chức năng minh họa.", NotificationType.Information)
+                        PaddingLeft: =If(scrList.Width >= 1200, 44, 0)
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Text: =If(scrList.Width >= 1200, "Lịch sử XML", "")
+                        Width: =Parent.Width - 24
+                        X: =12
+                        Y: =196
+                  - lblBrandSub:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =18
+                        PaddingBottom: =0
+                        PaddingTop: =0
+                        Size: =9
+                        Text: ="QA thành phẩm"
+                        Visible: =scrList.Width >= 1200
+                        Width: =Parent.Width - 24
+                        X: =20
+                        Y: =52
+                  - btnNavMaster:
+                      Control: ModernButton
+                      Properties:
+                        Align: =Align.Left
+                        Appearance: =ButtonAppearance.Subtle
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(104, 122, 114, 1)
+                        FontWeight: =FontWeight.Normal
+                        Height: =46
+                        OnSelect: =Notify("Master Data là chức năng minh họa.", NotificationType.Information)
+                        PaddingLeft: =If(scrList.Width >= 1200, 44, 0)
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Text: =If(scrList.Width >= 1200, "Master Data", "")
+                        Width: =Parent.Width - 24
+                        X: =12
+                        Y: =250
+                  - icoNavQC:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(0, 107, 79, 1)
+                        Height: =20
+                        Icon: =Icon.DetailList
+                        Width: =20
+                        X: =If(scrList.Width >= 1200, 26, 22)
+                        Y: =101
+                  - icoNavReport:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Height: =20
+                        Icon: =Icon.TrendingUpwards
+                        OnSelect: =Select(btnNavReport)
+                        Width: =20
+                        X: =If(scrList.Width >= 1200, 26, 22)
+                        Y: =155
+                  - icoNavHistory:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Height: =20
+                        Icon: =Icon.History
+                        OnSelect: =Select(btnNavHistory)
+                        Width: =20
+                        X: =If(scrList.Width >= 1200, 26, 22)
+                        Y: =209
+                  - icoNavMaster:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Height: =20
+                        Icon: =Icon.Database
+                        OnSelect: =Select(btnNavMaster)
+                        Width: =20
+                        X: =If(scrList.Width >= 1200, 26, 22)
+                        Y: =263
+            - conTopBar:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =If(scrList.Width < 768, 56, 60)
+                  Width: =scrList.Width - Self.X
+                  X: =If(scrList.Width >= 1200, 230, If(scrList.Width >= 768, 64, 0))
+                Children:
+                  - lblAppTitle:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =36
+                        Size: =If(scrList.Width < 768, 12, 15)
+                        Text: ="VHSX · QA thành phẩm"
+                        Width: =Parent.Width - Self.X - 72
+                        Wrap: =false
+                        X: =If(scrList.Width < 768, 16, 24)
+                        Y: =If(scrList.Width < 768, 10, 12)
+                  - lblAvatar:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(0, 107, 79, 1)
+                        Fill: =RGBA(225, 241, 234, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =36
+                        OnSelect: =Notify("Tài khoản demo.", NotificationType.Information)
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =9.5
+                        Text: ="HN"
+                        Width: =36
+                        X: =Parent.Width - 52
+                        Y: =If(scrList.Width < 768, 10, 12)
+            - lblPageTitle:
+                Control: Label
+                Properties:
+                  Color: =RGBA(22, 51, 45, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Height: =If(scrList.Width < 768, 30, 40)
+                  Size: =If(scrList.Width < 768, 15, 20)
+                  Text: ="Hồ sơ QC sản xuất"
+                  Width: =If(scrList.Width >= 768, Parent.Width - Self.X - 20, Parent.Width - 32)
+                  X: =If(scrList.Width >= 1200, 230, If(scrList.Width >= 768, 84, 16))
+                  Y: =If(scrList.Width < 768, 68, 84)
+            - lblPageDescription:
+                Control: Label
+                Properties:
+                  Color: =RGBA(104, 122, 114, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =If(scrList.Width < 768, 20, 22)
+                  PaddingBottom: =0
+                  PaddingTop: =0
+                  Size: =If(scrList.Width < 768, 9, 10)
+                  Text: =If(scrList.Width < 768, "Theo dõi chất lượng thành phẩm", "Quản lý và theo dõi kết quả kiểm tra chất lượng thành phẩm")
+                  Width: =Parent.Width - Self.X - If(scrList.Width < 768, 16, 20)
+                  Wrap: =false
+                  X: =lblPageTitle.X
+                  Y: =If(scrList.Width < 768, 98, 126)
+            - btnCreateQC:
+                Control: ModernButton
+                Properties:
+                  BasePaletteColor: =RGBA(0, 107, 79, 1)
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =44
+                  OnSelect: =Set(varShowCreate, true)
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  Text: ="+ Tạo hồ sơ QC"
+                  Width: =If(scrList.Width >= 768, 172, Parent.Width - 32)
+                  X: =If(scrList.Width >= 768, Parent.Width - 192, 16)
+                  Y: =If(scrList.Width >= 768, 84, 126)
+            - conKpiTotal:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =If(scrList.Width < 768, 76, 104)
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Width: =If(scrList.Width >= 1200, (scrList.Width - 286) / 4, If(scrList.Width >= 768, (scrList.Width - 116) / 2, (scrList.Width - 44) / 2))
+                  X: =If(scrList.Width >= 1200, 230, If(scrList.Width >= 768, 84, 16))
+                  Y: =If(scrList.Width < 768, 182, If(scrList.Width >= 1200, 168, 164))
+                Children:
+                  - lblKpiTotalIcon:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(0, 107, 79, 1)
+                        Fill: =RGBA(225, 241, 234, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =If(scrList.Width < 768, 24, 44)
+                        Size: =If(scrList.Width < 768, 12, 14)
+                        Text: =If(scrList.Width < 768, "▤", "")
+                        Width: =If(scrList.Width < 768, 24, 44)
+                        X: =If(scrList.Width < 768, Parent.Width - 38, 16)
+                        Y: =If(scrList.Width < 768, 34, 16)
+                  - lblKpiTotalCaption:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingTop: =0
+                        Size: =If(scrList.Width < 768, 9, 9.75)
+                        Text: ="Tổng hồ sơ QC"
+                        Width: =Parent.Width - If(scrList.Width < 768, 24, 88)
+                        Wrap: =false
+                        X: =If(scrList.Width < 768, 12, 72)
+                        Y: =If(scrList.Width < 768, 8, 18)
+                  - lblKpiTotalValue:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(0, 107, 79, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Height: =If(scrList.Width < 768, 36, 40)
+                        PaddingBottom: =0
+                        PaddingTop: =0
+                        Size: =If(scrList.Width < 768, 15, 21)
+                        Text: =Text(CountRows(colQCDemo))
+                        Width: =Parent.Width - If(scrList.Width < 768, 60, 148)
+                        X: =If(scrList.Width < 768, 12, 72)
+                        Y: =If(scrList.Width < 768, 28, 38)
+                  - icoKpiTotal:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(0, 107, 79, 1)
+                        Height: =24
+                        Icon: =Icon.Document
+                        Visible: =scrList.Width >= 768
+                        Width: =24
+                        X: =26
+                        Y: =26
+            - conKpiPending:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =conKpiTotal.Height
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Width: =conKpiTotal.Width
+                  X: =conKpiTotal.X + conKpiTotal.Width + 12
+                  Y: =conKpiTotal.Y
+                Children:
+                  - lblKpiPendingIcon:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(22, 115, 72, 1)
+                        Fill: =RGBA(227, 243, 235, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Height: =If(scrList.Width < 768, 24, 44)
+                        Size: =If(scrList.Width < 768, 12, 14)
+                        Text: =If(scrList.Width < 768, "✓", "")
+                        Width: =If(scrList.Width < 768, 24, 44)
+                        X: =If(scrList.Width < 768, Parent.Width - 38, 16)
+                        Y: =If(scrList.Width < 768, 34, 16)
+                  - lblKpiPendingCaption:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingTop: =0
+                        Size: =If(scrList.Width < 768, 9, 9.75)
+                        Text: ="Đạt yêu cầu"
+                        Width: =Parent.Width - If(scrList.Width < 768, 24, 88)
+                        Wrap: =false
+                        X: =If(scrList.Width < 768, 12, 72)
+                        Y: =If(scrList.Width < 768, 8, 18)
+                  - lblKpiPendingValue:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 115, 72, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Height: =If(scrList.Width < 768, 36, 40)
+                        PaddingBottom: =0
+                        PaddingTop: =0
+                        Size: =If(scrList.Width < 768, 15, 21)
+                        Text: =Text(CountIf(colQCDemo, Result = "Đạt"))
+                        Width: =Parent.Width - If(scrList.Width < 768, 60, 148)
+                        X: =If(scrList.Width < 768, 12, 72)
+                        Y: =If(scrList.Width < 768, 28, 38)
+                  - lblKpiPendingTrack:
+                      Control: Label
+                      Properties:
+                        Fill: =RGBA(237, 241, 238, 1)
+                        Height: =4
+                        Text: =""
+                        Width: =Parent.Width - If(scrList.Width < 768, 24, 32)
+                        X: =If(scrList.Width < 768, 12, 16)
+                        Y: =Parent.Height - If(scrList.Width < 768, 12, 14)
+                  - lblKpiPendingBar:
+                      Control: Label
+                      Properties:
+                        Fill: =RGBA(22, 115, 72, 1)
+                        Height: =4
+                        Text: =""
+                        Width: =If(CountRows(colQCDemo) = 0, 0, (Parent.Width - If(scrList.Width < 768, 24, 32)) * CountIf(colQCDemo, Result = "Đạt") / CountRows(colQCDemo))
+                        X: =If(scrList.Width < 768, 12, 16)
+                        Y: =Parent.Height - If(scrList.Width < 768, 12, 14)
+                  - icoKpiPending:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(22, 115, 72, 1)
+                        Height: =24
+                        Icon: =Icon.Check
+                        Visible: =scrList.Width >= 768
+                        Width: =24
+                        X: =26
+                        Y: =26
+                  - lblKpiPendingPercent:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Right
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =9
+                        Text: =If(CountRows(colQCDemo) = 0, "0%", Text(CountIf(colQCDemo, Result = "Đạt") / CountRows(colQCDemo) * 100, "0.#") & "%")
+                        Visible: =scrList.Width >= 768
+                        Width: =64
+                        X: =Parent.Width - 80
+                        Y: =48
+            - conKpiFail:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =conKpiTotal.Height
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Width: =conKpiTotal.Width
+                  X: =If(scrList.Width >= 1200, conKpiPending.X + conKpiPending.Width + 12, conKpiTotal.X)
+                  Y: =If(scrList.Width >= 1200, conKpiTotal.Y, conKpiTotal.Y + conKpiTotal.Height + 12)
+                Children:
+                  - lblKpiFailIcon:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(196, 60, 53, 1)
+                        Fill: =RGBA(252, 235, 236, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Height: =If(scrList.Width < 768, 24, 44)
+                        Size: =If(scrList.Width < 768, 12, 14)
+                        Text: =If(scrList.Width < 768, "!", "")
+                        Width: =If(scrList.Width < 768, 24, 44)
+                        X: =If(scrList.Width < 768, Parent.Width - 38, 16)
+                        Y: =If(scrList.Width < 768, 34, 16)
+                  - lblKpiFailCaption:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingTop: =0
+                        Size: =If(scrList.Width < 768, 9, 9.75)
+                        Text: ="Không đạt"
+                        Width: =Parent.Width - If(scrList.Width < 768, 24, 88)
+                        Wrap: =false
+                        X: =If(scrList.Width < 768, 12, 72)
+                        Y: =If(scrList.Width < 768, 8, 18)
+                  - lblKpiFailValue:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(196, 60, 53, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Height: =If(scrList.Width < 768, 36, 40)
+                        PaddingBottom: =0
+                        PaddingTop: =0
+                        Size: =If(scrList.Width < 768, 15, 21)
+                        Text: =Text(CountIf(colQCDemo, Result = "Không đạt"))
+                        Width: =Parent.Width - If(scrList.Width < 768, 60, 148)
+                        X: =If(scrList.Width < 768, 12, 72)
+                        Y: =If(scrList.Width < 768, 28, 38)
+                  - lblKpiFailTrack:
+                      Control: Label
+                      Properties:
+                        Fill: =RGBA(237, 241, 238, 1)
+                        Height: =4
+                        Text: =""
+                        Width: =Parent.Width - If(scrList.Width < 768, 24, 32)
+                        X: =If(scrList.Width < 768, 12, 16)
+                        Y: =Parent.Height - If(scrList.Width < 768, 12, 14)
+                  - lblKpiFailBar:
+                      Control: Label
+                      Properties:
+                        Fill: =RGBA(196, 60, 53, 1)
+                        Height: =4
+                        Text: =""
+                        Width: =If(CountRows(colQCDemo) = 0, 0, (Parent.Width - If(scrList.Width < 768, 24, 32)) * CountIf(colQCDemo, Result = "Không đạt") / CountRows(colQCDemo))
+                        X: =If(scrList.Width < 768, 12, 16)
+                        Y: =Parent.Height - If(scrList.Width < 768, 12, 14)
+                  - icoKpiFail:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(196, 60, 53, 1)
+                        Height: =24
+                        Icon: =Icon.Warning
+                        Visible: =scrList.Width >= 768
+                        Width: =24
+                        X: =26
+                        Y: =26
+                  - lblKpiFailPercent:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Right
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =9
+                        Text: =If(CountRows(colQCDemo) = 0, "0%", Text(CountIf(colQCDemo, Result = "Không đạt") / CountRows(colQCDemo) * 100, "0.#") & "%")
+                        Visible: =scrList.Width >= 768
+                        Width: =64
+                        X: =Parent.Width - 80
+                        Y: =48
+            - conKpiWaiting:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =conKpiTotal.Height
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Width: =conKpiTotal.Width
+                  X: =If(scrList.Width >= 1200, conKpiFail.X + conKpiFail.Width + 12, conKpiPending.X)
+                  Y: =If(scrList.Width >= 1200, conKpiTotal.Y, conKpiFail.Y)
+                Children:
+                  - lblKpiWaitingIcon:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(166, 107, 18, 1)
+                        Fill: =RGBA(255, 244, 220, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =If(scrList.Width < 768, 24, 44)
+                        Size: =If(scrList.Width < 768, 12, 14)
+                        Text: =If(scrList.Width < 768, "◷", "")
+                        Width: =If(scrList.Width < 768, 24, 44)
+                        X: =If(scrList.Width < 768, Parent.Width - 38, 16)
+                        Y: =If(scrList.Width < 768, 34, 16)
+                  - lblKpiWaitingCaption:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingTop: =0
+                        Size: =If(scrList.Width < 768, 9, 9.75)
+                        Text: ="Chờ kiểm tra"
+                        Width: =Parent.Width - If(scrList.Width < 768, 24, 88)
+                        Wrap: =false
+                        X: =If(scrList.Width < 768, 12, 72)
+                        Y: =If(scrList.Width < 768, 8, 18)
+                  - lblKpiWaitingValue:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(166, 107, 18, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Height: =If(scrList.Width < 768, 36, 40)
+                        PaddingBottom: =0
+                        PaddingTop: =0
+                        Size: =If(scrList.Width < 768, 15, 21)
+                        Text: =Text(CountIf(colQCDemo, Result = "Chờ kiểm tra"))
+                        Width: =Parent.Width - If(scrList.Width < 768, 60, 148)
+                        X: =If(scrList.Width < 768, 12, 72)
+                        Y: =If(scrList.Width < 768, 28, 38)
+                  - lblKpiWaitingTrack:
+                      Control: Label
+                      Properties:
+                        Fill: =RGBA(237, 241, 238, 1)
+                        Height: =4
+                        Text: =""
+                        Width: =Parent.Width - If(scrList.Width < 768, 24, 32)
+                        X: =If(scrList.Width < 768, 12, 16)
+                        Y: =Parent.Height - If(scrList.Width < 768, 12, 14)
+                  - lblKpiWaitingBar:
+                      Control: Label
+                      Properties:
+                        Fill: =RGBA(166, 107, 18, 1)
+                        Height: =4
+                        Text: =""
+                        Width: =If(CountRows(colQCDemo) = 0, 0, (Parent.Width - If(scrList.Width < 768, 24, 32)) * CountIf(colQCDemo, Result = "Chờ kiểm tra") / CountRows(colQCDemo))
+                        X: =If(scrList.Width < 768, 12, 16)
+                        Y: =Parent.Height - If(scrList.Width < 768, 12, 14)
+                  - icoKpiWaiting:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(166, 107, 18, 1)
+                        Height: =24
+                        Icon: =Icon.Clock
+                        Visible: =scrList.Width >= 768
+                        Width: =24
+                        X: =26
+                        Y: =26
+                  - lblKpiWaitingPercent:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Right
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =9
+                        Text: =If(CountRows(colQCDemo) = 0, "0%", Text(CountIf(colQCDemo, Result = "Chờ kiểm tra") / CountRows(colQCDemo) * 100, "0.#") & "%")
+                        Visible: =scrList.Width >= 768
+                        Width: =64
+                        X: =Parent.Width - 80
+                        Y: =48
+            - conFilterSurface:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =If(scrList.Width < 768, 52, If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, 92, 168))
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Visible: =scrList.Width >= 768
+                  Width: =Parent.Width - Self.X - 20
+                  X: =If(scrList.Width >= 1200, 230, If(scrList.Width >= 768, 84, 20))
+                  Y: =If(scrList.Width >= 1200, 288, If(scrList.Width >= 768, 400, 424))
+            - lblSearchFilter:
+                Control: Label
+                Properties:
+                  Color: =RGBA(104, 122, 114, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =16
+                  Size: =9
+                  Text: ="Tìm kiếm"
+                  Visible: =scrList.Width >= 768
+                  Width: =txtSearch.Width
+                  X: =If(scrList.Width >= 1200, 246, If(scrList.Width >= 768, 100, 20))
+                  Y: =conFilterSurface.Y + 14
+            - txtSearch:
+                Control: TextInput
+                Properties:
+                  BasePaletteColor: =RGBA(0, 107, 79, 1)
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(248, 250, 249, 1)
+                  Height: =If(scrList.Width < 768, 44, 40)
+                  PaddingLeft: =34
+                  Placeholder: ="Tìm RunID, mã hoặc tên sản phẩm..."
+                  Visible: =scrList.Width >= 768 || !varShowFilter
+                  Width: =If(scrList.Width < 768, Parent.Width - 88, If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, conFilterSurface.Width - 32 - 3 * Min(180, (conFilterSurface.Width - 32 - 280 - 112 - 48) / 3) - 112 - 48, conFilterSurface.Width - 32 - 112 - 12))
+                  X: =If(scrList.Width >= 1200, 246, If(scrList.Width >= 768, 100, 16))
+                  Y: =If(scrList.Width < 768, 358, conFilterSurface.Y + 36)
+            - ddStage:
+                Control: DropDown
+                Properties:
+                  BasePaletteColor: =RGBA(0, 107, 79, 1)
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(248, 250, 249, 1)
+                  Height: =40
+                  Items: =["Tất cả", "Thành phẩm", "Đóng gói"]
+                  Visible: =scrList.Width >= 768
+                  Width: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, Min(180, (conFilterSurface.Width - 32 - 280 - 112 - 48) / 3), (conFilterSurface.Width - 56) / 3)
+                  X: =ddPlant.X + ddPlant.Width + 12
+                  Y: =conFilterSurface.Y + If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, 36, 112)
+            - btnOpenFilters:
+                Control: ModernButton
+                Properties:
+                  Appearance: =If(scrList.Width < 768, ButtonAppearance.Primary, ButtonAppearance.Secondary)
+                  BasePaletteColor: =RGBA(0, 107, 79, 1)
+                  Color: =If(scrList.Width < 768, RGBA(255, 255, 255, 1), RGBA(0, 107, 79, 1))
+                  Height: =If(scrList.Width < 768, 44, 36)
+                  OnSelect: =Set(varShowFilter, true)
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  Text: =If(scrList.Width < 768, "☰", "Bộ lọc")
+                  Visible: =scrList.Width < 768
+                  Width: =If(scrList.Width < 768, 44, 112)
+                  X: =If(scrList.Width < 768, Parent.Width - 60, ddStatus.X + ddStatus.Width + 12)
+                  Y: =If(scrList.Width < 768, 358, conFilterSurface.Y + 36)
+            - icoSearch:
+                Control: Classic/Icon
+                Properties:
+                  Color: =RGBA(104, 122, 114, 1)
+                  Height: =18
+                  Icon: =Icon.Search
+                  OnSelect: =SetFocus(txtSearch)
+                  Visible: =txtSearch.Visible
+                  Width: =18
+                  X: =txtSearch.X + 10
+                  Y: =txtSearch.Y + (txtSearch.Height - 18) / 2
+            - lblPlantFilter:
+                Control: Label
+                Properties:
+                  Color: =RGBA(104, 122, 114, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =16
+                  Size: =9
+                  Text: ="Nhà máy"
+                  Visible: =scrList.Width >= 768
+                  Width: =ddPlant.Width
+                  X: =ddPlant.X
+                  Y: =conFilterSurface.Y + If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, 14, 90)
+            - ddPlant:
+                Control: DropDown
+                Properties:
+                  BasePaletteColor: =RGBA(0, 107, 79, 1)
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(248, 250, 249, 1)
+                  Height: =40
+                  Items: =["Tất cả", "Bình Dương", "Đồng Nai", "Long An", "Hà Nam"]
+                  Visible: =scrList.Width >= 768
+                  Width: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, Min(180, (conFilterSurface.Width - 32 - 280 - 112 - 48) / 3), (conFilterSurface.Width - 56) / 3)
+                  X: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, txtSearch.X + txtSearch.Width + 12, conFilterSurface.X + 16)
+                  Y: =conFilterSurface.Y + If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, 36, 112)
+            - lblStageFilter:
+                Control: Label
+                Properties:
+                  Color: =RGBA(104, 122, 114, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =16
+                  Size: =9
+                  Text: ="Công đoạn"
+                  Visible: =scrList.Width >= 768
+                  Width: =ddStage.Width
+                  X: =ddStage.X
+                  Y: =conFilterSurface.Y + If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, 14, 90)
+            - lblStatusFilter:
+                Control: Label
+                Properties:
+                  Color: =RGBA(104, 122, 114, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =16
+                  Size: =9
+                  Text: ="Trạng thái"
+                  Visible: =scrList.Width >= 768
+                  Width: =ddStatus.Width
+                  X: =ddStatus.X
+                  Y: =conFilterSurface.Y + If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, 14, 90)
+            - ddStatus:
+                Control: DropDown
+                Properties:
+                  BasePaletteColor: =RGBA(0, 107, 79, 1)
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(248, 250, 249, 1)
+                  Height: =40
+                  Items: =["Tất cả", "Hoàn thành", "Xử lý", "Chờ kiểm tra"]
+                  Visible: =scrList.Width >= 768
+                  Width: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, Min(180, (conFilterSurface.Width - 32 - 280 - 112 - 48) / 3), (conFilterSurface.Width - 56) / 3)
+                  X: =ddStage.X + ddStage.Width + 12
+                  Y: =conFilterSurface.Y + If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, 36, 112)
+            - btnResetFilters:
+                Control: ModernButton
+                Properties:
+                  Appearance: =ButtonAppearance.Outline
+                  BasePaletteColor: =RGBA(0, 107, 79, 1)
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  Color: =RGBA(0, 107, 79, 1)
+                  Height: =40
+                  OnSelect: |-
+                    =Reset(txtSearch);
+                    Reset(ddPlant);
+                    Reset(ddStage);
+                    Reset(ddStatus);
+                    Notify("Đã làm mới bộ lọc.", NotificationType.Success)
+                  PaddingLeft: =34
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  Text: ="Làm mới"
+                  Visible: =scrList.Width >= 768
+                  Width: =112
+                  X: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1000, ddStatus.X + ddStatus.Width + 12, conFilterSurface.X + conFilterSurface.Width - 128)
+                  Y: =conFilterSurface.Y + 36
+            - conTableHeader:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(232, 242, 237, 1)
+                  Height: =40
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800
+                  Width: =Parent.Width - Self.X - 20
+                  X: =If(scrList.Width >= 1200, 230, 84)
+                  Y: =lblListHeading.Y + 40
+            - lblColumnRun:
+                Control: Label
+                Properties:
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="RunID"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                  Width: =(conTableHeader.Width - 24) * 0.14 - 8
+                  X: =conTableHeader.X + 12 + 4
+                  Y: =conTableHeader.Y
+            - lblColumnProduct:
+                Control: Label
+                Properties:
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Mã sản phẩm"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                  Width: =(conTableHeader.Width - 24) * 0.15 - 8
+                  X: =conTableHeader.X + 12 + (conTableHeader.Width - 24) * 0.14 + 4
+                  Y: =conTableHeader.Y
+            - lblColumnPlant:
+                Control: Label
+                Properties:
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Nhà máy"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                  Width: =(conTableHeader.Width - 24) * 0.10 - 8
+                  X: =conTableHeader.X + 12 + (conTableHeader.Width - 24) * 0.29 + 4
+                  Y: =conTableHeader.Y
+            - lblColumnStage:
+                Control: Label
+                Properties:
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Công đoạn"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                  Width: =(conTableHeader.Width - 24) * 0.10 - 8
+                  X: =conTableHeader.X + 12 + (conTableHeader.Width - 24) * 0.39 + 4
+                  Y: =conTableHeader.Y
+            - lblColumnSamples:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Số mẫu"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                  Width: =(conTableHeader.Width - 24) * 0.07 - 8
+                  X: =conTableHeader.X + 12 + (conTableHeader.Width - 24) * 0.49 + 4
+                  Y: =conTableHeader.Y
+            - lblColumnResult:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Kết quả"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                  Width: =(conTableHeader.Width - 24) * 0.13 - 8
+                  X: =conTableHeader.X + 12 + (conTableHeader.Width - 24) * 0.56 + 4
+                  Y: =conTableHeader.Y
+            - lblColumnStatus:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Trạng thái"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                  Width: =(conTableHeader.Width - 24) * 0.14 - 8
+                  X: =conTableHeader.X + 12 + (conTableHeader.Width - 24) * 0.69 + 4
+                  Y: =conTableHeader.Y
+            - lblColumnTime:
+                Control: Label
+                Properties:
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Thời gian"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                  Width: =(conTableHeader.Width - 24) * 0.11 - 8
+                  X: =conTableHeader.X + 12 + (conTableHeader.Width - 24) * 0.83 + 4
+                  Y: =conTableHeader.Y
+            - lblColumnChevron:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(104, 122, 114, 1)
+                  Font: =Font.'Segoe UI'
+                  Size: =14
+                  Text: =""
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                  Width: =(conTableHeader.Width - 24) * 0.06 - 8
+                  X: =conTableHeader.X + 12 + (conTableHeader.Width - 24) * 0.94 + 4
+                  Y: =conTableHeader.Y
+            - lblCompactHeaderRunTime:
+                Control: Label
+                Properties:
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="RunID / Thời gian"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                  Width: =(conTableHeader.Width - 20) * 0.16 - 8
+                  X: =conTableHeader.X + 10 + 4
+                  Y: =conTableHeader.Y
+            - lblCompactHeaderProduct:
+                Control: Label
+                Properties:
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Sản phẩm"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                  Width: =(conTableHeader.Width - 20) * 0.24 - 8
+                  X: =conTableHeader.X + 10 + (conTableHeader.Width - 20) * 0.16 + 4
+                  Y: =conTableHeader.Y
+            - lblCompactHeaderPlantStage:
+                Control: Label
+                Properties:
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Nhà máy / Công đoạn"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                  Width: =(conTableHeader.Width - 20) * 0.18 - 8
+                  X: =conTableHeader.X + 10 + (conTableHeader.Width - 20) * 0.40 + 4
+                  Y: =conTableHeader.Y
+            - lblCompactHeaderSamples:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Số mẫu"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                  Width: =(conTableHeader.Width - 20) * 0.08 - 8
+                  X: =conTableHeader.X + 10 + (conTableHeader.Width - 20) * 0.58 + 4
+                  Y: =conTableHeader.Y
+            - lblCompactHeaderResult:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Kết quả"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                  Width: =(conTableHeader.Width - 20) * 0.13 - 8
+                  X: =conTableHeader.X + 10 + (conTableHeader.Width - 20) * 0.66 + 4
+                  Y: =conTableHeader.Y
+            - lblCompactHeaderStatus:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Size: =9
+                  Text: ="Trạng thái"
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                  Width: =(conTableHeader.Width - 20) * 0.16 - 8
+                  X: =conTableHeader.X + 10 + (conTableHeader.Width - 20) * 0.79 + 4
+                  Y: =conTableHeader.Y
+            - lblCompactHeaderChevron:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(0, 86, 63, 1)
+                  Font: =Font.'Segoe UI'
+                  Size: =14
+                  Text: =""
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                  Width: =(conTableHeader.Width - 20) * 0.05 - 8
+                  X: =conTableHeader.X + 10 + (conTableHeader.Width - 20) * 0.95 + 4
+                  Y: =conTableHeader.Y
+            - galQCRecords:
+                Control: Gallery
+                Variant: Vertical
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Height: =Parent.Height - Self.Y - If(scrList.Width < 768, 60, 20)
+                  Items: |-
+                    =SortByColumns(
+                      Filter(
+                        colQCDemo,
+                        (IsBlank(Trim(txtSearch.Value)) || StartsWith(RunID, Trim(txtSearch.Value)) || StartsWith(ProductCode, Trim(txtSearch.Value)) || StartsWith(ProductName, Trim(txtSearch.Value))),
+                        (If(scrList.Width < 768, ddPlantMobile.Selected.Value, ddPlant.Selected.Value) = "Tất cả" || Plant = If(scrList.Width < 768, ddPlantMobile.Selected.Value, ddPlant.Selected.Value)),
+                        (If(scrList.Width < 768, ddStageMobile.Selected.Value, ddStage.Selected.Value) = "Tất cả" || Stage = If(scrList.Width < 768, ddStageMobile.Selected.Value, ddStage.Selected.Value)),
+                        (If(scrList.Width < 768, ddStatusMobile.Selected.Value, ddStatus.Selected.Value) = "Tất cả" || Status = If(scrList.Width < 768, ddStatusMobile.Selected.Value, ddStatus.Selected.Value))
+                      ),
+                      "CreatedAt",
+                      SortOrder.Descending
+                    )
+                  ShowScrollbar: =false
+                  TemplateFill: =RGBA(255, 255, 255, 1)
+                  TemplatePadding: =0
+                  TemplateSize: =64
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800
+                  Width: =Parent.Width - Self.X - 20
+                  X: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800, conTableHeader.X, If(scrList.Width >= 768, 84, 20))
+                  Y: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800, conTableHeader.Y + conTableHeader.Height, lblListHeading.Y + 40)
+                Children:
+                  - lblRowRunID:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        Size: =10.5
+                        Text: =ThisItem.RunID
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                        Width: =(Parent.TemplateWidth - 24) * 0.14 - 8
+                        Wrap: =false
+                        X: =12 + 4
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+                  - lblCompactRowStatus:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =If(ThisItem.Status = "Hoàn thành", RGBA(22, 115, 72, 1), If(ThisItem.Status = "Xử lý", RGBA(196, 60, 53, 1), RGBA(166, 107, 18, 1)))
+                        Fill: =If(ThisItem.Status = "Hoàn thành", RGBA(227, 243, 235, 1), If(ThisItem.Status = "Xử lý", RGBA(252, 235, 236, 1), RGBA(255, 244, 220, 1)))
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        PaddingLeft: =6
+                        PaddingRight: =6
+                        Size: =8.5
+                        Text: =ThisItem.Status
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                        Width: =112
+                        Wrap: =false
+                        X: =10 + (Parent.TemplateWidth - 20) * 0.79 + 4 + (((Parent.TemplateWidth - 20) * 0.16 - 8) - Self.Width) / 2
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+                  - icoRowChevron:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Height: =16
+                        Icon: =Icon.ChevronRight
+                        OnSelect: =Select(btnRowDetails)
+                        Visible: =btnRowDetails.Visible
+                        Width: =16
+                        X: =btnRowDetails.X + (btnRowDetails.Width - 16) / 2
+                        Y: =(Parent.TemplateHeight - 16) / 2
+                  - lblRowProductCode:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        Size: =10.5
+                        Text: =ThisItem.ProductCode
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                        Width: =(Parent.TemplateWidth - 24) * 0.15 - 8
+                        Wrap: =false
+                        X: =12 + (Parent.TemplateWidth - 24) * 0.14 + 4
+                        Y: =8
+                  - lblRowPlantStage:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =10.5
+                        Text: =ThisItem.Plant
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                        Width: =(Parent.TemplateWidth - 24) * 0.10 - 8
+                        Wrap: =false
+                        X: =12 + (Parent.TemplateWidth - 24) * 0.29 + 4
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+                  - lblRowStage:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =10.5
+                        Text: =ThisItem.Stage
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                        Width: =(Parent.TemplateWidth - 24) * 0.10 - 8
+                        Wrap: =false
+                        X: =12 + (Parent.TemplateWidth - 24) * 0.39 + 4
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+                  - lblRowSamples:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =10.5
+                        Text: =Text(ThisItem.SampleCount) & " mẫu"
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                        Width: =(Parent.TemplateWidth - 24) * 0.07 - 8
+                        Wrap: =false
+                        X: =12 + (Parent.TemplateWidth - 24) * 0.49 + 4
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+                  - lblRowResult:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =If(ThisItem.Result = "Đạt", RGBA(22, 115, 72, 1), If(ThisItem.Result = "Không đạt", RGBA(196, 60, 53, 1), RGBA(166, 107, 18, 1)))
+                        Fill: =If(ThisItem.Result = "Đạt", RGBA(227, 243, 235, 1), If(ThisItem.Result = "Không đạt", RGBA(252, 235, 236, 1), RGBA(255, 244, 220, 1)))
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        PaddingLeft: =6
+                        PaddingRight: =6
+                        Size: =8.5
+                        Text: =ThisItem.Result
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                        Width: =110
+                        Wrap: =false
+                        X: =12 + (Parent.TemplateWidth - 24) * 0.56 + 4 + (((Parent.TemplateWidth - 24) * 0.13 - 8) - Self.Width) / 2
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+                  - lblRowStatus:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =If(ThisItem.Status = "Hoàn thành", RGBA(22, 115, 72, 1), If(ThisItem.Status = "Xử lý", RGBA(196, 60, 53, 1), RGBA(166, 107, 18, 1)))
+                        Fill: =If(ThisItem.Status = "Hoàn thành", RGBA(227, 243, 235, 1), If(ThisItem.Status = "Xử lý", RGBA(252, 235, 236, 1), RGBA(255, 244, 220, 1)))
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        PaddingLeft: =6
+                        PaddingRight: =6
+                        Size: =8.5
+                        Text: =ThisItem.Status
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                        Width: =120
+                        Wrap: =false
+                        X: =12 + (Parent.TemplateWidth - 24) * 0.69 + 4 + (((Parent.TemplateWidth - 24) * 0.14 - 8) - Self.Width) / 2
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+                  - lblRowTime:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =10.5
+                        Text: =Text(ThisItem.CreatedAt, "dd/mm hh:mm")
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                        Width: =(Parent.TemplateWidth - 24) * 0.11 - 8
+                        Wrap: =false
+                        X: =12 + (Parent.TemplateWidth - 24) * 0.83 + 4
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+                  - btnRowDetails:
+                      Control: ModernButton
+                      Properties:
+                        AccessibleLabel: ="Xem chi tiết " & ThisItem.RunID
+                        Appearance: =ButtonAppearance.Transparent
+                        BasePaletteColor: =RGBA(225, 241, 234, 1)
+                        Color: =RGBA(0, 107, 79, 1)
+                        Height: =36
+                        OnSelect: =Set(varSelectedQC, ThisItem); Navigate(scrQualityInspection, ScreenTransition.None)
+                        RadiusBottomLeft: =18
+                        RadiusBottomRight: =18
+                        RadiusTopLeft: =18
+                        RadiusTopRight: =18
+                        Text: =""
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800
+                        Width: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100, 36, 32)
+                        X: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100, 12 + (Parent.TemplateWidth - 24) * 0.94 + 4 + (((Parent.TemplateWidth - 24) * 0.06 - 8) - Self.Width) / 2, 10 + (Parent.TemplateWidth - 20) * 0.95 + 4 + (((Parent.TemplateWidth - 20) * 0.05 - 8) - Self.Width) / 2)
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+                  - lblRowProductName:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =9
+                        Text: =ThisItem.ProductName
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 1100
+                        Width: =(Parent.TemplateWidth - 24) * 0.15 - 8
+                        Wrap: =false
+                        X: =12 + (Parent.TemplateWidth - 24) * 0.14 + 4
+                        Y: =32
+                  - lblTableRowDivider:
+                      Control: Label
+                      Properties:
+                        Fill: =RGBA(237, 241, 238, 1)
+                        Height: =1
+                        Text: =""
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800
+                        Width: =Parent.TemplateWidth
+                        Y: =Parent.TemplateHeight - 1
+                  - lblCompactRowRunID:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =22
+                        Size: =10.5
+                        Text: =ThisItem.RunID
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                        Width: =(Parent.TemplateWidth - 20) * 0.16 - 8
+                        Wrap: =false
+                        X: =10 + 4
+                        Y: =7
+                  - lblCompactRowTime:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =18
+                        Size: =9
+                        Text: =Text(ThisItem.CreatedAt, "dd/mm hh:mm")
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                        Width: =(Parent.TemplateWidth - 20) * 0.16 - 8
+                        Wrap: =false
+                        X: =10 + 4
+                        Y: =34
+                  - lblCompactRowProductCode:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =22
+                        Size: =10.5
+                        Text: =ThisItem.ProductCode
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                        Width: =(Parent.TemplateWidth - 20) * 0.24 - 8
+                        Wrap: =false
+                        X: =10 + (Parent.TemplateWidth - 20) * 0.16 + 4
+                        Y: =7
+                  - lblCompactRowProductName:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =18
+                        Size: =9
+                        Text: =ThisItem.ProductName
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                        Width: =(Parent.TemplateWidth - 20) * 0.24 - 8
+                        Wrap: =false
+                        X: =10 + (Parent.TemplateWidth - 20) * 0.16 + 4
+                        Y: =34
+                  - lblCompactRowPlant:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =22
+                        Size: =10.5
+                        Text: =ThisItem.Plant
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                        Width: =(Parent.TemplateWidth - 20) * 0.18 - 8
+                        Wrap: =false
+                        X: =10 + (Parent.TemplateWidth - 20) * 0.40 + 4
+                        Y: =7
+                  - lblCompactRowStage:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =18
+                        Size: =9
+                        Text: =ThisItem.Stage
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                        Width: =(Parent.TemplateWidth - 20) * 0.18 - 8
+                        Wrap: =false
+                        X: =10 + (Parent.TemplateWidth - 20) * 0.40 + 4
+                        Y: =34
+                  - lblCompactRowSamples:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =9
+                        Text: =Text(ThisItem.SampleCount) & " mẫu"
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                        Width: =(Parent.TemplateWidth - 20) * 0.08 - 8
+                        Wrap: =false
+                        X: =10 + (Parent.TemplateWidth - 20) * 0.58 + 4
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+                  - lblCompactRowResult:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =If(ThisItem.Result = "Đạt", RGBA(22, 115, 72, 1), If(ThisItem.Result = "Không đạt", RGBA(196, 60, 53, 1), RGBA(166, 107, 18, 1)))
+                        Fill: =If(ThisItem.Result = "Đạt", RGBA(227, 243, 235, 1), If(ThisItem.Result = "Không đạt", RGBA(252, 235, 236, 1), RGBA(255, 244, 220, 1)))
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        PaddingLeft: =6
+                        PaddingRight: =6
+                        Size: =8.5
+                        Text: =ThisItem.Result
+                        Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800 && scrList.Width - If(scrList.Width >= 1200, 250, 104) < 1100
+                        Width: =96
+                        Wrap: =false
+                        X: =10 + (Parent.TemplateWidth - 20) * 0.66 + 4 + (((Parent.TemplateWidth - 20) * 0.13 - 8) - Self.Width) / 2
+                        Y: =(Parent.TemplateHeight - Self.Height) / 2
+            - galQCCards:
+                Control: Gallery
+                Variant: Vertical
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Height: =Parent.Height - Self.Y - If(scrList.Width < 768, 60, 20)
+                  Items: |-
+                    =SortByColumns(
+                      Filter(
+                        colQCDemo,
+                        (IsBlank(Trim(txtSearch.Value)) || StartsWith(RunID, Trim(txtSearch.Value)) || StartsWith(ProductCode, Trim(txtSearch.Value)) || StartsWith(ProductName, Trim(txtSearch.Value))),
+                        (If(scrList.Width < 768, ddPlantMobile.Selected.Value, ddPlant.Selected.Value) = "Tất cả" || Plant = If(scrList.Width < 768, ddPlantMobile.Selected.Value, ddPlant.Selected.Value)),
+                        (If(scrList.Width < 768, ddStageMobile.Selected.Value, ddStage.Selected.Value) = "Tất cả" || Stage = If(scrList.Width < 768, ddStageMobile.Selected.Value, ddStage.Selected.Value)),
+                        (If(scrList.Width < 768, ddStatusMobile.Selected.Value, ddStatus.Selected.Value) = "Tất cả" || Status = If(scrList.Width < 768, ddStatusMobile.Selected.Value, ddStatus.Selected.Value))
+                      ),
+                      "CreatedAt",
+                      SortOrder.Descending
+                    )
+                  ShowScrollbar: =scrList.Width >= 768
+                  TemplateFill: =If(scrList.Width < 768, RGBA(244, 247, 245, 1), RGBA(255, 255, 255, 1))
+                  TemplatePadding: =If(scrList.Width < 768, 0, 5)
+                  TemplateSize: =If(scrList.Width < 768, 160 + If(IsEmpty(Filter(colQCDemo, Len(RunID) * 9 > Self.Width - 136)), 0, 30), 168)
+                  Visible: =scrList.Width - If(scrList.Width >= 1200, 250, 104) < 800
+                  Width: =Parent.Width - Self.X - If(scrList.Width < 768, 16, 20)
+                  X: =If(scrList.Width >= 768, 84, 16)
+                  Y: =lblListHeading.Y + If(scrList.Width < 768, 36, 40)
+                Children:
+                  - conCardSurface:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        BorderColor: =RGBA(223, 231, 226, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =If(scrList.Width < 768, Parent.TemplateHeight - 12, 160)
+                        RadiusBottomLeft: =10
+                        RadiusBottomRight: =10
+                        RadiusTopLeft: =10
+                        RadiusTopRight: =10
+                        Width: =If(scrList.Width < 768, Parent.TemplateWidth, Parent.TemplateWidth - 14)
+                        X: =If(scrList.Width < 768, 0, 4)
+                        Y: =If(scrList.Width < 768, 0, 4)
+                  - lblCardRunID:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =If(scrList.Width < 768, FontWeight.Bold, FontWeight.Semibold)
+                        Height: =If(scrList.Width < 768, 22, 24)
+                        PaddingBottom: =If(scrList.Width < 768, 0, 5)
+                        PaddingTop: =If(scrList.Width < 768, 0, 5)
+                        Text: =ThisItem.RunID
+                        Width: =If(scrList.Width < 768, If(Len(ThisItem.RunID) * 9 > Parent.TemplateWidth - 136, Parent.TemplateWidth - 24, Parent.TemplateWidth - 136), Parent.TemplateWidth - 160)
+                        Wrap: =scrList.Width >= 768
+                        X: =12
+                        Y: =If(scrList.Width < 768, 12, 8)
+                  - lblCardStatus:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =If(ThisItem.Status = "Hoàn thành", RGBA(22, 115, 72, 1), If(ThisItem.Status = "Xử lý", RGBA(196, 60, 53, 1), RGBA(166, 107, 18, 1)))
+                        Fill: =If(ThisItem.Status = "Hoàn thành", RGBA(227, 243, 235, 1), If(ThisItem.Status = "Xử lý", RGBA(252, 235, 236, 1), RGBA(255, 244, 220, 1)))
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        PaddingBottom: =If(scrList.Width < 768, 0, 5)
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =If(scrList.Width < 768, 0, 5)
+                        Size: =8.5
+                        Text: =ThisItem.Status
+                        Width: =If(scrList.Width < 768, 104, 120)
+                        Wrap: =scrList.Width >= 768
+                        X: =If(scrList.Width < 768, If(Len(ThisItem.RunID) * 9 > Parent.TemplateWidth - 136, 12, Parent.TemplateWidth - 116), Parent.TemplateWidth - 132)
+                        Y: =If(scrList.Width < 768, If(Len(ThisItem.RunID) * 9 > Parent.TemplateWidth - 136, 40, 11), 8)
+                  - lblCardProductCode:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(0, 107, 79, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =If(scrList.Width < 768, 20, 24)
+                        PaddingBottom: =If(scrList.Width < 768, 0, 5)
+                        PaddingTop: =If(scrList.Width < 768, 0, 5)
+                        Size: =10.5
+                        Text: =ThisItem.ProductCode
+                        Width: =Parent.TemplateWidth - 24
+                        Wrap: =scrList.Width >= 768
+                        X: =12
+                        Y: =If(scrList.Width < 768, 42 + If(Len(ThisItem.RunID) * 9 > Parent.TemplateWidth - 136, 30, 0), 38)
+                  - lblCardProductName:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =If(scrList.Width < 768, 0, 5)
+                        PaddingTop: =If(scrList.Width < 768, 0, 5)
+                        Size: =9
+                        Text: =ThisItem.ProductName
+                        Width: =Parent.TemplateWidth - 24
+                        Wrap: =scrList.Width >= 768
+                        X: =12
+                        Y: =If(scrList.Width < 768, 62 + If(Len(ThisItem.RunID) * 9 > Parent.TemplateWidth - 136, 30, 0), 60)
+                  - lblCardPlantStage:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =If(scrList.Width < 768, 20, 24)
+                        PaddingBottom: =If(scrList.Width < 768, 0, 5)
+                        PaddingTop: =If(scrList.Width < 768, 0, 5)
+                        Size: =9
+                        Text: =ThisItem.Plant & " · " & ThisItem.Stage
+                        Width: =Parent.TemplateWidth - 24
+                        Wrap: =scrList.Width >= 768
+                        X: =12
+                        Y: =If(scrList.Width < 768, 84 + If(Len(ThisItem.RunID) * 9 > Parent.TemplateWidth - 136, 30, 0), 84)
+                  - lblCardSamples:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        PaddingBottom: =If(scrList.Width < 768, 0, 5)
+                        PaddingTop: =If(scrList.Width < 768, 0, 5)
+                        Size: =9
+                        Text: =Text(ThisItem.SampleCount) & " mẫu"
+                        Width: =If(scrList.Width < 768, 72, Parent.TemplateWidth - 188)
+                        Wrap: =scrList.Width >= 768
+                        X: =12
+                        Y: =If(scrList.Width < 768, 112 + If(Len(ThisItem.RunID) * 9 > Parent.TemplateWidth - 136, 30, 0), 126)
+                  - lblCardTime:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        PaddingBottom: =If(scrList.Width < 768, 0, 5)
+                        PaddingTop: =If(scrList.Width < 768, 0, 5)
+                        Size: =9
+                        Text: =Text(ThisItem.CreatedAt, "dd/mm hh:mm")
+                        Width: =If(scrList.Width < 768, 110, 100)
+                        Wrap: =scrList.Width >= 768
+                        X: =If(scrList.Width < 768, 88, Parent.TemplateWidth - 156)
+                        Y: =If(scrList.Width < 768, 112 + If(Len(ThisItem.RunID) * 9 > Parent.TemplateWidth - 136, 30, 0), 126)
+                  - btnCardDetails:
+                      Control: ModernButton
+                      Properties:
+                        AccessibleLabel: ="Xem chi tiết " & ThisItem.RunID
+                        Appearance: =If(scrList.Width < 768, ButtonAppearance.Transparent, ButtonAppearance.Subtle)
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(0, 107, 79, 1)
+                        Height: =36
+                        OnSelect: =Set(varSelectedQC, ThisItem); Navigate(scrQualityInspection, ScreenTransition.None)
+                        RadiusBottomLeft: =18
+                        RadiusBottomRight: =18
+                        RadiusTopLeft: =18
+                        RadiusTopRight: =18
+                        Text: =""
+                        Width: =36
+                        X: =Parent.TemplateWidth - 48
+                        Y: =If(scrList.Width < 768, 106 + If(Len(ThisItem.RunID) * 9 > Parent.TemplateWidth - 136, 30, 0), 116)
+                  - icoCardChevron:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Height: =16
+                        Icon: =Icon.ChevronRight
+                        OnSelect: =Select(btnCardDetails)
+                        Width: =16
+                        X: =btnCardDetails.X + 10
+                        Y: =btnCardDetails.Y + 10
+            - lblEmptyState:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(104, 122, 114, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =64
+                  Text: ="Không tìm thấy hồ sơ phù hợp"
+                  Visible: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800, CountRows(galQCRecords.AllItems) = 0, CountRows(galQCCards.AllItems) = 0)
+                  Width: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800, galQCRecords.Width, galQCCards.Width)
+                  X: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800, galQCRecords.X, galQCCards.X)
+                  Y: =If(scrList.Width - If(scrList.Width >= 1200, 250, 104) >= 800, galQCRecords.Y, galQCCards.Y) + 8
+            - btnMobileCreate:
+                Control: ModernButton
+                Properties:
+                  BasePaletteColor: =RGBA(0, 107, 79, 1)
+                  Color: =RGBA(255, 255, 255, 1)
+                  Height: =44
+                  OnSelect: =Set(varShowCreate, true)
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                  Text: ="+"
+                  Visible: =false
+                  Width: =44
+                  X: =Parent.Width - 60
+                  Y: =Parent.Height - 68
+            - conMobileNav:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =60
+                  Visible: =scrList.Width < 768
+                  Width: =Parent.Width
+                  Y: =Parent.Height - 60
+                Children:
+                  - btnMobileNavQC:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =ButtonAppearance.Transparent
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(0, 107, 79, 1)
+                        FontWeight: =FontWeight.Semibold
+                        Height: =58
+                        PaddingBottom: =6
+                        Size: =11
+                        Text: ="Hồ sơ QC"
+                        VerticalAlign: =VerticalAlign.Bottom
+                        Width: =Parent.Width / 4
+                        Y: =1
+                  - btnMobileNavReports:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =ButtonAppearance.Transparent
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(104, 122, 114, 1)
+                        FontWeight: =FontWeight.Normal
+                        Height: =58
+                        OnSelect: =Notify("Báo cáo là chức năng minh họa.", NotificationType.Information)
+                        PaddingBottom: =6
+                        Size: =11
+                        Text: ="Báo cáo"
+                        VerticalAlign: =VerticalAlign.Bottom
+                        Width: =Parent.Width / 4
+                        X: =Parent.Width / 4
+                        Y: =1
+                  - btnMobileNavHistory:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =ButtonAppearance.Transparent
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(104, 122, 114, 1)
+                        FontWeight: =FontWeight.Normal
+                        Height: =58
+                        OnSelect: =Notify("Lịch sử là chức năng minh họa.", NotificationType.Information)
+                        PaddingBottom: =6
+                        Size: =11
+                        Text: ="Lịch sử"
+                        VerticalAlign: =VerticalAlign.Bottom
+                        Width: =Parent.Width / 4
+                        X: =Parent.Width / 2
+                        Y: =1
+                  - btnMobileNavMore:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =ButtonAppearance.Transparent
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(104, 122, 114, 1)
+                        FontWeight: =FontWeight.Normal
+                        Height: =58
+                        OnSelect: =Notify("Các mục khác là chức năng minh họa.", NotificationType.Information)
+                        PaddingBottom: =6
+                        Size: =11
+                        Text: ="Thêm"
+                        VerticalAlign: =VerticalAlign.Bottom
+                        Width: =Parent.Width / 4
+                        X: =Parent.Width * 3 / 4
+                        Y: =1
+                  - lblMobileNavDivider:
+                      Control: Label
+                      Properties:
+                        Fill: =RGBA(223, 231, 226, 1)
+                        Height: =1
+                        Text: =""
+                        Width: =Parent.Width
+                  - lblMobileNavQCIcon:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(0, 107, 79, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =24
+                        Size: =16
+                        Text: ="▣"
+                        Width: =Parent.Width / 4
+                        Y: =7
+                  - lblMobileNavReportsIcon:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =16
+                        Text: ="▤"
+                        Width: =Parent.Width / 4
+                        X: =Parent.Width / 4
+                        Y: =7
+                  - lblMobileNavHistoryIcon:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =16
+                        Text: ="◷"
+                        Width: =Parent.Width / 4
+                        X: =Parent.Width / 2
+                        Y: =7
+                  - lblMobileNavMoreIcon:
+                      Control: Label
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Height: =24
+                        Size: =16
+                        Text: ="⋯"
+                        Width: =Parent.Width / 4
+                        X: =Parent.Width * 3 / 4
+                        Y: =7
+            - lblFilterBackdrop:
+                Control: Label
+                Properties:
+                  Fill: =RGBA(24, 56, 43, 0.24)
+                  Height: =Parent.Height
+                  Text: =""
+                  Visible: =varShowFilter
+                  Width: =Parent.Width
+            - conFilterDialog:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =If(scrList.Width < 768, 0, 1)
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =If(scrList.Width < 768, If(scrList.Height < 440, 318, 382), 304)
+                  RadiusBottomLeft: =If(scrList.Width < 768, 0, 12)
+                  RadiusBottomRight: =If(scrList.Width < 768, 0, 12)
+                  RadiusTopLeft: =If(scrList.Width < 768, 16, 12)
+                  RadiusTopRight: =If(scrList.Width < 768, 16, 12)
+                  Visible: =varShowFilter
+                  Width: =If(scrList.Width < 768, Parent.Width, 360)
+                  X: =If(scrList.Width < 768, 0, 88)
+                  Y: =If(scrList.Width < 768, Parent.Height - Self.Height, Max(16, (Parent.Height - Self.Height) / 2))
+                Children:
+                  - lblFilterTitle:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =If(scrList.Width < 768, If(scrList.Height < 440, 40, 44), 32)
+                        Size: =12
+                        Text: ="Bộ lọc hồ sơ"
+                        Width: =If(scrList.Width < 768, Parent.Width - 2 * Self.X - 52, Parent.Width - 32)
+                        X: =If(scrList.Width < 768, If(scrList.Height < 440, 12, 20), 16)
+                        Y: =If(scrList.Width < 768, If(scrList.Height < 440, 12, 20), 8)
+                  - btnCloseFilter:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =ButtonAppearance.Subtle
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(104, 122, 114, 1)
+                        Height: =If(scrList.Width < 768, 44, 40)
+                        OnSelect: =Set(varShowFilter, false)
+                        RadiusBottomLeft: =22
+                        RadiusBottomRight: =22
+                        RadiusTopLeft: =22
+                        RadiusTopRight: =22
+                        Size: =If(scrList.Width < 768, 20, 0)
+                        Text: ="×"
+                        Width: =If(scrList.Width < 768, 44, 40)
+                        X: =If(scrList.Width < 768, Parent.Width - If(scrList.Height < 440, 12, 20) - Self.Width, Parent.Width - 52)
+                        Y: =If(scrList.Width < 768, If(scrList.Height < 440, 10, 20), 4)
+                  - lblFilterPlant:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =If(scrList.Width < 768, If(scrList.Height < 440, 16, 18), 16)
+                        PaddingBottom: =If(scrList.Width < 768, 0, 5)
+                        PaddingTop: =If(scrList.Width < 768, 0, 5)
+                        Size: =9
+                        Text: ="Nhà máy"
+                        Width: =Parent.Width - 2 * Self.X
+                        X: =If(scrList.Width < 768, If(scrList.Height < 440, 12, 20), 16)
+                        Y: =If(scrList.Width < 768, If(scrList.Height < 440, 60, 76), 48)
+                  - ddPlantMobile:
+                      Control: DropDown
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        BorderColor: =RGBA(223, 231, 226, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(248, 250, 249, 1)
+                        Height: =If(scrList.Width < 768, If(scrList.Height < 440, 40, 44), 40)
+                        Items: =["Tất cả", "Bình Dương", "Đồng Nai", "Long An", "Hà Nam"]
+                        Width: =Parent.Width - 2 * Self.X
+                        X: =If(scrList.Width < 768, If(scrList.Height < 440, 12, 20), 16)
+                        Y: =If(scrList.Width < 768, If(scrList.Height < 440, 78, 98), 64)
+                  - lblFilterStage:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =If(scrList.Width < 768, If(scrList.Height < 440, 16, 18), 16)
+                        PaddingBottom: =If(scrList.Width < 768, 0, 5)
+                        PaddingTop: =If(scrList.Width < 768, 0, 5)
+                        Size: =9
+                        Text: ="Công đoạn"
+                        Width: =Parent.Width - 2 * Self.X
+                        X: =If(scrList.Width < 768, If(scrList.Height < 440, 12, 20), 16)
+                        Y: =If(scrList.Width < 768, If(scrList.Height < 440, 126, 154), 112)
+                  - ddStageMobile:
+                      Control: DropDown
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        BorderColor: =RGBA(223, 231, 226, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(248, 250, 249, 1)
+                        Height: =If(scrList.Width < 768, If(scrList.Height < 440, 40, 44), 40)
+                        Items: =["Tất cả", "Thành phẩm", "Đóng gói"]
+                        Width: =Parent.Width - 2 * Self.X
+                        X: =If(scrList.Width < 768, If(scrList.Height < 440, 12, 20), 16)
+                        Y: =If(scrList.Width < 768, If(scrList.Height < 440, 144, 176), 128)
+                  - lblFilterStatus:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =If(scrList.Width < 768, If(scrList.Height < 440, 16, 18), 16)
+                        PaddingBottom: =If(scrList.Width < 768, 0, 5)
+                        PaddingTop: =If(scrList.Width < 768, 0, 5)
+                        Size: =9
+                        Text: ="Trạng thái"
+                        Width: =Parent.Width - 2 * Self.X
+                        X: =If(scrList.Width < 768, If(scrList.Height < 440, 12, 20), 16)
+                        Y: =If(scrList.Width < 768, If(scrList.Height < 440, 192, 232), 176)
+                  - ddStatusMobile:
+                      Control: DropDown
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        BorderColor: =RGBA(223, 231, 226, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(248, 250, 249, 1)
+                        Height: =If(scrList.Width < 768, If(scrList.Height < 440, 40, 44), 40)
+                        Items: =["Tất cả", "Hoàn thành", "Xử lý", "Chờ kiểm tra"]
+                        Width: =Parent.Width - 2 * Self.X
+                        X: =If(scrList.Width < 768, If(scrList.Height < 440, 12, 20), 16)
+                        Y: =If(scrList.Width < 768, If(scrList.Height < 440, 210, 254), 192)
+                  - btnApplyMobileFilters:
+                      Control: ModernButton
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(255, 255, 255, 1)
+                        Height: =44
+                        OnSelect: =Set(varShowFilter, false)
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Text: ="Áp dụng"
+                        Width: =If(scrList.Width < 768, (Parent.Width - 2 * If(scrList.Height < 440, 12, 20) - 12) / 2, 128)
+                        X: =If(scrList.Width < 768, Parent.Width - If(scrList.Height < 440, 12, 20) - Self.Width, Parent.Width - 144)
+                        Y: =If(scrList.Width < 768, If(scrList.Height < 440, 262, 318), 248)
+                  - btnResetMobileFilters:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =If(scrList.Width < 768, ButtonAppearance.Outline, ButtonAppearance.Secondary)
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(0, 107, 79, 1)
+                        Height: =44
+                        OnSelect: |-
+                          =Reset(txtSearch);
+                          Reset(ddPlantMobile);
+                          Reset(ddStageMobile);
+                          Reset(ddStatusMobile);
+                          Set(varShowFilter, false);
+                          Notify("Đã làm mới bộ lọc.", NotificationType.Success)
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Text: ="Làm mới"
+                        Width: =If(scrList.Width < 768, btnApplyMobileFilters.Width, 112)
+                        X: =If(scrList.Width < 768, If(scrList.Height < 440, 12, 20), 16)
+                        Y: =If(scrList.Width < 768, If(scrList.Height < 440, 262, 318), 248)
+            - conCreateDialog:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =If(scrList.Width < 768, Parent.Height - 152, 600)
+                  RadiusBottomLeft: =12
+                  RadiusBottomRight: =12
+                  RadiusTopLeft: =12
+                  RadiusTopRight: =12
+                  Visible: =varShowCreate
+                  Width: =If(scrList.Width < 768, Parent.Width - 24, 520)
+                  X: =If(scrList.Width < 768, 12, (Parent.Width - 520) / 2)
+                  Y: =If(scrList.Width < 768, 76, (Parent.Height - 600) / 2)
+                Children:
+                  - lblCreateTitle:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =36
+                        Size: =15
+                        Text: ="Tạo hồ sơ QC"
+                        Width: =Parent.Width - 72
+                        X: =20
+                        Y: =12
+                  - btnCloseCreate:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =ButtonAppearance.Subtle
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(104, 122, 114, 1)
+                        Height: =40
+                        OnSelect: =Set(varShowCreate, false)
+                        RadiusBottomLeft: =18
+                        RadiusBottomRight: =18
+                        RadiusTopLeft: =18
+                        RadiusTopRight: =18
+                        Text: ="×"
+                        Width: =40
+                        X: =Parent.Width - 52
+                        Y: =8
+                  - lblCreateProductCode:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =9
+                        Text: ="Mã sản phẩm *"
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =60
+                  - txtCreateProductCode:
+                      Control: TextInput
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        BorderColor: =RGBA(223, 231, 226, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(244, 247, 245, 1)
+                        Height: =36
+                        Placeholder: ="Nhập mã sản phẩm"
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =84
+                  - lblCreateProductName:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =9
+                        Text: ="Tên sản phẩm *"
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =132
+                  - txtCreateProductName:
+                      Control: TextInput
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        BorderColor: =RGBA(223, 231, 226, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(244, 247, 245, 1)
+                        Height: =36
+                        Placeholder: ="Nhập tên sản phẩm"
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =156
+                  - lblCreatePlant:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =9
+                        Text: ="Nhà máy *"
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =204
+                  - ddCreatePlant:
+                      Control: DropDown
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        BorderColor: =RGBA(223, 231, 226, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =36
+                        Items: =["Bình Dương", "Đồng Nai", "Long An", "Hà Nam"]
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =228
+                  - lblCreateStage:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =9
+                        Text: ="Công đoạn *"
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =276
+                  - ddCreateStage:
+                      Control: DropDown
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        BorderColor: =RGBA(223, 231, 226, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =36
+                        Items: =["Thành phẩm", "Đóng gói"]
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =300
+                  - lblCreateSampleCount:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =9
+                        Text: ="Số mẫu *"
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =348
+                  - txtCreateSampleCount:
+                      Control: TextInput
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        BorderColor: =RGBA(223, 231, 226, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(244, 247, 245, 1)
+                        Height: =36
+                        Placeholder: ="Nhập số mẫu"
+                        Value: ="1"
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =372
+                  - lblCreateResult:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =24
+                        Size: =9
+                        Text: ="Kết quả *"
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =420
+                  - ddCreateResult:
+                      Control: DropDown
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        BorderColor: =RGBA(223, 231, 226, 1)
+                        BorderThickness: =1
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =36
+                        Items: =["Chờ kiểm tra", "Đạt", "Không đạt"]
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =444
+                  - btnCancelCreate:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =ButtonAppearance.Secondary
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(0, 107, 79, 1)
+                        Height: =40
+                        OnSelect: =Set(varShowCreate, false)
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Text: ="Hủy"
+                        Width: =100
+                        X: =Parent.Width - 232
+                        Y: =Parent.Height - 56
+                  - btnSaveCreate:
+                      Control: ModernButton
+                      Properties:
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(255, 255, 255, 1)
+                        Height: =40
+                        OnSelect: |-
+                          =If(
+                            IsBlank(Trim(txtCreateProductCode.Value)) ||
+                            IsBlank(Trim(txtCreateProductName.Value)) ||
+                            IsBlank(Trim(txtCreateSampleCount.Value)) ||
+                            !IsNumeric(txtCreateSampleCount.Value) ||
+                            Value(txtCreateSampleCount.Value) < 1,
+                            Notify("Vui lòng nhập đủ thông tin hợp lệ.", NotificationType.Error),
+                            With(
+                              {
+                                newRunId: "QC-" & Upper(Substitute(Text(GUID()), "-", "")),
+                                newStatus: If(ddCreateResult.Selected.Value = "Chờ kiểm tra", "Chờ kiểm tra", If(ddCreateResult.Selected.Value = "Không đạt", "Xử lý", "Hoàn thành"))
+                              },
+                              Collect(
+                                colQCDemo,
+                                {
+                                  ID: GUID(),
+                                  RunID: newRunId,
+                                  ProductCode: Trim(txtCreateProductCode.Value),
+                                  ProductName: Trim(txtCreateProductName.Value),
+                                  Plant: ddCreatePlant.Selected.Value,
+                                  Stage: ddCreateStage.Selected.Value,
+                                  SampleCount: Value(txtCreateSampleCount.Value),
+                                  Result: ddCreateResult.Selected.Value,
+                                  Status: newStatus,
+                                  CreatedAt: Now()
+                                }
+                              );
+                              Notify("Đã tạo hồ sơ QC demo.", NotificationType.Success);
+                              Set(varShowCreate, false);
+                              Reset(txtCreateProductCode);
+                              Reset(txtCreateProductName);
+                              Reset(txtCreateSampleCount)
+                            )
+                          )
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Text: ="Lưu hồ sơ"
+                        Width: =100
+                        X: =Parent.Width - 120
+                        Y: =Parent.Height - 56
+            - conDetailDialog:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =RGBA(223, 231, 226, 1)
+                  BorderThickness: =1
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =If(scrList.Width < 768, Parent.Height - 152, 560)
+                  RadiusBottomLeft: =12
+                  RadiusBottomRight: =12
+                  RadiusTopLeft: =12
+                  RadiusTopRight: =12
+                  Visible: =varShowDetail
+                  Width: =If(scrList.Width < 768, Parent.Width - 24, 520)
+                  X: =If(scrList.Width < 768, 12, (Parent.Width - 520) / 2)
+                  Y: =If(scrList.Width < 768, 76, (Parent.Height - 560) / 2)
+                Children:
+                  - lblDetailTitle:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =36
+                        Size: =15
+                        Text: ="Chi tiết hồ sơ QC"
+                        Width: =Parent.Width - 72
+                        X: =20
+                        Y: =12
+                  - btnCloseDetail:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =ButtonAppearance.Subtle
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(104, 122, 114, 1)
+                        Height: =40
+                        OnSelect: =Set(varShowDetail, false)
+                        RadiusBottomLeft: =18
+                        RadiusBottomRight: =18
+                        RadiusTopLeft: =18
+                        RadiusTopRight: =18
+                        Text: ="×"
+                        Width: =40
+                        X: =Parent.Width - 52
+                        Y: =8
+                  - lblDetailRunID:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        Size: =12
+                        Text: |-
+                          ="RunID: " & varSelectedQC.RunID
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =64
+                  - lblDetailProduct:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =48
+                        Size: =10.5
+                        Text: |-
+                          ="Sản phẩm: " & varSelectedQC.ProductCode & " · " & varSelectedQC.ProductName
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =108
+                  - lblDetailPlant:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =32
+                        Size: =10.5
+                        Text: |-
+                          ="Nhà máy: " & varSelectedQC.Plant
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =164
+                  - lblDetailStage:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =32
+                        Size: =10.5
+                        Text: |-
+                          ="Công đoạn: " & varSelectedQC.Stage
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =204
+                  - lblDetailSamples:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =32
+                        Size: =10.5
+                        Text: |-
+                          ="Số mẫu: " & Text(varSelectedQC.SampleCount)
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =244
+                  - lblDetailResult:
+                      Control: Label
+                      Properties:
+                        Color: =If(varSelectedQC.Result = "Đạt", RGBA(0, 107, 79, 1), If(varSelectedQC.Result = "Không đạt", RGBA(196, 60, 53, 1), RGBA(166, 107, 18, 1)))
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        Size: =10.5
+                        Text: |-
+                          ="Kết quả: " & varSelectedQC.Result
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =284
+                  - lblDetailStatus:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(22, 51, 45, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =32
+                        Size: =10.5
+                        Text: |-
+                          ="Trạng thái: " & varSelectedQC.Status
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =324
+                  - lblDetailTime:
+                      Control: Label
+                      Properties:
+                        Color: =RGBA(104, 122, 114, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =32
+                        Size: =10.5
+                        Text: |-
+                          ="Thời gian: " & Text(varSelectedQC.CreatedAt, "dd/mm/yyyy hh:mm")
+                        Width: =Parent.Width - 40
+                        X: =20
+                        Y: =364
+                  - btnCloseDetailFooter:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =ButtonAppearance.Secondary
+                        BasePaletteColor: =RGBA(0, 107, 79, 1)
+                        Color: =RGBA(0, 107, 79, 1)
+                        Height: =40
+                        OnSelect: =Set(varShowDetail, false)
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Text: ="Đóng"
+                        Width: =112
+                        X: =Parent.Width - 132
+                        Y: =Parent.Height - 56
+            - lblListCountMobile:
+                Control: Label
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(104, 122, 114, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =28
+                  Size: =9
+                  Text: =Text(CountRows(galQCCards.AllItems)) & " hồ sơ"
+                  Visible: =scrList.Width < 768
+                  Width: =120
+                  Wrap: =false
+                  X: =Parent.Width - 16 - Self.Width
+                  Y: =lblListHeading.Y
+            - icoResetFilters:
+                Control: Classic/Icon
+                Properties:
+                  Color: =RGBA(0, 107, 79, 1)
+                  Height: =18
+                  Icon: =Icon.Reset
+                  OnSelect: =Select(btnResetFilters)
+                  Visible: =btnResetFilters.Visible
+                  Width: =18
+                  X: =btnResetFilters.X + 14
+                  Y: =btnResetFilters.Y + 11
+            - lblListHeading:
+                Control: Label
+                Properties:
+                  Color: =RGBA(22, 51, 45, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =If(scrList.Width < 768, 28, 32)
+                  Size: =12
+                  Text: ="Danh sách hồ sơ"
+                  Width: =If(scrList.Width < 768, Parent.Width - Self.X - 16 - 128, Parent.Width - Self.X - 20)
+                  X: =If(scrList.Width >= 1200, 230, If(scrList.Width >= 768, 84, 16))
+                  Y: =If(scrList.Width < 768, 414, conFilterSurface.Y + conFilterSurface.Height + 16)

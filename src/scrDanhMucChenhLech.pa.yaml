@@ -1,0 +1,1593 @@
+Screens:
+  scrDanhMucChenhLech:
+    Properties:
+      OnVisible: |-
+        =Clear(col_SelectedItems);
+        varShowMenuUser && scrDanhMucChenhLech.Size <> 1
+    Children:
+      - con_MainNXTDanhMucChenhLech:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+          Children:
+            - con_HeaderNXTDanhMucChenhLech:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =55
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - cmp_HeaderNXTDanhMucChenhLech:
+                      Control: CanvasComponent
+                      ComponentName: Header
+                      Properties:
+                        Height: =App.Height
+                        IDRecord: =100
+                        Width: =App.Width - Parent.PaddingLeft * 2 - 5
+                        varSizeScreen: =scrNXTDanhMucChenhLech.Size
+            - con_BodyNXTDanhMucChenhLech:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
+                  FillPortions: =0
+                  Height: =Parent.Height - con_HeaderNXTDanhMucChenhLech.Height
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =If(!varShowMenuUser, 0, 5)
+                  PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                  PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                  PaddingRight: =If(!varShowMenuUser, 0, 5)
+                  PaddingTop: =If(!varShowMenuUser, 0, 5)
+                Children:
+                  - con_MenuNXTDanhMucChenhLech:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semilight
+                        FillPortions: =0
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        Visible: =scrNXTDanhMucChenhLech.Size <> 1
+                        Width: =If(varShowMenuUser, 240, 0)
+                      Children:
+                        - cmp_NavSidebarNXTDanhMucChenhLech:
+                            Control: CanvasComponent
+                            ComponentName: NavSiderBar
+                            Properties:
+                              Height: =Parent.Height
+                              SidebarWidth: =Parent.Width
+                              Width: =Parent.Width
+                  - con_ContentNXTDanhMucChenhLech:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: |-
+                          =If(
+                              scrNXTDanhMucChenhLech.Size = 1,
+                              DropShadow.Semibold,
+                              DropShadow.None
+                          )
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                        RadiusTopRight: =0
+                      Children:
+                        - con_ActionHeaderNXTDanhMucChenhLech:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =42
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =5
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                            Children:
+                              - btn_ThemDanhMucChenhLech:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(200, 60, 60, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Add"
+                                    OnSelect: |-
+                                      =UpdateContext({varShowChenhLechNgay :true});
+                                      Reset(dp_CLNNgay);
+                                      Reset(cbx_CLNLoaiSP);
+                                    Size: =fxFontSizeMD
+                                    Text: ="Thêm"
+                                    Visible: =varUserInPlant.Role = Index(col_RoleUser,9).RoleCode || varUserInPlant.Role = Index(col_RoleUser,2).RoleCode
+                                    Width: =90
+                              - btn_RefreshNXTDanhMucChenhLech:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="ArrowSync"
+                                    OnSelect: |-
+                                      =Refresh('QLK List Stock Count Variance');
+                                      Refresh('QLK List Production Receipt Details');
+                                      Refresh('QLK List Issue Detail');
+                                      Refresh('QLK List Stock Count Details');
+                                      Refresh('QLK List Inventory Details');
+                                    Size: =fxFontSizeMD
+                                    Text: ="Làm mới"
+                                    Width: =120
+                              - btn_KiemLaiDanhMucChenhLech:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(200, 60, 60, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="ArrowUndo"
+                                    OnSelect: =UpdateContext({con_PopupConfirmSubmitXNT:true})
+                                    Size: =fxFontSizeMD
+                                    Text: ="Kiểm lại XNT"
+                                    Visible: |
+                                      =CountRows(Filter(col_SelectedItems,NeedRecount,StatusCode = Index(col_WorkflowStatus,1).StatusCode)) > 0
+                                    Width: =140
+                              - btn_KiemLaiDanhMucChenhLech_1:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(200, 60, 60, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="ArrowUndo"
+                                    OnSelect: =UpdateContext({con_PopupConfirmSubmit:true})
+                                    Size: =fxFontSizeMD
+                                    Text: ="Kiểm kê lại"
+                                    Visible: =CountRows(Filter(col_SelectedItems,NeedRecount,StatusCode = Index(col_WorkflowStatus,1).StatusCode)) > 0
+                                    Width: =140
+                              - btn_GuiDuyetDanhMucChenhLech:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(200, 60, 60, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Send"
+                                    OnSelect: =UpdateContext({varShowPopupSubmitDifferenceApproval:true})
+                                    Size: =fxFontSizeMD
+                                    Text: ="Gửi duyệt"
+                                    Visible: |-
+                                      =// Kiểm tra có dòng nào đang ở trạng thái "nháp" không
+                                      //CountRows(Filter(col_SelectedItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode)) > 0
+                                    Width: =120
+                              - btn_DuyetDanhMucChenhLech:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(200, 60, 60, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Send"
+                                    OnSelect: =UpdateContext({varShowPopupApproveDifference:true})
+                                    Size: =fxFontSizeMD
+                                    Text: ="Duyệt"
+                                    Visible: |-
+                                      =// Kiểm tra có dòng nào đang ở trạng thái "chờ phê duyệt" không
+                                      CountRows(Filter(col_SelectedItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode)) > 0
+                                    Width: =120
+                        - lbl_TitleNXTDanhMucChenhLech:
+                            Control: ModernText
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =RGBA(45, 128, 40, 1)
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightSemiBold
+                              Height: =40
+                              PaddingLeft: =10
+                              Size: =fxFontSizeXL
+                              Text: ="Sai lệch ngày"
+                        - con_FilterNXTDanhMucChenhLech:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =If(scrNXTDanhMucChenhLech.Size = 1, 80, 45)
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =If(scrNXTDanhMucChenhLech.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                            Children:
+                              - con_Row1_NXTDanhMucChenhLech:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =40
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =5
+                                    Width: =If(scrNXTDanhMucChenhLech.Size = 1, Parent.Width - 10, 260)
+                                  Children:
+                                    - dp_FilterNgayKiemNXTDanhMucChenhLech:
+                                        Control: ModernDatePicker
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          DefaultDate: =Today()
+                                          Font: =fxFontFamily
+                                          FontWeight: =FontWeight.Normal
+                                          Format: =DatePickerFormat.Short
+                                          Size: =fxFontSizeMD
+                                          Width: =If(scrNXTDanhMucChenhLech.Size = 1, Parent.Width/2 - 25, 120)
+                                    - cmb_FilterLoaiHangNXTDanhMucChenhLech:
+                                        Control: ModernCombobox
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =fxFontFamily
+                                          InputTextPlaceholder: ="Loại hàng..."
+                                          IsSearchable: =false
+                                          ItemDisplayText: =ThisItem.ProductTypeNameVI
+                                          Items: =col_ProductTypes
+                                          SelectMultiple: =false
+                                          Size: =fxFontSizeMD
+                                          Width: =If(scrNXTDanhMucChenhLech.Size = 1, Parent.Width/2 - 25, 130)
+                              - con_Row2_NXTDanhMucChenhLech:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =If(scrNXTDanhMucChenhLech.Size = 1, 0, 1)
+                                    Height: =40
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =5
+                                    Width: =If(scrNXTDanhMucChenhLech.Size = 1, Parent.Width - 10, 400)
+                                  Children:
+                                    - txt_SearchNXTDanhMucChenhLech:
+                                        Control: ModernTextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          FillPortions: =1
+                                          Font: =fxFontFamily
+                                          LayoutMinWidth: =16
+                                          Placeholder: ="Tìm mã SAP..."
+                                    - cbo_FilterStatusKiemKho_3:
+                                        Control: ModernCombobox
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightNormal
+                                          InputTextPlaceholder: ="Tất cả"
+                                          IsSearchable: =false
+                                          ItemDisplayText: =ThisItem.StatusNameVI
+                                          Items: =Filter(col_WorkflowStatus, StatusCode = "DRAFT" || StatusCode = "APPROVED")
+                                          SelectMultiple: =false
+                                          Width: =If(scrNXTDanhMucChenhLech.Size = 1, 100, 120)
+                                    - Button1_3:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Transparent
+                                          Icon: ="Eraser"
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          OnSelect: |-
+                                            =Reset(cmb_FilterLoaiHangNXTDanhMucChenhLech);
+                                            Reset(txt_SearchNXTDanhMucChenhLech);
+                                            Reset(cbo_FilterStatusKiemKho_3);
+                                          Text: =
+                                          Width: =40
+                        - con_ListNXTDanhMucChenhLech:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Start
+                              BorderStyle: =BorderStyle.None
+                              DropShadow: =If(scrNXTDanhMucChenhLech.Size = 1, DropShadow.None, DropShadow.Semibold)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutOverflowX: =LayoutOverflow.Scroll
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              RadiusBottomLeft: =6
+                              RadiusBottomRight: =6
+                              RadiusTopLeft: =If(scrNXTDanhMucChenhLech.Size = 1, 0, 5)
+                              RadiusTopRight: =6
+                              Width: =Parent.Width - Parent.PaddingLeft * 2
+                            Children:
+                              - con_InnerNXTDanhMucChenhLech:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    DropShadow: =DropShadow.None
+                                    Height: =Parent.Height - lbl_TotalRowsNXTDanhMucChenhLech.Height
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    Width: |-
+                                      =
+                                      If(
+                                          scrNXTDanhMucChenhLech.Size = 1,
+                                          Parent.Width,
+                                          Max(Parent.Width, 1400)
+                                      )
+                                  Children:
+                                    - con_TableHeaderNXTDanhMucChenhLech_1:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0
+                                          Height: =46
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =5
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Visible: =scrNXTDanhMucChenhLech.Size = 1
+                                          Width: =Parent.Width
+                                        Children:
+                                          - chk_H_SelectAll_1:
+                                              Control: ModernCheckbox
+                                              Properties:
+                                                Default: =CountRows(col_SelectedItems) > 0
+                                                DisplayMode: |-
+                                                  =If(
+                                                      CountRows(
+                                                          Filter(
+                                                              gal_NXTDanhMucChenhLech.AllItems,
+                                                              chk_SelectRow.DisplayMode = DisplayMode.Edit
+                                                          )
+                                                      ) > 0,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                FontWeight: =""
+                                                Label: =
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                OnCheck: |-
+                                                  =ClearCollect(
+                                                      col_SelectedItems,
+                                                      Filter(
+                                                          gal_NXTDanhMucChenhLech.AllItems,
+                                                          chk_SelectRow.DisplayMode = DisplayMode.Edit
+                                                      )
+                                                  )
+                                                OnUncheck: =Clear(col_SelectedItems)
+                                                Width: =40
+                                    - con_TableHeaderNXTDanhMucChenhLech:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(250, 250, 250, 1)
+                                          FillPortions: =0
+                                          Height: =46
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =5
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Visible: =scrNXTDanhMucChenhLech.Size <> 1
+                                          Width: =Parent.Width
+                                        Children:
+                                          - chk_H_SelectAll:
+                                              Control: ModernCheckbox
+                                              Properties:
+                                                Default: =CountRows(col_SelectedItems) > 0
+                                                DisplayMode: |-
+                                                  =If(
+                                                      CountRows(
+                                                          Filter(
+                                                              gal_NXTDanhMucChenhLech.AllItems,
+                                                              chk_SelectRow.DisplayMode = DisplayMode.Edit
+                                                          )
+                                                      ) > 0,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                FontWeight: =""
+                                                Label: =
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                OnCheck: |-
+                                                  =ClearCollect(
+                                                      col_SelectedItems,
+                                                      Filter(
+                                                          gal_NXTDanhMucChenhLech.AllItems,
+                                                          chk_SelectRow.DisplayMode = DisplayMode.Edit
+                                                      )
+                                                  )
+                                                OnUncheck: =Clear(col_SelectedItems)
+                                                Width: =40
+                                          - lbl_H_NgayKiem:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Ngày kiểm"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_H_LoaiHang:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Loại hàng"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_H_MaHang:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Mã SAP"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_H_TonSoSach:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Tồn sổ sách"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_H_TonThucTe:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Tồn thực tế"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_H_SaiLech:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Sai lệch"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_H_KiemLai:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Kiểm lại"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_H_TrangThai:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Trạng thái"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_H_GiaiTrinh:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Giải trình"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_H_Actions:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =1
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Thao tác"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                    - gal_NXTDanhMucChenhLech:
+                                        Control: Gallery
+                                        Variant: Vertical
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          BorderStyle: =BorderStyle.None
+                                          Height: =Parent.Height - con_TableHeaderNXTDanhMucChenhLech.Height
+                                          Items: |-
+                                            = SortByColumns(
+                                                    Filter(
+                                                        'QLK List Stock Count Variance',
+                                                        PlantCode       = varUserInPlant.PlantCode,
+                                                        IsBlank(dp_FilterNgayKiemNXTDanhMucChenhLech.SelectedDate) || StockCountDate = dp_FilterNgayKiemNXTDanhMucChenhLech.SelectedDate,
+                                                        IsBlank(cmb_FilterLoaiHangNXTDanhMucChenhLech.Selected.ProductTypeCode) || CountMethodName = cmb_FilterLoaiHangNXTDanhMucChenhLech.Selected.ProductTypeCode,
+                                                        IsBlank(txt_SearchNXTDanhMucChenhLech.Text) || StartsWith(SAPCode, txt_SearchNXTDanhMucChenhLech.Text)
+                                                    ),
+                                                    "Created",
+                                                    SortOrder.Descending
+                                                )
+                                          LayoutMinWidth: =Parent.LayoutMinWidth
+                                          ShowScrollbar: =false
+                                          TemplateSize: |-
+                                            =If(
+                                                scrNXTDanhMucChenhLech.Size = 1,
+                                                360,
+                                                46
+                                            )
+                                          Width: =Parent.Width
+                                        Children:
+                                          - con_RowDividerKiemKhoHangBigbag_1:
+                                              Control: GroupContainer
+                                              Variant: ManualLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(229, 231, 235, 1)
+                                                Height: =1
+                                                Visible: =scrKiemKeBigbag.Size <> 1
+                                                Width: =Parent.Width - 10
+                                                Y: =gal_NXTDanhMucChenhLech.TemplateHeight
+                                          - Container3:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: |-
+                                                  =
+                                                  If(
+                                                      scrNXTDanhMucChenhLech.Size = 1,
+                                                      DropShadow.Semibold,
+                                                      DropShadow.None
+                                                  )
+                                                Height: =gal_NXTDanhMucChenhLech.TemplateHeight
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                RadiusTopLeft: |-
+                                                  =If(
+                                                      scrNXTDanhMucChenhLech.Size = 1,
+                                                      5,
+                                                      0
+                                                  )
+                                                Width: =Parent.Width - 10
+                                              Children:
+                                                - con_RowMasterNXTDanhMucChenhLech:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =gal_NXTDanhMucChenhLech.TemplateHeight
+                                                      LayoutAlignItems: |-
+                                                        =If(
+                                                            scrNXTDanhMucChenhLech.Size = 1,
+                                                            LayoutAlignItems.Start,
+                                                            LayoutAlignItems.Center
+                                                        )
+                                                      LayoutDirection: |-
+                                                        =If(
+                                                            scrNXTDanhMucChenhLech.Size = 1,
+                                                            LayoutDirection.Vertical,
+                                                            LayoutDirection.Horizontal
+                                                        )
+                                                      LayoutGap: =5
+                                                      LayoutMinHeight: =Parent.Height
+                                                      PaddingLeft: |-
+                                                        =If(
+                                                            scrNXTDanhMucChenhLech.Size = 1,
+                                                            10,
+                                                            5
+                                                        )
+                                                      PaddingRight: =10
+                                                      PaddingTop: |-
+                                                        =If(
+                                                            scrNXTDanhMucChenhLech.Size = 1,
+                                                            10,
+                                                            0
+                                                        )
+                                                      RadiusTopLeft: =0
+                                                      Width: =If(scrDanhMucChenhLech.Size = 1, Parent.Width / 1.2, Parent.Width - Parent.PaddingRight * 2 - Parent.LayoutGap - 10)
+                                                    Children:
+                                                      - chk_SelectRow:
+                                                          Control: ModernCheckbox
+                                                          Properties:
+                                                            Default: =ThisItem.ID in col_SelectedItems.ID
+                                                            FontWeight: =""
+                                                            Label: =
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnCheck: =Collect(col_SelectedItems, ThisItem)
+                                                            OnUncheck: =Remove(col_SelectedItems, LookUp(col_SelectedItems, ID = ThisItem.ID))
+                                                            Width: =40
+                                                      - lbl_NgayKiem:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  "Ngày nhập : " & Text(ThisItem.StockCountDate, "dd/mm/yyyy"),
+                                                                  Text(ThisItem.StockCountDate, "dd/mm/yyyy")
+                                                              )
+                                                            Width: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  Parent.Width - 10,
+                                                                  lbl_H_NgayKiem.Width
+                                                              )
+                                                            Wrap: =false
+                                                      - lbl_LoaiHang:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  "Loại hàng: ",
+                                                                  ""
+                                                              ) & LookUp(col_ProductTypes, ProductTypeCode = ThisItem.CountMethodName).ProductTypeNameVI
+                                                            Width: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  Parent.Width - 10,
+                                                                  lbl_H_LoaiHang.Width
+                                                              )
+                                                            Wrap: =false
+                                                      - lbl_MaHang:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightSemiBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  "Mã SAP : " & ThisItem.SAPCode,
+                                                                  ThisItem.SAPCode
+                                                              )
+                                                            Width: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  Parent.Width - 10,
+                                                                  lbl_H_MaHang.Width
+                                                              )
+                                                            Wrap: =false
+                                                      - lbl_TonSoSach:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrNXTDanhMucChenhLech.Size = 1, "Tồn sổ sách: ", "") & Text(ThisItem.BookQty, "#,##0")
+                                                            Width: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  Parent.Width - 10,
+                                                                  lbl_H_TonSoSach.Width
+                                                              )
+                                                            Wrap: =false
+                                                      - lbl_TonThucTe:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrNXTDanhMucChenhLech.Size = 1, "Tồn thực tế : ", "") & Text(ThisItem.ActualQty, "#,##0")
+                                                            Width: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  Parent.Width - 10,
+                                                                  lbl_H_TonThucTe.Width
+                                                              )
+                                                            Wrap: =false
+                                                      - lbl_SaiLech:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Color: |-
+                                                              =If(
+                                                                  ThisItem.VarianceQty < 0,
+                                                                  RGBA(200, 40, 40, 1),
+                                                                  If(
+                                                                      ThisItem.VarianceQty > 0,
+                                                                      RGBA(30, 140, 50, 1),
+                                                                      RGBA(80, 80, 80, 1)
+                                                                  )
+                                                              )
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightSemiBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrNXTDanhMucChenhLech.Size = 1, "Sai lệch : ", "") & Text(ThisItem.VarianceQty, "#,##0")
+                                                            Width: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  Parent.Width - 10,
+                                                                  lbl_H_SaiLech.Width
+                                                              )
+                                                            Wrap: =false
+                                                      - chk_KiemLai:
+                                                          Control: ModernCheckbox
+                                                          Properties:
+                                                            Default: =ThisItem.NeedRecount
+                                                            DisplayMode: =DisplayMode.Disabled
+                                                            FontWeight: =""
+                                                            Label: =
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnCheck: =
+                                                            OnUncheck: =
+                                                            Width: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  Parent.Width - 10,
+                                                                  lbl_H_KiemLai.Width
+                                                              )
+                                                      - lbl_TrangThai:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrNXTDanhMucChenhLech.Size = 1, "Trạng thái : ", "") & LookUp(col_WorkflowStatus,StatusCode = ThisItem.StatusCode).StatusNameVI
+                                                            Width: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  Parent.Width - 10,
+                                                                  lbl_H_TrangThai.Width
+                                                              )
+                                                            Wrap: =false
+                                                      - lbl_GiaiTrinh:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Size: =fxFontSizeMD
+                                                            Text: =ThisItem.Explanation
+                                                            Width: |-
+                                                              =If(
+                                                                  scrNXTDanhMucChenhLech.Size = 1,
+                                                                  Parent.Width - 10,
+                                                                  lbl_H_GiaiTrinh.Width
+                                                              )
+                                                            Wrap: =false
+                                                      - con_Actions:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.SetByContainer
+                                                            DropShadow: =DropShadow.None
+                                                            FillPortions: =0
+                                                            Height: =36
+                                                            LayoutAlignItems: =LayoutAlignItems.Center
+                                                            LayoutDirection: =LayoutDirection.Horizontal
+                                                            LayoutGap: =4
+                                                            LayoutMinHeight: |
+                                                              =0
+                                                            PaddingLeft: =10
+                                                            Visible: =scrNXTDanhMucChenhLech.Size <> 1
+                                                            Width: =84
+                                                          Children:
+                                                            - btn_EditRow:
+                                                                Control: ModernButton
+                                                                Properties:
+                                                                  Appearance: =ButtonAppearance.Outline
+                                                                  Font: =fxFontFamily
+                                                                  Height: =30
+                                                                  Icon: ="Eye"
+                                                                  Layout: =ButtonLayout.IconOnly
+                                                                  OnSelect: |-
+                                                                    =Set(varStockCountDifferenceDetail,ThisItem);
+                                                                    Navigate(scrDanhMucChenhLechForm,ScreenTransition.CoverRight)
+                                                                  Size: =fxFontSizeSM
+                                                                  Text: ="Sửa"
+                                                                  Width: =38
+                                                - con_Actions_1:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.SetByContainer
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =Parent.Height
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =4
+                                                      LayoutMinHeight: |
+                                                        =0
+                                                      Visible: =scrNXTDanhMucChenhLech.Size = 1
+                                                      Width: '=Parent.Width - con_RowMasterNXTDanhMucChenhLech.Width '
+                                                    Children:
+                                                      - btn_EditRow_1:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Font: =fxFontFamily
+                                                            Height: =Parent.Height
+                                                            Icon: ="Eye"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |-
+                                                              =Set(varStockCountDifferenceDetail,ThisItem);
+                                                              Navigate(scrDanhMucChenhLechForm,ScreenTransition.CoverRight)
+                                                            Size: =fxFontSizeSM
+                                                            Text: ="Sửa"
+                                                            Width: =Parent.Width
+                              - lbl_TotalRowsNXTDanhMucChenhLech:
+                                  Control: ModernText
+                                  Properties:
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightBold
+                                    Height: =30
+                                    PaddingLeft: =10
+                                    Size: =fxFontSizeMD
+                                    Text: |-
+                                      ="Hiển thị : " & CountRows(gal_NXTDanhMucChenhLech.AllItems) & " dòng"
+      - con_MenuOverlayNhapTuSanXuatHangBaoMobile_10:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height - 55
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =5
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowMenuUser && scrNhapTuSanXuat.Size = 1
+            Width: =Parent.Width
+            Y: =55
+          Children:
+            - con_MenuPanelNhapTuSanXuatMobile_11:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =743
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Visible: =scrNhapTuSanXuat.Size = 1
+                  Width: =Parent.Width*0.7
+                Children:
+                  - cmp_NavSidebarNhapTuSanXuatMobile_11:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width - 10
+            - btn_CloseMenuOverlayNhapTuSanXuatMobile_11:
+                Control: ModernButton
+                Properties:
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Appearance: =ButtonAppearance.Transparent
+                  FillPortions: =1
+                  Layout: =ButtonLayout.TextOnly
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =Set(
+                        varShowMenuUser,
+                        !varShowMenuUser
+                    )
+                  Text: =
+      - con_OverlayChenhLechNgay:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowChenhLechNgay
+            Width: =Parent.Width
+          Children:
+            - con_ChenhLechNgayBox:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.SetByContainer
+                  DropShadow: =DropShadow.Regular
+                  Fill: =Color.White
+                  FillPortions: =0
+                  Height: =250
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =6
+                  RadiusBottomRight: =6
+                  RadiusTopLeft: =6
+                  RadiusTopRight: =6
+                  Width: |-
+                    =Switch(
+                        App.ActiveScreen.Size,
+                        1, App.ActiveScreen.Width - 40,
+                        2, 420,
+                        400
+                    )
+                Children:
+                  - con_HeaderChenhLechNgay:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =45
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        PaddingLeft: =15
+                        PaddingRight: =10
+                      Children:
+                        - lbl_TitleChenhLechNgay:
+                            Control: ModernText
+                            Properties:
+                              FillPortions: =1
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightBold
+                              Size: =fxFontSizeLG
+                              Text: ="Chênh lệch ngày"
+                        - btn_CloseChenhLechNgay:
+                            Control: ModernButton
+                            Properties:
+                              Appearance: =ButtonAppearance.Transparent
+                              Font: =fxFontFamily
+                              Icon: ="Dismiss"
+                              Layout: =ButtonLayout.IconOnly
+                              OnSelect: |-
+                                =UpdateContext({varShowChenhLechNgay: false})
+                              Width: =32
+                  - con_BodyChenhLechNgay:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                      Children:
+                        - con_FieldCLNNgay:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Height: =70
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
+                              LayoutMinHeight: =75
+                              PaddingLeft: =10
+                              PaddingRight: =10
+                            Children:
+                              - lbl_CLNNgay:
+                                  Control: ModernText
+                                  Properties:
+                                    Font: =fxFontFamily
+                                    Size: =fxFontSizeMD
+                                    Text: ="Chọn ngày *"
+                              - dp_CLNNgay:
+                                  Control: ModernDatePicker
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Appearance: =Appearance.Outline
+                                    DefaultDate: =Today()
+                                    Font: =fxFontFamily
+                                    Format: =DatePickerFormat.Short
+                                    LayoutMinWidth: =Parent.Width-20
+                                    Placeholder: ="Chọn ngày ..."
+                                    Size: =fxFontSizeMD
+                        - con_FieldCLNLoaiSP:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Height: =70
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
+                              LayoutMinHeight: =75
+                              PaddingLeft: =10
+                              PaddingRight: =10
+                            Children:
+                              - lbl_CLNLoaiSP:
+                                  Control: ModernText
+                                  Properties:
+                                    Font: =fxFontFamily
+                                    Size: =fxFontSizeMD
+                                    Text: ="Loại sản phẩm *"
+                              - cbx_CLNLoaiSP:
+                                  Control: ModernCombobox
+                                  Properties:
+                                    Appearance: =Appearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    DefaultSelectedItems: =LookUp(col_ProductCategories, ProductCategoryCode = varUserInPlant.ProductCategoryCode)
+                                    Font: =fxFontFamily
+                                    InputTextPlaceholder: ="Chọn loại sản phẩm ..."
+                                    IsSearchable: =false
+                                    ItemDisplayText: =ThisItem.ProductCategoryNameVI
+                                    Items: =col_ProductCategories
+                                    SelectMultiple: =false
+                                    Size: =fxFontSizeMD
+                                    Width: =Parent.Width -5
+                  - con_FooterChenhLechNgay:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =56
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        PaddingBottom: =10
+                        PaddingLeft: =15
+                        PaddingRight: =15
+                        PaddingTop: =10
+                      Children:
+                        - btn_ConfirmChenhLechNgay:
+                            Control: ModernButton
+                            Properties:
+                              DisplayMode: |-
+                                =If(
+                                    IsBlank(dp_CLNNgay.SelectedDate) || IsBlank(cbx_CLNLoaiSP.Selected),
+                                    DisplayMode.Disabled,
+                                    DisplayMode.Edit
+                                )
+                              Font: =fxFontFamily
+                              Icon: ="CheckmarkCircle"
+                              OnSelect: |
+                                =// Đóng popup "chênh lệch ngày" (nếu đang mở) và bật popup "đang xử lý" trong lúc tổng hợp dữ liệu
+                                UpdateContext({varShowChenhLechNgay: false});
+                                UpdateContext({varShowPopupProcessing: true});
+
+                                // Xóa các collection tạm trước khi nạp lại dữ liệu mới
+                                Concurrent(
+                                    Clear(col_OpeningQty),
+                                    Clear(col_StockCountDetails),
+                                    Clear(col_StockSummary),
+                                    Clear(col_UniqueSAPCodes)
+                                );
+
+                                // Nạp song song 3 nguồn dữ liệu cần thiết: chi tiết kiểm kê, tồn đầu kỳ, và danh mục sản phẩm
+                                Concurrent(
+                                    // Các dòng kiểm kê đã xác nhận (COUNT_CONFIRMED) trong ngày, chưa được tổng hợp
+                                    ClearCollect(
+                                        col_StockCountDetails,
+                                        Filter(
+                                            'QLK List Stock Count Details',
+                                            PlantCode           = varUserInPlant.PlantCode,
+                                            StockCountDate      = dp_CLNNgay.SelectedDate,
+                                            ProductCategoryCode = cbx_CLNLoaiSP.Selected.ProductCategoryCode,
+                                            StatusCode          = "COUNT_CONFIRMED",
+                                            IsSummarized        = false
+                                        )
+                                    ),
+                                    // Tồn kho đóng của ngày hôm trước (làm tồn đầu kỳ cho ngày kiểm kê hiện tại)
+                                    ClearCollect(
+                                        col_OpeningQty,
+                                        Filter(
+                                            'QLK List Inventory Details',
+                                            PlantCode            = varUserInPlant.PlantCode,
+                                            InventoryDate        = DateAdd(dp_CLNNgay.SelectedDate, -1, TimeUnit.Days),
+                                            ProductCategoryCode  = cbx_CLNLoaiSP.Selected.ProductCategoryCode,
+                                            ConfirmFromWarehouse = true,
+                                            IsSummarized         = false,
+                                            isFlag               = false
+                                        )
+                                    ),
+                                    // Danh mục sản phẩm (dùng để lọc mã SAP hợp lệ và lấy phương pháp tính CountMethodName)
+                                    ClearCollect(
+                                        col_MasterDataProduction,
+                                        Filter(
+                                            'QLK List Master Data Production',
+                                            PlantCode = varUserInPlant.PlantCode
+                                        )
+                                    )
+                                );
+
+                                // Nếu thiếu dữ liệu kiểm kê hoặc tồn đầu kỳ thì báo lỗi và dừng lại, không tổng hợp
+                                If(
+                                    IsEmpty(col_StockCountDetails) || IsEmpty(col_OpeningQty),
+                                    Notify(
+                                        If(
+                                            IsEmpty(col_StockCountDetails) && IsEmpty(col_OpeningQty),
+                                            "Không có dữ liệu kiểm kê và tồn kho",
+                                            If(
+                                                IsEmpty(col_StockCountDetails),
+                                                "Không có dữ liệu kiểm kê",
+                                                "Không có dữ liệu tồn kho"
+                                            )
+                                        ),
+                                        NotificationType.Warning,
+                                        2000
+                                    );
+                                    UpdateContext({varShowPopupProcessing: false}),
+
+                                    // Danh sách mã SAP duy nhất (chỉ lấy mã có trong danh mục sản phẩm) để tổng hợp theo từng mã
+                                    ClearCollect(
+                                            col_UniqueSAPCodes,
+                                                DropColumns(
+                                                    GroupBy(
+                                                        Filter(
+                                                            col_StockCountDetails,
+                                                            SAPCode in col_MasterDataProduction.SAPCode
+                                                        ),
+                                                        SAPCode,
+                                                        StockCountType,
+                                                        GroupData
+                                                    ),
+                                                    GroupData
+                                                )
+                                    );
+
+                                    // Với mỗi mã SAP: lấy tồn đầu kỳ, tổng số lượng kiểm kê thực tế, và gộp ID các dòng chi tiết
+                                    ForAll(
+                                        col_UniqueSAPCodes As grp,
+                                        With(
+                                            {
+                                                _opening:   LookUp(col_OpeningQty, SAPCode = grp.SAPCode && ProductTypeCode = grp.StockCountType),
+                                                _actualQty: Sum(Filter(col_StockCountDetails, SAPCode = grp.SAPCode && StockCountType = grp.StockCountType), ActualQty),
+                                                _idDetails: Concat(Filter(col_StockCountDetails, SAPCode = grp.SAPCode && StockCountType = grp.StockCountType), Text(ID), ";")
+                                            },
+                                            With(
+                                                { _variance: _actualQty - _opening.ClosingQty },
+                                                // Chỉ ghi dòng tổng hợp khi chênh lệch > 0
+                                                If(
+                                                    IsBlank(_opening)
+                                                    ,
+                                                    Collect(
+                                                            col_StockSummary,
+                                                            {
+                                                                PlantCode:           varUserInPlant.PlantCode,
+                                                                PlantName:           varUserInPlant.PlantName,
+                                                                ProductTypeCode:     cbx_CLNLoaiSP.Selected.ProductCategoryCode,
+                                                                StockCountDate:      dp_CLNNgay.SelectedDate,
+                                                                SAPCode:             grp.SAPCode,
+                                                                CountMethodName:     grp.StockCountType,
+                                                                IDStockCountDetails: _idDetails,
+                                                                IDInventoryDetails:  _opening.ID,
+                                                                IDInventory:         _opening.InventoryID,
+                                                                BookQty:             _opening.ClosingQty,
+                                                                ActualQty:           _actualQty,
+                                                                VarianceQty:         _actualQty,
+                                                                Explanation:         "",
+                                                                StatusCode:          Index(col_WorkflowStatus, 1).StatusCode,
+                                                                NeedRecount:         true
+                                                            }
+                                                        )
+                                                    ,
+                                                    If(
+                                                        _variance > 0,
+                                                        Collect(
+                                                            col_StockSummary,
+                                                            {
+                                                                PlantCode:           varUserInPlant.PlantCode,
+                                                                PlantName:           varUserInPlant.PlantName,
+                                                                ProductTypeCode:     cbx_CLNLoaiSP.Selected.ProductCategoryCode,
+                                                                StockCountDate:      dp_CLNNgay.SelectedDate,
+                                                                SAPCode:             grp.SAPCode,
+                                                                CountMethodName:     grp.StockCountType,
+                                                                IDStockCountDetails: _idDetails,
+                                                                IDInventoryDetails:  _opening.ID,
+                                                                IDInventory:         _opening.InventoryID,
+                                                                BookQty:             _opening.ClosingQty,
+                                                                ActualQty:           _actualQty,
+                                                                VarianceQty:         _variance,
+                                                                Explanation:         "",
+                                                                StatusCode:          Index(col_WorkflowStatus, 1).StatusCode,
+                                                                NeedRecount:         true
+                                                            }
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    );
+
+                                    // Đánh dấu các dòng kiểm kê/tồn kho nguồn vừa xử lý là đã được tổng hợp (IsSummarized = true)
+                                    ClearCollect(col_SummarizedStockCount, ForAll(col_StockCountDetails, {ID: ID, IsSummarized: true}));
+                                    ClearCollect(col_InventoryDetails,     ForAll(col_OpeningQty,        {ID: ID, IsSummarized: true, isFlag: true}));
+
+                                    // Ghi nhận kết quả: cập nhật trạng thái đã tổng hợp và lưu dòng chênh lệch (nếu có) vào các list tương ứng
+                                    Concurrent(
+                                        Patch('QLK List Stock Count Details', col_SummarizedStockCount),
+                                        Patch('QLK List Inventory Details',   col_InventoryDetails),
+                                        If(
+                                            !IsEmpty(col_StockSummary),
+                                            Patch('QLK List Stock Count Variance', col_StockSummary)
+                                        )
+                                    );
+
+                                    // Thông báo nếu không có mã nào chênh lệch > 0
+                                    If(
+                                        IsEmpty(col_StockSummary),
+                                        Notify("Không có mã nào chênh lệch lớn hơn 0", NotificationType.Information, 2000)
+                                    );
+
+                                    // Tắt popup xử lý khi hoàn tất
+                                    UpdateContext({varShowPopupProcessing: false})
+                                )
+                              Size: =fxFontSizeMD
+                              Text: ="Xác nhận"
+                              Width: =120
+                        - btn_CancelChenhLechNgay:
+                            Control: ModernButton
+                            Properties:
+                              Appearance: =ButtonAppearance.Outline
+                              Font: =fxFontFamily
+                              Icon: ="DismissCircle"
+                              OnSelect: |-
+                                =UpdateContext({varShowChenhLechNgay: false})
+                              Size: =fxFontSizeMD
+                              Text: ="Hủy"
+                              Width: =120
+      - con_PopupProcessingDanhMucChenhLech:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowPopupProcessing
+            Width: =Parent.Width
+          Children:
+            - DialogProccessingKiemKho_1:
+                Control: CanvasComponent
+                ComponentName: DialogProccessing
+                Properties:
+                  Height: =App.Height
+                  Width: =App.Width
+      - con_PopupSendDanhMucChenhLech:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =con_PopupConfirmSubmit
+            Width: =Parent.Width
+          Children:
+            - DialogAlertSendDanhMucChenhLech:
+                Control: CanvasComponent
+                ComponentName: DialogAlert
+                Properties:
+                  Height: =App.Height
+                  Width: =App.Width
+                  varCloseDialogAction: =UpdateContext({con_PopupConfirmSubmit:false})
+                  varConfirmDialogAction: "=// ============================================================\n// 1. Tắt popup xác nhận, hiện popup loading\n// ============================================================\nUpdateContext({con_PopupConfirmSubmit: false});\nUpdateContext({varShowPopupProcessing: true});\n\n\n// ============================================================\n// 2. Khởi tạo collection chứa ID cần reset cho từng bảng\n//    - col_ResetStockCountIDs      : payload cho 'QLK List Stock Count Details'\n//    - col_ResetInventoryDetailIDs : payload cho 'QLK List Inventory Details'\n// ============================================================\nConcurrent(\n    Clear(col_ResetStockCountIDs),\n    Clear(col_ResetInventoryDetailIDs)\n);\n\n\n// ============================================================\n// 3. Build payload reset\n//    Chỉ xử lý các dòng được chọn có NeedRecount = true\n//    (các dòng cần kiểm kê lại)\n// ============================================================\nForAll(\n    Filter(col_SelectedItems, NeedRecount) As selected,\n    Concurrent(\n\n        // 3.1 Reset bản ghi kiểm kê:\n        //     - Bỏ đánh dấu đã tổng hợp (IsSummarized = false)\n        //     - Đưa trạng thái về bước đầu của workflow (Index 1)\n        ForAll(\n            Split(selected.IDStockCountDetails, \";\") As idItem,\n            If(\n                !IsBlank(idItem.Value),\n                 Collect(\n                            col_ResetStockCountIDs,\n                            {\n                                ID: Value(idItem.Value),\n                                IsSummarized: false,\n                                StatusCode: Index(col_WorkflowStatus, 1).StatusCode\n                            }\n                        )\n            )\n        )\n        \n        ,\n\n        // 3.2 Reset bản ghi tồn kho:\n        //     - Bỏ đánh dấu đã tổng hợp (IsSummarized = false)\n        //     - Bỏ cờ isFlag để có thể được tổng hợp lại\n        Collect(\n            col_ResetInventoryDetailIDs,\n            {\n                ID: selected.IDInventoryDetails,\n                IsSummarized: false,\n                isFlag: false\n            }\n        )\n    )\n);\n\n\n// ============================================================\n// 4. Ghi dữ liệu lên SharePoint\n//    Bulk update IsSummarized = false (2 calls cố định,\n//    chạy song song thay vì Patch từng record)\n// ============================================================\nConcurrent(\n    Patch('QLK List Stock Count Details', col_ResetStockCountIDs),\n    Patch('QLK List Inventory Details', col_ResetInventoryDetailIDs)\n);\n\n\n// ============================================================\n// 5. Xóa các dòng cần kiểm lại khỏi bảng tổng hợp Variance\n//    (chỉ xóa những dòng NeedRecount = true)\n// ============================================================\nRemove(\n    'QLK List Stock Count Variance',\n    Filter(col_SelectedItems, NeedRecount)\n);\n\n\n// ============================================================\n// 6. Dọn dẹp sau khi hoàn tất\n// ============================================================\nUpdateContext({varShowPopupProcessing: false});   // Ẩn loading\nClear(col_SelectedItems);                         // Xóa danh sách đã chọn"
+                  varLabel: ="Bạn có chắc muốn yêu cầu người kiểm kê kiểm lại phiếu này không?"
+                  varTitle: ="Yêu cầu kiểm lại"
+      - con_PopupGuiDuyetDanhMucChenhLech:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowPopupSubmitDifferenceApproval
+            Width: =Parent.Width
+          Children:
+            - DialogAlertGuiDuyetDanhMucChenhLech:
+                Control: CanvasComponent
+                ComponentName: DialogAlert
+                Properties:
+                  Height: =App.Height
+                  Width: =App.Width
+                  varCloseDialogAction: =UpdateContext({varShowPopupSubmitDifferenceApproval:false})
+                  varConfirmDialogAction: |
+                    =// Tắt popup xác nhận, hiện loading
+                    UpdateContext({varShowPopupSubmitDifferenceApproval: false});
+                    UpdateContext({varShowPopupProcessing: true});
+
+                    // Xóa collection trước khi build để tránh dữ liệu cũ
+                    Clear(col_UpdateStockCountVariance);
+                    // Lấy các dòng được chọn có NeedRecount = false → cập nhật StatusCode sang bước tiếp theo
+                    ForAll(
+                        col_SelectedItems As selected,
+                        Collect(
+                            col_UpdateStockCountVariance,
+                            {
+                                ID:         selected.ID,
+                                StatusCode: Index(col_WorkflowStatus, 2).StatusCode   // Trạng thái bước 2 trong workflow
+                            }
+                        );
+
+                    );
+
+                    // Bulk update 1 lần thay vì patch từng record
+                    Patch('QLK List Stock Count Variance', col_UpdateStockCountVariance);
+
+                    //send mail 
+                    'QLK|SendVarianceApprovalNotification'.Run(varUserInPlant.PlantCode,varUserInPlant.PlantName,"",Text(dp_FilterNgayKiemNXTDanhMucChenhLech.SelectedDate, "yyyy-mm-dd"));
+
+                    // Ẩn loading sau khi hoàn tất
+                    UpdateContext({varShowPopupProcessing: false});
+
+                    Clear(col_SelectedItems);
+                  varLabel: ="Bạn có chắc chắn muốn gửi duyệt danh mục chênh lệch này không?"
+                  varTitle: ="Xác nhận gửi duyệt"
+      - con_PopupDuyetDanhMucChenhLech:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowPopupApproveDifference
+            Width: =Parent.Width
+          Children:
+            - DialogAlertDuyetDanhMucChenhLech:
+                Control: CanvasComponent
+                ComponentName: DialogAlert
+                Properties:
+                  Height: =App.Height
+                  Width: =App.Width
+                  varCloseDialogAction: =UpdateContext({varShowPopupApproveDifference:false})
+                  varConfirmDialogAction: |-
+                    =// ── Đóng popup xác nhận, hiện popup loading ──────────────────────────────────
+                    UpdateContext({varShowPopupApproveDifference: false});
+                    UpdateContext({varShowPopupProcessing: true});
+
+
+                    // ── Chuẩn bị collection payload để bulk update Variance ──────────────────────
+                    Concurrent(
+                        Clear(col_UpdateStockCountVariance),   // Xóa dữ liệu cũ trước khi build lại
+                        Clear(col_UpdateItemsInventoryDetail),
+                        Clear(col_updateStatusInventory),
+                        Clear(col_updateStatusInventoryDistinct)
+                    );
+
+
+                    // Chỉ duyệt các dòng KHÔNG cần kiểm lại (NeedRecount = false)
+                    // → chuyển StatusCode sang "Đã phê duyệt"
+                    ForAll(
+                        col_SelectedItems As selected,
+                        Concurrent(
+                            Collect(
+                                col_UpdateStockCountVariance,
+                                {
+                                    ID: selected.ID,
+                                    StatusCode: Index(col_WorkflowStatus, 4).StatusCode
+                                }
+                            ),
+                            Collect(
+                                col_updateStatusInventory,
+                                {
+                                    ID: selected.IDInventory
+                                }
+                            ),
+                            Collect(
+                                col_UpdateItemsInventoryDetail,
+                                {
+                                    ID: Value(selected.IDInventoryDetails),
+                                    ActualQty: selected.ActualQty,
+                                    IsDateVarianceChecked: If(selected.VarianceQty <> 0, true, false),
+                                    PlantCode: selected.PlantCode,
+                                    InventoryDate: selected.StockCountDate,
+                                    ProductCategoryCode: selected.ProductTypeCode,
+                                    SAPCode: selected.SAPCode,
+                                    BookQty: selected.BookQty
+                                }
+                            )
+                        )
+                    );
+
+
+                    ClearCollect(
+                        col_DistinctInventory,
+                        Distinct(col_updateStatusInventory, ID)
+                    );
+
+
+                    ForAll(
+                        col_DistinctInventory As item,
+                        Collect(
+                            col_updateStatusInventoryDistinct,
+                            {
+                                ID: item.Value,
+                                IsSubmittedForApproval: true
+                            }
+                        )
+                    );
+
+
+                    // ── Ghi dữ liệu lên SharePoint ────────────────────────────────────────────────
+                    // Bulk update 1 lần thay vì Patch từng record → giảm số lệnh gọi SharePoint
+                    Concurrent(
+                        Patch('QLK List Stock Count Variance', col_UpdateStockCountVariance),
+                        Patch('QLK List Inventory', col_updateStatusInventoryDistinct)
+                    );
+
+                    'QLK|UpdateInventoryDetailsonVarianceApproved'.Run(JSON(col_UpdateItemsInventoryDetail),varUserInPlant.PlantCode,varUserInPlant.ProductCategoryCode);
+
+
+                    // ── Dọn dẹp sau khi hoàn tất ──────────────────────────────────────────────────
+                    UpdateContext({varShowPopupProcessing: false});   // Ẩn loading
+                    Clear(col_SelectedItems);                         // Xóa danh sách đã chọn
+                  varLabel: ="Bạn có chắc chắn muốn duyệt danh mục chênh lệch này không?"
+                  varTitle: ="Xác nhận duyệt"
+      - con_PopupSendDanhMucChenhLechXNT:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =con_PopupConfirmSubmitXNT
+            Width: =Parent.Width
+          Children:
+            - DialogAlertSendDanhMucChenhLech_1:
+                Control: CanvasComponent
+                ComponentName: DialogAlert
+                Properties:
+                  Height: =App.Height
+                  Width: =App.Width
+                  varCloseDialogAction: =UpdateContext({con_PopupConfirmSubmitXNT:false})
+                  varConfirmDialogAction: |-
+                    =// ============================================================
+                    // 1. Tắt popup xác nhận, hiện popup loading
+                    // ============================================================
+                    UpdateContext({con_PopupConfirmSubmitXNT: false});
+                    UpdateContext({varShowPopupProcessing: true});
+
+
+                    // ============================================================
+                    // 2. Khởi tạo collection
+                    //    - col_ResetInventoryDetailIDs : payload cho 'QLK List Inventory Details'
+                    //    - col_RawInventoryIDs         : payload cho 'QLK List Inventory' (ID cha, có thể trùng)
+                    // ============================================================
+                    Clear(col_ResetInventoryDetailIDs);
+                    Clear(col_RawInventoryIDs);
+
+
+                    // ============================================================
+                    // 3. Nạp trước Inventory Details
+                    //    Thu hẹp theo PlantCode + ngày tồn kho (hôm qua)
+                    //    → giảm số dòng tải về, tránh delegation warning
+                    // ============================================================
+                    ClearCollect(
+                        col_InventoryDetailsLookup,
+                        Filter(
+                            'QLK List Inventory Details',
+                            PlantCode = varUserInPlant.PlantCode,
+                            InventoryDate = DateAdd(Today(), -1, TimeUnit.Days)
+                        )
+                    );
+
+
+                    // ============================================================
+                    // 4. Bước 1: Tách ID chi tiết + ID cha (có thể trùng)
+                    //    Chỉ xử lý các dòng được chọn có NeedRecount = true
+                    // ============================================================
+                    ForAll(
+                        Filter(col_SelectedItems, NeedRecount) As selected,
+                        Concurrent(
+
+                            // 4.1 Payload reset Inventory Details:
+                            //     bỏ đánh dấu đã tổng hợp (IsSummarized = false)
+                            Collect(
+                                col_ResetInventoryDetailIDs,
+                                {
+                                    ID: selected.IDInventoryDetails,
+                                    IsSummarized: false,
+                                    isFlag: true
+                                }
+                            ),
+
+                            // 4.2 Payload cập nhật Inventory (ID cha):
+                            //     đưa StatusCode về bước đầu của workflow (Index 1)
+                            Collect(
+                                col_RawInventoryIDs,
+                                {
+                                    ID: selected.IDInventory,
+                                    StatusCode: Index(col_WorkflowStatus, 1).StatusCode
+                                }
+                            )
+
+                            // 4.3 Tách ID kiểm kê từ chuỗi "id1;id2;id3"
+                            //     bỏ qua giá trị rỗng, rồi reset IsSummarized = false
+                           /* ForAll(
+                                Split(selected.IDStockCountDetails, ";") As idItem,
+                                If(
+                                    !IsBlank(idItem.Value),
+                                    Collect(
+                                        col_ResetStockCountIDs,
+                                        {
+                                            ID: Value(idItem.Value),
+                                            IsSummarized: false
+                                        }
+                                    )
+                                )
+                            )*/
+                        )
+                    );
+
+
+                    // ============================================================
+                    // 5. Bulk update lên SharePoint
+                    //    Ghi song song 3 list bằng Concurrent
+                    // ============================================================
+                    Concurrent(
+                        Patch('QLK List Inventory Details', col_ResetInventoryDetailIDs),
+                        //Patch('QLK List Stock Count Details', col_ResetStockCountIDs),
+                        Patch('QLK List Inventory', col_RawInventoryIDs)
+                    );
+
+
+                    // ============================================================
+                    // 6. Xóa các dòng cần kiểm lại khỏi bảng tổng hợp Variance
+                    // ============================================================
+                    Remove(
+                        'QLK List Stock Count Variance',
+                        Filter(col_SelectedItems, NeedRecount)
+                    );
+
+
+                    // ============================================================
+                    // 7. Dọn dẹp sau khi hoàn tất
+                    // ============================================================
+                    UpdateContext({varShowPopupProcessing: false});   // Ẩn loading
+                    Clear(col_SelectedItems);                         // Xóa danh sách đã chọn
+                  varLabel: ="Bạn có chắc muốn yêu cầu kiểm lại phiếu này không?"
+                  varTitle: ="Yêu cầu kiểm lại"

@@ -1,0 +1,561 @@
+Screens:
+  scrMaTranPheDuyet:
+    Properties:
+      OnVisible: =varShowMenuUser && scrMaTranPheDuyet.Size <> 1
+    Children:
+      - con_MainMaTranPheDuyet:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+          Children:
+            - con_HeaderMaTranPheDuyet:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =55
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - cmp_HeaderMaTranPheDuyet:
+                      Control: CanvasComponent
+                      ComponentName: Header
+                      Properties:
+                        Height: =App.Height
+                        IDRecord: =100
+                        Width: =App.Width - Parent.PaddingLeft * 2 - 5
+                        varSizeScreen: =scrMaTranPheDuyet.Size
+            - con_BodyMaTranPheDuyet:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: |-
+                    =
+                    If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
+                  FillPortions: =0
+                  Height: =Parent.Height - con_HeaderMaTranPheDuyet.Height
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =If(!varShowMenuUser, 0, 5)
+                  PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                  PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                  PaddingRight: =If(!varShowMenuUser, 0, 5)
+                  PaddingTop: =If(!varShowMenuUser, 0, 5)
+                  RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                Children:
+                  - con_MenuMaTranPheDuyet:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semilight
+                        FillPortions: =0
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        Visible: =scrMaTranPheDuyet.Size <> 1
+                        Width: =If(varShowMenuUser, 240, 0)
+                      Children:
+                        - cmp_NavSidebarMaTranPheDuyet:
+                            Control: CanvasComponent
+                            ComponentName: NavSiderBar
+                            Properties:
+                              Height: =Parent.Height
+                              SidebarWidth: =Parent.Width
+                              Width: =Parent.Width
+                  - con_ContentMaTranPheDuyet:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: |-
+                          =If(
+                              scrDanhMucBin.Size = 1,
+                              DropShadow.Semibold,
+                              DropShadow.None
+                          )
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                        RadiusTopRight: =0
+                      Children:
+                        - con_ActionHeaderMaTranPheDuyet:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =40
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =10
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                            Children:
+                              - btn_AddMaTranPheDuyet:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Add"
+                                    OnSelect: |-
+                                      =Set(varMaTranPheDuyetDetail, {});
+                                      Navigate(scrMaTranPheDuyetForm, ScreenTransition.CoverRight);
+                                      Reset(cmbMaTranPheDuyetForm_ApprovalTypeCode);
+                                      Reset(cmbMaTranPheDuyetForm_ProductCategoryCode);
+                                      Reset(cmbMaTranPheDuyetForm_ProductTypeCode);
+                                    Size: =fxFontSizeMD
+                                    Text: ="Thêm"
+                              - btn_RefreshMaTranPheDuyet:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="ArrowSync"
+                                    OnSelect: =Refresh('QLK List Approval Matrix')
+                                    Size: =fxFontSizeMD
+                                    Text: ="Làm mới"
+                                    Width: =120
+                        - lbl_TitleMaTranPheDuyet:
+                            Control: ModernText
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =RGBA(45, 128, 40, 1)
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightSemiBold
+                              Height: =40
+                              PaddingLeft: =10
+                              Size: =fxFontSizeXL
+                              Text: ="Master chênh lệch thành phẩm"
+                        - con_FilterMaTranPheDuyet:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =40
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =10
+                              LayoutMinWidth: =Parent.LayoutMinWidth
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                            Children:
+                              - txt_SearchMaTranPheDuyet:
+                                  Control: ModernTextInput
+                                  Properties:
+                                    Appearance: =Appearance.Outline
+                                    FillPortions: =1
+                                    LayoutMinWidth: =16
+                                    Placeholder: ="Tìm kiếm Rule Code hoặc Product Category"
+                              - btn_FilterMaTranPheDuyet:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Filter"
+                                    OnSelect: |-
+                                      =UpdateContext({varPopUpFilterMaTranPheDuyet: true})
+                                    Text: ="Bộ lọc"
+                        - con_ListMaTranPheDuyet:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Start
+                              BorderStyle: =BorderStyle.None
+                              DropShadow: =If(scrMaTranPheDuyet.Size = 1, DropShadow.None, DropShadow.Semibold)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutOverflowX: =LayoutOverflow.Scroll
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              RadiusBottomLeft: =6
+                              RadiusBottomRight: =6
+                              RadiusTopLeft: =If(scrMaTranPheDuyet.Size = 1, 0, 5)
+                              RadiusTopRight: =6
+                              Width: =Parent.Width - Parent.PaddingLeft * 2
+                            Children:
+                              - con_TableHeaderMaTranPheDuyet:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(250, 250, 250, 1)
+                                    FillPortions: =0
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =5
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Visible: =scrMaTranPheDuyet.Size <> 1
+                                  Children:
+                                    - lbl_HeaderProductCategoryCode:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Phân loại sản phẩm"
+                                          Width: =Parent.Width * 0.2
+                                          Wrap: =false
+                                    - lbl_HeaderProductTypeCode:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Loại hàng"
+                                          Width: =Parent.Width * 0.2
+                                          Wrap: =false
+                                    - lbl_HeaderBagSize:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Cỡ bao"
+                                          Width: =Parent.Width * 0.15
+                                          Wrap: =false
+                                    - lbl_HeaderApprovalTypeCode:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Loại phê duyệt"
+                                          Width: =Parent.Width * 0.2
+                                          Wrap: =false
+                                    - lbl_HeaderActionMaTranPheDuyet:
+                                        Control: ModernText
+                                        Properties:
+                                          FillPortions: =1
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Thao tác"
+                                          Width: =100
+                                          Wrap: =false
+                              - gal_MaTranPheDuyet:
+                                  Control: Gallery
+                                  Variant: Vertical
+                                  Properties:
+                                    BorderStyle: =BorderStyle.None
+                                    Height: =Parent.Height - con_TableHeaderMaTranPheDuyet.Height - lbl_TotalRowsMaTranPheDuyet.Height
+                                    Items: |-
+                                      =Filter(
+                                              'QLK List Approval Matrix',
+                                              IsBlank(txt_SearchMaTranPheDuyet.Text) ||
+                                              StartsWith(ProductCategoryCode, txt_SearchMaTranPheDuyet.Text),
+                                              PlantCode = varUserInPlant.PlantCode
+                                          )
+                                    ShowScrollbar: =false
+                                    TemplateSize: |-
+                                      =If(
+                                          scrMaTranPheDuyet.Size = 1,
+                                          lbl_ProductCategoryCode.Height * 5,
+                                          48
+                                      )
+                                    Width: =Parent.Width
+                                  Children:
+                                    - con_RowDividerMaTranPheDuyet:
+                                        Control: GroupContainer
+                                        Variant: ManualLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(229, 231, 235, 1)
+                                          Height: =1
+                                          Visible: =scrMaTranPheDuyet.Size <> 1
+                                          Width: =Parent.Width - 10
+                                          Y: =gal_MaTranPheDuyet.TemplateHeight
+                                    - con_RowMasterMaTranPheDuyet:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =If(scrMaTranPheDuyet.Size = 1, DropShadow.Light, DropShadow.None)
+                                          Height: =gal_MaTranPheDuyet.TemplateHeight
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =If(scrMaTranPheDuyet.Size = 1, 5, 0)
+                                          RadiusTopLeft: =If(scrMaTranPheDuyet.Size = 1, 4, 0)
+                                          Width: =If(scrMaTranPheDuyet.Size = 1, Parent.Width - 10, Parent.Width)
+                                        Children:
+                                          - con_RowMaTranPheDuyet:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                BorderColor: =RGBA(229, 231, 235, 1)
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(255, 255, 255, 1)
+                                                FillPortions: =0
+                                                Height: =If(scrMaTranPheDuyet.Size = 1, gal_MaTranPheDuyet.TemplateHeight, 48)
+                                                LayoutAlignItems: =If(scrMaTranPheDuyet.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
+                                                LayoutDirection: =If(scrMaTranPheDuyet.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                                LayoutGap: =If(scrMaTranPheDuyet.Size = 1, 4, 5)
+                                                LayoutMinHeight: =Parent.Height
+                                                PaddingLeft: =If(scrMaTranPheDuyet.Size = 1, 10, 5)
+                                                PaddingRight: =If(scrMaTranPheDuyet.Size = 1, 10, 5)
+                                                PaddingTop: =If(scrMaTranPheDuyet.Size = 1, 10, 5)
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Width: =If(scrMaTranPheDuyet.Size = 1, Parent.Width / 1.2, Parent.Width - Parent.PaddingRight * 2 - Parent.LayoutGap - 10)
+                                              Children:
+                                                - lbl_ProductCategoryCode:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrMaTranPheDuyet.Size = 1, "Phân loại sản phẩm: ", "") & LookUp(
+                                                            col_ProductCategories,
+                                                            ProductCategoryCode = ThisItem.ProductCategoryCode,
+                                                            If(
+                                                                _defaultLanguage.Code = "EN",
+                                                                ProductCategoryNameEN,
+                                                                ProductCategoryNameVI
+                                                            )
+                                                        )
+                                                      Width: =If(scrMaTranPheDuyet.Size = 1, Parent.Width - 20, lbl_HeaderProductCategoryCode.Width)
+                                                      Wrap: =false
+                                                - lbl_ProductTypeCode:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrMaTranPheDuyet.Size = 1, "Loại hàng: ", "") & LookUp(
+                                                            col_ProductTypes,
+                                                            ProductTypeCode = ThisItem.ProductTypeCode,
+                                                            If(
+                                                                _defaultLanguage.Code = "EN",
+                                                                ProductTypeNameEN,
+                                                                ProductTypeNameVI
+                                                            )
+                                                        )
+                                                      Width: =If(scrMaTranPheDuyet.Size = 1, Parent.Width - 20, lbl_HeaderProductTypeCode.Width)
+                                                      Wrap: =false
+                                                - lbl_BagSize:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrMaTranPheDuyet.Size = 1, "Cỡ bao: ", "") & Text(ThisItem.BagSize)
+                                                      Width: =If(scrMaTranPheDuyet.Size = 1, Parent.Width - 20, lbl_HeaderBagSize.Width)
+                                                      Wrap: =false
+                                                - lbl_ApprovalTypeCode:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrMaTranPheDuyet.Size = 1, "Loại phê duyệt: ", "") & LookUp(
+                                                            col_ApprovalTypes,
+                                                            ApprovalTypeCode = ThisItem.ApprovalTypeCode,
+                                                            If(
+                                                                _defaultLanguage.Code = "EN",
+                                                                ApprovalTypeNameEN,
+                                                                ApprovalTypeNameVI
+                                                            )
+                                                        )
+                                                      Width: =If(scrMaTranPheDuyet.Size = 1, Parent.Width - 20, lbl_HeaderApprovalTypeCode.Width)
+                                                      Wrap: =false
+                                                - con_ActionMaTranPheDuyet:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =32
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutMinHeight: =Parent.Height
+                                                      Visible: =scrMaTranPheDuyet.Size <> 1
+                                                      Width: =100
+                                                    Children:
+                                                      - btn_ViewMaTranPheDuyet:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Eye"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |-
+                                                              =Set(varMaTranPheDuyetDetail, ThisItem);
+                                                              Navigate(scrMaTranPheDuyetForm, ScreenTransition.CoverRight)
+                                                            Width: =32
+                                                      - btn_DeleteMaTranPheDuyet:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Delete"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |
+                                                              =If(
+                                                                  Confirm(
+                                                                      "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                      {
+                                                                          Title: "Xác nhận xóa",
+                                                                          Subtitle: "Hành động này không thể hoàn tác.",
+                                                                          ConfirmButton: "Xóa",
+                                                                          CancelButton: "Hủy"
+                                                                      }
+                                                                  ),
+                                                                  IfError(
+                                                                      ClearCollect(
+                                                                          col_StepsToDelete,
+                                                                          Filter('QLK List Approval Matrix Steps', ApprovalMatrixID = ThisItem.ID)
+                                                                      );
+                                                                      Remove('QLK List Approval Matrix Steps', col_StepsToDelete);
+                                                                      Remove('QLK List Approval Matrix', ThisItem),
+                                                                      Notify("Xóa không thành công", NotificationType.Error,2000),
+                                                                      Notify("Đã xóa thành công!", NotificationType.Success,2000)
+                                                                  )
+                                                              )
+                                                            Width: =32
+                                          - con_MobileActionMaTranPheDuyet:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =gal_MaTranPheDuyet.TemplateHeight
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Visible: =scrMaTranPheDuyet.Size = 1
+                                                Width: =Parent.Width - con_RowMaTranPheDuyet.Width - 10
+                                              Children:
+                                                - btn_MobileOpenMaTranPheDuyet:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Start
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Height: =gal_MaTranPheDuyet.TemplateHeight / 2
+                                                      Icon: ="Eye"
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      OnSelect: |-
+                                                        =Set(varMaTranPheDuyetDetail, ThisItem);
+                                                        Navigate(scrMaTranPheDuyetForm, ScreenTransition.CoverRight)
+                                                      Width: =Parent.Width - 10
+                                                - btn_DeleteMaTranPheDuyet_1:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Height: =gal_MaTranPheDuyet.TemplateHeight / 2
+                                                      Icon: ="Delete"
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      OnSelect: |
+                                                        =If(
+                                                            Confirm(
+                                                                "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                {
+                                                                    Title: "Xác nhận xóa",
+                                                                    Subtitle: "Hành động này không thể hoàn tác.",
+                                                                    ConfirmButton: "Xóa",
+                                                                    CancelButton: "Hủy"
+                                                                }
+                                                            ),
+                                                            IfError(
+                                                                ClearCollect(
+                                                                    col_StepsToDelete,
+                                                                    Filter('QLK List Approval Matrix Steps', ApprovalMatrixID = ThisItem.ID)
+                                                                );
+                                                                Remove('QLK List Approval Matrix Steps', col_StepsToDelete);
+                                                                Remove('QLK List Approval Matrix', ThisItem),
+                                                                Notify("Xóa không thành công", NotificationType.Error,2000),
+                                                                Notify("Đã xóa thành công!", NotificationType.Success,2000)
+                                                            )
+                                                        )
+                                                      Width: =Parent.Width - 10
+                              - lbl_TotalRowsMaTranPheDuyet:
+                                  Control: ModernText
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightBold
+                                    Size: =fxFontSizeMD
+                                    Text: ="Hiển thị " & CountRows(gal_MaTranPheDuyet.AllItems) & " dòng"
+      - con_MenuOverlayMaTranPheDuyet:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height - 55
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =5
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowMenuUser && scrMaTranPheDuyet.Size = 1
+            Width: =Parent.Width
+            Y: =55
+          Children:
+            - con_MenuPanelMaTranPheDuyet:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Visible: =scrMaTranPheDuyet.Size = 1
+                  Width: =Parent.Width * 0.7
+                Children:
+                  - cmp_NavSidebarMaTranPheDuyetMobile:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width - 10
+            - btn_CloseMenuOverlayMaTranPheDuyet:
+                Control: ModernButton
+                Properties:
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Appearance: =ButtonAppearance.Transparent
+                  FillPortions: =1
+                  Layout: =ButtonLayout.TextOnly
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: =Set(varShowMenuUser, false)
+                  Text: =""

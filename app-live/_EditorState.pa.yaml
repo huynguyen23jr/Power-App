@@ -1,0 +1,45 @@
+EditorState:
+  ScreensOrder:
+    - scrUsers
+    - scrPlant
+    - scrMasterSanPham
+    - scrDanhMucBin
+    - scrDanhMucDensity
+    - scrMaTranPheDuyet
+    - scrDanhMucKhachHang
+    - scrPheDuyetChenhLech
+    - scrNhapTuSanXuat
+    - scrNhapTuSanXuatHangBao
+    - scrNhapTuSanXuatXa
+    - scrNhapKhac
+    - scrXuatKho
+    - scrXuatDaiLy
+    - scrXuatNoiBo
+    - scrXuatKhac
+    - scrKiemKhoHangBao
+    - scrKiemKhoHangXa
+    - scrKiemKeBigbag
+    - scrDanhMucChenhLech
+    - scrNXT
+    - scrAgingStockCount
+    - scrNXTDanhMucChenhLech
+    - scrNXTForm
+    - scrUsersForm
+    - scrPlantForm
+    - scrMasterDataProductionForm
+    - scrDanhMucBinForm
+    - scrAgingStockCountForm
+    - scrDanhMucDensityForm
+    - scrMaTranPheDuyetForm
+    - scrNhapTuSanXuatForm
+    - scrXuatKhoForm
+    - scrKiemKhoForm
+    - scrDanhMucChenhLechForm
+    - srcNhapKhacForm
+    - srcLogin
+  ComponentDefinitionsOrder:
+    - NavSiderBar
+    - Header
+    - DialogAlert
+    - DialogProccessing
+    - DialogAlertReject
