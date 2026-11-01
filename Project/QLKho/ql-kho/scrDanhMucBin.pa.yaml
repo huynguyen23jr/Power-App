@@ -1,0 +1,1057 @@
+Screens:
+  scrDanhMucBin:
+    Properties:
+      OnVisible: |-
+        =Clear(col_SelectedDanhMucBin);
+        varShowMenuUser && scrDanhMucBin.Size <> 1
+    Children:
+      - con_MainDanhMucBin:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+          Children:
+            - con_HeaderDanhMucBin:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =55
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - cmp_HeaderDanhMucBin:
+                      Control: CanvasComponent
+                      ComponentName: Header
+                      Properties:
+                        Height: =App.Height
+                        IDRecord: =100
+                        Width: =App.Width - Parent.PaddingLeft * 2 - 5
+                        varSizeScreen: =scrDanhMucBin.Size
+            - con_BodyDanhMucBin:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =Parent.Height - con_HeaderDanhMucBin.Height
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =If(!varShowMenuUser,0,5)
+                  PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                  PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                  PaddingRight: =If(!varShowMenuUser, 0, 5)
+                  PaddingTop: =If(!varShowMenuUser, 0, 5)
+                Children:
+                  - con_MenuDanhMucBin:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semilight
+                        FillPortions: =0
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        Visible: =scrDanhMucBin.Size <> 1
+                        Width: =If(varShowMenuUser, 240, 0)
+                      Children:
+                        - cmp_NavSidebarDanhMucBin:
+                            Control: CanvasComponent
+                            ComponentName: NavSiderBar
+                            Properties:
+                              Height: =Parent.Height
+                              SidebarWidth: =Parent.Width
+                              Width: =Parent.Width
+                  - con_ContentDanhMucBin:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: |-
+                          =If(
+                              scrDanhMucBin.Size = 1,
+                              DropShadow.Semibold,
+                              DropShadow.None
+                          )
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        RadiusBottomLeft: =5
+                        RadiusBottomRight: =5
+                        RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                        RadiusTopRight: =5
+                      Children:
+                        - con_ActionHeaderDanhMucBin:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =40
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =10
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                            Children:
+                              - btn_AddDanhMucBin:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Add"
+                                    OnSelect: |-
+                                      =Set(varBinDetail, {});
+                                      Navigate(scrDanhMucBinForm, ScreenTransition.CoverRight)
+                                    Size: =fxFontSizeMD
+                                    Text: ="Thêm"
+                              - btn_AddMasterSanPham_2:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Print"
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: |-
+                                      =Set(varShowUploadFile, true);
+                                      Reset(attFile_1);
+                                    Size: =fxFontSizeMD
+                                    Text: ="Import"
+                              - btn_RefreshDanhMucBin:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="ArrowSync"
+                                    OnSelect: =Refresh('QLK List Bin')
+                                    Size: =fxFontSizeMD
+                                    Text: ="Làm mới"
+                                    Width: =120
+                              - btn_RefreshDanhMucBin_1:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Delete"
+                                    OnSelect: |
+                                      =If(
+                                          Confirm(
+                                              "Bạn có chắc muốn xóa " & CountRows(col_SelectedDanhMucBin) & " bản ghi đã chọn không?",
+                                              {
+                                                  Title: "Xác nhận xóa",
+                                                  Subtitle: "Hành động này không thể hoàn tác.",
+                                                  ConfirmButton: "Xóa",
+                                                  CancelButton: "Hủy"
+                                              }
+                                          ),
+                                          IfError(
+                                              Remove('QLK List Bin', col_SelectedDanhMucBin);
+                                              Clear(col_SelectedDanhMucBin),
+                                              Notify("Xóa không thành công", NotificationType.Error, 2000),
+                                              Notify("Đã xóa thành công!", NotificationType.Success, 2000)
+                                          )
+                                      )
+                                    Size: =fxFontSizeMD
+                                    Text: ="Xóa"
+                                    Visible: =CountRows(col_SelectedDanhMucBin) > 0
+                                    Width: =100
+                        - lbl_TitleDanhMucBin:
+                            Control: ModernText
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =RGBA(45, 128, 40, 1)
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightSemiBold
+                              Height: =40
+                              PaddingLeft: =10
+                              Size: =fxFontSizeXL
+                              Text: ="Thông tin Bin"
+                        - con_FilterDanhMucBin:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =40
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =10
+                              LayoutMinWidth: =Parent.Width- Parent.PaddingRight*2
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                            Children:
+                              - txt_SearchDanhMucBin:
+                                  Control: ModernTextInput
+                                  Properties:
+                                    FillPortions: =1
+                                    LayoutMinWidth: =16
+                                    Placeholder: ="Tìm kiếm mã bin"
+                              - btn_FilterDanhMucBin:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Filter"
+                                    OnSelect: |-
+                                      =UpdateContext({varPopUpFilterDanhMucBin: true})
+                                    Text: ="Bộ lọc"
+                        - con_ListDanhMucBin:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Start
+                              BorderColor: =RGBA(156, 39, 176, 1)
+                              BorderStyle: =BorderStyle.None
+                              DropShadow: |-
+                                =If(
+                                    scrDanhMucBin.Size = 1,
+                                    DropShadow.None,
+                                    DropShadow.Semibold
+                                )
+                              Fill: =RGBA(255, 255, 255, 1)
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutOverflowX: =LayoutOverflow.Scroll
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              RadiusBottomLeft: =6
+                              RadiusBottomRight: =6
+                              RadiusTopLeft: |-
+                                =If(
+                                    scrDanhMucBin.Size = 1,
+                                    0,
+                                    5
+                                )
+                              RadiusTopRight: =6
+                              Width: =Parent.Width - Parent.PaddingLeft * 2
+                            Children:
+                              - con_TableHeaderDanhMucBin:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(250, 250, 250, 1)
+                                    FillPortions: =0
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =5
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Visible: =scrDanhMucBin.Size <> 1
+                                  Children:
+                                    - chk_DanhMucBin_SelectAll:
+                                        Control: CheckBox
+                                        Properties:
+                                          Checked: |-
+                                            =CountRows(col_SelectedDanhMucBin) = CountRows(gal_DanhMucBin.AllItems) &&
+                                            CountRows(gal_DanhMucBin.AllItems) > 0
+                                          Label: =""
+                                          OnCheck: =ClearCollect(col_SelectedDanhMucBin, gal_DanhMucBin.AllItems)
+                                          OnUncheck: =Clear(col_SelectedDanhMucBin)
+                                          Width: =32
+                                    - lbl_HeaderBinCode:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Mã bin"
+                                          Width: =Parent.Width*0.2
+                                          Wrap: =false
+                                    - lbl_HeaderH1Bin:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="H1"
+                                          Width: =Parent.Width * 0.1
+                                          Wrap: =false
+                                    - lbl_HeaderH2Bin:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="H2"
+                                          Width: |
+                                            =Parent.Width * 0.1
+                                          Wrap: =false
+                                    - lbl_HeaderH3Bin:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="H3"
+                                          Width: |
+                                            =Parent.Width * 0.1
+                                          Wrap: =false
+                                    - lbl_HeaderH4Bin:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="H4"
+                                          Width: |
+                                            =Parent.Width * 0.1
+                                          Wrap: =false
+                                    - lbl_HeaderH5Bin:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="H5"
+                                          Width: |
+                                            =Parent.Width * 0.1
+                                          Wrap: =false
+                                    - lbl_HeaderActionBin:
+                                        Control: ModernText
+                                        Properties:
+                                          FillPortions: =1
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Thao tác"
+                                          Width: =100
+                                          Wrap: =false
+                              - gal_DanhMucBin:
+                                  Control: Gallery
+                                  Variant: Vertical
+                                  Properties:
+                                    BorderStyle: =BorderStyle.None
+                                    Height: =Parent.Height - con_TableHeaderDanhMucBin.Height - lbl_TotalRowsDanhMucBin.Height
+                                    Items: |-
+                                      =SortByColumns(
+                                          Filter(
+                                              'QLK List Bin',
+                                              IsBlank(txt_SearchDanhMucBin.Text) || StartsWith(BinCode, txt_SearchDanhMucBin.Text),
+                                              PlantCode = varUserInPlant.PlantCode
+                                          ),
+                                          "BinCode",
+                                          SortOrder.Ascending
+                                      )
+                                    LayoutMinWidth: =Parent.LayoutMinWidth
+                                    ShowScrollbar: =false
+                                    TabIndex: |
+                                      =0
+                                    TemplateSize: =If(scrDanhMucBin.Size = 1, 6 * 30 + 5 * 4 + 8 + 5 + 45 + 16 + 8, 48)
+                                    Width: =Parent.Width
+                                    WrapCount: =
+                                  Children:
+                                    - con_RowDividerDanhMucBin:
+                                        Control: GroupContainer
+                                        Variant: ManualLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(229, 231, 235, 1)
+                                          Height: =1
+                                          Visible: =scrDanhMucBin.Size <> 1
+                                          Width: =Parent.Width - 10
+                                          Y: =gal_DanhMucBin.TemplateHeight
+                                    - con_RowMasterBin:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          BorderColor: =RGBA(229, 231, 235, 1)
+                                          BorderStyle: =If(scrDanhMucBin.Size = 1, BorderStyle.Solid, BorderStyle.None)
+                                          BorderThickness: =If(scrDanhMucBin.Size = 1, 1, 0)
+                                          DropShadow: |-
+                                            =If(
+                                                scrDanhMucBin.Size = 1,
+                                                DropShadow.Light,
+                                                DropShadow.None
+                                            )
+                                          Fill: =If(scrDanhMucBin.Size = 1, RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+                                          Height: =If(scrDanhMucBin.Size = 1, gal_DanhMucBin.TemplateHeight - 8, gal_DanhMucBin.TemplateHeight)
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =If(scrDanhMucBin.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                          LayoutGap: |-
+                                            =If(
+                                                scrDanhMucBin.Size = 1,
+                                                5,
+                                                0
+                                            )
+                                          PaddingBottom: =If(scrDanhMucBin.Size = 1, 8, 0)
+                                          PaddingLeft: =If(scrDanhMucBin.Size = 1, 8, 5)
+                                          PaddingRight: =If(scrDanhMucBin.Size = 1, 8, 0)
+                                          PaddingTop: =If(scrDanhMucBin.Size = 1, 8, 0)
+                                          RadiusBottomLeft: =If(scrDanhMucBin.Size = 1, 8, 0)
+                                          RadiusBottomRight: =If(scrDanhMucBin.Size = 1, 8, 0)
+                                          RadiusTopLeft: =If(scrDanhMucBin.Size = 1, 8, 0)
+                                          RadiusTopRight: =If(scrDanhMucBin.Size = 1, 8, 0)
+                                          Width: "=If(\n    scrDanhMucBin.Size = 1,\n    Parent.Width - 10\n    \n    ,\n    Parent.Width\n)"
+                                        Children:
+                                          - chk_DanhMucBin_SelectRow:
+                                              Control: CheckBox
+                                              Properties:
+                                                Checked: =ThisItem.ID in col_SelectedDanhMucBin.ID
+                                                Label: =""
+                                                OnCheck: =Collect(col_SelectedDanhMucBin, ThisItem)
+                                                OnUncheck: =Remove(col_SelectedDanhMucBin, ThisItem)
+                                                Visible: =scrDanhMucBin.Size <> 1
+                                                Width: =32
+                                          - con_RowDanhMucBin:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.SetByContainer
+                                                BorderColor: =RGBA(229, 231, 235, 1)
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(255, 255, 255, 1)
+                                                FillPortions: =0
+                                                Height: =If(scrDanhMucBin.Size = 1, gal_DanhMucBin.TemplateHeight - 8 - 16 - 5 - con_MobileActionDanhMucBin.Height, 48)
+                                                LayoutAlignItems: =If(scrDanhMucBin.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
+                                                LayoutDirection: =If(scrDanhMucBin.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                                LayoutGap: |-
+                                                  =If(
+                                                      scrDanhMucBin.Size = 1,
+                                                      4,
+                                                      5
+                                                  )
+                                                LayoutMinHeight: =If(scrDanhMucBin.Size = 1, 16, Parent.Height)
+                                                PaddingLeft: =If(scrDanhMucBin.Size = 1, 10, 5)
+                                                PaddingRight: =If(scrDanhMucBin.Size = 1, 10, 5)
+                                                PaddingTop: =If(scrDanhMucBin.Size = 1, 8, 0)
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Width: |-
+                                                  =If(
+                                                      scrDanhMucBin.Size = 1,
+                                                      Parent.Width - Parent.PaddingLeft - Parent.PaddingRight,
+                                                      Parent.Width - Parent.PaddingRight*2 - Parent.LayoutGap - 10
+                                                  )
+                                              Children:
+                                                - lbl_BinCode:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      Height: =30
+                                                      PaddingBottom: =
+                                                      PaddingLeft: =
+                                                      PaddingRight: =
+                                                      PaddingTop: =
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrDanhMucBin.Size = 1, "Mã bin: ", "") & ThisItem.BinCode
+                                                      Width: |-
+                                                        =If(
+                                                            scrDanhMucBin.Size = 1,
+                                                            Parent.Width - 20,
+                                                            lbl_HeaderBinCode.Width
+                                                        )
+                                                      Wrap: =false
+                                                - lbl_H1Bin:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrDanhMucBin.Size = 1, "H1: ", "") & Text(ThisItem.H1)
+                                                      Width: =If(scrDanhMucBin.Size = 1, Parent.Width - 20, lbl_HeaderH1Bin.Width)
+                                                      Wrap: =false
+                                                - lbl_H2Bin:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrDanhMucBin.Size = 1, "H2: ", "") & Text(ThisItem.H2)
+                                                      Width: =If(scrDanhMucBin.Size = 1, Parent.Width - 20, lbl_HeaderH2Bin.Width)
+                                                      Wrap: =false
+                                                - lbl_H3Bin:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrDanhMucBin.Size = 1, "H3: ", "") & Text(ThisItem.H3)
+                                                      Width: =If(scrDanhMucBin.Size = 1, Parent.Width - 20, lbl_HeaderH3Bin.Width)
+                                                      Wrap: =false
+                                                - lbl_H4Bin:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrDanhMucBin.Size = 1, "H4: ", "") & Text(ThisItem.H4)
+                                                      Width: =If(scrDanhMucBin.Size = 1, Parent.Width - 20, lbl_HeaderH4Bin.Width)
+                                                      Wrap: =false
+                                                - lbl_H5Bin:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(scrDanhMucBin.Size = 1, "H5: ", "") & Text(ThisItem.H5)
+                                                      Width: =If(scrDanhMucBin.Size = 1, Parent.Width - 20, lbl_HeaderH5Bin.Width)
+                                                      Wrap: =false
+                                                - con_ActionDanhMucBin:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =32
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutMinHeight: =Parent.Height
+                                                      Visible: =scrDanhMucBin.Size <> 1
+                                                      Width: =If(scrDanhMucBin.Size = 1, Parent.Width - 20, 100)
+                                                    Children:
+                                                      - btn_ViewDanhMucBin:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Eye"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |-
+                                                              =Set(varBinDetail, ThisItem);
+                                                              Navigate(scrDanhMucBinForm, ScreenTransition.CoverRight)
+                                                            Width: =32
+                                                      - btn_DeleteDanhMucBin:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Delete"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |
+                                                              =If(
+                                                                  Confirm(
+                                                                      "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                      {
+                                                                          Title: "Xác nhận xóa",
+                                                                          Subtitle: "Hành động này không thể hoàn tác.",
+                                                                          ConfirmButton: "Xóa",
+                                                                          CancelButton: "Hủy"
+                                                                      }
+                                                                  ),
+                                                                  IfError(
+                                                                      Remove('QLK List Bin', ThisItem),
+                                                                      Notify("Xóa không thành công", NotificationType.Error,2000),
+                                                                      Notify("Đã xóa thành công!", NotificationType.Success,2000)
+                                                                  )
+                                                              )
+                                                            Width: =32
+                                          - con_MobileActionDanhMucBin:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =45
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =10
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Visible: |-
+                                                  =If(
+                                                      scrDanhMucBin.Size = 1,
+                                                      true,
+                                                      false
+                                                  )
+                                                Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                                              Children:
+                                                - btn_Bin_MobileView:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      BasePaletteColor: =RGBA(7, 220, 8, 1)
+                                                      Font: =Font.'Segoe UI'
+                                                      Icon: ="Eye"
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =Set(varBinDetail, ThisItem);
+                                                        Navigate(scrDanhMucBinForm, ScreenTransition.CoverRight)
+                                                      Size: =14
+                                                      Text: ="Xem chi tiết"
+                                                      Width: =If(btn_Bin_MobileDelete.Visible, (Parent.Width - Parent.LayoutGap) / 2, Parent.Width)
+                                                - btn_Bin_MobileDelete:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      Appearance: =ButtonAppearance.Outline
+                                                      BasePaletteColor: =RGBA(107, 114, 128, 1)
+                                                      Font: =Font.'Segoe UI'
+                                                      Icon: ="Delete"
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |
+                                                        =If(
+                                                            Confirm(
+                                                                "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                {
+                                                                    Title: "Xác nhận xóa",
+                                                                    Subtitle: "Hành động này không thể hoàn tác.",
+                                                                    ConfirmButton: "Xóa",
+                                                                    CancelButton: "Hủy"
+                                                                }
+                                                            ),
+                                                            IfError(
+                                                                Remove('QLK List Bin', ThisItem),
+                                                                Notify("Xóa không thành công", NotificationType.Error,2000),
+                                                                Notify("Đã xóa thành công!", NotificationType.Success,2000)
+                                                            )
+                                                        )
+                                                      Size: =14
+                                                      Text: ="Xóa"
+                                                      Width: =(Parent.Width - Parent.LayoutGap) / 2
+                              - lbl_TotalRowsDanhMucBin:
+                                  Control: ModernText
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightBold
+                                    Size: =fxFontSizeMD
+                                    Text: ="Hiển thị " & CountRows(gal_DanhMucBin.AllItems) & " dòng"
+      - con_FilterOverlayMasterBin:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.3)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutJustifyContent: =LayoutJustifyContent.End
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varPopUpFilterMasterDataProduction
+            Width: =Parent.Width
+          Children:
+            - btn_CloseFilterOverlayMasterBin:
+                Control: ModernButton
+                Properties:
+                  Appearance: =ButtonAppearance.Transparent
+                  FillPortions: =1
+                  Height: =Parent.Height
+                  Layout: =ButtonLayout.TextOnly
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: =Set(varShowFilterMasterSanPham, false)
+                  Text: =
+            - con_FilterPanelMasterBin:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =Parent.Width * 0.6
+                Children:
+                  - lbl_FilterTitleMasterSanPham_1:
+                      Control: ModernText
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Font: =fxFontFamily
+                        FontWeight: =fxFontWeightBold
+                        Height: =60
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        Size: =fxFontSizeXXL
+                        Text: ="Bộ lọc"
+                  - con_FilterFormMasterSanPham_1:
+                      Control: GroupContainer
+                      Variant: GridLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =450
+                        LayoutGridColumns: =1
+                        LayoutGridRows: =10
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                      Children:
+                        - lbl_FilterProductGroupMasterSanPham_1:
+                            Control: ModernText
+                            Properties:
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightNormal
+                              LayoutGridColumnEnd: =2
+                              LayoutGridColumnStart: =1
+                              LayoutGridRowEnd: =2
+                              LayoutGridRowStart: =1
+                              Text: ="Nhóm hàng"
+                              X: =40
+                              Y: =40
+                        - cbo_FilterProductGroupMasterSanPham_1:
+                            Control: ModernCombobox
+                            Properties:
+                              Appearance: =Appearance.Outline
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightNormal
+                              InputTextPlaceholder: =""
+                              IsSearchable: =false
+                              ItemDisplayText: =ThisItem.BusinessGroupNameVI
+                              Items: =colProductCategories
+                              SelectMultiple: =false
+                              X: =40
+                              Y: =40
+                        - lbl_FilterProductTypeMasterSanPham_1:
+                            Control: ModernText
+                            Properties:
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightNormal
+                              LayoutGridColumnEnd: =2
+                              LayoutGridColumnStart: =1
+                              LayoutGridRowEnd: =3
+                              LayoutGridRowStart: =3
+                              Text: ="Loại hàng"
+                              X: =16
+                              Y: =28
+                        - cbo_FilterProductTypeMasterSanPham_1:
+                            Control: ModernCombobox
+                            Properties:
+                              Appearance: =Appearance.Outline
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightNormal
+                              InputTextPlaceholder: =""
+                              IsSearchable: =false
+                              ItemDisplayText: =ThisItem.ProductTypeNameVI
+                              Items: =col_ProductTypes
+                              LayoutGridRowEnd: =4
+                              LayoutGridRowStart: =4
+                              SelectMultiple: =false
+                              X: =16
+                              Y: =28
+                        - lbl_FilterPelletSizeMasterSanPham_1:
+                            Control: ModernText
+                            Properties:
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightNormal
+                              LayoutGridColumnEnd: =2
+                              LayoutGridColumnStart: =1
+                              LayoutGridRowEnd: =5
+                              LayoutGridRowStart: =5
+                              Text: ="Cỡ viên"
+                              X: =16
+                              Y: =28
+                        - cbo_FilterPelletSizeMasterSanPham_1:
+                            Control: ModernCombobox
+                            Properties:
+                              Appearance: =Appearance.Outline
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightNormal
+                              InputTextPlaceholder: =""
+                              IsSearchable: =false
+                              ItemDisplayText: =ThisItem.Value
+                              Items: =Choices([@'QLK List Master Data Production'].PelletSize)
+                              LayoutGridRowStart: =6
+                              SelectMultiple: =false
+                              X: =16
+                              Y: =28
+                  - con_FilterFooterMasterSanPham_1:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Height: =60
+                        LayoutAlignItems: =LayoutAlignItems.End
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =8
+                        PaddingLeft: =8
+                        PaddingRight: =8
+                        PaddingTop: =8
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                      Children:
+                        - btn_CloseFilterMasterSanPham_1:
+                            Control: ModernButton
+                            Properties:
+                              Appearance: =ButtonAppearance.Outline
+                              Icon: ="DismissCircle"
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: =UpdateContext({varPopUpFilterMasterDataProduction:false})
+                              Text: ="Đóng"
+                              Width: =120
+                        - btn_ApplyFilterMasterSanPham_1:
+                            Control: ModernButton
+                            Properties:
+                              Icon: ="CheckmarkCircle"
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: =UpdateContext({varPopUpFilterMasterDataProduction:false})
+                              Text: ="Áp dụng"
+                              Width: =120
+      - con_MenuOverlayDanhMucBin:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height - 55
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =5
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowMenuUser && scrMasterSanPham.Size = 1
+            Width: =Parent.Width
+            Y: =55
+          Children:
+            - con_MenuPanelMasterDanhMucBin:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =743
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Visible: |-
+                    =If(
+                        scrMasterSanPham.Size = 1,
+                        true,
+                        false
+                    )
+                  Width: =Parent.Width*0.7
+                  Y: |
+                    =55
+                Children:
+                  - cmp_NavSidebarMasterSanPhamMobile_1:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width - 10
+            - btn_CloseMenuOverlayMasterDanhMucBin:
+                Control: ModernButton
+                Properties:
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Appearance: =ButtonAppearance.Transparent
+                  FillPortions: =1
+                  Layout: =ButtonLayout.TextOnly
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =Set(
+                        varShowMenuUser,
+                        !varShowMenuUser
+                    )
+                  Text: =
+      - Container_DialogImportExcel_1:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.3)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            Visible: =varShowUploadFile
+            Width: =Parent.Width
+          Children:
+            - Container4_1:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.SetByContainer
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =250
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                  LayoutMaxHeight: =
+                  LayoutMaxWidth: =
+                  PaddingBottom: =5
+                  PaddingLeft: =5
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  Width: |
+                    =// In the Height property of a screen or container:
+                    Switch(
+                        scrMasterSanPham.Size,
+                        ScreenSize.Small,      300,
+                        ScreenSize.Medium,     450,
+                        ScreenSize.Large,      600,
+                        ScreenSize.ExtraLarge, 800
+                    )
+                Children:
+                  - Container5_1:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =35
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                      Children:
+                        - TextCanvas7_1:
+                            Control: Text
+                            Properties:
+                              Size: =18
+                              Text: ="Đính kèm"
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =Parent.Width
+                              X: =5
+                              Y: =2
+                  - attFile_1:
+                      Control: Attachments
+                      Properties:
+                        AddAttachmentText: ="Đính kèm tệp"
+                        BorderColor: =
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        Height: =100
+                        HoverFill: =RGBA(186, 202, 226, 1)
+                        ItemColor: =RGBA(255, 255, 255, 1)
+                        ItemFill: =RGBA(56, 96, 178, 1)
+                        ItemHoverFill: =RGBA(186, 202, 226, 1)
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                        MaxAttachmentSize: =100
+                        MaxAttachments: =1
+                        MaxAttachmentsText: ="Đã đạt số lượng file tối đa."
+                        NoAttachmentsText: ="Chưa có tệp đính kèm nào."
+                        PaddingBottom: =5
+                        PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(0, 18, 107, 1)
+                        Tooltip: =
+                        Width: =Parent.Width - 15
+                        X: =25
+                        Y: =57
+                  - Container9_2:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =40
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutMaxHeight: =
+                        LayoutMaxWidth: =
+                        PaddingLeft: =10
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =Parent.Width
+                        Y: =226
+                      Children:
+                        - btn_UploadFile_1:
+                            Control: Button
+                            Properties:
+                              BasePaletteColor: =RGBA(8, 222, 8, 1)
+                              Icon: ="ArrowUp"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: "=If(\r\n        Or(\r\n            IsEmpty(attFile_1.Attachments),\r\n            IsBlank(First(attFile_1.Attachments).Name)\r\n        ),\r\n        // No file selected\r\n        Notify(\"Không có tệp nào được chọn! Vui lòng chọn tệp .xlsx!\", NotificationType.Error,2000),\r\n\r\n        // Otherwise, a file is selected. Now check if it's .xlsx\r\n        If(\r\n            EndsWith(Lower(First(attFile_1.Attachments).Name), \".xlsx\"),\r\n            \r\n            Set(varShowUploadFile, false);\r\n            UpdateContext({varShowPopupProcessing:true});\r\n            // If it's an .xlsx file, proceed with the upload or call your flow\r\n            Notify(\"Đang tải lên tệp Excel hợp lệ...\", NotificationType.Success,2000);\r\n\r\n            Set(\r\n                varResult,\r\n                'QLK|UploadFileExcelMasterBin'.Run( varUserInPlant.PlantCode, varUserInPlant.PlantName,\r\n                    {\r\n                        file: {\r\n                            contentBytes: First(attFile_1.Attachments).Value,\r\n                            name: First(attFile_1.Attachments).Name\r\n                        }\r\n                    }\r\n                ).result\r\n            );\r\n\r\n            Set(varLoading, false);\r\n            UpdateContext({varShowPopupProcessing:false});\r\n            Refresh('QLK List Bin');\r\n            ,\r\n            // Otherwise, it's not an .xlsx file\r\n            Notify(\"Chỉ cho phép tệp .xlsx!\", NotificationType.Error,2000)\r\n        )\r\n    );"
+                              Text: ="Tải lên"
+                              Width: =140
+                              X: =25
+                              Y: =258
+                        - ButtonCanvas2_2:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Secondary
+                              Icon: ="DismissCircle"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: =Set(varShowUploadFile, false);
+                              Text: ="Đóng"
+                              Width: =120
+                              X: =185
+                              Y: =258
+      - con_PopupProcessingKiemKho_2:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowPopupProcessing
+            Width: =Parent.Width
+          Children:
+            - DialogProccessingKiemKho_3:
+                Control: CanvasComponent
+                ComponentName: DialogProccessing
+                Properties:
+                  Height: =App.Height
+                  Width: =App.Width
