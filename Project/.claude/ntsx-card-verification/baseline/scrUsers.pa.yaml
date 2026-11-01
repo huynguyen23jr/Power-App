@@ -1,0 +1,1277 @@
+Screens:
+  scrUsers:
+    Properties:
+      OnVisible: |-
+        =If(
+            scrUsers.Size = 1,
+            Set(
+                varShowMenuUser,
+                false
+            ),
+            Set(
+                varShowMenuUser,
+                true
+            )
+        )
+    Children:
+      - conMainUser:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+            X: |+
+              =0
+          Children:
+            - conHeaderUser:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =55
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - HeaderUser:
+                      Control: CanvasComponent
+                      ComponentName: Header
+                      Properties:
+                        Height: =App.Height
+                        IDRecord: =100
+                        Width: =App.Width - Parent.PaddingLeft*2 - 5
+                        varSizeScreen: =scrUsers.Size
+            - conBodyUser:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =Parent.Height - conHeaderUser.Height
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =If(!varShowMenuUser,0,5)
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =If(!varShowMenuUser,0,5)
+                  PaddingLeft: =If(!varShowMenuUser,0,5)
+                  PaddingRight: =If(!varShowMenuUser,0,5)
+                  PaddingTop: =If(!varShowMenuUser,0,5)
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - conBodyMenuUser:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Visible: |-
+                          =If(
+                              scrUsers.Size = 1,
+                              false,
+                              true
+                          )
+                        Width: |-
+                          =If(
+                              varShowMenuUser,
+                              240,
+                              0
+                          )
+                      Children:
+                        - NavSiderBarUser:
+                            Control: CanvasComponent
+                            ComponentName: NavSiderBar
+                            Properties:
+                              Height: =Parent.Height
+                              SidebarWidth: =Parent.Width
+                              Width: =Parent.Width
+                  - conBodyMainUser:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: |-
+                          =If(
+                              !varShowMenuUser,
+                              DropShadow.None,
+                              DropShadow.Semibold
+                          )
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =If(!varShowMenuUser,0,5)
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        RadiusBottomLeft: =5
+                        RadiusBottomRight: =5
+                        RadiusTopLeft: =If(!varShowMenuUser,0,5)
+                        RadiusTopRight: =5
+                      Children:
+                        - Text2:
+                            Control: ModernText
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =RGBA(45, 128, 40, 1)
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightSemiBold
+                              Height: |+
+                                =40
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              PaddingLeft: =10
+                              Size: =fxFontSizeXL
+                              Text: |+
+                                ="Thông tin người dùng"
+                        - con_FilterUser:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =45
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =10
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                            Children:
+                              - txt_searchUser:
+                                  Control: ModernTextInput
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    FillPortions: =1
+                                    Font: =fxFontFamily
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnChange: =If(scrUsers.Size = 1,Reset(gal_Users))
+                                    Placeholder: ="Tìm kiếm theo MSNV,Email,....."
+                                    Size: =fxFontSizeMD
+                              - btn_clearSearchUser:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Transparent
+                                    Icon: ="Eraser"
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: =Reset(txt_searchUser)
+                                    Width: =30
+                        - con_ListUser:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Start
+                              DropShadow: |-
+                                =If(
+                                    scrUsers.Size = 1,
+                                    DropShadow.None,
+                                    DropShadow.Semibold
+                                )
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              LayoutOverflowX: =LayoutOverflow.Scroll
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: |-
+                                =If(
+                                    scrUsers.Size = 1,
+                                    0,
+                                    5
+                                )
+                              RadiusTopRight: =0
+                              Width: =Parent.Width - Parent.PaddingLeft*2
+                            Children:
+                              - con_UserListBody:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    LayoutOverflowX: =LayoutOverflow.Scroll
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
+                                  Children:
+                                    - con_UserGalleryWrapper:
+                                        Control: GroupContainer
+                                        Variant: ManualLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Start
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =Parent.Height - Text4.Height
+                                          LayoutMinHeight: =Parent.Height
+                                          LayoutMinWidth: =16
+                                          RadiusBottomLeft: =0
+                                          RadiusBottomRight: =0
+                                          RadiusTopLeft: =0
+                                          RadiusTopRight: =0
+                                          Width: =conBodyMainUser.Width - 10
+                                        Children:
+                                          - con_UserTableHeader:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(249, 249, 249, 1)
+                                                Height: "=If(\r\n    scrUsers.Size = 1,\r\n    0,\r\n    50\r\n    \r\n)"
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                PaddingLeft: =10
+                                                PaddingRight: =10
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Visible: |-
+                                                  =If(
+                                                      scrUsers.Size = 1,
+                                                      false,
+                                                      true
+                                                  )
+                                                Width: =Parent.Width
+                                                X: |
+                                                  =0
+                                              Children:
+                                                - lbl_UserHeaderMSSV:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      FillPortions: =1
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="MSSV"
+                                                - lbl_UserHeaderFullName:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      FillPortions: =2
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Họ tên"
+                                                - lbl_UserHeaderEmail:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      FillPortions: =2
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Email"
+                                                - lbl_UserHeaderRole:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      FillPortions: =2
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Role"
+                                                - lbl_UserHeaderActions:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      FillPortions: =1
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Thao tác"
+                                          - gal_Users:
+                                              Control: Gallery
+                                              Variant: Vertical
+                                              Properties:
+                                                BorderStyle: =BorderStyle.None
+                                                Height: =Parent.Height- con_UserTableHeader.Height
+                                                Items: |-
+                                                  =SortByColumns(
+                                                      Filter(
+                                                          'GFVN_SharePointListHREmployeesURL',
+                                                          IsBlank(txt_searchUser.Text) ||
+                                                              StartsWith(UserId, txt_searchUser.Text) ||
+                                                              StartsWith(FullName, txt_searchUser.Text) ||
+                                                              StartsWith(G_Email, txt_searchUser.Text)
+                                                      ),
+                                                      "FullName",
+                                                      SortOrder.Ascending
+                                                  )
+                                                ShowScrollbar: =false
+                                                TemplateSize: |-
+                                                  =If(
+                                                      scrUsers.Size = 1,
+                                                      lbl_UserMSSV.Height * 4,
+                                                      50
+                                                  )
+                                                Width: =Parent.Width
+                                                X: |+
+                                                  =0
+                                                Y: =con_UserTableHeader.Height
+                                              Children:
+                                                - con_UserRowDesktop:
+                                                    Control: GroupContainer
+                                                    Variant: ManualLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Fill: =RGBA(242, 243, 247, 1)
+                                                      Height: =0.5
+                                                      RadiusBottomLeft: =0
+                                                      RadiusBottomRight: =0
+                                                      RadiusTopLeft: =0
+                                                      RadiusTopRight: =0
+                                                      Visible: |-
+                                                        =If(
+                                                            scrUsers.Size = 1,
+                                                            false,
+                                                            true
+                                                        )
+                                                      Width: =Parent.Width - 10
+                                                      Y: =gal_Users.TemplateHeight - 1
+                                                - con_parentUser:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: |-
+                                                        =If(
+                                                            scrUsers.Size = 1,
+                                                            DropShadow.Light,
+                                                            DropShadow.None
+                                                        )
+                                                      Height: |-
+                                                        =If(
+                                                            scrUsers.Size = 1,
+                                                            lbl_UserMSSV.Height * 4,
+                                                            50
+                                                        )
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: |-
+                                                        =If(
+                                                            scrUsers.Size = 1,
+                                                            5,
+                                                            0
+                                                        )
+                                                      RadiusBottomLeft: =1
+                                                      RadiusBottomRight: =1
+                                                      RadiusTopLeft: |-
+                                                        =If(
+                                                            scrUsers.Size = 1,
+                                                            0,
+                                                            5
+                                                        )
+                                                      RadiusTopRight: =1
+                                                      Width: =Parent.Width - 10
+                                                    Children:
+                                                      - conUserRow:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.SetByContainer
+                                                            DropShadow: =DropShadow.None
+                                                            FillPortions: =0
+                                                            Height: |-
+                                                              =If(
+                                                                  scrUsers.Size = 1,
+                                                                  lbl_UserMSSV.Height * 4,
+                                                                  50
+                                                              )
+                                                            LayoutAlignItems: |
+                                                              =If(
+                                                                  scrUsers.Size = 1,
+                                                                  LayoutAlignItems.Start,
+                                                                  LayoutAlignItems.Center
+                                                              )
+                                                            LayoutDirection: |-
+                                                              =If(
+                                                                  scrUsers.Size =1,
+                                                                  LayoutDirection.Vertical,
+                                                                  LayoutDirection.Horizontal
+                                                              )
+                                                            PaddingLeft: |-
+                                                              =If(
+                                                                  scrUsers.Size = 1,
+                                                                  10,
+                                                                  5
+                                                              )
+                                                            PaddingRight: =10
+                                                            RadiusBottomLeft: =0
+                                                            RadiusBottomRight: =0
+                                                            RadiusTopLeft: =0
+                                                            RadiusTopRight: =0
+                                                            Width: |-
+                                                              =If(
+                                                                  scrUsers.Size = 1,
+                                                                  Parent.Width /1.12,
+                                                                  Parent.Width
+                                                              )
+                                                            X: |
+                                                              =0
+                                                          Children:
+                                                            - lbl_UserMSSV:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: |
+                                                                    =
+                                                                    If(
+                                                                        scrUsers.Size = 1,
+                                                                        AlignInContainer.Stretch,
+                                                                        AlignInContainer.SetByContainer
+                                                                    )
+                                                                  FillPortions: |-
+                                                                    =If(
+                                                                        scrUsers.Size = 1,
+                                                                        0,
+                                                                        1
+                                                                    )
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightNormal
+                                                                  Height: =30
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(scrUsers.Size = 1, "MSSV: ", "") & ThisItem.UserId
+                                                                  Wrap: =false
+                                                            - lbl_UserFullName:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: |
+                                                                    =
+                                                                    If(
+                                                                        scrUsers.Size = 1,
+                                                                        AlignInContainer.Stretch,
+                                                                        AlignInContainer.SetByContainer
+                                                                    )
+                                                                  FillPortions: |-
+                                                                    =If(
+                                                                        scrUsers.Size = 1,
+                                                                        0,
+                                                                        2
+                                                                    )
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightNormal
+                                                                  Height: =30
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(scrUsers.Size = 1, "Họ tên: ", "") & ThisItem.FullName
+                                                                  Wrap: =false
+                                                            - lbl_UserEmail:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: |
+                                                                    =
+                                                                    If(
+                                                                        scrUsers.Size = 1,
+                                                                        AlignInContainer.Stretch,
+                                                                        AlignInContainer.SetByContainer
+                                                                    )
+                                                                  FillPortions: |-
+                                                                    =If(
+                                                                        scrUsers.Size = 1,
+                                                                        0,
+                                                                        2
+                                                                    )
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightNormal
+                                                                  Height: =30
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(scrUsers.Size = 1, "Email: ", "") & ThisItem.G_Email
+                                                                  Wrap: =false
+                                                            - lbl_UserRole:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: |
+                                                                    =
+                                                                    If(
+                                                                        scrUsers.Size = 1,
+                                                                        AlignInContainer.Stretch,
+                                                                        AlignInContainer.SetByContainer
+                                                                    )
+                                                                  FillPortions: |-
+                                                                    =If(
+                                                                        scrUsers.Size = 1,
+                                                                        0,
+                                                                        2
+                                                                    )
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightNormal
+                                                                  Height: =30
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(scrUsers.Size = 1, "Role: ", "") & LookUp(col_RoleUser,RoleCode = LookUp('QLK List User In Plant',UserEmail = ThisItem.G_Email).Role).RoleNameVI
+                                                                  Wrap: =false
+                                                            - con_UserActions:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.SetByContainer
+                                                                  DropShadow: =DropShadow.None
+                                                                  Height: |
+                                                                    =30
+                                                                  LayoutAlignItems: =LayoutAlignItems.Center
+                                                                  LayoutDirection: =LayoutDirection.Horizontal
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  PaddingBottom: =8
+                                                                  RadiusBottomLeft: =0
+                                                                  RadiusBottomRight: =0
+                                                                  RadiusTopLeft: =0
+                                                                  RadiusTopRight: =0
+                                                                  Visible: |-
+                                                                    =If(
+                                                                        scrUsers.Size = 1,
+                                                                        false,
+                                                                        true
+                                                                    )
+                                                                  Width: =0
+                                                                Children:
+                                                                  - btn_UserEdit:
+                                                                      Control: ModernButton
+                                                                      Properties:
+                                                                        Appearance: =ButtonAppearance.Transparent
+                                                                        Icon: ="Eye"
+                                                                        Layout: =ButtonLayout.IconOnly
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                        OnSelect: |
+                                                                          =// Mở popup chỉnh sửa user, load data hiện tại vào biến
+                                                                          UpdateContext(
+                                                                              {
+                                                                                  varShowEditUser:   true,
+                                                                                  varEditUserDetail: LookUp(                         // Lấy record User In Plant theo email
+                                                                                                         'QLK List User In Plant',
+                                                                                                         UserEmail = ThisItem.G_Email
+                                                                                                     ),
+                                                                                  varDetailUser:     ThisItem                        // Lưu thông tin user từ Google
+                                                                              }
+                                                                          );
+
+                                                                          // Reset combobox về mặc định trước khi mở form
+                                                                          Reset(cbx_EUNhaMay);
+                                                                          Reset(cbx_EURole);
+                                                                        Width: =30
+                                                      - con_buttonUserMobile:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.SetByContainer
+                                                            DropShadow: =DropShadow.None
+                                                            FillPortions: =0
+                                                            Height: =120
+                                                            LayoutDirection: =LayoutDirection.Vertical
+                                                            RadiusBottomLeft: =0
+                                                            RadiusBottomRight: =0
+                                                            RadiusTopLeft: =0
+                                                            RadiusTopRight: =0
+                                                            Visible: |-
+                                                              =If(
+                                                                  scrUsers.Size = 1,
+                                                                  true,
+                                                                  false
+                                                              )
+                                                            Width: =Parent.Width - conUserRow.Width
+                                                            X: =conUserRow.Width
+                                                          Children:
+                                                            - Button3:
+                                                                Control: ModernButton
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Start
+                                                                  Appearance: =ButtonAppearance.Transparent
+                                                                  Height: =Parent.Height
+                                                                  Icon: ="Eye"
+                                                                  Layout: =ButtonLayout.IconOnly
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  OnSelect: |+
+                                                                    =// Mở popup chỉnh sửa user, load data hiện tại vào biến
+                                                                    UpdateContext(
+                                                                        {
+                                                                            varShowEditUser:   true,
+                                                                            varEditUserDetail: LookUp(                         // Lấy record User In Plant theo email
+                                                                                                   'QLK List User In Plant',
+                                                                                                   UserEmail = ThisItem.G_Email
+                                                                                               ),
+                                                                            varDetailUser:     ThisItem                        // Lưu thông tin user từ Google
+                                                                        }
+                                                                    );
+
+                                                                    // Reset combobox về mặc định trước khi mở form
+                                                                    Reset(cbx_EUNhaMay);
+                                                                    Reset(cbx_EURole);
+                                                                  Width: =Parent.Width - 5
+                                    - Text4:
+                                        Control: ModernText
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          Size: =fxFontSizeMD
+                                          Text: ="Hiển thị " & CountRows(gal_Users.AllItems) & " dòng"
+      - con_MainBodyMenuUserMobile:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height - 55
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowMenuUser && scrUsers.Size = 1
+            Width: =Parent.Width
+            Y: =55
+          Children:
+            - conBodyMenuUserMobile:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =743
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Visible: |-
+                    =If(
+                        scrUsers.Size = 1,
+                        true,
+                        false
+                    )
+                  Width: =Parent.Width*0.7
+                  Y: |
+                    =55
+                Children:
+                  - NavSiderBarUser_2:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width - 10
+                        Width: =Parent.Width - 10
+            - Button4:
+                Control: ModernButton
+                Properties:
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Appearance: =ButtonAppearance.Transparent
+                  FillPortions: =1
+                  Layout: =ButtonLayout.TextOnly
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =Set(
+                        varShowMenuUser,
+                        !varShowMenuUser
+                    )
+                  Text: =
+      - con_OverlayEditUser:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowEditUser
+            Width: =Parent.Width
+          Children:
+            - con_EditUserBox:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.SetByContainer
+                  DropShadow: =DropShadow.Regular
+                  Fill: =Color.White
+                  FillPortions: =0
+                  Height: |-
+                    =If(
+                        cbx_EURole.Selected.RoleCode = Index(col_RoleUser,1).RoleCode || cbx_EURole.Selected.RoleCode = Index(col_RoleUser, 16).RoleCode,
+                        300,
+                        200
+                    )
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =6
+                  RadiusBottomRight: =6
+                  RadiusTopLeft: =6
+                  RadiusTopRight: =6
+                  Width: |-
+                    =Switch(
+                        App.ActiveScreen.Size,
+                        1, App.ActiveScreen.Width - 40,
+                        2, 420,
+                        400
+                    )
+                Children:
+                  - con_HeaderEditUser:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =45
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        PaddingLeft: =15
+                        PaddingRight: =10
+                      Children:
+                        - lbl_TitleEditUser:
+                            Control: ModernText
+                            Properties:
+                              FillPortions: =1
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightBold
+                              Size: =fxFontSizeLG
+                              Text: ="Chỉnh sửa người dùng"
+                        - btn_CloseEditUser:
+                            Control: ModernButton
+                            Properties:
+                              Appearance: =ButtonAppearance.Transparent
+                              Font: =fxFontFamily
+                              Icon: ="Dismiss"
+                              Layout: =ButtonLayout.IconOnly
+                              OnSelect: |-
+                                =Reset(cbx_EUNhaMay);
+                                Reset(cbx_EURole);
+                                UpdateContext({varShowEditUser: false})
+                              Width: =32
+                  - con_BodyEditUser:
+                      Control: GroupContainer
+                      Variant: GridLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        LayoutGap: =15
+                        LayoutGridColumns: =2
+                        LayoutGridRows: =If(cbx_EURole.Selected.RoleCode = Index(col_RoleUser,1).RoleCode || cbx_EURole.Selected.RoleCode = Index(col_RoleUser,16).RoleCode, 4, 2)
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                      Children:
+                        - con_FieldEUNhaMay:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =5
+                              LayoutGridColumnEnd: =4
+                              LayoutGridColumnStart: =1
+                            Children:
+                              - lbl_EUNhaMay:
+                                  Control: ModernText
+                                  Properties:
+                                    Font: =fxFontFamily
+                                    Size: =fxFontSizeMD
+                                    Text: ="Nhà máy *"
+                                    Width: =100
+                              - cbx_EUNhaMay:
+                                  Control: ModernCombobox
+                                  Properties:
+                                    Appearance: =Appearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    DefaultSelectedItems: |-
+                                      =If(
+                                          IsBlank(varEditUserDetail.ID),
+                                          Blank(),
+                                          Filter(
+                                              'QLK List Plant',
+                                              PlantCode = varEditUserDetail.PlantCode
+                                          )
+                                      )
+                                    FillPortions: =1
+                                    Font: =fxFontFamily
+                                    InputTextPlaceholder: ="Chọn nhà máy ..."
+                                    IsSearchable: =false
+                                    ItemDisplayText: =ThisItem.PlantName
+                                    Items: ='QLK List Plant'
+                                    LayoutMinWidth: =Parent.Width - 110
+                                    SelectMultiple: =false
+                                    Size: =fxFontSizeMD
+                                    Width: =Parent.Width - 110
+                        - con_FieldEURole:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =5
+                              LayoutGridColumnEnd: =4
+                              LayoutGridColumnStart: =1
+                            Children:
+                              - lbl_EURole:
+                                  Control: ModernText
+                                  Properties:
+                                    Font: =fxFontFamily
+                                    Size: =fxFontSizeMD
+                                    Text: ="Vai trò *"
+                                    Width: =100
+                              - cbx_EURole:
+                                  Control: ModernCombobox
+                                  Properties:
+                                    Appearance: =Appearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    DefaultSelectedItems: |-
+                                      =If(
+                                          IsBlank(varEditUserDetail.Role),
+                                          Blank(),
+                                          Filter(
+                                              col_RoleUser,
+                                              RoleCode = varEditUserDetail.Role
+                                          )
+                                      )
+                                    FillPortions: =1
+                                    Font: =fxFontFamily
+                                    InputTextPlaceholder: ="Chọn vai trò ..."
+                                    IsSearchable: =false
+                                    ItemDisplayText: =ThisItem.RoleNameVI
+                                    Items: =col_RoleUser
+                                    LayoutMinWidth: =Parent.Width - 110
+                                    SelectMultiple: =false
+                                    Size: =fxFontSizeMD
+                                    Width: =Parent.Width - 110
+                        - con_FieldEUUserID:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =5
+                              LayoutGridColumnEnd: =4
+                              LayoutGridColumnStart: =1
+                              Visible: =cbx_EURole.Selected.RoleCode = Index(col_RoleUser,1).RoleCode || cbx_EURole.Selected.RoleCode = Index(col_RoleUser,16).RoleCode
+                            Children:
+                              - lbl_EUUserID:
+                                  Control: ModernText
+                                  Properties:
+                                    Font: =fxFontFamily
+                                    Size: =fxFontSizeMD
+                                    Text: ="User ID *"
+                                    Width: =100
+                              - txt_EUUserID:
+                                  Control: ModernTextInput
+                                  Properties:
+                                    Default: =varEditUserDetail.UserID
+                                    FillPortions: =1
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    Placeholder: ="Nhập userid  ..."
+                        - con_FieldEUPassword:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =5
+                              LayoutGridColumnEnd: =4
+                              LayoutGridColumnStart: =1
+                              Visible: =cbx_EURole.Selected.RoleCode = Index(col_RoleUser,1).RoleCode || cbx_EURole.Selected.RoleCode = Index(col_RoleUser,16).RoleCode
+                            Children:
+                              - lbl_EUPassword:
+                                  Control: ModernText
+                                  Properties:
+                                    Font: =fxFontFamily
+                                    Size: =fxFontSizeMD
+                                    Text: ="Mật khẩu *"
+                                    Width: =100
+                              - txt_EUPassword:
+                                  Control: ModernTextInput
+                                  Properties:
+                                    Default: =varEditUserDetail.Password
+                                    FillPortions: =1
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    Placeholder: ="Nhập mật khẩu ..."
+                                    Type: =TextInputType.Password
+                  - con_FooterEditUser:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =56
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Width: =Parent.Width
+                      Children:
+                        - btn_SaveEditUser:
+                            Control: ModernButton
+                            Properties:
+                              DisplayMode: |-
+                                =If(
+                                    IsBlank(cbx_EUNhaMay.Selected) || IsBlank(cbx_EURole.Selected),
+                                    DisplayMode.Disabled,
+                                    DisplayMode.Edit
+                                )
+                              Font: =fxFontFamily
+                              OnSelect: |
+                                =IfError(
+                                    Patch(
+                                        'QLK List User In Plant',
+                                        If(
+                                            IsBlank(varEditUserDetail.ID),
+                                            Defaults('QLK List User In Plant'), // Tạo mới
+                                            varEditUserDetail                   // Cập nhật
+                                        ),
+                                        {
+                                            PlantCode: cbx_EUNhaMay.Selected.PlantCode, // Mã nhà máy được chọn
+                                            PlantName: cbx_EUNhaMay.Selected.PlantName, // Tên nhà máy
+                                            UserEmail: varDetailUser.G_Email,            // Email từ Google account
+                                            UserName:  varDetailUser.FullName,           // Tên đầy đủ
+                                            UserID:  If(cbx_EURole.Selected.RoleCode = Index(col_RoleUser,1).RoleCode || cbx_EURole.Selected.RoleCode = Index(col_RoleUser,16).RoleCode, txt_EUUserID.Text, varDetailUser.UserId),           // Tên đầy đủ
+                                            Role:       cbx_EURole.Selected.RoleCode,     // Vai trò được chọn
+                                            Password: If(cbx_EURole.Selected.RoleCode = Index(col_RoleUser,1).RoleCode || cbx_EURole.Selected.RoleCode = Index(col_RoleUser,16).RoleCode, txt_EUPassword.Text, "")
+                                        }
+                                    ),
+                                    Notify("Lưu không thành công", NotificationType.Error,2000),
+                                    Notify(
+                                        If(IsBlank(varEditUserDetail.ID), "Thêm thành công", "Cập nhật thành công"),
+                                        NotificationType.Success
+                                        ,2000
+                                    )
+                                );
+
+
+                                UpdateContext({varShowEditUser: false})
+                              Size: =fxFontSizeMD
+                              Text: ="Lưu"
+                              Width: =90
+                        - btn_CancelEditUser:
+                            Control: ModernButton
+                            Properties:
+                              Appearance: =ButtonAppearance.Outline
+                              Font: =fxFontFamily
+                              OnSelect: |-
+                                =Reset(cbx_EUNhaMay);
+                                Reset(cbx_EURole);
+                                UpdateContext({varShowEditUser: false})
+                              Size: =fxFontSizeMD
+                              Text: ="Hủy"
+                              Width: =90
+      - ComboBox1:
+          Control: Classic/ComboBox
+          Properties:
+            DisplayFields: =["FullName"]
+            Height: =44
+            InputTextPlaceholder: =""
+            Items: |+
+              =SortByColumns(
+                  If(
+                      IsBlank(Self.SearchText),
+                      Filter(
+                          'GFVN_SharePointListHREmployeesURL',
+                          IsBlank(varUserInPlant.ID)
+                              || G_Email = varUserInPlant.UserEmail
+                      ),
+                      Filter(
+                          'GFVN_SharePointListHREmployeesURL',
+                          StartsWith(FullName, Self.SearchText)
+                              || StartsWith(G_Email, Self.SearchText)
+                      )
+                  ),
+                  "FullName",
+                  SortOrder.Ascending
+              )
+            OnChange: |-
+              =// varCurrentUser phải load trước
+              Set(
+                  varCurrentUser,
+                  LookUp(
+                      'GFVN_SharePointListHREmployeesURL',
+                      G_Email = Self.Selected.G_Email
+                  )
+              );
+
+              // Các lệnh còn lại độc lập → chạy song song
+              Set(
+                  varUserInPlant,
+                  LookUp(
+                      'QLK List User In Plant',
+                      UserEmail = varCurrentUser.G_Email
+                  )
+              );
+
+              Clear(colNavigationItems);
+
+              With(
+                      {
+                          rc1:  Index(col_RoleUser,1).RoleCode,   // FG_WH         - Thủ kho thành phẩm
+                          rc2:  Index(col_RoleUser,2).RoleCode,   // FG_SUP        - Giám sát thành phẩm
+                          rc3:  Index(col_RoleUser,3).RoleCode,   // RM_WH         - Thủ kho nguyên liệu
+                          rc4:  Index(col_RoleUser,4).RoleCode,   // RM_SUP        - Giám sát nguyên liệu
+                          rc5:  Index(col_RoleUser,5).RoleCode,   // WH_STAT       - Thống kê kho
+                          rc6:  Index(col_RoleUser,6).RoleCode,   // PROD_STAT     - Thống kê sản xuất
+                          rc7:  Index(col_RoleUser,7).RoleCode,   // WH_MGR        - Trưởng bộ phận kho
+                          rc8:  Index(col_RoleUser,8).RoleCode,   // PLANT_DIR     - Giám đốc nhà máy
+                          rc9:  Index(col_RoleUser,9).RoleCode,   // VHSX_HO       - VHSX HO
+                          rc10: Index(col_RoleUser,10).RoleCode,  // FUNC_HEAD     - Trưởng khối chức năng
+                          rc11: Index(col_RoleUser,11).RoleCode,  // SYS_ADMIN     - Quản trị hệ thống
+                          rc12: Index(col_RoleUser,12).RoleCode,  // PROD_ASST     - Trợ lý sản xuất
+                          rc13: Index(col_RoleUser,13).RoleCode,  // VHSX_DD       - P.TGĐ VHSX
+                          rc14: Index(col_RoleUser,14).RoleCode,  // INV_STAFF     - Nhân viên kiểm kê/xe nâng
+                          rc15: Index(col_RoleUser,15).RoleCode,  // SHIFT_LEADER  - Trưởng ca
+                          rc16: Index(col_RoleUser,16).RoleCode,  // FG_STAFF      - Nhân viên kho thành phẩm
+                          rc17: Index(col_RoleUser,17).RoleCode,  // WH_ACC        - Kế toán kho
+                          rc18: Index(col_RoleUser,18).RoleCode   // SALES_ACC     - Kế toán bán hàng
+                      },
+                      ClearCollect(
+                          colNavigationItems,
+                          {
+                              ID: 1, Title: "Thông tin người dùng", Icon: "People", Screen: scrUsers, IsGroup: false, Sort: 1,
+                              Visible: varUserInPlant.Role in [rc9],
+                              SubMenu: []
+                          },
+                          {
+                              ID: 2, Title: "Danh mục", Icon: "Database", Screen: Blank(), IsGroup: false, Sort: 2,
+                              Visible: varUserInPlant.Role in [rc7, rc6, rc12, rc9, rc2],
+                              SubMenu: [
+                                  {
+                                      ID: 21, Title: "Master data sản phẩm", Icon: "Tag", Screen: scrMasterSanPham, Sort: 2.1,
+                                      Visible: varUserInPlant.Role in [rc7, rc6, rc12, rc9, rc2]
+                                  },
+                                  {
+                                      ID: 22, Title: "Danh mục bin", Icon: "GridView", Screen: scrDanhMucBin, Sort: 2.2,
+                                      Visible: varUserInPlant.Role in [rc7, rc9, rc2]
+                                  },
+                                  {
+                                      ID: 23, Title: "Danh mục density", Icon: "Calculator", Screen: scrDanhMucDensity, Sort: 2.3,
+                                      Visible: varUserInPlant.Role in [rc7, rc9, rc2]
+                                  },
+                                  {
+                                      ID: 24, Title: "Ma trận phê duyệt", Icon: "CheckBadge", Screen: scrMaTranPheDuyet, Sort: 2.4,
+                                      Visible: varUserInPlant.Role in [rc9]
+                                  },
+                                  /*{
+                                      ID: 25, Title: "Danh mục khách hàng", Icon: "OfficeBuilding", Screen: scrDanhMucKhachHang, Sort: 2.5,
+                                      Visible: varUserInPlant.Role in [rc9]
+                                  },*/
+                                  {
+                                      ID: 26, Title: "Phê duyệt chênh lệch", Icon: "Warning", Screen: scrPheDuyetChenhLech, Sort: 2.6,
+                                      Visible: false
+                                  },
+                                  {
+                                      ID: 27, Title: "Nhà máy", Icon: "Warning", Screen: scrPlant, Sort: 2.7,
+                                      Visible: varUserInPlant.Role in [rc9]
+                                  }
+                              ]
+                          },
+                          {
+                              ID: 3, Title: "Nhập kho", Icon: "ArrowDownload", Screen: scrNhapTuSanXuat, IsGroup: false, Sort: 3,
+                              Visible: varUserInPlant.Role in [rc15, rc6, rc12, rc9, rc17, rc18, rc1, rc16, rc2],
+                              SubMenu: [
+                                  {
+                                      ID: 31, Title: "Nhập kho", Icon: "Factory", Screen: scrNhapTuSanXuat, Sort: 3.1,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc12, rc16, rc1]
+                                  },
+                                  /*{
+                                      ID: 32, Title: "Nhập từ hàng bao", Icon: "Factory", Screen: scrNhapTuSanXuatHangBao, Sort: 3.2,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc12,rc16]
+                                  },
+                                  {
+                                      ID: 33, Title: "Nhập từ hàng xá", Icon: "Factory", Screen: scrNhapTuSanXuatXa, Sort: 3.3,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc1]
+                                  },*/
+                                  {
+                                      ID: 34, Title: "Nhập khác", Icon: "Document", Screen: scrNhapKhac, Sort: 3.4,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                                  }
+                              ]
+                              //SubMenu : []
+                          },
+                          {
+                              ID: 4, Title: "Xuất kho", Icon: "ArrowUp", Screen: scrXuatKho, IsGroup: false, Sort: 4,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2,rc6],
+                              /*SubMenu: [
+                                  {
+                                      ID: 41, Title: "Xuất kho", Icon: "Truck", Screen: scrXuatKho, Sort: 4.1,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                                  },
+                                  {
+                                      ID: 42, Title: "Xuất đại lý", Icon: "Truck", Screen: scrXuatDaiLy, Sort: 4.2,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                                  },
+                                  {
+                                      ID: 43, Title: "Xuất nội bộ", Icon: "Home", Screen: scrXuatNoiBo, Sort: 4.3,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                                  },
+                                  {
+                                      ID: 44, Title: "Xuất khác", Icon: "Switch", Screen: scrXuatKhac, Sort: 4.4,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2,rc6]
+                                  }
+                              ]*/
+                              SubMenu : []
+                          },
+                          {
+                              ID: 5, Title: "Kiểm kho", Icon: "DocumentBulletList", Screen: Blank(), IsGroup: false, Sort: 5,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16],
+                              SubMenu: [
+                                  {
+                                      ID: 51, Title: "Kiểm kho hàng bao", Icon: "Check", Screen: scrKiemKhoHangBao, Sort: 5.1,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16]
+                                  },
+                                  {
+                                      ID: 52, Title: "Kiểm kho hàng xá", Icon: "Check", Screen: scrKiemKhoHangXa, Sort: 5.2,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16]
+                                  },
+                                  {
+                                      ID: 53, Title: "Kiểm kho hàng bigbag", Icon: "Check", Screen: scrKiemKeBigbag, Sort: 5.3,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc16, rc1, rc7, rc6,rc2]
+                                  },
+                                  {
+                                      ID: 54, Title: "Sai lệch ngày", Icon: "Warning", Screen: scrDanhMucChenhLech, Sort: 5.4,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc6, rc12, rc1]
+                                  }
+                              ]
+                          },
+                          {
+                              ID: 6, Title: "Báo cáo NXT", Icon: "Document", Screen: scrNXT, IsGroup: false, Sort: 6,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc15, rc12, rc8, rc13, rc1, rc7, rc6],
+                              SubMenu: [
+                                  {
+                                      ID: 61, Title: "Danh sách XNT", Icon: "Check", Screen: scrNXT, Sort: 6.1,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc15, rc12, rc8, rc13, rc1, rc7, rc6]
+                                  }
+                              ]
+                          },
+                          {
+                              ID: 7, Title: "Báo cáo khác", Icon: "Document", Screen: Blank(), IsGroup: false, Sort: 7,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc15, rc6, rc12, rc13, rc1, rc8],
+                              SubMenu: [
+                                  {
+                                      ID: 71, Title: "Quá hạn lưu kho", Icon: "Cube", Screen: scrAgingStockCount, Sort: 7.1,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc15, rc6, rc12, rc13, rc1, rc8]
+                                  },
+                                  /*{
+                                      ID: 72, Title: "FIFO", Icon: "Cube", Screen: scrNXTForm, Sort: 7.2,
+                                      Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc7, rc15, rc6, rc12, rc13, rc8]
+                                  }*/
+                              ]
+                          },
+                          {
+                              ID: 8, Title: "Tồn kho - SAP", Icon: "GlobeArrowUp", Screen: Blank(), IsGroup: false, Sort: 8,
+                              Visible: false,
+                              SubMenu: [
+                                  {
+                                      ID: 81, Title: "Tồn kho gia súc", Icon: "Cube", Screen: scrNXTForm, Sort: 8.1,
+                                      Visible: false
+                                  }
+                              ]
+                          }
+                      )
+                  )
+            SearchFields: =["G_Email"]
+            Width: =453
+            X: =60
+      - tmr_AutoNavigate:
+          Control: Timer
+          Properties:
+            AutoPause: =false
+            AutoStart: =true
+            Duration: =1
+            OnTimerEnd: "=UpdateContext({varShowPopupProcessing:true});\r\nIf(varLoad = 1,\r\nSwitch(\r\n    varUserInPlant.Role,\r\n\r\n    Index(col_RoleUser,9).RoleCode,   // VHSX_HO       - VHSX HO\r\n    Navigate(scrUsers, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,16).RoleCode,  // FG_STAFF      - Nhân viên kho thành phẩm\r\n    Navigate(srcLogin, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,3).RoleCode,  // RM_WH         - Thủ kho nguyên liệu\r\n    Navigate(srcLogin, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,16).RoleCode, // FG_STAFF      - Nhân viên kho thành phẩm\r\n    Navigate(srcLogin, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,2).RoleCode,  // FG_SUP        - Giám sát thành phẩm\r\n    Navigate(scrMasterSanPham, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,7).RoleCode,  // WH_MGR        - Trưởng bộ phận kho\r\n    Navigate(scrMasterSanPham, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,15).RoleCode, // SHIFT_LEADER  - Trưởng ca\r\n    Navigate(scrNhapTuSanXuat, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,6).RoleCode,  // PROD_STAT     - Thống kê sản xuất\r\n    Navigate(scrMasterSanPham, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,12).RoleCode, // PROD_ASST     - Trợ lý sản xuất\r\n    Navigate(scrMasterSanPham, ScreenTransition.CoverRight),\r\n    \r\n    Index(col_RoleUser,8).RoleCode,  // PLANT_DIR     - Giám đốc nhà máy\r\n    Navigate(scrNXT, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,13).RoleCode, // VHSX_DD       - P.TGĐ VHSX\r\n    Navigate(scrNXT, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,17).RoleCode, // WH_ACC        - Kế toán kho\r\n    Navigate(scrNhapTuSanXuat, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,18).RoleCode, // SALES_ACC     - Kế toán bán hàng\r\n    Navigate(scrNhapTuSanXuat, ScreenTransition.CoverRight)\r\n););\r\nSet(varLoad,2);\r\nUpdateContext({varShowPopupProcessing:false});"
+            Start: =varHasAutoNavigated
+            Visible: =false
+            X: =989
+            Y: =15
+      - con_PopupProcessingKiemKho_7:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowPopupProcessing
+            Width: =Parent.Width
+          Children:
+            - DialogProccessingKiemKho_8:
+                Control: CanvasComponent
+                ComponentName: DialogProccessing
+                Properties:
+                  Height: =App.Height
+                  Width: =App.Width

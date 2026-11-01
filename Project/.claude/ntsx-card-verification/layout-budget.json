@@ -1,0 +1,629 @@
+{
+  "status": "PASS",
+  "boundary": "Arithmetic model of approved card, not runtime or automatic Power Fx evaluation. Actual AutoHeight measured by renderer; font/template/wrapping semantics require Studio.",
+  "gutterModel": "gallery exterior 8 each side, no double subtraction; card inner padding 12 each side",
+  "examples": [
+    {
+      "galleryWidth": 288,
+      "phone": true,
+      "wrapped": false,
+      "cardWidth": 272,
+      "bodyWidth": 248,
+      "columns": 1,
+      "fieldWidth": 248,
+      "bands": [
+        21,
+        21,
+        21,
+        21,
+        21,
+        21
+      ],
+      "bodyHeight": 166,
+      "cardHeight": 250,
+      "footerWidth": 248,
+      "bothVisibleButtonWidth": 120,
+      "deleteHiddenViewWidth": 248,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 288,
+      "phone": true,
+      "wrapped": true,
+      "cardWidth": 272,
+      "bodyWidth": 248,
+      "columns": 1,
+      "fieldWidth": 248,
+      "bands": [
+        63,
+        21,
+        63,
+        21,
+        63,
+        21
+      ],
+      "bodyHeight": 292,
+      "cardHeight": 376,
+      "footerWidth": 248,
+      "bothVisibleButtonWidth": 120,
+      "deleteHiddenViewWidth": 248,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 288,
+      "phone": false,
+      "wrapped": false,
+      "cardWidth": 272,
+      "bodyWidth": 248,
+      "columns": 1,
+      "fieldWidth": 248,
+      "bands": [
+        45,
+        45,
+        45,
+        45,
+        45,
+        45
+      ],
+      "bodyHeight": 310,
+      "cardHeight": 394,
+      "footerWidth": 248,
+      "bothVisibleButtonWidth": 120,
+      "deleteHiddenViewWidth": 248,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 288,
+      "phone": false,
+      "wrapped": true,
+      "cardWidth": 272,
+      "bodyWidth": 248,
+      "columns": 1,
+      "fieldWidth": 248,
+      "bands": [
+        87,
+        45,
+        87,
+        45,
+        87,
+        45
+      ],
+      "bodyHeight": 436,
+      "cardHeight": 520,
+      "footerWidth": 248,
+      "bothVisibleButtonWidth": 120,
+      "deleteHiddenViewWidth": 248,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 320,
+      "phone": true,
+      "wrapped": false,
+      "cardWidth": 304,
+      "bodyWidth": 280,
+      "columns": 1,
+      "fieldWidth": 280,
+      "bands": [
+        21,
+        21,
+        21,
+        21,
+        21,
+        21
+      ],
+      "bodyHeight": 166,
+      "cardHeight": 250,
+      "footerWidth": 280,
+      "bothVisibleButtonWidth": 136,
+      "deleteHiddenViewWidth": 280,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 320,
+      "phone": true,
+      "wrapped": true,
+      "cardWidth": 304,
+      "bodyWidth": 280,
+      "columns": 1,
+      "fieldWidth": 280,
+      "bands": [
+        63,
+        21,
+        63,
+        21,
+        63,
+        21
+      ],
+      "bodyHeight": 292,
+      "cardHeight": 376,
+      "footerWidth": 280,
+      "bothVisibleButtonWidth": 136,
+      "deleteHiddenViewWidth": 280,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 320,
+      "phone": false,
+      "wrapped": false,
+      "cardWidth": 304,
+      "bodyWidth": 280,
+      "columns": 1,
+      "fieldWidth": 280,
+      "bands": [
+        45,
+        45,
+        45,
+        45,
+        45,
+        45
+      ],
+      "bodyHeight": 310,
+      "cardHeight": 394,
+      "footerWidth": 280,
+      "bothVisibleButtonWidth": 136,
+      "deleteHiddenViewWidth": 280,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 320,
+      "phone": false,
+      "wrapped": true,
+      "cardWidth": 304,
+      "bodyWidth": 280,
+      "columns": 1,
+      "fieldWidth": 280,
+      "bands": [
+        87,
+        45,
+        87,
+        45,
+        87,
+        45
+      ],
+      "bodyHeight": 436,
+      "cardHeight": 520,
+      "footerWidth": 280,
+      "bothVisibleButtonWidth": 136,
+      "deleteHiddenViewWidth": 280,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 375,
+      "phone": true,
+      "wrapped": false,
+      "cardWidth": 359,
+      "bodyWidth": 335,
+      "columns": 1,
+      "fieldWidth": 335,
+      "bands": [
+        21,
+        21,
+        21,
+        21,
+        21,
+        21
+      ],
+      "bodyHeight": 166,
+      "cardHeight": 250,
+      "footerWidth": 335,
+      "bothVisibleButtonWidth": 163.5,
+      "deleteHiddenViewWidth": 335,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 375,
+      "phone": true,
+      "wrapped": true,
+      "cardWidth": 359,
+      "bodyWidth": 335,
+      "columns": 1,
+      "fieldWidth": 335,
+      "bands": [
+        63,
+        21,
+        63,
+        21,
+        63,
+        21
+      ],
+      "bodyHeight": 292,
+      "cardHeight": 376,
+      "footerWidth": 335,
+      "bothVisibleButtonWidth": 163.5,
+      "deleteHiddenViewWidth": 335,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 375,
+      "phone": false,
+      "wrapped": false,
+      "cardWidth": 359,
+      "bodyWidth": 335,
+      "columns": 1,
+      "fieldWidth": 335,
+      "bands": [
+        45,
+        45,
+        45,
+        45,
+        45,
+        45
+      ],
+      "bodyHeight": 310,
+      "cardHeight": 394,
+      "footerWidth": 335,
+      "bothVisibleButtonWidth": 163.5,
+      "deleteHiddenViewWidth": 335,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 375,
+      "phone": false,
+      "wrapped": true,
+      "cardWidth": 359,
+      "bodyWidth": 335,
+      "columns": 1,
+      "fieldWidth": 335,
+      "bands": [
+        87,
+        45,
+        87,
+        45,
+        87,
+        45
+      ],
+      "bodyHeight": 436,
+      "cardHeight": 520,
+      "footerWidth": 335,
+      "bothVisibleButtonWidth": 163.5,
+      "deleteHiddenViewWidth": 335,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 390,
+      "phone": true,
+      "wrapped": false,
+      "cardWidth": 374,
+      "bodyWidth": 350,
+      "columns": 1,
+      "fieldWidth": 350,
+      "bands": [
+        21,
+        21,
+        21,
+        21,
+        21,
+        21
+      ],
+      "bodyHeight": 166,
+      "cardHeight": 250,
+      "footerWidth": 350,
+      "bothVisibleButtonWidth": 171,
+      "deleteHiddenViewWidth": 350,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 390,
+      "phone": true,
+      "wrapped": true,
+      "cardWidth": 374,
+      "bodyWidth": 350,
+      "columns": 1,
+      "fieldWidth": 350,
+      "bands": [
+        63,
+        21,
+        63,
+        21,
+        63,
+        21
+      ],
+      "bodyHeight": 292,
+      "cardHeight": 376,
+      "footerWidth": 350,
+      "bothVisibleButtonWidth": 171,
+      "deleteHiddenViewWidth": 350,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 390,
+      "phone": false,
+      "wrapped": false,
+      "cardWidth": 374,
+      "bodyWidth": 350,
+      "columns": 1,
+      "fieldWidth": 350,
+      "bands": [
+        45,
+        45,
+        45,
+        45,
+        45,
+        45
+      ],
+      "bodyHeight": 310,
+      "cardHeight": 394,
+      "footerWidth": 350,
+      "bothVisibleButtonWidth": 171,
+      "deleteHiddenViewWidth": 350,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 390,
+      "phone": false,
+      "wrapped": true,
+      "cardWidth": 374,
+      "bodyWidth": 350,
+      "columns": 1,
+      "fieldWidth": 350,
+      "bands": [
+        87,
+        45,
+        87,
+        45,
+        87,
+        45
+      ],
+      "bodyHeight": 436,
+      "cardHeight": 520,
+      "footerWidth": 350,
+      "bothVisibleButtonWidth": 171,
+      "deleteHiddenViewWidth": 350,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 600,
+      "phone": true,
+      "wrapped": false,
+      "cardWidth": 584,
+      "bodyWidth": 560,
+      "columns": 2,
+      "fieldWidth": 276,
+      "bands": [
+        21,
+        21,
+        21
+      ],
+      "bodyHeight": 79,
+      "cardHeight": 163,
+      "footerWidth": 560,
+      "bothVisibleButtonWidth": 276,
+      "deleteHiddenViewWidth": 560,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 600,
+      "phone": true,
+      "wrapped": true,
+      "cardWidth": 584,
+      "bodyWidth": 560,
+      "columns": 2,
+      "fieldWidth": 276,
+      "bands": [
+        63,
+        63,
+        63
+      ],
+      "bodyHeight": 205,
+      "cardHeight": 289,
+      "footerWidth": 560,
+      "bothVisibleButtonWidth": 276,
+      "deleteHiddenViewWidth": 560,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 600,
+      "phone": false,
+      "wrapped": false,
+      "cardWidth": 584,
+      "bodyWidth": 560,
+      "columns": 2,
+      "fieldWidth": 276,
+      "bands": [
+        45,
+        45,
+        45
+      ],
+      "bodyHeight": 151,
+      "cardHeight": 235,
+      "footerWidth": 420,
+      "bothVisibleButtonWidth": 206,
+      "deleteHiddenViewWidth": 420,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 600,
+      "phone": false,
+      "wrapped": true,
+      "cardWidth": 584,
+      "bodyWidth": 560,
+      "columns": 2,
+      "fieldWidth": 276,
+      "bands": [
+        87,
+        87,
+        87
+      ],
+      "bodyHeight": 277,
+      "cardHeight": 361,
+      "footerWidth": 420,
+      "bothVisibleButtonWidth": 206,
+      "deleteHiddenViewWidth": 420,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 940,
+      "phone": true,
+      "wrapped": false,
+      "cardWidth": 924,
+      "bodyWidth": 900,
+      "columns": 3,
+      "fieldWidth": 294.6666666666667,
+      "bands": [
+        21,
+        21
+      ],
+      "bodyHeight": 50,
+      "cardHeight": 134,
+      "footerWidth": 900,
+      "bothVisibleButtonWidth": 446,
+      "deleteHiddenViewWidth": 900,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 940,
+      "phone": true,
+      "wrapped": true,
+      "cardWidth": 924,
+      "bodyWidth": 900,
+      "columns": 3,
+      "fieldWidth": 294.6666666666667,
+      "bands": [
+        63,
+        63
+      ],
+      "bodyHeight": 134,
+      "cardHeight": 218,
+      "footerWidth": 900,
+      "bothVisibleButtonWidth": 446,
+      "deleteHiddenViewWidth": 900,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 940,
+      "phone": false,
+      "wrapped": false,
+      "cardWidth": 924,
+      "bodyWidth": 900,
+      "columns": 3,
+      "fieldWidth": 294.6666666666667,
+      "bands": [
+        45,
+        45
+      ],
+      "bodyHeight": 98,
+      "cardHeight": 182,
+      "footerWidth": 420,
+      "bothVisibleButtonWidth": 206,
+      "deleteHiddenViewWidth": 420,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 940,
+      "phone": false,
+      "wrapped": true,
+      "cardWidth": 924,
+      "bodyWidth": 900,
+      "columns": 3,
+      "fieldWidth": 294.6666666666667,
+      "bands": [
+        87,
+        87
+      ],
+      "bodyHeight": 182,
+      "cardHeight": 266,
+      "footerWidth": 420,
+      "bothVisibleButtonWidth": 206,
+      "deleteHiddenViewWidth": 420,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 1200,
+      "phone": true,
+      "wrapped": false,
+      "cardWidth": 1184,
+      "bodyWidth": 1160,
+      "columns": 3,
+      "fieldWidth": 381.3333333333333,
+      "bands": [
+        21,
+        21
+      ],
+      "bodyHeight": 50,
+      "cardHeight": 134,
+      "footerWidth": 1160,
+      "bothVisibleButtonWidth": 576,
+      "deleteHiddenViewWidth": 1160,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 1200,
+      "phone": true,
+      "wrapped": true,
+      "cardWidth": 1184,
+      "bodyWidth": 1160,
+      "columns": 3,
+      "fieldWidth": 381.3333333333333,
+      "bands": [
+        63,
+        63
+      ],
+      "bodyHeight": 134,
+      "cardHeight": 218,
+      "footerWidth": 1160,
+      "bothVisibleButtonWidth": 576,
+      "deleteHiddenViewWidth": 1160,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 1200,
+      "phone": false,
+      "wrapped": false,
+      "cardWidth": 1184,
+      "bodyWidth": 1160,
+      "columns": 3,
+      "fieldWidth": 381.3333333333333,
+      "bands": [
+        45,
+        45
+      ],
+      "bodyHeight": 98,
+      "cardHeight": 182,
+      "footerWidth": 420,
+      "bothVisibleButtonWidth": 206,
+      "deleteHiddenViewWidth": 420,
+      "buttonHeight": 48
+    },
+    {
+      "galleryWidth": 1200,
+      "phone": false,
+      "wrapped": true,
+      "cardWidth": 1184,
+      "bodyWidth": 1160,
+      "columns": 3,
+      "fieldWidth": 381.3333333333333,
+      "bands": [
+        87,
+        87
+      ],
+      "bodyHeight": 182,
+      "cardHeight": 266,
+      "footerWidth": 420,
+      "bothVisibleButtonWidth": 206,
+      "deleteHiddenViewWidth": 420,
+      "buttonHeight": 48
+    }
+  ],
+  "thresholds": [
+    {
+      "bodyWidth": 559,
+      "columns": 1,
+      "fieldWidth": 559
+    },
+    {
+      "bodyWidth": 560,
+      "columns": 2,
+      "fieldWidth": 276
+    },
+    {
+      "bodyWidth": 899,
+      "columns": 2,
+      "fieldWidth": 445.5
+    },
+    {
+      "bodyWidth": 900,
+      "columns": 3,
+      "fieldWidth": 294.6666666666667
+    }
+  ]
+}
