@@ -347,7 +347,7 @@ Screens:
                               BorderStyle: =BorderStyle.None
                               DropShadow: =If(scrKiemKhoHangBao.Size = 1, DropShadow.None, DropShadow.Semibold)
                               Fill: =RGBA(255, 255, 255, 1)
-                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutAlignItems: =If(scrKiemKhoHangBao.Size = 1, LayoutAlignItems.Stretch, LayoutAlignItems.Start)
                               LayoutDirection: =LayoutDirection.Vertical
                               LayoutOverflowX: =LayoutOverflow.Scroll
                               LayoutOverflowY: =LayoutOverflow.Scroll
@@ -371,6 +371,7 @@ Screens:
                                     PaddingLeft: =10
                                     PaddingRight: =10
                                     Visible: =scrKiemKhoHangBao.Size <> 1
+                                    Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width, Max(Parent.Width, 1100))
                                   Children:
                                     - chk_KiemKhoHangBao_SelectAll:
                                         Control: ModernCheckbox
@@ -402,7 +403,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Mã hàng"
-                                          Width: =Parent.Width * 0.08
+                                          Width: =(Parent.Width - 200) * 0.0879
                                           Wrap: =false
                                     - lbl_HeaderStatusCodeKiemKho:
                                         Control: ModernText
@@ -412,7 +413,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Trạng thái"
-                                          Width: =Parent.Width * 0.08
+                                          Width: =(Parent.Width - 200) * 0.0879
                                           Wrap: =false
                                     - lbl_HeaderPalletQty:
                                         Control: ModernText
@@ -422,7 +423,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Số pallet"
-                                          Width: =Parent.Width * 0.07
+                                          Width: =(Parent.Width - 200) * 0.0769
                                           Wrap: =false
                                     - lbl_HeaderLooseBagQty:
                                         Control: ModernText
@@ -432,7 +433,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Số bao lẻ"
-                                          Width: =Parent.Width * 0.07
+                                          Width: =(Parent.Width - 200) * 0.0769
                                           Wrap: =false
                                     - lbl_HeaderProductionDate:
                                         Control: ModernText
@@ -442,7 +443,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Ngày sản xuất"
-                                          Width: =Parent.Width * 0.08
+                                          Width: =(Parent.Width - 200) * 0.0879
                                           Wrap: =false
                                     - lbl_HeaderStockCountDate:
                                         Control: ModernText
@@ -452,7 +453,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Ngày kiểm kê"
-                                          Width: =Parent.Width * 0.08
+                                          Width: =(Parent.Width - 200) * 0.0879
                                           Wrap: =false
                                     - lbl_HeaderTornBagQty:
                                         Control: ModernText
@@ -462,7 +463,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Bao rách"
-                                          Width: =Parent.Width * 0.07
+                                          Width: =(Parent.Width - 200) * 0.0769
                                           Wrap: =false
                                     - lbl_HeaderLooseBoxQty:
                                         Control: ModernText
@@ -472,7 +473,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Thùng lẻ"
-                                          Width: =Parent.Width * 0.07
+                                          Width: =(Parent.Width - 200) * 0.0769
                                           Wrap: =false
                                     - lbl_HeaderLooseKgQty:
                                         Control: ModernText
@@ -482,7 +483,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Kg lẻ"
-                                          Width: =Parent.Width * 0.07
+                                          Width: =(Parent.Width - 200) * 0.0769
                                           Wrap: =false
                                     - lbl_HeaderNote:
                                         Control: ModernText
@@ -492,7 +493,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Ghi chú"
-                                          Width: =Parent.Width * 0.1
+                                          Width: =(Parent.Width - 200) * 0.1099
                                           Wrap: =false
                                     - lbl_HeaderLocation:
                                         Control: ModernText
@@ -502,7 +503,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Vị trí"
-                                          Width: =Parent.Width * 0.08
+                                          Width: =(Parent.Width - 200) * 0.0879
                                           Wrap: =false
                                     - lbl_HeaderActualQty:
                                         Control: ModernText
@@ -512,7 +513,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Số kg tồn (Kg)"
-                                          Width: =Parent.Width * 0.06
+                                          Width: =(Parent.Width - 200) * 0.0659
                                           Wrap: =false
                                     - lbl_HeaderActionKiemKhoHangBao:
                                         Control: ModernText
@@ -598,7 +599,7 @@ Screens:
                                           32 * 7.2 + 10,
                                           45
                                       )
-                                    Width: =Parent.Width
+                                    Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width, Max(Parent.Width, 1100))
                                   Children:
                                     - con_RowDividerKiemKhoHangBao:
                                         Control: GroupContainer
