@@ -8,20 +8,6 @@ Screens:
         Set(varShowOptionForm, false);
         Set(varOptionFormMode, "New");
         Set(varSelectedIndicatorOption, {});
-        If(
-            IsEmpty(colIndicatorOptions),
-            ClearCollect(
-                colIndicatorOptions,
-                {ID: 1, IndicatorID: 1, OptionName: "Đánh giá chung", PropertyCode: "P01-PHYS", PropertyName: "QGLT_PHYS", IsDefault: true},
-                {ID: 2, IndicatorID: 2, OptionName: "< 5 mm", PropertyCode: "P09A-PHYS", PropertyName: "PEL_LEN_A", IsDefault: true},
-                {ID: 3, IndicatorID: 2, OptionName: "> 8 mm", PropertyCode: "P09B-PHYS", PropertyName: "PEL_LEN_B", IsDefault: true},
-                {ID: 4, IndicatorID: 2, OptionName: "4-12 mm", PropertyCode: "P09C-PHYS", PropertyName: "PEL_LEN_C", IsDefault: false}
-            )
-        );
-        If(
-            IsBlank(varIndicatorSelected.ID),
-            RemoveIf(colIndicatorOptions, IndicatorID = 0)
-        );
         Reset(txt_IndicatorName);
         Reset(cbb_InputMethod);
         Reset(cbb_ResultType);
@@ -157,10 +143,6 @@ Screens:
                                     )
                                 );
                                 Set(varIndicatorSave, false);
-                                If(
-                                    IsBlank(varIndicatorSelected.ID),
-                                    RemoveIf(colIndicatorOptions, IndicatorID = 0)
-                                );
                                 Reset(txt_IndicatorName);
                                 Reset(cbb_InputMethod);
                                 Reset(cbb_ResultType);
@@ -206,32 +188,29 @@ Screens:
                               Notify("Vui lòng chọn kiểu kết quả thực tế.", NotificationType.Error),
                               If(
                                   IsBlank(varIndicatorSelected.ID),
-                                  With(
-                                      {
-                                          wNewRecord: Patch(
-                                              'QLSX List Criteria Master',
-                                              Defaults('QLSX List Criteria Master'),
-                                              {
-                                                  PlantCode: varCurrentPlant.PlantCode,
-                                                  PlantName: varCurrentPlant.PlantName,
-                                                  Title: Trim(txt_IndicatorName.Text),
-                                                  ApplyLivestock: chk_Livestock.Checked,
-                                                  ApplyPoultry: chk_Poultry.Checked,
-                                                  ApplyAqua: chk_Aqua.Checked,
-                                                  InputModeCode: {Value: cbb_InputMethod.Selected.Value},
-                                                  ResultTypeCode: {Value: cbb_ResultType.Selected.Value},
-                                                  Unit: Trim(txt_IndicatorUnit.Text),
-                                                  DecimalPlaces: {Value: cbb_DecimalPlaces.Selected.Value},
-                                                  AllowMultiOption: chk_MultipleOption.Checked,
-                                                  IsResultRequired: chk_RequiredResult.Checked,
-                                                  IsNoteRequired: chk_RequiredNote.Checked,
-                                                  ExportToBMQC: chk_ExportBMQC.Checked,
-                                                  IsActive: chk_IsActive.Checked
-                                              }
-                                          )
-                                      },
-                                      UpdateIf(colIndicatorOptions, IndicatorID = 0, {IndicatorID: wNewRecord.ID});
-                                      Set(varIndicatorSelected, wNewRecord)
+                                  Set(
+                                      varIndicatorSelected,
+                                      Patch(
+                                          'QLSX List Criteria Master',
+                                          Defaults('QLSX List Criteria Master'),
+                                          {
+                                              PlantCode: varCurrentPlant.PlantCode,
+                                              PlantName: varCurrentPlant.PlantName,
+                                              Title: Trim(txt_IndicatorName.Text),
+                                              ApplyLivestock: chk_Livestock.Checked,
+                                              ApplyPoultry: chk_Poultry.Checked,
+                                              ApplyAqua: chk_Aqua.Checked,
+                                              InputModeCode: {Value: cbb_InputMethod.Selected.Value},
+                                              ResultTypeCode: {Value: cbb_ResultType.Selected.Value},
+                                              Unit: Trim(txt_IndicatorUnit.Text),
+                                              DecimalPlaces: {Value: cbb_DecimalPlaces.Selected.Value},
+                                              AllowMultiOption: chk_MultipleOption.Checked,
+                                              IsResultRequired: chk_RequiredResult.Checked,
+                                              IsNoteRequired: chk_RequiredNote.Checked,
+                                              ExportToBMQC: chk_ExportBMQC.Checked,
+                                              IsActive: chk_IsActive.Checked
+                                          }
+                                      )
                                   ),
                                   Patch(
                                       'QLSX List Criteria Master',
@@ -305,12 +284,7 @@ Screens:
                         Size: =12
                         TabIndex: =0
                         Text: |-
-                          =CountRows(
-                              Filter(
-                                  colIndicatorOptions,
-                                  IndicatorID = Coalesce(varIndicatorSelected.ID, 0)
-                              )
-                          ) & " option · " & Coalesce(varIndicatorSelected.ResultTypeCode.Value, "Đạt / Không đạt")
+                          =CountRows(Gallery_IndicatorOptions.AllItems) & " option · " & Coalesce(varIndicatorSelected.ResultTypeCode.Value, "Đạt / Không đạt")
                         Width: =1000
                         X: =28
                         Y: =59
@@ -806,7 +780,9 @@ Screens:
                                             Reset(TextInput_OptionName);
                                             Reset(TextInput_OptionCode);
                                             Reset(TextInput_OptionPName);
+                                            Reset(TextInput_OptionUnit);
                                             Reset(chk_OptionIsDefault);
+                                            Reset(chk_OptionIsActive);
                                             Set(varShowOptionForm, true)
                                           PaddingBottom: =5
                                           PaddingLeft: =12
@@ -914,8 +890,8 @@ Screens:
                                           Items: |-
                                             =SortByColumns(
                                                 Filter(
-                                                    colIndicatorOptions,
-                                                    IndicatorID = Coalesce(varIndicatorSelected.ID, 0)
+                                                    'QLSX List Criteria Option',
+                                                    CriteriaID = Coalesce(varIndicatorSelected.ID, 0)
                                                 ),
                                                 "ID",
                                                 SortOrder.Ascending
@@ -947,7 +923,7 @@ Screens:
                                                       Font: =Font.'Segoe UI'
                                                       FontWeight: =FontWeight.Semibold
                                                       Size: =13
-                                                      Text: =ThisItem.OptionName
+                                                      Text: =ThisItem.Title
                                                       Width: =400
                                                 - txt_ValCode:
                                                     Control: ModernText
@@ -956,7 +932,7 @@ Screens:
                                                       Color: =RGBA(72, 80, 76, 1)
                                                       Font: =Font.'Segoe UI'
                                                       Size: =13
-                                                      Text: =ThisItem.PropertyCode
+                                                      Text: =ThisItem.OptionKey
                                                       Width: =250
                                                 - txt_ValPName:
                                                     Control: ModernText
@@ -977,7 +953,6 @@ Screens:
                                                       Height: =32
                                                       LayoutAlignItems: =LayoutAlignItems.Center
                                                       LayoutDirection: =LayoutDirection.Horizontal
-                                                      LayoutJustifyContent: =LayoutJustifyContent.Start
                                                       Width: =120
                                                     Children:
                                                       - con_OptionDefaultPill:
@@ -1039,7 +1014,9 @@ Screens:
                                                               Reset(TextInput_OptionName);
                                                               Reset(TextInput_OptionCode);
                                                               Reset(TextInput_OptionPName);
+                                                              Reset(TextInput_OptionUnit);
                                                               Reset(chk_OptionIsDefault);
+                                                              Reset(chk_OptionIsActive);
                                                               Set(varShowOptionForm, true)
                                                             Width: =36
                                                       - btn_DeleteOption:
@@ -1054,8 +1031,8 @@ Screens:
                                                             LayoutMinWidth: =16
                                                             OnSelect: |-
                                                               =If(
-                                                                  Confirm("Bạn có chắc muốn xóa option """ & ThisItem.OptionName & """?", {Title: "Xác nhận xóa", ConfirmButton: "Xóa", CancelButton: "Hủy"}),
-                                                                  RemoveIf(colIndicatorOptions, ID = ThisItem.ID)
+                                                                  Confirm("Bạn có chắc muốn xóa option """ & ThisItem.Title & """?", {Title: "Xác nhận xóa", ConfirmButton: "Xóa", CancelButton: "Hủy"}),
+                                                                  Remove('QLSX List Criteria Option', ThisItem)
                                                               )
                                                             Width: =36
                                           - rec_OptionRowLine:
@@ -1087,7 +1064,7 @@ Screens:
                   DropShadow: =DropShadow.None
                   Fill: =RGBA(255, 255, 255, 1)
                   FillPortions: =0
-                  Height: =340
+                  Height: =440
                   LayoutDirection: =LayoutDirection.Vertical
                   LayoutGap: =10
                   LayoutMinHeight: =16
@@ -1147,25 +1124,34 @@ Screens:
                                     Notify("Vui lòng nhập PropertyName.", NotificationType.Error),
                                     If(
                                         varOptionFormMode = "New",
-                                        Collect(
-                                            colIndicatorOptions,
+                                        Patch(
+                                            'QLSX List Criteria Option',
+                                            Defaults('QLSX List Criteria Option'),
                                             {
-                                                ID: Coalesce(Max(colIndicatorOptions, ID), 0) + 1,
-                                                IndicatorID: Coalesce(varIndicatorSelected.ID, 0),
-                                                OptionName: Trim(TextInput_OptionName.Text),
-                                                PropertyCode: Upper(Trim(TextInput_OptionCode.Text)),
+                                                PlantCode: varCurrentPlant.PlantCode,
+                                                PlantName: varCurrentPlant.PlantName,
+                                                CriteriaID: Coalesce(varIndicatorSelected.ID, 0),
+                                                Title: Trim(TextInput_OptionName.Text),
+                                                OptionKey: Upper(Trim(TextInput_OptionCode.Text)),
                                                 PropertyName: Upper(Trim(TextInput_OptionPName.Text)),
-                                                IsDefault: chk_OptionIsDefault.Checked
+                                                Unit: Trim(TextInput_OptionUnit.Text),
+                                                IsDefault: chk_OptionIsDefault.Checked,
+                                                IsActive: chk_OptionIsActive.Checked
                                             }
                                         ),
-                                        UpdateIf(
-                                            colIndicatorOptions,
-                                            ID = varSelectedIndicatorOption.ID,
+                                        Patch(
+                                            'QLSX List Criteria Option',
+                                            varSelectedIndicatorOption,
                                             {
-                                                OptionName: Trim(TextInput_OptionName.Text),
-                                                PropertyCode: Upper(Trim(TextInput_OptionCode.Text)),
+                                                PlantCode: varCurrentPlant.PlantCode,
+                                                PlantName: varCurrentPlant.PlantName,
+                                                CriteriaID: Coalesce(varIndicatorSelected.ID, 0),
+                                                Title: Trim(TextInput_OptionName.Text),
+                                                OptionKey: Upper(Trim(TextInput_OptionCode.Text)),
                                                 PropertyName: Upper(Trim(TextInput_OptionPName.Text)),
-                                                IsDefault: chk_OptionIsDefault.Checked
+                                                Unit: Trim(TextInput_OptionUnit.Text),
+                                                IsDefault: chk_OptionIsDefault.Checked,
+                                                IsActive: chk_OptionIsActive.Checked
                                             }
                                         )
                                     );
@@ -1190,7 +1176,7 @@ Screens:
                       Variant: GridLayout
                       Properties:
                         LayoutGridColumns: =5
-                        LayoutGridRows: =5
+                        LayoutGridRows: =7
                         LayoutMinHeight: =16
                         LayoutMinWidth: =16
                         PaddingBottom: =10
@@ -1219,7 +1205,7 @@ Screens:
                         - TextInput_OptionName:
                             Control: ModernTextInput
                             Properties:
-                              Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.OptionName, ""), "")
+                              Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.Title, ""), "")
                               LayoutGridColumnEnd: =6
                               LayoutGridColumnStart: =3
                               LayoutGridRowEnd: =2
@@ -1238,7 +1224,7 @@ Screens:
                         - TextInput_OptionCode:
                             Control: ModernTextInput
                             Properties:
-                              Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.PropertyCode, ""), "")
+                              Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.OptionKey, ""), "")
                               LayoutGridColumnEnd: =6
                               LayoutGridColumnStart: =3
                               LayoutGridRowEnd: =3
@@ -1263,7 +1249,7 @@ Screens:
                               LayoutGridRowEnd: =4
                               LayoutGridRowStart: =4
                               Placeholder: =""
-                        - Text_OptDefault:
+                        - Text_OptUnit:
                             Control: ModernText
                             Properties:
                               Font: =Font.'Segoe UI'
@@ -1271,6 +1257,25 @@ Screens:
                               LayoutGridColumnStart: =1
                               LayoutGridRowEnd: =5
                               LayoutGridRowStart: =5
+                              Size: =13
+                              Text: ="Đơn vị"
+                        - TextInput_OptionUnit:
+                            Control: ModernTextInput
+                            Properties:
+                              Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.Unit, ""), "")
+                              LayoutGridColumnEnd: =6
+                              LayoutGridColumnStart: =3
+                              LayoutGridRowEnd: =5
+                              LayoutGridRowStart: =5
+                              Placeholder: =""
+                        - Text_OptDefault:
+                            Control: ModernText
+                            Properties:
+                              Font: =Font.'Segoe UI'
+                              LayoutGridColumnEnd: =3
+                              LayoutGridColumnStart: =1
+                              LayoutGridRowEnd: =6
+                              LayoutGridRowStart: =6
                               Size: =13
                               Text: ="Mặc định"
                         - chk_OptionIsDefault:
@@ -1283,8 +1288,33 @@ Screens:
                               Label: ="Được chọn"
                               LayoutGridColumnEnd: =6
                               LayoutGridColumnStart: =3
-                              LayoutGridRowEnd: =5
-                              LayoutGridRowStart: =5
+                              LayoutGridRowEnd: =6
+                              LayoutGridRowStart: =6
+                              OnCheck: =
+                              OnUncheck: =
+                              Width: =250
+                        - Text_OptIsActive:
+                            Control: ModernText
+                            Properties:
+                              Font: =Font.'Segoe UI'
+                              LayoutGridColumnEnd: =3
+                              LayoutGridColumnStart: =1
+                              LayoutGridRowEnd: =7
+                              LayoutGridRowStart: =7
+                              Size: =13
+                              Text: ="Trạng thái"
+                        - chk_OptionIsActive:
+                            Control: ModernCheckbox
+                            Properties:
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
+                              Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.IsActive, true), true)
+                              Font: =Font.Arial
+                              FontWeight: =""
+                              Label: ="Đang sử dụng"
+                              LayoutGridColumnEnd: =6
+                              LayoutGridColumnStart: =3
+                              LayoutGridRowEnd: =7
+                              LayoutGridRowStart: =7
                               OnCheck: =
                               OnUncheck: =
                               Width: =250
