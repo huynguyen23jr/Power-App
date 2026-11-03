@@ -153,7 +153,7 @@ Screens:
                                     If(
                                         IsBlank(varIndicatorSelected.ID),
                                         {},
-                                        LookUp(colMasterCriteria, ID = varIndicatorSelected.ID)
+                                        LookUp('QLSX List Criteria Master', ID = varIndicatorSelected.ID)
                                     )
                                 );
                                 Set(varIndicatorSave, false);
@@ -198,65 +198,58 @@ Screens:
                           If(
                               IsBlank(Trim(txt_IndicatorName.Text)),
                               Notify("Vui lòng nhập tên chỉ tiêu.", NotificationType.Error),
-                              !(chk_Livestock.Checked || chk_Poultry.Checked  || chk_Aqua.Checked),
+                              !(chk_Livestock.Checked || chk_Poultry.Checked || chk_Aqua.Checked),
                               Notify("Vui lòng chọn ít nhất một loại áp dụng.", NotificationType.Error),
-                              With(
-                                  {
-                                      wRaw: Concatenate(
-                                          If(chk_Livestock.Checked, "Gia súc • ", ""),
-                                          If(chk_Poultry.Checked, "Gia cầm • ", ""),
-                                          If(chk_Aqua.Checked, "Aqua • ", "")
-                                      ),
-                                      wNewId: Coalesce(Max(colMasterCriteria, ID), 0) + 1
-                                  },
+                              If(
+                                  IsBlank(varIndicatorSelected.ID),
                                   With(
-                                      {wTypes: Left(wRaw, Len(wRaw) - 3)},
-                                      If(
-                                          IsBlank(varIndicatorSelected.ID),
-                                          Collect(
-                                              colMasterCriteria,
+                                      {
+                                          wNewRecord: Patch(
+                                              'QLSX List Criteria Master',
+                                              Defaults('QLSX List Criteria Master'),
                                               {
-                                                  ID: wNewId,
-                                                  CriteriaName: Trim(txt_IndicatorName.Text),
-                                                  ApplicableType: wTypes,
-                                                  InputMethod: cbb_InputMethod.Selected.Value,
-                                                  ResultType: cbb_ResultType.Selected.Value,
+                                                  Title: Trim(txt_IndicatorName.Text),
+                                                  ApplyLivestock: chk_Livestock.Checked,
+                                                  ApplyPoultry: chk_Poultry.Checked,
+                                                  ApplyAqua: chk_Aqua.Checked,
+                                                  InputModeCode: {Value: cbb_InputMethod.Selected.Value},
+                                                  ResultTypeCode: {Value: cbb_ResultType.Selected.Value},
                                                   Unit: Trim(txt_IndicatorUnit.Text),
-                                                  DecimalPlaces: Value(cbb_DecimalPlaces.Selected.Value),
-                                                  AllowMultipleOption: chk_MultipleOption.Checked,
-                                                  RequiredResult: chk_RequiredResult.Checked,
-                                                  RequiredNote: chk_RequiredNote.Checked,
-                                                  ExportBMQC: chk_ExportBMQC.Checked,
-                                                  IsActive: chk_IsActive.Checked,
-                                                  Status: If(chk_IsActive.Checked, "Đang sử dụng", "Ngừng sử dụng")
+                                                  DecimalPlaces: {Value: cbb_DecimalPlaces.Selected.Value},
+                                                  AllowMultiOption: chk_MultipleOption.Checked,
+                                                  IsResultRequired: chk_RequiredResult.Checked,
+                                                  IsNoteRequired: chk_RequiredNote.Checked,
+                                                  ExportToBMQC: chk_ExportBMQC.Checked,
+                                                  IsActive: chk_IsActive.Checked
                                               }
-                                          );
-                                          UpdateIf(colIndicatorOptions, IndicatorID = 0, {IndicatorID: wNewId});
-                                          Set(varIndicatorSelected, LookUp(colMasterCriteria, ID = wNewId)),
-                                          UpdateIf(
-                                              colMasterCriteria,
-                                              ID = varIndicatorSelected.ID,
-                                              {
-                                                  CriteriaName: Trim(txt_IndicatorName.Text),
-                                                  ApplicableType: wTypes,
-                                                  InputMethod: cbb_InputMethod.Selected.Value,
-                                                  ResultType: cbb_ResultType.Selected.Value,
-                                                  Unit: Trim(txt_IndicatorUnit.Text),
-                                                  DecimalPlaces: Value(cbb_DecimalPlaces.Selected.Value),
-                                                  AllowMultipleOption: chk_MultipleOption.Checked,
-                                                  RequiredResult: chk_RequiredResult.Checked,
-                                                  RequiredNote: chk_RequiredNote.Checked,
-                                                  ExportBMQC: chk_ExportBMQC.Checked,
-                                                  IsActive: chk_IsActive.Checked,
-                                                  Status: If(chk_IsActive.Checked, "Đang sử dụng", "Ngừng sử dụng")
-                                              }
-                                          );
-                                          Set(varIndicatorSelected, LookUp(colMasterCriteria, ID = varIndicatorSelected.ID))
-                                      );
-                                      Notify("Lưu thành công.", NotificationType.Success, 2000);
-                                      Set(varIndicatorSaved, true)
-                                  )
-                              )
+                                          )
+                                      },
+                                      UpdateIf(colIndicatorOptions, IndicatorID = 0, {IndicatorID: wNewRecord.ID});
+                                      Set(varIndicatorSelected, wNewRecord)
+                                  ),
+                                  Patch(
+                                      'QLSX List Criteria Master',
+                                      varIndicatorSelected,
+                                      {
+                                          Title: Trim(txt_IndicatorName.Text),
+                                          ApplyLivestock: chk_Livestock.Checked,
+                                          ApplyPoultry: chk_Poultry.Checked,
+                                          ApplyAqua: chk_Aqua.Checked,
+                                          InputModeCode: {Value: cbb_InputMethod.Selected.Value},
+                                          ResultTypeCode: {Value: cbb_ResultType.Selected.Value},
+                                          Unit: Trim(txt_IndicatorUnit.Text),
+                                          DecimalPlaces: {Value: cbb_DecimalPlaces.Selected.Value},
+                                          AllowMultiOption: chk_MultipleOption.Checked,
+                                          IsResultRequired: chk_RequiredResult.Checked,
+                                          IsNoteRequired: chk_RequiredNote.Checked,
+                                          ExportToBMQC: chk_ExportBMQC.Checked,
+                                          IsActive: chk_IsActive.Checked
+                                      }
+                                  );
+                                  Set(varIndicatorSelected, LookUp('QLSX List Criteria Master', ID = varIndicatorSelected.ID))
+                              );
+                              Notify("Lưu thành công.", NotificationType.Success, 2000);
+                              Set(varIndicatorSaved, true)
                           )
                         PaddingBottom: =5
                         PaddingLeft: =12
@@ -290,7 +283,7 @@ Screens:
                         Height: =32
                         Size: =15
                         TabIndex: =0
-                        Text: =Coalesce(varIndicatorSelected.CriteriaName, "Tạo mới")
+                        Text: =Coalesce(varIndicatorSelected.Title, "Tạo mới")
                         Width: =1000
                         X: =28
                         Y: =24
@@ -309,7 +302,7 @@ Screens:
                                   colIndicatorOptions,
                                   IndicatorID = Coalesce(varIndicatorSelected.ID, 0)
                               )
-                          ) & " option · " & Coalesce(varIndicatorSelected.ResultType, "Đạt / Không đạt")
+                          ) & " option · " & Coalesce(varIndicatorSelected.ResultTypeCode.Value, "Đạt / Không đạt")
                         Width: =1000
                         X: =28
                         Y: =59
@@ -372,7 +365,7 @@ Screens:
                             Control: DataCard
                             Properties:
                               BorderStyle: =BorderStyle.None
-                              Height: =900
+                              Height: =If(IsBlank(varIndicatorSelected.ID), 440, 920)
                               Width: =Parent.Width
                               X: =0
                               Y: =0
@@ -412,7 +405,7 @@ Screens:
                                         Control: ModernCheckbox
                                         Properties:
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          Default: ="Gia súc" in Coalesce(varIndicatorSelected.ApplicableType, "")
+                                          Default: =Coalesce(varIndicatorSelected.ApplyLivestock, false)
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           Label: ="Gia súc"
@@ -425,7 +418,7 @@ Screens:
                                         Control: ModernCheckbox
                                         Properties:
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          Default: ="Gia cầm" in Coalesce(varIndicatorSelected.ApplicableType, "")
+                                          Default: =Coalesce(varIndicatorSelected.ApplyPoultry, false)
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           Label: ="Gia cầm"
@@ -438,7 +431,7 @@ Screens:
                                         Control: ModernCheckbox
                                         Properties:
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          Default: ="Aqua" in Coalesce(varIndicatorSelected.ApplicableType, "")
+                                          Default: =Coalesce(varIndicatorSelected.ApplyAqua, false)
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           Label: ="Aqua"
@@ -498,7 +491,7 @@ Screens:
                                         Control: ModernTextInput
                                         Properties:
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          Default: =Coalesce(varIndicatorSelected.CriteriaName, "")
+                                          Default: =Coalesce(varIndicatorSelected.Title, "")
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           MaxLength: =-1
@@ -531,7 +524,7 @@ Screens:
                                           AllowExternalSelectedItems: =false
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
                                           DefaultSelectedItems: |-
-                                            ={Value: Coalesce(varIndicatorSelected.InputMethod, "Chọn option rồi nhập kết quả")}
+                                            =If(IsBlank(varIndicatorSelected.ID), {Value: ""}, {Value: Coalesce(varIndicatorSelected.InputModeCode.Value, "")})
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           InputTextPlaceholder: =""
@@ -566,7 +559,7 @@ Screens:
                                           AllowExternalSelectedItems: =false
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
                                           DefaultSelectedItems: |-
-                                            ={Value: Coalesce(varIndicatorSelected.ResultType, "Đạt / Không đạt")}
+                                            =If(IsBlank(varIndicatorSelected.ID), {Value: ""}, {Value: Coalesce(varIndicatorSelected.ResultTypeCode.Value, "")})
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           InputTextPlaceholder: =""
@@ -631,7 +624,7 @@ Screens:
                                           AllowExternalSelectedItems: =false
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
                                           DefaultSelectedItems: |-
-                                            ={Value: Text(Coalesce(varIndicatorSelected.DecimalPlaces, 2))}
+                                            =If(IsBlank(varIndicatorSelected.ID), {Value: ""}, {Value: Coalesce(varIndicatorSelected.DecimalPlaces.Value, "")})
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           InputTextPlaceholder: =""
@@ -678,7 +671,7 @@ Screens:
                                         Control: ModernCheckbox
                                         Properties:
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          Default: =Coalesce(varIndicatorSelected.AllowMultipleOption, false)
+                                          Default: =Coalesce(varIndicatorSelected.AllowMultiOption, false)
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           Label: ="Cho phép chọn nhiều option"
@@ -691,7 +684,7 @@ Screens:
                                         Control: ModernCheckbox
                                         Properties:
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          Default: =Coalesce(varIndicatorSelected.RequiredResult, true)
+                                          Default: =If(IsBlank(varIndicatorSelected.ID), false, Coalesce(varIndicatorSelected.IsResultRequired, true))
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           Label: ="Bắt buộc nhập kết quả"
@@ -704,7 +697,7 @@ Screens:
                                         Control: ModernCheckbox
                                         Properties:
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          Default: =Coalesce(varIndicatorSelected.RequiredNote, false)
+                                          Default: =Coalesce(varIndicatorSelected.IsNoteRequired, false)
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           Label: ="Bắt buộc nhập Note"
@@ -717,7 +710,7 @@ Screens:
                                         Control: ModernCheckbox
                                         Properties:
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          Default: =Coalesce(varIndicatorSelected.ExportBMQC, true)
+                                          Default: =If(IsBlank(varIndicatorSelected.ID), false, Coalesce(varIndicatorSelected.ExportToBMQC, true))
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           Label: ="Xuất kết quả sang BMQC"
@@ -730,7 +723,7 @@ Screens:
                                         Control: ModernCheckbox
                                         Properties:
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          Default: =Coalesce(varIndicatorSelected.IsActive, true)
+                                          Default: =If(IsBlank(varIndicatorSelected.ID), false, Coalesce(varIndicatorSelected.IsActive, true))
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           Label: ="Đang sử dụng"
@@ -788,6 +781,7 @@ Screens:
                                   Properties:
                                     DropShadow: =DropShadow.Regular
                                     Height: =450
+                                    Visible: =!IsBlank(varIndicatorSelected.ID)
                                     Width: =1326
                                     X: =con_generalIndicator_2.X
                                     Y: =con_generalIndicator_2.Height + con_generalIndicator_2.Y + 20

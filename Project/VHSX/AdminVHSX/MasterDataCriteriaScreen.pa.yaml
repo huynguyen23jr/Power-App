@@ -3,20 +3,6 @@ Screens:
     Properties:
       Fill: =RGBA(241, 241, 241, 1)
       LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
-      OnVisible: |-
-        =If(
-            IsEmpty(colMasterCriteria),
-            ClearCollect(
-                colMasterCriteria,
-                {ID: 1, CriteriaName: "Cảm quan (màu, mùi)", ApplicableType: "Gia súc • Gia cầm • Nhai lại • Aqua", ResultType: "Đạt / Không đạt", InputMethod: "Chọn option rồi nhập kết quả", Unit: "", DecimalPlaces: 0, RequiredResult: true, IsActive: true, Status: "Đang sử dụng"},
-                {ID: 2, CriteriaName: "Chiều dài viên (%)", ApplicableType: "Gia cầm", ResultType: "Số", InputMethod: "Chọn option rồi nhập kết quả", Unit: "%", DecimalPlaces: 2, RequiredResult: true, IsActive: true, Status: "Đang sử dụng"},
-                {ID: 3, CriteriaName: "Tỷ lệ lọt sàng (%)", ApplicableType: "Gia súc • Gia cầm", ResultType: "Số", InputMethod: "Nhập kết quả", Unit: "%", DecimalPlaces: 2, RequiredResult: true, IsActive: true, Status: "Đang sử dụng"},
-                {ID: 4, CriteriaName: "PDI", ApplicableType: "Gia súc • Gia cầm", ResultType: "Số", InputMethod: "Nhập kết quả", Unit: "%", DecimalPlaces: 2, RequiredResult: true, IsActive: false, Status: "Ngừng sử dụng"},
-                {ID: 5, CriteriaName: "Độ ẩm", ApplicableType: "Gia súc • Gia cầm • Nhai lại • Aqua", ResultType: "Số", InputMethod: "Nhập kết quả", Unit: "%", DecimalPlaces: 2, RequiredResult: true, IsActive: true, Status: "Đang sử dụng"},
-                {ID: 6, CriteriaName: "Độ cứng viên", ApplicableType: "Gia súc • Gia cầm • Aqua", ResultType: "Số", InputMethod: "Nhập kết quả", Unit: "kgf", DecimalPlaces: 1, RequiredResult: true, IsActive: true, Status: "Đang sử dụng"},
-                {ID: 7, CriteriaName: "Tạp chất", ApplicableType: "Gia súc • Gia cầm • Nhai lại • Aqua", ResultType: "Đạt / Không đạt", InputMethod: "Nhập kết quả", Unit: "", DecimalPlaces: 0, RequiredResult: false, IsActive: true, Status: "Đang sử dụng"}
-            )
-        )
     Children:
       - con_MainMasterDataCriteria:
           Control: GroupContainer
@@ -98,6 +84,7 @@ Screens:
                                     Icon: ="Add"
                                     OnSelect: |-
                                       =Set(varIndicatorSelected, {});
+                                      RemoveIf(colIndicatorOptions, IndicatorID = 0);
                                       Navigate(DetailIndicatorScreen, ScreenTransition.CoverRight)
                                     PaddingBottom: =5
                                     PaddingLeft: =12
@@ -429,22 +416,9 @@ Screens:
                                     Items: |-
                                       =SortByColumns(
                                           Filter(
-                                              If(
-                                                  IsEmpty(colMasterCriteria),
-                                                  Table(
-                                                      {ID: 1, CriteriaName: "Cảm quan (màu, mùi)", ApplicableType: "Gia súc • Gia cầm • Nhai lại • Aqua", ResultType: "Đạt / Không đạt", InputMethod: "Chọn option rồi nhập kết quả", Unit: "", DecimalPlaces: 0, RequiredResult: true, IsActive: true, Status: "Đang sử dụng"},
-                                                      {ID: 2, CriteriaName: "Chiều dài viên (%)", ApplicableType: "Gia cầm", ResultType: "Số", InputMethod: "Chọn option rồi nhập kết quả", Unit: "%", DecimalPlaces: 2, RequiredResult: true, IsActive: true, Status: "Đang sử dụng"},
-                                                      {ID: 3, CriteriaName: "Tỷ lệ lọt sàng (%)", ApplicableType: "Gia súc • Gia cầm", ResultType: "Số", InputMethod: "Nhập kết quả", Unit: "%", DecimalPlaces: 2, RequiredResult: true, IsActive: true, Status: "Đang sử dụng"},
-                                                      {ID: 4, CriteriaName: "PDI", ApplicableType: "Gia súc • Gia cầm", ResultType: "Số", InputMethod: "Nhập kết quả", Unit: "%", DecimalPlaces: 2, RequiredResult: true, IsActive: false, Status: "Ngừng sử dụng"},
-                                                      {ID: 5, CriteriaName: "Độ ẩm", ApplicableType: "Gia súc • Gia cầm • Nhai lại • Aqua", ResultType: "Số", InputMethod: "Nhập kết quả", Unit: "%", DecimalPlaces: 2, RequiredResult: true, IsActive: true, Status: "Đang sử dụng"},
-                                                      {ID: 6, CriteriaName: "Độ cứng viên", ApplicableType: "Gia súc • Gia cầm • Aqua", ResultType: "Số", InputMethod: "Nhập kết quả", Unit: "kgf", DecimalPlaces: 1, RequiredResult: true, IsActive: true, Status: "Đang sử dụng"},
-                                                      {ID: 7, CriteriaName: "Tạp chất", ApplicableType: "Gia súc • Gia cầm • Nhai lại • Aqua", ResultType: "Đạt / Không đạt", InputMethod: "Nhập kết quả", Unit: "", DecimalPlaces: 0, RequiredResult: false, IsActive: true, Status: "Đang sử dụng"}
-                                                  ),
-                                                  colMasterCriteria
-                                              ),
-                                              (IsBlank(txtInput_FilterMasterDataCriteria.Text) || Lower(txtInput_FilterMasterDataCriteria.Text) in Lower(CriteriaName)) &&
-                                              (IsBlank(cbb_FilterCriteriaApplicable.Selected.Value) || cbb_FilterCriteriaApplicable.Selected.Value in ApplicableType) &&
-                                              (IsBlank(cbb_FilterCriteriaStatus.Selected.Value) || Status = cbb_FilterCriteriaStatus.Selected.Value)
+                                              'QLSX List Criteria Master',
+                                              (IsBlank(txtInput_FilterMasterDataCriteria.Text) || StartsWith(Title, txtInput_FilterMasterDataCriteria.Text)) &&
+                                              (IsBlank(cbb_FilterCriteriaStatus.Selected.Value) || IsActive = (cbb_FilterCriteriaStatus.Selected.Value = "Đang sử dụng"))
                                           ),
                                           "ID",
                                           SortOrder.Ascending
@@ -485,7 +459,7 @@ Screens:
                                                 RadiusTopLeft: =0
                                                 RadiusTopRight: =0
                                                 Size: =13
-                                                Text: =ThisItem.CriteriaName
+                                                Text: =ThisItem.Title
                                                 Width: =txt_HeaderCriteriaName.Width
                                           - txt_ValueResultType:
                                               Control: ModernText
@@ -501,7 +475,7 @@ Screens:
                                                 RadiusTopLeft: =0
                                                 RadiusTopRight: =0
                                                 Size: =13
-                                                Text: =ThisItem.ResultType
+                                                Text: =ThisItem.ResultTypeCode.Value
                                                 Width: =txt_HeaderCriteriaResult.Width
                                           - txt_ValueUnit:
                                               Control: ModernText
@@ -534,7 +508,7 @@ Screens:
                                                 RadiusTopLeft: =0
                                                 RadiusTopRight: =0
                                                 Size: =13
-                                                Text: =ThisItem.DecimalPlaces
+                                                Text: =ThisItem.DecimalPlaces.Value
                                                 Width: =txt_HeaderCriteriaDecimal.Width
                                           - txt_ValueRequired:
                                               Control: ModernText
@@ -551,7 +525,7 @@ Screens:
                                                 RadiusTopLeft: =0
                                                 RadiusTopRight: =0
                                                 Size: =13
-                                                Text: =If(ThisItem.RequiredResult, "Có", "Không")
+                                                Text: =If(ThisItem.IsResultRequired, "Có", "Không")
                                                 Width: =txt_HeaderCriteriaRequired.Width
                                           - con_StatusBadgeIndicator_1:
                                               Control: GroupContainer
@@ -606,7 +580,7 @@ Screens:
                                                 LayoutDirection: =LayoutDirection.Horizontal
                                                 LayoutGap: =5
                                                 LayoutJustifyContent: =LayoutJustifyContent.Center
-                                                LayoutMinHeight: |+
+                                                LayoutMinHeight: |
                                                   =0
                                                 Width: =txt_HeaderCriteriaAction.Width
                                               Children:
@@ -626,22 +600,22 @@ Screens:
                                                     Control: ModernButton
                                                     Properties:
                                                       Appearance: =ButtonAppearance.Transparent
-                                                      Icon: ="DismissCircle"
+                                                      Color: =If(ThisItem.IsActive, RGBA(180, 130, 30, 1), RGBA(20, 111, 75, 1))
+                                                      Icon: =If(ThisItem.IsActive, "DismissCircle", "CheckmarkCircle")
                                                       Layout: =ButtonLayout.IconOnly
                                                       LayoutMinHeight: =16
                                                       LayoutMinWidth: =16
                                                       OnSelect: |-
-                                                        =UpdateIf(
-                                                            colMasterCriteria,
-                                                            ID = ThisItem.ID,
-                                                            {
-                                                                IsActive: !ThisItem.IsActive,
-                                                                Status: If(ThisItem.IsActive, "Ngừng sử dụng", "Đang sử dụng")
-                                                            }
-                                                        );
-                                                        Notify(
-                                                            If(ThisItem.IsActive, "Đã ngừng sử dụng chỉ tiêu.", "Đã kích hoạt lại chỉ tiêu."),
-                                                            NotificationType.Success
+                                                        =If(
+                                                            ThisItem.IsActive,
+                                                            If(
+                                                                Confirm("Bạn có chắc muốn ngừng sử dụng chỉ tiêu """ & ThisItem.Title & """?", {Title: "Xác nhận", ConfirmButton: "Đồng ý", CancelButton: "Hủy"}),
+                                                                Patch('QLSX List Criteria Master', ThisItem, {IsActive: false})
+                                                            ),
+                                                            If(
+                                                                Confirm("Bạn có chắc muốn kích hoạt lại chỉ tiêu """ & ThisItem.Title & """?", {Title: "Xác nhận", ConfirmButton: "Đồng ý", CancelButton: "Hủy"}),
+                                                                Patch('QLSX List Criteria Master', ThisItem, {IsActive: true})
+                                                            )
                                                         )
                                                       Width: =40
                                     - rec_CriteriaRowDivider:
