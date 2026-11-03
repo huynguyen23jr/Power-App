@@ -200,6 +200,10 @@ Screens:
                               Notify("Vui lòng nhập tên chỉ tiêu.", NotificationType.Error),
                               !(chk_Livestock.Checked || chk_Poultry.Checked || chk_Aqua.Checked),
                               Notify("Vui lòng chọn ít nhất một loại áp dụng.", NotificationType.Error),
+                              IsBlank(cbb_InputMethod.Selected.Value),
+                              Notify("Vui lòng chọn cách nhập.", NotificationType.Error),
+                              IsBlank(cbb_ResultType.Selected.Value),
+                              Notify("Vui lòng chọn kiểu kết quả thực tế.", NotificationType.Error),
                               If(
                                   IsBlank(varIndicatorSelected.ID),
                                   With(
@@ -208,6 +212,8 @@ Screens:
                                               'QLSX List Criteria Master',
                                               Defaults('QLSX List Criteria Master'),
                                               {
+                                                  PlantCode: varCurrentPlant.PlantCode,
+                                                  PlantName: varCurrentPlant.PlantName,
                                                   Title: Trim(txt_IndicatorName.Text),
                                                   ApplyLivestock: chk_Livestock.Checked,
                                                   ApplyPoultry: chk_Poultry.Checked,
@@ -231,6 +237,8 @@ Screens:
                                       'QLSX List Criteria Master',
                                       varIndicatorSelected,
                                       {
+                                          PlantCode: varCurrentPlant.PlantCode,
+                                          PlantName: varCurrentPlant.PlantName,
                                           Title: Trim(txt_IndicatorName.Text),
                                           ApplyLivestock: chk_Livestock.Checked,
                                           ApplyPoultry: chk_Poultry.Checked,
@@ -530,9 +538,10 @@ Screens:
                                           InputTextPlaceholder: =""
                                           IsSearchable: =false
                                           ItemDisplayText: =ThisItem.'Value'
-                                          Items: =["Nhập kết quả", "Chọn option", "Chọn option rồi nhập kết quả"]
+                                          Items: =Choices('QLSX List Criteria Master'.InputModeCode)
                                           SelectMultiple: =false
                                           Size: =0
+                                          ValidationState: =If(IsBlank(Self.Selected.Value) && varIndicatorSave, "Error", "None")
                                           Width: =440
                                           X: =189
                                           Y: =94
@@ -565,9 +574,10 @@ Screens:
                                           InputTextPlaceholder: =""
                                           IsSearchable: =false
                                           ItemDisplayText: =ThisItem.'Value'
-                                          Items: =["Số", "Text", "Đạt / Không đạt"]
+                                          Items: =Choices('QLSX List Criteria Master'.ResultTypeCode)
                                           SelectMultiple: =false
                                           Size: =0
+                                          ValidationState: =If(IsBlank(Self.Selected.Value) && varIndicatorSave, "Error", "None")
                                           Width: =440
                                           X: =189
                                           Y: =137
@@ -630,7 +640,7 @@ Screens:
                                           InputTextPlaceholder: =""
                                           IsSearchable: =false
                                           ItemDisplayText: =ThisItem.'Value'
-                                          Items: =["0", "1", "2", "3", "4"]
+                                          Items: =Choices('QLSX List Criteria Master'.DecimalPlaces)
                                           SelectMultiple: =false
                                           Size: =0
                                           Width: =440
@@ -732,49 +742,6 @@ Screens:
                                           Width: =380
                                           X: =29
                                           Y: =223
-                                    - txt_IndicatorHint:
-                                        Control: ModernText
-                                        Properties:
-                                          Color: =RGBA(100, 110, 105, 1)
-                                          Font: =Font.'Segoe UI'
-                                          Height: =24
-                                          PaddingBottom: =0
-                                          PaddingLeft: =0
-                                          PaddingRight: =0
-                                          PaddingTop: =0
-                                          RadiusBottomLeft: =0
-                                          RadiusBottomRight: =0
-                                          RadiusTopLeft: =0
-                                          RadiusTopRight: =0
-                                          Size: =11
-                                          Text: ="Thực tế và Note được nhập theo từng option."
-                                          Width: =380
-                                          X: =29
-                                          Y: =258
-                                    - btn_SaveConfiguration:
-                                        Control: ModernButton
-                                        Properties:
-                                          Align: =Align.Center
-                                          BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          Font: =Font.'Segoe UI'
-                                          FontWeight: =""
-                                          Height: =40
-                                          Icon: ="Save"
-                                          OnSelect: =Select(btn_PatchIndicator)
-                                          PaddingBottom: =5
-                                          PaddingLeft: =12
-                                          PaddingRight: =12
-                                          PaddingTop: =5
-                                          RadiusBottomLeft: =4
-                                          RadiusBottomRight: =4
-                                          RadiusTopLeft: =4
-                                          RadiusTopRight: =4
-                                          Size: =14
-                                          Text: ="Lưu cấu hình"
-                                          VerticalAlign: =VerticalAlign.Middle
-                                          Width: =160
-                                          X: =469
-                                          Y: =238
                               - con_IndicatorOptions:
                                   Control: GroupContainer
                                   Variant: ManualLayout
@@ -871,9 +838,10 @@ Screens:
                                           Height: =36
                                           LayoutAlignItems: =LayoutAlignItems.Center
                                           LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutGap: =10
-                                          PaddingLeft: =5
-                                          Width: =1246
+                                          LayoutGap: =8
+                                          PaddingLeft: =15
+                                          PaddingRight: =15
+                                          Width: =Parent.Width - 20
                                           X: =10
                                           Y: =64
                                         Children:
@@ -881,43 +849,64 @@ Screens:
                                               Control: ModernText
                                               Properties:
                                                 AlignInContainer: =AlignInContainer.Center
-                                                FillPortions: =3
+                                                Color: =RGBA(96, 104, 100, 1)
+                                                FillPortions: =0
                                                 Font: =Font.'Segoe UI'
                                                 FontWeight: =FontWeight.Semibold
                                                 Size: =13
                                                 Text: ="Option"
+                                                Width: =400
                                           - txt_HdrCode:
                                               Control: ModernText
                                               Properties:
                                                 AlignInContainer: =AlignInContainer.Center
-                                                FillPortions: =2
+                                                Color: =RGBA(96, 104, 100, 1)
+                                                FillPortions: =0
                                                 Font: =Font.'Segoe UI'
                                                 FontWeight: =FontWeight.Semibold
                                                 Size: =13
                                                 Text: ="PropertyCode"
+                                                Width: =250
                                           - txt_HdrPName:
                                               Control: ModernText
                                               Properties:
                                                 AlignInContainer: =AlignInContainer.Center
-                                                FillPortions: =2
+                                                Color: =RGBA(96, 104, 100, 1)
+                                                FillPortions: =0
                                                 Font: =Font.'Segoe UI'
                                                 FontWeight: =FontWeight.Semibold
                                                 Size: =13
                                                 Text: ="PropertyName"
+                                                Width: =250
                                           - txt_HdrDefault:
                                               Control: ModernText
                                               Properties:
+                                                Align: =Align.Center
                                                 AlignInContainer: =AlignInContainer.Center
-                                                FillPortions: =1
+                                                Color: =RGBA(96, 104, 100, 1)
+                                                FillPortions: =0
                                                 Font: =Font.'Segoe UI'
                                                 FontWeight: =FontWeight.Semibold
                                                 Size: =13
                                                 Text: ="Mặc định"
+                                                Width: =120
+                                          - txt_HdrOptionAction:
+                                              Control: ModernText
+                                              Properties:
+                                                Align: =Align.Center
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Color: =RGBA(96, 104, 100, 1)
+                                                FillPortions: =0
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =FontWeight.Semibold
+                                                Size: =13
+                                                Text: ="Thao tác"
+                                                Width: =90
                                     - rec_OptionHeader:
                                         Control: Rectangle
                                         Properties:
-                                          Fill: =RGBA(68, 68, 68, 1)
-                                          Height: =0.2
+                                          Fill: =RGBA(180, 190, 185, 1)
+                                          Height: =1
                                           Width: =Parent.Width - 40
                                           X: =15
                                           Y: =100
@@ -939,7 +928,7 @@ Screens:
                                             )
                                           ShowScrollbar: =false
                                           TemplateSize: =44
-                                          Width: =1306
+                                          Width: =Parent.Width - 20
                                           X: =10
                                           Y: =102
                                         Children:
@@ -951,63 +940,72 @@ Screens:
                                                 Height: =Gallery_IndicatorOptions.TemplateHeight
                                                 LayoutAlignItems: =LayoutAlignItems.Center
                                                 LayoutDirection: =LayoutDirection.Horizontal
-                                                LayoutGap: =10
-                                                PaddingLeft: =5
-                                                Width: =Gallery_IndicatorOptions.Width - 60
+                                                LayoutGap: =8
+                                                PaddingLeft: =15
+                                                PaddingRight: =15
+                                                Width: =Gallery_IndicatorOptions.Width
                                               Children:
                                                 - txt_ValOption:
                                                     Control: ModernText
                                                     Properties:
-                                                      FillPortions: =3
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      Color: =RGBA(32, 38, 36, 1)
+                                                      FillPortions: =0
                                                       Font: =Font.'Segoe UI'
                                                       FontWeight: =FontWeight.Semibold
                                                       Size: =13
                                                       Text: =ThisItem.OptionName
+                                                      Width: =400
                                                 - txt_ValCode:
                                                     Control: ModernText
                                                     Properties:
-                                                      FillPortions: =2
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      Color: =RGBA(72, 80, 76, 1)
+                                                      FillPortions: =0
                                                       Font: =Font.'Segoe UI'
                                                       Size: =13
                                                       Text: =ThisItem.PropertyCode
+                                                      Width: =250
                                                 - txt_ValPName:
                                                     Control: ModernText
                                                     Properties:
-                                                      FillPortions: =2
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      Color: =RGBA(72, 80, 76, 1)
+                                                      FillPortions: =0
                                                       Font: =Font.'Segoe UI'
                                                       Size: =13
                                                       Text: =ThisItem.PropertyName
+                                                      Width: =250
                                                 - con_OptionDefaultCell:
                                                     Control: GroupContainer
                                                     Variant: AutoLayout
                                                     Properties:
-                                                      AlignInContainer: =AlignInContainer.SetByContainer
+                                                      AlignInContainer: =AlignInContainer.Center
                                                       DropShadow: =DropShadow.None
                                                       FillPortions: =0
                                                       Height: =32
                                                       LayoutAlignItems: =LayoutAlignItems.Center
                                                       LayoutDirection: =LayoutDirection.Horizontal
-                                                      LayoutMinHeight: =32
-                                                      Width: =txt_HdrDefault.Width
+                                                      LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                      Width: =120
                                                     Children:
                                                       - con_OptionDefaultPill:
                                                           Control: GroupContainer
                                                           Variant: AutoLayout
                                                           Properties:
-                                                            AlignInContainer: =AlignInContainer.SetByContainer
+                                                            AlignInContainer: =AlignInContainer.Center
                                                             DropShadow: =DropShadow.None
                                                             Fill: =RGBA(230, 245, 237, 1)
-                                                            Height: =32
+                                                            Height: =24
                                                             LayoutAlignItems: =LayoutAlignItems.Center
                                                             LayoutDirection: =LayoutDirection.Horizontal
-                                                            LayoutMinHeight: =32
-                                                            LayoutMinWidth: =0
-                                                            RadiusBottomLeft: =8
-                                                            RadiusBottomRight: =8
-                                                            RadiusTopLeft: =8
-                                                            RadiusTopRight: =8
+                                                            LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                            RadiusBottomLeft: =12
+                                                            RadiusBottomRight: =12
+                                                            RadiusTopLeft: =12
+                                                            RadiusTopRight: =12
                                                             Visible: =ThisItem.IsDefault
-                                                            Width: =90
+                                                            Width: =86
                                                           Children:
                                                             - txt_OptionDefaultPill:
                                                                 Control: ModernText
@@ -1018,44 +1016,64 @@ Screens:
                                                                   FillPortions: =1
                                                                   Font: =Font.'Segoe UI'
                                                                   FontWeight: =FontWeight.Semibold
-                                                                  Height: =26
-                                                                  LayoutMinWidth: =96
-                                                                  PaddingBottom: =0
-                                                                  PaddingLeft: =0
-                                                                  PaddingRight: =0
-                                                                  PaddingTop: =0
-                                                                  RadiusBottomLeft: =0
-                                                                  RadiusBottomRight: =0
-                                                                  RadiusTopLeft: =0
-                                                                  RadiusTopRight: =0
                                                                   Size: =11
                                                                   Text: ="Được chọn"
-                                                                  Width: =90
+                                                - con_OptionActions:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =40
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =2
+                                                      LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                      Width: =90
+                                                    Children:
+                                                      - btn_DeleteOption:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Color: =RGBA(196, 49, 49, 1)
+                                                            Height: =36
+                                                            Icon: ="Delete"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnSelect: |-
+                                                              =If(
+                                                                  Confirm("Bạn có chắc muốn xóa option """ & ThisItem.OptionName & """?", {Title: "Xác nhận xóa", ConfirmButton: "Xóa", CancelButton: "Hủy"}),
+                                                                  RemoveIf(colIndicatorOptions, ID = ThisItem.ID)
+                                                              )
+                                                            Width: =36
+                                                      - btn_EditOption:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Height: =36
+                                                            Icon: ="Edit"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnSelect: |-
+                                                              =Set(varOptionFormMode, "Edit");
+                                                              Set(varSelectedIndicatorOption, ThisItem);
+                                                              Reset(TextInput_OptionName);
+                                                              Reset(TextInput_OptionCode);
+                                                              Reset(TextInput_OptionPName);
+                                                              Reset(chk_OptionIsDefault);
+                                                              Set(varShowOptionForm, true)
+                                                            Width: =36
                                           - rec_OptionRowLine:
                                               Control: Rectangle
                                               Properties:
-                                                Fill: =RGBA(68, 68, 68, 1)
-                                                Height: =0.2
-                                                Width: =Gallery_IndicatorOptions.Width - 20
-                                                Y: =Gallery_IndicatorOptions.TemplateHeight - 0.2
-                                          - btn_EditOption:
-                                              Control: ModernButton
-                                              Properties:
-                                                Appearance: =ButtonAppearance.Transparent
-                                                Height: =40
-                                                Icon: ="Edit"
-                                                Layout: =ButtonLayout.IconOnly
-                                                OnSelect: |-
-                                                  =Set(varOptionFormMode, "Edit");
-                                                  Set(varSelectedIndicatorOption, ThisItem);
-                                                  Reset(TextInput_OptionName);
-                                                  Reset(TextInput_OptionCode);
-                                                  Reset(TextInput_OptionPName);
-                                                  Reset(chk_OptionIsDefault);
-                                                  Set(varShowOptionForm, true)
-                                                Width: =40
-                                                X: =Gallery_IndicatorOptions.Width - 52
-                                                Y: =2
+                                                Fill: =RGBA(215, 220, 218, 1)
+                                                Height: =1
+                                                Width: =Gallery_IndicatorOptions.Width - 30
+                                                X: =15
+                                                Y: =Gallery_IndicatorOptions.TemplateHeight - 1
       - con_OptionPopup:
           Control: GroupContainer
           Variant: AutoLayout
