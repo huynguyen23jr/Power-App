@@ -4,48 +4,7 @@ Screens:
       Fill: =RGBA(241, 241, 241, 1)
       LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
       OnVisible: |-
-        =If(
-            IsEmpty(colMasterDataReason),
-            ClearCollect(
-                colMasterDataReason,
-                {
-                    ID: 1,
-                    ReasonCode: "BROKEN",
-                    ReasonName: "Vụn",
-                    Scope: "Lý tính, Kết luận mẫu, Kết luận RunID",
-                    Status: "Đang sử dụng"
-                },
-                {
-                    ID: 2,
-                    ReasonCode: "IMPURITY",
-                    ReasonName: "Pha tạp",
-                    Scope: "Lý tính, Kết luận mẫu, Kết luận RunID",
-                    Status: "Đang sử dụng"
-                },
-                {
-                    ID: 3,
-                    ReasonCode: "COLOR_ODOR",
-                    ReasonName: "Màu / mùi không đạt",
-                    Scope: "Lý tính, Kết luận mẫu, Kết luận RunID",
-                    Status: "Đang sử dụng"
-                },
-                {
-                    ID: 4,
-                    ReasonCode: "MOISTURE",
-                    ReasonName: "Độ ẩm không đạt",
-                    Scope: "Lý tính, Dinh dưỡng, Kết luận mẫu, Kết luận RunID",
-                    Status: "Đang sử dụng"
-                },
-                {
-                    ID: 5,
-                    ReasonCode: "NUTRIENT",
-                    ReasonName: "Chỉ tiêu dinh dưỡng không đạt",
-                    Scope: "Dinh dưỡng, Kết luận mẫu, Kết luận RunID",
-                    Status: "Ngừng dùng"
-                }
-            )
-        );
-        Set(varReasonFormMode, "New");
+        =Set(varReasonFormMode, "New");
         Set(varRecordReasonDetail, {});
         Set(varShowReasonForm, false)
     Children:
@@ -152,17 +111,22 @@ Screens:
                                       Set(
                                           varRecordReasonDetail,
                                           {
-                                              ID: Blank(),
+                                              Title: "",
                                               ReasonCode: "",
-                                              ReasonName: "",
-                                              Scope: "",
-                                              Status: "Đang dùng"
+                                              ApplyPhysical: false,
+                                              ApplyNutrition: false,
+                                              ApplySample: false,
+                                              ApplyRunID: false,
+                                              IsActive: true
                                           }
                                       );
                                       Reset(txt_FormReasonCode);
                                       Reset(txt_FormReasonName);
-                                      Reset(cbb_FormReasonScope);
-                                      Reset(cbb_FormReasonStatus);
+                                      Reset(tgl_FormApplyPhysical);
+                                      Reset(tgl_FormApplyNutrition);
+                                      Reset(tgl_FormApplySample);
+                                      Reset(tgl_FormApplyRunID);
+                                      Reset(tgl_FormIsActive);
                                       Set(varShowReasonForm, true)
                                     PaddingBottom: =5
                                     PaddingLeft: =12
@@ -275,12 +239,12 @@ Screens:
                                   Properties:
                                     DropShadow: =DropShadow.None
                                     Fill: =Color.White
-                                    Height: =45
+                                    Height: =50
                                     LayoutAlignItems: =LayoutAlignItems.Center
                                     LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =10
-                                    PaddingLeft: =24
-                                    PaddingRight: =24
+                                    LayoutGap: =12
+                                    PaddingLeft: =20
+                                    PaddingRight: =20
                                     RadiusBottomLeft: =0
                                     RadiusBottomRight: =0
                                     RadiusTopLeft: =0
@@ -292,7 +256,7 @@ Screens:
                                         Properties:
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -301,15 +265,15 @@ Screens:
                                           RadiusBottomRight: =0
                                           RadiusTopLeft: =0
                                           RadiusTopRight: =0
-                                          Size: =14
+                                          Size: =13
                                           Text: ="Mã lý do"
-                                          Width: =130
-                                    - txt_HeaderReasonName:
+                                          Width: =110
+                                    - txt_HeaderReasonTitle:
                                         Control: ModernText
                                         Properties:
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -318,15 +282,15 @@ Screens:
                                           RadiusBottomRight: =0
                                           RadiusTopLeft: =0
                                           RadiusTopRight: =0
-                                          Size: =14
+                                          Size: =13
                                           Text: ="Tên lý do"
-                                          Width: =225
-                                    - txt_HeaderReasonScope:
+                                          Width: =195
+                                    - txt_HeaderApplyPhysical:
                                         Control: ModernText
                                         Properties:
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -335,16 +299,67 @@ Screens:
                                           RadiusBottomRight: =0
                                           RadiusTopLeft: =0
                                           RadiusTopRight: =0
-                                          Size: =14
-                                          Text: ="Phạm vi áp dụng"
-                                          Width: =385
-                                    - txt_HeaderReasonStatus:
+                                          Size: =13
+                                          Text: ="Lý tính"
+                                          Width: =85
+                                    - txt_HeaderApplyNutrition:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          LayoutMinWidth: =60
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
+                                          PaddingTop: =0
+                                          RadiusBottomLeft: =0
+                                          RadiusBottomRight: =0
+                                          RadiusTopLeft: =0
+                                          RadiusTopRight: =0
+                                          Size: =13
+                                          Text: ="Dinh dưỡng"
+                                          Width: =95
+                                    - txt_HeaderApplySample:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          LayoutMinWidth: =60
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
+                                          PaddingTop: =0
+                                          RadiusBottomLeft: =0
+                                          RadiusBottomRight: =0
+                                          RadiusTopLeft: =0
+                                          RadiusTopRight: =0
+                                          Size: =13
+                                          Text: ="Kết luận mẫu"
+                                          Width: =105
+                                    - txt_HeaderApplyRunID:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          LayoutMinWidth: =60
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
+                                          PaddingTop: =0
+                                          RadiusBottomLeft: =0
+                                          RadiusBottomRight: =0
+                                          RadiusTopLeft: =0
+                                          RadiusTopRight: =0
+                                          Size: =13
+                                          Text: ="Kết luận RunID"
+                                          Width: =105
+                                    - txt_HeaderReasonIsActive:
                                         Control: ModernText
                                         Properties:
                                           Align: =Align.Center
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -353,16 +368,16 @@ Screens:
                                           RadiusBottomRight: =0
                                           RadiusTopLeft: =0
                                           RadiusTopRight: =0
-                                          Size: =14
+                                          Size: =13
                                           Text: ="Trạng thái"
-                                          Width: =120
+                                          Width: =110
                                     - txt_HeaderReasonAction:
                                         Control: ModernText
                                         Properties:
                                           Align: =Align.Center
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -371,16 +386,16 @@ Screens:
                                           RadiusBottomRight: =0
                                           RadiusTopLeft: =0
                                           RadiusTopRight: =0
-                                          Size: =14
+                                          Size: =13
                                           Text: ="Thao tác"
-                                          Width: =130
+                                          Width: =120
                               - rec_ReasonHeaderDivider:
                                   Control: Rectangle
                                   Properties:
-                                    Fill: =RGBA(220, 224, 222, 1)
-                                    Height: =1
-                                    Width: =Parent.Width - 24*2
-                                    X: =24
+                                    Fill: =RGBA(180, 190, 185, 1)
+                                    Height: =2
+                                    Width: =Parent.Width - 20
+                                    X: =10
                                     Y: =con_ReasonHeaderRow.Height
                               - gal_MasterDataReason:
                                   Control: Gallery
@@ -396,12 +411,12 @@ Screens:
                                               'QLSX List Reason Master',
                                               IsBlank(txtInput_FilterMasterDataReason.Text) ||
                                               StartsWith(
-                                                  Lower(ReasonCode),
-                                                  Lower(txtInput_FilterMasterDataReason.Text)
+                                                  ReasonCode,
+                                                  txtInput_FilterMasterDataReason.Text
                                               ) ||
                                               StartsWith(
-                                                  Lower(ReasonName),
-                                                  Lower(txtInput_FilterMasterDataReason.Text)
+                                                  Title,
+                                                  txtInput_FilterMasterDataReason.Text
                                               )
                                           ),
                                           "ID",
@@ -427,9 +442,9 @@ Screens:
                                           Height: =gal_MasterDataReason.TemplateHeight
                                           LayoutAlignItems: =LayoutAlignItems.Center
                                           LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutGap: =10
-                                          PaddingLeft: =24
-                                          PaddingRight: =24
+                                          LayoutGap: =12
+                                          PaddingLeft: =20
+                                          PaddingRight: =20
                                           RadiusBottomLeft: =0
                                           RadiusBottomRight: =0
                                           RadiusTopLeft: =0
@@ -440,7 +455,7 @@ Screens:
                                               Control: ModernText
                                               Properties:
                                                 Font: =Font.'Segoe UI'
-                                                LayoutMinWidth: =96
+                                                LayoutMinWidth: =60
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
@@ -451,13 +466,13 @@ Screens:
                                                 RadiusTopRight: =0
                                                 Size: =13
                                                 Text: =ThisItem.ReasonCode
-                                                Width: =130
-                                          - txt_ValueReasonName:
+                                                Width: =110
+                                          - txt_ValueReasonTitle:
                                               Control: ModernText
                                               Properties:
                                                 Font: =Font.'Segoe UI'
                                                 FontWeight: =FontWeight.Semibold
-                                                LayoutMinWidth: =96
+                                                LayoutMinWidth: =60
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
@@ -467,54 +482,88 @@ Screens:
                                                 RadiusTopLeft: =0
                                                 RadiusTopRight: =0
                                                 Size: =13
-                                                Text: =ThisItem.ReasonName
-                                                Width: =225
-                                          - txt_ValueReasonScope:
-                                              Control: ModernText
+                                                Text: =ThisItem.Title
+                                                Width: =195
+                                          - chk_ValueApplyPhysical:
+                                              Control: ModernCheckbox
                                               Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                                Default: =ThisItem.ApplyPhysical
+                                                DisplayMode: =DisplayMode.Disabled
                                                 Font: =Font.'Segoe UI'
-                                                LayoutMinWidth: =96
-                                                PaddingBottom: =0
-                                                PaddingLeft: =0
-                                                PaddingRight: =0
-                                                PaddingTop: =0
-                                                RadiusBottomLeft: =0
-                                                RadiusBottomRight: =0
-                                                RadiusTopLeft: =0
-                                                RadiusTopRight: =0
-                                                Size: =13
-                                                Text: =ThisItem.Scope
-                                                Width: =385
-                                          - con_StatusBadgeIndicator_2:
+                                                FontWeight: =""
+                                                Label: =""
+                                                OnCheck: =
+                                                OnUncheck: =
+                                                Width: =85
+                                          - chk_ValueApplyNutrition:
+                                              Control: ModernCheckbox
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                                Default: =ThisItem.ApplyNutrition
+                                                DisplayMode: =DisplayMode.Disabled
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =""
+                                                Label: =""
+                                                OnCheck: =
+                                                OnUncheck: =
+                                                Width: =95
+                                          - chk_ValueApplySample:
+                                              Control: ModernCheckbox
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                                Default: =ThisItem.ApplySample
+                                                DisplayMode: =DisplayMode.Disabled
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =""
+                                                Label: =""
+                                                OnCheck: =
+                                                OnUncheck: =
+                                                Width: =105
+                                          - chk_ValueApplyRunID:
+                                              Control: ModernCheckbox
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                                Default: =ThisItem.ApplyRunID
+                                                DisplayMode: =DisplayMode.Disabled
+                                                Font: =Font.'Segoe UI'
+                                                FontWeight: =""
+                                                Label: =""
+                                                OnCheck: =
+                                                OnUncheck: =
+                                                Width: =105
+                                          - con_StatusBadgeReason:
                                               Control: GroupContainer
                                               Variant: AutoLayout
                                               Properties:
                                                 AlignInContainer: =AlignInContainer.SetByContainer
                                                 DropShadow: =DropShadow.None
-                                                Fill: =If(ThisItem.Status = "Đang sử dụng", RGBA(230, 245, 237, 1), RGBA(239, 243, 241, 1))
+                                                Fill: =If(ThisItem.IsActive, RGBA(230, 245, 237, 1), RGBA(239, 243, 241, 1))
                                                 FillPortions: =0
                                                 Height: =28
                                                 LayoutAlignItems: =LayoutAlignItems.Center
                                                 LayoutDirection: =LayoutDirection.Horizontal
                                                 LayoutJustifyContent: =LayoutJustifyContent.Center
-                                                LayoutMinHeight: =30
+                                                LayoutMinHeight: =28
                                                 RadiusBottomLeft: =8
                                                 RadiusBottomRight: =8
                                                 RadiusTopLeft: =8
                                                 RadiusTopRight: =8
-                                                Width: =txt_HeaderCriteriaStatus.Width
-                                                X: =1170
-                                                Y: =28
+                                                Width: =110
                                               Children:
-                                                - txt_StatusBadgeIndicator_2:
+                                                - txt_StatusBadgeReason:
                                                     Control: ModernText
                                                     Properties:
                                                       Align: =Align.Center
-                                                      Color: =If(ThisItem.Status = "Đang sử dụng", RGBA(20, 111, 75, 1), RGBA(79, 91, 86, 1))
+                                                      Color: =If(ThisItem.IsActive, RGBA(20, 111, 75, 1), RGBA(79, 91, 86, 1))
                                                       Font: =Font.'Segoe UI'
                                                       FontWeight: =FontWeight.Semibold
                                                       Height: =28
-                                                      LayoutMinWidth: =96
+                                                      LayoutMinWidth: =60
                                                       PaddingBottom: =0
                                                       PaddingLeft: =0
                                                       PaddingRight: =0
@@ -524,7 +573,7 @@ Screens:
                                                       RadiusTopLeft: =0
                                                       RadiusTopRight: =0
                                                       Size: =12
-                                                      Text: =ThisItem.Status
+                                                      Text: =If(ThisItem.IsActive, "Đang dùng", "Ngừng dùng")
                                                       Width: =Parent.Width
                                           - Container4:
                                               Control: GroupContainer
@@ -560,27 +609,58 @@ Screens:
                                                         Set(varRecordReasonDetail, ThisItem);
                                                         Reset(txt_FormReasonCode);
                                                         Reset(txt_FormReasonName);
-                                                        Reset(cbb_FormReasonScope);
-                                                        Reset(cbb_FormReasonStatus);
+                                                        Reset(tgl_FormApplyPhysical);
+                                                        Reset(tgl_FormApplyNutrition);
+                                                        Reset(tgl_FormApplySample);
+                                                        Reset(tgl_FormApplyRunID);
+                                                        Reset(tgl_FormIsActive);
                                                         Set(varShowReasonForm, true)
-                                                      Width: =40
-                                                - Button2_1:
+                                                      Width: =36
+                                                - btn_ToggleActiveReason:
                                                     Control: ModernButton
                                                     Properties:
                                                       Appearance: =ButtonAppearance.Transparent
-                                                      Icon: ="DismissCircle"
+                                                      Color: =If(ThisItem.IsActive, RGBA(180, 130, 30, 1), RGBA(20, 111, 75, 1))
+                                                      Icon: =If(ThisItem.IsActive, "DismissCircle", "CheckmarkCircle")
                                                       Layout: =ButtonLayout.IconOnly
                                                       LayoutMinHeight: =16
                                                       LayoutMinWidth: =16
-                                                      Width: =40
+                                                      OnSelect: |-
+                                                        =If(
+                                                            ThisItem.IsActive,
+                                                            If(
+                                                                Confirm("Bạn có chắc muốn ngừng sử dụng lý do """ & ThisItem.Title & """?", {Title: "Xác nhận", ConfirmButton: "Đồng ý", CancelButton: "Hủy"}),
+                                                                Patch('QLSX List Reason Master', ThisItem, {IsActive: false})
+                                                            ),
+                                                            If(
+                                                                Confirm("Bạn có chắc muốn kích hoạt lại lý do """ & ThisItem.Title & """?", {Title: "Xác nhận", ConfirmButton: "Đồng ý", CancelButton: "Hủy"}),
+                                                                Patch('QLSX List Reason Master', ThisItem, {IsActive: true})
+                                                            )
+                                                        )
+                                                      Width: =36
+                                                - btn_DeleteReason:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Color: =RGBA(196, 49, 49, 1)
+                                                      Icon: ="Delete"
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =If(
+                                                            Confirm("Bạn có chắc muốn xóa lý do """ & ThisItem.Title & """? Hành động này không thể hoàn tác.", {Title: "Xác nhận xóa", ConfirmButton: "Xóa", CancelButton: "Hủy"}),
+                                                            Remove('QLSX List Reason Master', ThisItem)
+                                                        )
+                                                      Width: =36
                                     - rec_ReasonRowDivider:
                                         Control: Rectangle
                                         Properties:
-                                          Fill: =RGBA(224, 228, 226, 1)
+                                          Fill: =RGBA(215, 220, 218, 1)
                                           Height: =1
-                                          Width: =Parent.Width - 24*2
-                                          X: =24
-                                          Y: =gal_MasterDataReason.TemplateHeight
+                                          Width: =Parent.Width - 20
+                                          X: =10
+                                          Y: =gal_MasterDataReason.TemplateHeight - 1
                               - txt_MasterDataReasonRowCount:
                                   Control: ModernText
                                   Properties:
@@ -714,14 +794,14 @@ Screens:
                 Properties:
                   DropShadow: =DropShadow.Regular
                   Fill: =RGBA(255, 255, 255, 1)
-                  Height: =500
+                  Height: =480
                   RadiusBottomLeft: =12
                   RadiusBottomRight: =12
                   RadiusTopLeft: =12
                   RadiusTopRight: =12
                   Width: =620
                   X: =373
-                  Y: =139
+                  Y: =169
                 Children:
                   - lbl_ReasonFormTitle:
                       Control: Label
@@ -771,7 +851,7 @@ Screens:
                         Text: ="Mã lý do"
                         Width: =270
                         X: =25
-                        Y: =88
+                        Y: =82
                   - txt_FormReasonCode:
                       Control: ModernTextInput
                       Properties:
@@ -788,7 +868,7 @@ Screens:
                         Placeholder: ="Nhập mã lý do"
                         Width: =270
                         X: =25
-                        Y: =120
+                        Y: =112
                   - lbl_FormReasonName:
                       Control: Label
                       Properties:
@@ -799,7 +879,7 @@ Screens:
                         Text: ="Tên lý do"
                         Width: =270
                         X: =325
-                        Y: =88
+                        Y: =82
                   - txt_FormReasonName:
                       Control: ModernTextInput
                       Properties:
@@ -807,7 +887,7 @@ Screens:
                         Default: |-
                           =If(
                               varReasonFormMode = "Edit",
-                              Coalesce(varRecordReasonDetail.ReasonName, ""),
+                              Coalesce(varRecordReasonDetail.Title, ""),
                               ""
                           )
                         Font: =Font.'Segoe UI'
@@ -816,8 +896,8 @@ Screens:
                         Placeholder: ="Nhập tên lý do"
                         Width: =270
                         X: =325
-                        Y: =120
-                  - lbl_FormReasonScope:
+                        Y: =112
+                  - lbl_FormReasonApplyScope:
                       Control: Label
                       Properties:
                         Font: =Font.'Segoe UI'
@@ -827,42 +907,64 @@ Screens:
                         Text: ="Phạm vi áp dụng"
                         Width: =270
                         X: =25
-                        Y: =185
-                  - cbb_FormReasonScope:
-                      Control: ModernCombobox
+                        Y: =160
+                  - tgl_FormApplyPhysical:
+                      Control: Toggle
                       Properties:
-                        AllowExternalSelectedItems: =false
-                        BasePaletteColor: =RGBA(8, 222, 8, 1)
-                        DefaultSelectedItems: |-
+                        Checked: |-
                           =If(
                               varReasonFormMode = "Edit",
-                              Filter(
-                                  Table(
-                                      {Value: "Lý tính"},
-                                      {Value: "Dinh dưỡng"},
-                                      {Value: "Kết luận mẫu"},
-                                      {Value: "Kết luận RunID"}
-                                  ),
-                                  Value in varRecordReasonDetail.Scope
-                              ),
-                              Blank()
+                              Coalesce(varRecordReasonDetail.ApplyPhysical, false),
+                              false
                           )
-                        Font: =Font.'Segoe UI'
-                        FontWeight: =""
-                        InputTextPlaceholder: ="Chọn phạm vi áp dụng"
-                        IsSearchable: =false
-                        ItemDisplayText: =ThisItem.'Value'
-                        Items: |-
-                          =Table(
-                              {Value: "Lý tính"},
-                              {Value: "Dinh dưỡng"},
-                              {Value: "Kết luận mẫu"},
-                              {Value: "Kết luận RunID"}
-                          )
-                        Width: =570
+                        Height: =45
+                        Label: ="Lý tính"
+                        Width: =260
                         X: =25
-                        Y: =220
-                  - lbl_FormReasonStatus:
+                        Y: =195
+                  - tgl_FormApplyNutrition:
+                      Control: Toggle
+                      Properties:
+                        Checked: |-
+                          =If(
+                              varReasonFormMode = "Edit",
+                              Coalesce(varRecordReasonDetail.ApplyNutrition, false),
+                              false
+                          )
+                        Height: =45
+                        Label: ="Dinh dưỡng"
+                        Width: =260
+                        X: =300
+                        Y: =195
+                  - tgl_FormApplySample:
+                      Control: Toggle
+                      Properties:
+                        Checked: |-
+                          =If(
+                              varReasonFormMode = "Edit",
+                              Coalesce(varRecordReasonDetail.ApplySample, false),
+                              false
+                          )
+                        Height: =45
+                        Label: ="Kết luận mẫu"
+                        Width: =260
+                        X: =25
+                        Y: =245
+                  - tgl_FormApplyRunID:
+                      Control: Toggle
+                      Properties:
+                        Checked: |-
+                          =If(
+                              varReasonFormMode = "Edit",
+                              Coalesce(varRecordReasonDetail.ApplyRunID, false),
+                              false
+                          )
+                        Height: =45
+                        Label: ="Kết luận RunID"
+                        Width: =260
+                        X: =300
+                        Y: =245
+                  - lbl_FormReasonIsActive:
                       Control: Label
                       Properties:
                         Font: =Font.'Segoe UI'
@@ -872,34 +974,21 @@ Screens:
                         Text: ="Trạng thái"
                         Width: =270
                         X: =25
-                        Y: =285
-                  - cbb_FormReasonStatus:
-                      Control: ModernCombobox
+                        Y: =300
+                  - tgl_FormIsActive:
+                      Control: Toggle
                       Properties:
-                        AllowExternalSelectedItems: =false
-                        DefaultSelectedItems: |-
-                          =Table(
-                              {
-                                  Value: Coalesce(
-                                      varRecordReasonDetail.Status,
-                                      "Đang dùng"
-                                  )
-                              }
+                        Checked: |-
+                          =If(
+                              varReasonFormMode = "Edit",
+                              Coalesce(varRecordReasonDetail.IsActive, true),
+                              true
                           )
-                        Font: =Font.'Segoe UI'
-                        FontWeight: =""
-                        InputTextPlaceholder: ="Chọn trạng thái"
-                        IsSearchable: =false
-                        ItemDisplayText: =ThisItem.'Value'
-                        Items: |-
-                          =Table(
-                              {Value: "Đang dùng"},
-                              {Value: "Ngừng dùng"}
-                          )
-                        SelectMultiple: =false
-                        Width: =270
+                        Height: =45
+                        Label: ="Đang dùng"
+                        Width: =200
                         X: =25
-                        Y: =320
+                        Y: =330
                   - rec_ReasonFormFooterDivider:
                       Control: Rectangle
                       Properties:
@@ -907,7 +996,7 @@ Screens:
                         Height: =1
                         Width: =570
                         X: =25
-                        Y: =425
+                        Y: =397
                   - con_ReasonFormActions:
                       Control: GroupContainer
                       Variant: AutoLayout
@@ -926,7 +1015,7 @@ Screens:
                         RadiusTopRight: =0
                         Width: =570
                         X: =25
-                        Y: =435
+                        Y: =407
                       Children:
                         - btn_CancelReasonForm:
                             Control: ModernButton
@@ -960,92 +1049,60 @@ Screens:
                               FontWeight: =""
                               Icon: ="Save"
                               OnSelect: |-
-                                =With(
-                                    {
-                                        scopeText: Concat(
-                                            cbb_FormReasonScope.SelectedItems,
-                                            Value,
-                                            ", "
-                                        )
-                                    },
+                                =If(
+                                    IsBlank(Trim(txt_FormReasonCode.Text)),
+                                    Notify(
+                                        "Vui lòng nhập mã lý do.",
+                                        NotificationType.Error
+                                    ),
+                                    IsBlank(Trim(txt_FormReasonName.Text)),
+                                    Notify(
+                                        "Vui lòng nhập tên lý do.",
+                                        NotificationType.Error
+                                    ),
                                     If(
-                                        IsBlank(Trim(txt_FormReasonCode.Text)),
-                                        Notify(
-                                            "Vui lòng nhập mã lý do.",
-                                            NotificationType.Error
+                                        varReasonFormMode = "New",
+                                        Patch(
+                                            'QLSX List Reason Master',
+                                            Defaults('QLSX List Reason Master'),
+                                            {
+                                                PlantCode: varCurrentPlant.PlantCode,
+                                                PlantName: varCurrentPlant.PlantName,
+                                                ReasonCode: Upper(Trim(txt_FormReasonCode.Text)),
+                                                Title: Trim(txt_FormReasonName.Text),
+                                                ApplyPhysical: tgl_FormApplyPhysical.Checked,
+                                                ApplyNutrition: tgl_FormApplyNutrition.Checked,
+                                                ApplySample: tgl_FormApplySample.Checked,
+                                                ApplyRunID: tgl_FormApplyRunID.Checked,
+                                                IsActive: tgl_FormIsActive.Checked
+                                            }
                                         ),
-                                        IsBlank(Trim(txt_FormReasonName.Text)),
-                                        Notify(
-                                            "Vui lòng nhập tên lý do.",
-                                            NotificationType.Error
-                                        ),
-                                        IsEmpty(cbb_FormReasonScope.SelectedItems),
-                                        Notify(
-                                            "Vui lòng chọn phạm vi áp dụng.",
-                                            NotificationType.Error
-                                        ),
-                                        IsBlank(cbb_FormReasonStatus.Selected.Value),
-                                        Notify(
-                                            "Vui lòng chọn trạng thái.",
-                                            NotificationType.Error
-                                        ),
-                                        varReasonFormMode = "New" &&
-                                        !IsBlank(
-                                            LookUp(
-                                                colMasterDataReason,
-                                                Lower(ReasonCode) =
-                                                Lower(Trim(txt_FormReasonCode.Text))
-                                            )
-                                        ),
-                                        Notify(
-                                            "Mã lý do đã tồn tại.",
-                                            NotificationType.Error
-                                        ),
+                                        Patch(
+                                            'QLSX List Reason Master',
+                                            varRecordReasonDetail,
+                                            {
+                                                PlantCode: varCurrentPlant.PlantCode,
+                                                PlantName: varCurrentPlant.PlantName,
+                                                ReasonCode: Upper(Trim(txt_FormReasonCode.Text)),
+                                                Title: Trim(txt_FormReasonName.Text),
+                                                ApplyPhysical: tgl_FormApplyPhysical.Checked,
+                                                ApplyNutrition: tgl_FormApplyNutrition.Checked,
+                                                ApplySample: tgl_FormApplySample.Checked,
+                                                ApplyRunID: tgl_FormApplyRunID.Checked,
+                                                IsActive: tgl_FormIsActive.Checked
+                                            }
+                                        )
+                                    );
+                                    Notify(
                                         If(
                                             varReasonFormMode = "New",
-                                            Collect(
-                                                colMasterDataReason,
-                                                {
-                                                    ID: Coalesce(
-                                                        Max(colMasterDataReason, ID),
-                                                        0
-                                                    ) + 1,
-                                                    ReasonCode: Upper(
-                                                        Trim(txt_FormReasonCode.Text)
-                                                    ),
-                                                    ReasonName: Trim(
-                                                        txt_FormReasonName.Text
-                                                    ),
-                                                    Scope: scopeText,
-                                                    Status: cbb_FormReasonStatus.Selected.Value
-                                                }
-                                            ),
-                                            UpdateIf(
-                                                colMasterDataReason,
-                                                ID = varRecordReasonDetail.ID,
-                                                {
-                                                    ReasonCode: Upper(
-                                                        Trim(txt_FormReasonCode.Text)
-                                                    ),
-                                                    ReasonName: Trim(
-                                                        txt_FormReasonName.Text
-                                                    ),
-                                                    Scope: scopeText,
-                                                    Status: cbb_FormReasonStatus.Selected.Value
-                                                }
-                                            )
-                                        );
-                                        Notify(
-                                            If(
-                                                varReasonFormMode = "New",
-                                                "Đã tạo lý do mới.",
-                                                "Đã cập nhật lý do."
-                                            ),
-                                            NotificationType.Success
-                                        );
-                                        Set(varShowReasonForm, false);
-                                        Set(varRecordReasonDetail, {})
-                                    )
+                                            "Đã tạo lý do mới.",
+                                            "Đã cập nhật lý do."
+                                        ),
+                                        NotificationType.Success
+                                    );
+                                    Set(varShowReasonForm, false);
+                                    Set(varRecordReasonDetail, {})
                                 )
                               PaddingBottom: =5
                               PaddingLeft: =12
