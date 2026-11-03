@@ -794,14 +794,14 @@ Screens:
                 Properties:
                   DropShadow: =DropShadow.Regular
                   Fill: =RGBA(255, 255, 255, 1)
-                  Height: =480
+                  Height: =510
                   RadiusBottomLeft: =12
                   RadiusBottomRight: =12
                   RadiusTopLeft: =12
                   RadiusTopRight: =12
                   Width: =620
                   X: =373
-                  Y: =169
+                  Y: =145
                 Children:
                   - lbl_ReasonFormTitle:
                       Control: Label
@@ -905,65 +905,95 @@ Screens:
                         Height: =30
                         Size: =14
                         Text: ="Phạm vi áp dụng"
-                        Width: =270
+                        Width: =570
                         X: =25
                         Y: =160
-                  - tgl_FormApplyPhysical:
-                      Control: Toggle
+                  - con_FormApplyRow1:
+                      Control: GroupContainer
+                      Variant: AutoLayout
                       Properties:
-                        Checked: |-
-                          =If(
-                              varReasonFormMode = "Edit",
-                              Coalesce(varRecordReasonDetail.ApplyPhysical, false),
-                              false
-                          )
+                        DropShadow: =DropShadow.None
                         Height: =45
-                        Label: ="Lý tính"
-                        Width: =260
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =40
+                        Width: =570
                         X: =25
                         Y: =195
-                  - tgl_FormApplyNutrition:
-                      Control: Toggle
+                      Children:
+                        - tgl_FormApplyPhysical:
+                            Control: ModernToggle
+                            Properties:
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
+                              Default: |-
+                                =If(
+                                    varReasonFormMode = "Edit",
+                                    Coalesce(varRecordReasonDetail.ApplyPhysical, false),
+                                    false
+                                )
+                              Height: =45
+                              Label: ="Lý tính"
+                              OnCheck: =
+                              OnUncheck: =
+                              Width: =240
+                        - tgl_FormApplyNutrition:
+                            Control: ModernToggle
+                            Properties:
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
+                              Default: |-
+                                =If(
+                                    varReasonFormMode = "Edit",
+                                    Coalesce(varRecordReasonDetail.ApplyNutrition, false),
+                                    false
+                                )
+                              Height: =45
+                              Label: ="Dinh dưỡng"
+                              OnCheck: =
+                              OnUncheck: =
+                              Width: =240
+                  - con_FormApplyRow2:
+                      Control: GroupContainer
+                      Variant: AutoLayout
                       Properties:
-                        Checked: |-
-                          =If(
-                              varReasonFormMode = "Edit",
-                              Coalesce(varRecordReasonDetail.ApplyNutrition, false),
-                              false
-                          )
+                        DropShadow: =DropShadow.None
                         Height: =45
-                        Label: ="Dinh dưỡng"
-                        Width: =260
-                        X: =300
-                        Y: =195
-                  - tgl_FormApplySample:
-                      Control: Toggle
-                      Properties:
-                        Checked: |-
-                          =If(
-                              varReasonFormMode = "Edit",
-                              Coalesce(varRecordReasonDetail.ApplySample, false),
-                              false
-                          )
-                        Height: =45
-                        Label: ="Kết luận mẫu"
-                        Width: =260
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =40
+                        Width: =570
                         X: =25
                         Y: =245
-                  - tgl_FormApplyRunID:
-                      Control: Toggle
-                      Properties:
-                        Checked: |-
-                          =If(
-                              varReasonFormMode = "Edit",
-                              Coalesce(varRecordReasonDetail.ApplyRunID, false),
-                              false
-                          )
-                        Height: =45
-                        Label: ="Kết luận RunID"
-                        Width: =260
-                        X: =300
-                        Y: =245
+                      Children:
+                        - tgl_FormApplySample:
+                            Control: ModernToggle
+                            Properties:
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
+                              Default: |-
+                                =If(
+                                    varReasonFormMode = "Edit",
+                                    Coalesce(varRecordReasonDetail.ApplySample, false),
+                                    false
+                                )
+                              Height: =45
+                              Label: ="Kết luận mẫu"
+                              OnCheck: =
+                              OnUncheck: =
+                              Width: =240
+                        - tgl_FormApplyRunID:
+                            Control: ModernToggle
+                            Properties:
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
+                              Default: |-
+                                =If(
+                                    varReasonFormMode = "Edit",
+                                    Coalesce(varRecordReasonDetail.ApplyRunID, false),
+                                    false
+                                )
+                              Height: =45
+                              Label: ="Kết luận RunID"
+                              OnCheck: =
+                              OnUncheck: =
+                              Width: =240
                   - lbl_FormReasonIsActive:
                       Control: Label
                       Properties:
@@ -974,11 +1004,12 @@ Screens:
                         Text: ="Trạng thái"
                         Width: =270
                         X: =25
-                        Y: =300
+                        Y: =305
                   - tgl_FormIsActive:
-                      Control: Toggle
+                      Control: ModernToggle
                       Properties:
-                        Checked: |-
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Default: |-
                           =If(
                               varReasonFormMode = "Edit",
                               Coalesce(varRecordReasonDetail.IsActive, true),
@@ -986,9 +1017,11 @@ Screens:
                           )
                         Height: =45
                         Label: ="Đang dùng"
+                        OnCheck: =
+                        OnUncheck: =
                         Width: =200
                         X: =25
-                        Y: =330
+                        Y: =340
                   - rec_ReasonFormFooterDivider:
                       Control: Rectangle
                       Properties:
@@ -996,7 +1029,7 @@ Screens:
                         Height: =1
                         Width: =570
                         X: =25
-                        Y: =397
+                        Y: =405
                   - con_ReasonFormActions:
                       Control: GroupContainer
                       Variant: AutoLayout

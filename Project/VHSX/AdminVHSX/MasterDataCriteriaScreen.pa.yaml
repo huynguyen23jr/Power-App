@@ -197,11 +197,11 @@ Screens:
                                     Font: =Font.'Segoe UI'
                                     FontWeight: =FontWeight.Semibold
                                     Height: =44
-                                    Size: =14
+                                    Size: =16
                                     Text: ="Danh sách chỉ tiêu"
-                                    Width: =400
+                                    Width: =240
                                     X: =20
-                                    Y: =10
+                                    Y: =13
                               - txtInput_FilterMasterDataCriteria:
                                   Control: ModernTextInput
                                   Properties:
@@ -210,8 +210,8 @@ Screens:
                                     FontWeight: =""
                                     MaxLength: =-1
                                     Placeholder: ="Tìm theo tên chỉ tiêu"
-                                    Width: =230
-                                    X: =450
+                                    Width: =280
+                                    X: =270
                                     Y: =14
                               - cbb_FilterCriteriaApplicable:
                                   Control: ModernCombobox
@@ -223,10 +223,10 @@ Screens:
                                     IsSearchable: =false
                                     ItemDisplayText: =ThisItem.'Value'
                                     Items: |-
-                                      =Table({Value: "Gia súc"}, {Value: "Gia cầm"}, {Value: "Nhai lại"}, {Value: "Aqua"})
+                                      =Table({Value: "Gia súc"}, {Value: "Gia cầm"}, {Value: "Aqua"})
                                     SelectMultiple: =false
-                                    Width: =170
-                                    X: =690
+                                    Width: =190
+                                    X: =562
                                     Y: =14
                               - cbb_FilterCriteriaStatus:
                                   Control: ModernCombobox
@@ -240,8 +240,8 @@ Screens:
                                     Items: |-
                                       =Table({Value: "Đang sử dụng"}, {Value: "Ngừng sử dụng"})
                                     SelectMultiple: =false
-                                    Width: =170
-                                    X: =870
+                                    Width: =190
+                                    X: =764
                                     Y: =14
                         - con_MasterDataCriteriaGrid:
                             Control: GroupContainer
@@ -258,22 +258,21 @@ Screens:
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
-                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Fill: =Color.White
                                     Height: =45
                                     LayoutAlignItems: =LayoutAlignItems.Center
                                     LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =5
-                                    PaddingLeft: =24
-                                    PaddingRight: =24
+                                    LayoutGap: =8
+                                    PaddingLeft: =20
+                                    PaddingRight: =20
                                     Width: =1068
                                   Children:
                                     - txt_HeaderCriteriaName:
                                         Control: ModernText
                                         Properties:
-                                          FillPortions: =1
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -284,14 +283,13 @@ Screens:
                                           RadiusTopRight: =0
                                           Size: =14
                                           Text: ="Tên chỉ tiêu"
-                                          Width: =160
+                                          Width: =210
                                     - txt_HeaderCriteriaResult:
                                         Control: ModernText
                                         Properties:
-                                          FillPortions: =1
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -302,14 +300,13 @@ Screens:
                                           RadiusTopRight: =0
                                           Size: =14
                                           Text: ="Kiểu kết quả thực tế"
-                                          Width: =100
+                                          Width: =170
                                     - txt_HeaderCriteriaUnit:
                                         Control: ModernText
                                         Properties:
-                                          FillPortions: =1
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -320,15 +317,14 @@ Screens:
                                           RadiusTopRight: =0
                                           Size: =14
                                           Text: ="Đơn vị"
-                                          Width: =55
+                                          Width: =60
                                     - txt_HeaderCriteriaDecimal:
                                         Control: ModernText
                                         Properties:
                                           Align: =Align.Center
-                                          FillPortions: =1
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -339,15 +335,14 @@ Screens:
                                           RadiusTopRight: =0
                                           Size: =14
                                           Text: ="Số chữ số thập phân"
-                                          Width: =80
+                                          Width: =148
                                     - txt_HeaderCriteriaRequired:
                                         Control: ModernText
                                         Properties:
                                           Align: =Align.Center
-                                          FillPortions: =1
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -358,15 +353,14 @@ Screens:
                                           RadiusTopRight: =0
                                           Size: =14
                                           Text: ="Bắt buộc nhập KQ"
-                                          Width: =85
+                                          Width: =137
                                     - txt_HeaderCriteriaStatus:
                                         Control: ModernText
                                         Properties:
                                           Align: =Align.Center
-                                          FillPortions: =1
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -377,15 +371,14 @@ Screens:
                                           RadiusTopRight: =0
                                           Size: =14
                                           Text: ="Trạng thái"
-                                          Width: =110
+                                          Width: =130
                                     - txt_HeaderCriteriaAction:
                                         Control: ModernText
                                         Properties:
                                           Align: =Align.Center
-                                          FillPortions: =1
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
-                                          LayoutMinWidth: =96
+                                          LayoutMinWidth: =60
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
@@ -396,15 +389,15 @@ Screens:
                                           RadiusTopRight: =0
                                           Size: =14
                                           Text: ="Thao tác"
-                                          Width: =90
+                                          Width: =125
                               - rec_CriteriaHeaderDivider:
                                   Control: Rectangle
                                   Properties:
-                                    Fill: =RGBA(220, 224, 222, 1)
+                                    Fill: =RGBA(180, 190, 185, 1)
                                     Height: =1
-                                    Width: =1020
-                                    X: =24
-                                    Y: =con_CriteriaHeaderRow.Height-2
+                                    Width: =Parent.Width - 20
+                                    X: =10
+                                    Y: =con_CriteriaHeaderRow.Height - 2
                               - gal_MasterDataCriteria:
                                   Control: Gallery
                                   Variant: Vertical
@@ -439,9 +432,9 @@ Screens:
                                           Height: =45
                                           LayoutAlignItems: =LayoutAlignItems.Center
                                           LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutGap: =6
-                                          PaddingLeft: =24
-                                          PaddingRight: =24
+                                          LayoutGap: =8
+                                          PaddingLeft: =20
+                                          PaddingRight: =20
                                           Width: =Parent.TemplateWidth
                                         Children:
                                           - txt_ValueCriteriaName:
@@ -449,7 +442,7 @@ Screens:
                                               Properties:
                                                 Font: =Font.'Segoe UI'
                                                 FontWeight: =FontWeight.Semibold
-                                                LayoutMinWidth: =96
+                                                LayoutMinWidth: =60
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
@@ -465,7 +458,7 @@ Screens:
                                               Control: ModernText
                                               Properties:
                                                 Font: =Font.'Segoe UI'
-                                                LayoutMinWidth: =96
+                                                LayoutMinWidth: =60
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
@@ -481,7 +474,7 @@ Screens:
                                               Control: ModernText
                                               Properties:
                                                 Font: =Font.'Segoe UI'
-                                                LayoutMinWidth: =96
+                                                LayoutMinWidth: =60
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
@@ -498,7 +491,7 @@ Screens:
                                               Properties:
                                                 Align: =Align.Center
                                                 Font: =Font.'Segoe UI'
-                                                LayoutMinWidth: =96
+                                                LayoutMinWidth: =60
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
@@ -510,22 +503,14 @@ Screens:
                                                 Size: =13
                                                 Text: =ThisItem.DecimalPlaces.Value
                                                 Width: =txt_HeaderCriteriaDecimal.Width
-                                          - txt_ValueRequired:
-                                              Control: ModernText
+                                          - chk_ValueRequired:
+                                              Control: ModernCheckbox
                                               Properties:
-                                                Align: =Align.Center
-                                                Font: =Font.'Segoe UI'
-                                                LayoutMinWidth: =96
-                                                PaddingBottom: =0
-                                                PaddingLeft: =0
-                                                PaddingRight: =0
-                                                PaddingTop: =0
-                                                RadiusBottomLeft: =0
-                                                RadiusBottomRight: =0
-                                                RadiusTopLeft: =0
-                                                RadiusTopRight: =0
-                                                Size: =13
-                                                Text: =If(ThisItem.IsResultRequired, "Có", "Không")
+                                                AlignInContainer: =AlignInContainer.Center
+                                                BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                                Default: =ThisItem.IsResultRequired
+                                                DisplayMode: =DisplayMode.Disabled
+                                                Label: =""
                                                 Width: =txt_HeaderCriteriaRequired.Width
                                           - con_StatusBadgeIndicator_1:
                                               Control: GroupContainer
@@ -556,7 +541,7 @@ Screens:
                                                       Font: =Font.'Segoe UI'
                                                       FontWeight: =FontWeight.Semibold
                                                       Height: =28
-                                                      LayoutMinWidth: =96
+                                                      LayoutMinWidth: =60
                                                       PaddingBottom: =0
                                                       PaddingLeft: =0
                                                       PaddingRight: =0
@@ -618,13 +603,28 @@ Screens:
                                                             )
                                                         )
                                                       Width: =40
+                                                - btn_DeleteCriteria:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Color: =RGBA(196, 49, 49, 1)
+                                                      Icon: ="Delete"
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =If(
+                                                            Confirm("Bạn có chắc muốn xóa chỉ tiêu """ & ThisItem.Title & """? Hành động này không thể hoàn tác.", {Title: "Xác nhận xóa", ConfirmButton: "Xóa", CancelButton: "Hủy"}),
+                                                            Remove('QLSX List Criteria Master', ThisItem)
+                                                        )
+                                                      Width: =40
                                     - rec_CriteriaRowDivider:
                                         Control: Rectangle
                                         Properties:
-                                          Fill: =RGBA(224, 228, 226, 1)
+                                          Fill: =RGBA(215, 220, 218, 1)
                                           Height: =1
-                                          Width: =gal_MasterDataCriteria.Width - 48
-                                          X: =24
+                                          Width: =Parent.Width - 20
+                                          X: =10
                                           Y: =gal_MasterDataCriteria.TemplateHeight - 1
                               - txt_MasterDataCriteriaRowCount:
                                   Control: ModernText
