@@ -1,0 +1,1283 @@
+Screens:
+  DetailRecordRollScreen:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+    Children:
+      - con_FormMasterDataProductionDetail_2:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =768
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1366
+          Children:
+            - con_buttonDetailRecordScreen_2:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.Regular
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =54
+                  Width: =Parent.Width - 40
+                  X: =20
+                  Y: =20
+                Children:
+                  - con_Actions_2:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Height: =54
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =5
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =2
+                        PaddingTop: =5
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =1222
+                      Children:
+                        - btn_BackHome_2:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="ArrowLeft"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: =Back(ScreenTransition.Fade)
+                              Text: =
+                              Width: =50
+                              X: =299
+                              Y: =7
+                        - btn_NewMasterDataProduction_2:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="Add"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              Text: ="Tạo mới"
+                              Visible: =false
+                              Width: =120
+                              X: =299
+                              Y: =7
+                        - btn_SaveMasterDataProduction_4:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="Save"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: =Select(btn_PatchMasterDataProduction_2)
+                              Text: ="Lưu"
+                              Width: =100
+                              X: =299
+                              Y: =7
+                        - btn_SaveMasterDataProduction_5:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="Save"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: |-
+                                =Select(btn_PatchMasterDataProduction_2);
+                                Back();
+                              Text: ="Lưu và đóng"
+                              Width: =150
+                              X: =299
+                              Y: =7
+                        - btn_HomeRefreshMasterDataProduction_13:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="ArrowSync"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: |-
+                                =Refresh('QLSX List RollList');
+                                Refresh('QLSX List Roll Change History');
+                                Set(varRecordRollDetail , LookUp('QLSX List RollList',ID = varRecordRollDetail.ID))
+                              Text: ="Làm mới"
+                              Width: =150
+                              X: =299
+                              Y: =7
+                  - btn_PatchMasterDataProduction_2:
+                      Control: Button
+                      Properties:
+                        Height: =54
+                        OnSelect: |-
+                          =Set(
+                              varRecordRollDetail,
+                              If(
+                                  IsBlank(varRecordRollDetail.ID),
+                                  //create
+                                  Patch(
+                                      'QLSX List RollList',
+                                      Defaults('QLSX List RollList'),
+                                      {
+                                          PlantCode: varCurrentPlant.PlantCode,
+                                          UsageDate: DatePickerCanvas2.SelectedDate,
+                                          BrandName: txtInput_BtpCode_4.Value,
+                                          RollCode: txtInput_PremixCode_4.Value,
+                                          RollName: txtInput_SAPCode_6.Value,
+                                          RollDiameter:NumberInput4.Value,
+                                          RollLength: NumberInput4_1.Value,
+                                          RollSpecs: txtInput_PremixCode_6.Value,
+                                          PelletMill: txtInput_SAPCode_5.Value,
+                                          Area: ComboboxCanvas1.Selected.Value,
+                                          FeedTons:NumberInput5.Value
+                                      }
+                                  ),
+                                  //update
+                                  Patch(
+                                      'QLSX List RollList',
+                                      varRecordRollDetail,
+                                      {
+                                          PlantCode: varCurrentPlant.PlantCode,
+                                          UsageDate: DatePickerCanvas2.SelectedDate,
+                                          BrandName: txtInput_BtpCode_4.Value,
+                                          RollCode: txtInput_PremixCode_4.Value,
+                                          RollName: txtInput_SAPCode_6.Value,
+                                          RollDiameter:NumberInput4.Value,
+                                          RollLength: NumberInput4_1.Value,
+                                          RollSpecs: txtInput_PremixCode_6.Value,
+                                          PelletMill: txtInput_SAPCode_5.Value,
+                                          Area: ComboboxCanvas1.Selected.Value,
+                                          FeedTons:NumberInput5.Value
+                                      }
+                                  )
+                              )
+                          );
+                          Notify("Lưu thành công.", NotificationType.Success, 2000);
+                        Text: ="patch"
+                        Visible: =false
+                        Width: =104
+                        X: =1222
+            - con_DetailHeaderMasterDataProduction_2:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.Regular
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =125
+                  Width: =con_buttonDetailRecordScreen_2.Width
+                  X: =con_buttonDetailRecordScreen_2.X
+                  Y: =con_buttonDetailRecordScreen_2.Y + con_buttonDetailRecordScreen_2.Height + 20
+                Children:
+                  - lbl_EsignRequest_2:
+                      Control: Label
+                      Properties:
+                        FocusedBorderColor: =lbl_EsignRequest_2.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        HoverBorderColor: =lbl_EsignRequest_2.BorderColor
+                        HoverColor: =lbl_EsignRequest_2.Color
+                        HoverFill: =lbl_EsignRequest_2.Fill
+                        PressedBorderColor: =lbl_EsignRequest_2.BorderColor
+                        PressedColor: =lbl_EsignRequest_2.Color
+                        PressedFill: =lbl_EsignRequest_2.Fill
+                        Size: =15
+                        TabIndex: =0
+                        Text: |
+                          =If(
+                              !IsBlank(varRecordRollDetail.ID),
+                              varRecordRollDetail.RollCode,
+                              "Tạo mới"
+                          )
+                        Width: =1000
+                        X: =28
+                        Y: =24
+                  - img_formServiceCatalogue_3:
+                      Control: Image
+                      Properties:
+                        Height: =60
+                        Image: |
+                          =If(
+                              !IsBlank(varRecordRollDetail.'Created By'.Email),
+                              Office365Users.UserPhotoV2(varRecordRollDetail.'Created By'.Email),
+                              Office365Users.UserPhotoV2(User().Email)
+                          )
+                        RadiusBottomLeft: =60
+                        RadiusBottomRight: =60
+                        RadiusTopLeft: =60
+                        RadiusTopRight: =60
+                        Width: =60
+                        X: =1028
+                        Y: =28
+                  - txt_OwnerTickets_5:
+                      Control: Text
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        Font: =Font.'Segoe UI'
+                        FontColor: =RGBA(17, 94, 163, 1)
+                        Height: =28
+                        Text: |
+                          =If(
+                              !IsBlank(varRecordRollDetail.'Created By'.Email),
+                              varRecordRollDetail.'Created By'.DisplayName,
+                              User().FullName
+                          )
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =204
+                        X: =1100
+                        Y: =28
+                  - lbl_EtaxEsign_2:
+                      Control: Label
+                      Properties:
+                        FocusedBorderColor: =lbl_EtaxEsign_2.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        HoverBorderColor: =lbl_EtaxEsign_2.BorderColor
+                        HoverColor: =lbl_EtaxEsign_2.Color
+                        HoverFill: =lbl_EtaxEsign_2.Fill
+                        PressedBorderColor: =lbl_EtaxEsign_2.BorderColor
+                        PressedColor: =lbl_EtaxEsign_2.Color
+                        PressedFill: =lbl_EtaxEsign_2.Fill
+                        Size: =12
+                        TabIndex: =0
+                        Text: ="Thông tin roll"
+                        Width: =320
+                        X: =28
+                        Y: =59
+                  - txtOwner1_5:
+                      Control: Text
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        Font: =Font.'Segoe UI'
+                        FontColor: =RGBA(68, 68, 68, 1)
+                        Height: =25
+                        Size: =16
+                        Text: ="Owner"
+                        VerticalAlign: =VerticalAlign.Top
+                        Weight: ='TextCanvas.Weight'.Bold
+                        Width: =70
+                        X: =1100
+                        Y: =59
+            - con_MasterDataProductionDetail_2:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Height: =528
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =1366
+                  Y: =con_DetailHeaderMasterDataProduction_2.Height +  con_DetailHeaderMasterDataProduction_2.Y + 10
+                Children:
+                  - Canvas_MasterDataProductionDetail_2:
+                      Control: FluidGrid
+                      Properties:
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =528
+                        Width: =1366
+                      Children:
+                        - DataCard_MasterDataProductionDetail_2:
+                            Control: DataCard
+                            Properties:
+                              BorderStyle: =BorderStyle.None
+                              Height: =500
+                              Width: =Parent.Width
+                              X: =0
+                              Y: =0
+                            Children:
+                              - con_generalDetailMasterProduction_4:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =221
+                                    Width: =1326
+                                    X: =20
+                                    Y: =5
+                                  Children:
+                                    - lbl_DetailsTeamInformation_10:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          FocusedBorderColor: =lbl_DetailsTeamInformation_10.BorderColor
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverBorderColor: =lbl_DetailsTeamInformation_10.BorderColor
+                                          HoverColor: =lbl_DetailsTeamInformation_10.Color
+                                          HoverFill: =lbl_DetailsTeamInformation_10.Fill
+                                          PressedBorderColor: =lbl_DetailsTeamInformation_10.BorderColor
+                                          PressedColor: =lbl_DetailsTeamInformation_10.Color
+                                          PressedFill: =lbl_DetailsTeamInformation_10.Fill
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="THÔNG TIN CHUNG"
+                                          Width: =220
+                                          X: =29
+                                          Y: =5
+                                    - rec_GeneralDetailMasterProduction_4:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =35
+                                    - txt_SapCodeLabel_4:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Nhà máy"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_SAPCode_4.Y
+                                    - txtInput_SAPCode_4:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: |-
+                                            =If(
+                                                IsBlank(varRecordRollDetail.ID),
+                                                LookUp(
+                                                    'QLSX List Plant',
+                                                    PlantCode = varCurrentPlant.PlantCode
+                                                ).PlantName,
+                                                LookUp(
+                                                    'QLSX List Plant',
+                                                    PlantCode = varRecordRollDetail.PlantCode
+                                                ).PlantName
+                                            )
+                                          Width: =1100
+                                          X: =189
+                                          Y: =51
+                                    - lbl_ProductCode_4:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Ngày sử dụng"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =90
+                                    - lbl_BtpCode_4:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Hãng"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_BtpCode_4.Y
+                                    - txtInput_BtpCode_4:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: =varRecordRollDetail.BrandName
+                                          Width: =1100
+                                          X: =txtInput_SAPCode_4.X
+                                          Y: =129
+                                    - lbl_PremixCode_4:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Mã roll"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_PremixCode_4.Y
+                                    - txtInput_PremixCode_4:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: =varRecordRollDetail.RollCode
+                                          Width: =1100
+                                          X: =txtInput_SAPCode_4.X
+                                          Y: =168
+                                    - DatePickerCanvas2:
+                                        Control: DatePicker
+                                        Properties:
+                                          Format: ='DatePickerCanvas.Format'.Short
+                                          Placeholder: ="Chọn ngày ..."
+                                          SelectedDate: =varRecordRollDetail.UsageDate
+                                          Width: =1100
+                                          X: =189
+                                          Y: =90
+                              - con_generalDetailMasterProduction_6:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =230
+                                    Width: =650
+                                    X: =con_generalDetailMasterProduction_4.X
+                                    Y: =con_generalDetailMasterProduction_4.Height + con_generalDetailMasterProduction_4.Y + 20
+                                  Children:
+                                    - lbl_DetailsTeamInformation_12:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          FocusedBorderColor: =lbl_DetailsTeamInformation_12.BorderColor
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverBorderColor: =lbl_DetailsTeamInformation_12.BorderColor
+                                          HoverColor: =lbl_DetailsTeamInformation_12.Color
+                                          HoverFill: =lbl_DetailsTeamInformation_12.Fill
+                                          PressedBorderColor: =lbl_DetailsTeamInformation_12.BorderColor
+                                          PressedColor: =lbl_DetailsTeamInformation_12.Color
+                                          PressedFill: =lbl_DetailsTeamInformation_12.Fill
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="Thông tin kỹ thuật của roll"
+                                          Width: =220
+                                          X: =29
+                                          Y: =5
+                                    - rec_GeneralDetailMasterProduction_6:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =35
+                                    - txt_SapCodeLabel_6:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Tên roll"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_SAPCode_6.Y
+                                    - txtInput_SAPCode_6:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: =varRecordRollDetail.RollName
+                                          Width: =440
+                                          X: =189
+                                          Y: =51
+                                    - lbl_ProductCode_6:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Đường kính roll"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =NumberInput4.Y
+                                    - lbl_BtpCode_6:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Chiều dài roll"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =NumberInput4_1.Y
+                                    - lbl_PremixCode_6:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Thông số roll"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_PremixCode_6.Y
+                                    - txtInput_PremixCode_6:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: =varRecordRollDetail.RollSpecs
+                                          Width: =440
+                                          X: =txtInput_SAPCode_6.X
+                                          Y: =181
+                                    - NumberInput4:
+                                        Control: NumberInput
+                                        Properties:
+                                          Value: =varRecordRollDetail.RollDiameter
+                                          Width: =441
+                                          X: =189
+                                          Y: =94
+                                    - NumberInput4_1:
+                                        Control: NumberInput
+                                        Properties:
+                                          Value: =varRecordRollDetail.RollLength
+                                          Width: =441
+                                          X: =189
+                                          Y: =137
+                              - con_generalDetailMasterProduction_5:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =230
+                                    Width: =650
+                                    X: =con_generalDetailMasterProduction_6.X + con_generalDetailMasterProduction_6.Width + 25
+                                    Y: =con_generalDetailMasterProduction_4.Height + con_generalDetailMasterProduction_4.Y + 20
+                                  Children:
+                                    - lbl_DetailsTeamInformation_11:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          FocusedBorderColor: =lbl_DetailsTeamInformation_11.BorderColor
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverBorderColor: =lbl_DetailsTeamInformation_11.BorderColor
+                                          HoverColor: =lbl_DetailsTeamInformation_11.Color
+                                          HoverFill: =lbl_DetailsTeamInformation_11.Fill
+                                          PressedBorderColor: =lbl_DetailsTeamInformation_11.BorderColor
+                                          PressedColor: =lbl_DetailsTeamInformation_11.Color
+                                          PressedFill: =lbl_DetailsTeamInformation_11.Fill
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="Thông tin vận hành"
+                                          Width: =400
+                                          X: =29
+                                          Y: =5
+                                    - rec_GeneralDetailMasterProduction_5:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =35
+                                    - txt_SapCodeLabel_5:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Máy EV"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_SAPCode_5.Y
+                                    - txtInput_SAPCode_5:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: =varRecordRollDetail.PelletMill
+                                          Width: =440
+                                          X: =189
+                                          Y: =51
+                                    - lbl_ProductCode_5:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Vị trí"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =95
+                                    - lbl_BtpCode_5:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Sản lượng chạy (Kg)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =150
+                                          X: =29
+                                          Y: =185
+                                    - ComboboxCanvas1:
+                                        Control: ComboBox
+                                        Properties:
+                                          DefaultSelectedItems: |-
+                                            ={Value : varRecordRollDetail.Area}
+                                          InputTextPlaceholder: =""
+                                          Items: =["Trái", "Phải"]
+                                          Width: =440
+                                          X: =189
+                                          Y: =94
+                                        Children:
+                                          - Value3:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="Value"
+                                                FieldName: ="Value"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - NumberInput5:
+                                        Control: NumberInput
+                                        Properties:
+                                          DisplayMode: |-
+                                            =If(
+                                                varUserRole.Role.Value = Index(Choices('QLSX List Security Role'.Role),1).Value,
+                                                DisplayMode.Edit,
+                                                DisplayMode.View
+                                            )
+                                          Value: =varRecordRollDetail.FeedTons
+                                          Width: =440
+                                          X: =189
+                                          Y: =185
+                                    - lbl_BtpCode_9:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Số lần phục hồi"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =139
+                                    - NumberInput2_2:
+                                        Control: NumberInput
+                                        Properties:
+                                          DisplayMode: |-
+                                            =If(
+                                                varUserRole.Role.Value = Index(Choices('QLSX List Security Role'.Role),1).Value,
+                                                DisplayMode.Edit,
+                                                DisplayMode.View
+                                            )
+                                          Value: =varRecordRollDetail.RecoverTimes
+                                          Width: =440
+                                          X: =189
+                                          Y: =140
+                              - Con_DieChangeHistory_1:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =400
+                                    Visible: =!IsBlank(varRecordRollDetail.ID)
+                                    Width: =1326
+                                    X: =con_generalDetailMasterProduction_6.X
+                                    Y: =con_generalDetailMasterProduction_6.Height + con_generalDetailMasterProduction_6.Y + 20
+                                  Children:
+                                    - Text1_1:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Bold
+                                          Text: ="Lịch sử phục hồi roll"
+                                          Width: =362
+                                          X: =15
+                                          Y: =15
+                                    - rec_GeneralDetailMasterProduction_13:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 40
+                                          X: =Text1_1.X
+                                          Y: =Text1_1.Height+ Text1_1.Y + 5
+                                    - Container6_1:
+                                        Control: GroupContainer
+                                        Variant: ManualLayout
+                                        Properties:
+                                          Height: =311
+                                          Width: =Parent.Width - 40
+                                          X: =15
+                                          Y: =63
+                                        Children:
+                                          - Container7_2:
+                                              Control: GroupContainer
+                                              Variant: ManualLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =40
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Width: =Parent.Width - 20
+                                                X: =8
+                                              Children:
+                                                - Container10_2:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =40
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =10
+                                                      PaddingLeft: =5
+                                                      RadiusBottomLeft: =0
+                                                      RadiusBottomRight: =0
+                                                      RadiusTopLeft: =0
+                                                      RadiusTopRight: =0
+                                                      Width: =1266
+                                                    Children:
+                                                      - Text2_8:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Stretch
+                                                            FillPortions: =1
+                                                            Font: =Font.'Segoe UI'
+                                                            FontWeight: =FontWeight.Semibold
+                                                            Text: ="Mã roll"
+                                                            Width: =Parent.Width/4 -20
+                                                            X: =20
+                                                            Y: =5
+                                                      - Text2_9:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Stretch
+                                                            FillPortions: =1
+                                                            Font: =Font.'Segoe UI'
+                                                            FontWeight: =FontWeight.Semibold
+                                                            Text: ="Số lần phục hồi"
+                                                            Width: =Parent.Width/4 -20
+                                                            X: =315.5
+                                                            Y: =5
+                                                      - Text2_10:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Stretch
+                                                            FillPortions: =1
+                                                            Font: =Font.'Segoe UI'
+                                                            FontWeight: =FontWeight.Semibold
+                                                            Text: ="Sản lượng chạy (Kg)"
+                                                            Width: =Parent.Width/4 -20
+                                                            X: =631
+                                                            Y: =5
+                                                      - Text2_11:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Stretch
+                                                            FillPortions: =1
+                                                            Font: =Font.'Segoe UI'
+                                                            FontWeight: =FontWeight.Semibold
+                                                            Text: ="Ngày thay"
+                                                            Width: =Parent.Width/4 -20
+                                                            X: =949
+                                                            Y: =5
+                                          - rec_GeneralDetailMasterProduction_14:
+                                              Control: Rectangle
+                                              Properties:
+                                                Fill: =RGBA(68, 68, 68, 1)
+                                                Height: =0.2
+                                                Width: =Parent.Width - 40
+                                                X: =Text1_1.X
+                                                Y: =Text1_1.Height+ Text1_1.Y
+                                          - Gallery2_1:
+                                              Control: Gallery
+                                              Variant: Vertical
+                                              Properties:
+                                                BorderColor: =RGBA(0, 18, 107, 1)
+                                                Height: =264
+                                                Items: |-
+                                                  =SortByColumns(
+                                                      Filter(
+                                                          'QLSX List Roll Change History',
+                                                          PlantCode = varRecordDieDetail.PlantCode &&
+                                                          IDRoll = varRecordRollDetail.ID
+                                                      ),
+                                                      "RecoverTimes",
+                                                      SortOrder.Ascending
+                                                  )
+                                                TemplateSize: =40
+                                                Width: |
+                                                  =Parent.Width - 20
+                                                X: =10
+                                                Y: =47
+                                              Children:
+                                                - Container10_3:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =Gallery2_1.TemplateHeight
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =10
+                                                      RadiusBottomLeft: =0
+                                                      RadiusBottomRight: =0
+                                                      RadiusTopLeft: =0
+                                                      RadiusTopRight: =0
+                                                      Width: =Gallery2_1.Width - 10
+                                                    Children:
+                                                      - Text2_12:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =1
+                                                            Font: =Font.'Segoe UI'
+                                                            Size: =13
+                                                            Text: =ThisItem.RollCode
+                                                            Width: =Parent.Width/4 -20
+                                                            X: =20
+                                                            Y: =5
+                                                      - Text2_13:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =1
+                                                            Font: =Font.'Segoe UI'
+                                                            Size: =13
+                                                            Text: =ThisItem.RecoverTimes
+                                                            Width: =Parent.Width/4 -20
+                                                            X: =315.5
+                                                            Y: =5
+                                                      - Text2_14:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =1
+                                                            Font: =Font.'Segoe UI'
+                                                            Size: =13
+                                                            Text: =ThisItem.FeedTons
+                                                            Width: =Parent.Width/4 -20
+                                                            X: =631
+                                                            Y: =5
+                                                      - Text2_15:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =1
+                                                            Font: =Font.'Segoe UI'
+                                                            Size: =13
+                                                            Text: =Text(ThisItem.ChangeDate,"dd/mm/yyyy")
+                                                            Width: =Parent.Width/4 -20
+                                                            X: =949
+                                                            Y: =5
+                                                - rec_GeneralDetailMasterProduction_15:
+                                                    Control: Rectangle
+                                                    Properties:
+                                                      Fill: =RGBA(68, 68, 68, 1)
+                                                      Height: =0.2
+                                                      Width: =Parent.Width - 20
+                                                      X: |
+                                                        =0
+                                                      Y: =39.8
+                                                - ButtonCanvas6:
+                                                    Control: Button
+                                                    Properties:
+                                                      Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                                      Height: =Gallery2_1.TemplateHeight
+                                                      OnSelect: |
+                                                        =UpdateContext(
+                                                            {
+                                                                _varPopupRollHistory: true,
+                                                                varRecordRollHistoryDetail: ThisItem
+                                                            }
+                                                        );
+                                                      Text: =
+                                                      Width: =Parent.Width
+                                                - ButtonCanvas10:
+                                                    Control: Button
+                                                    Properties:
+                                                      Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                                      Height: =39
+                                                      Icon: ="Delete"
+                                                      OnSelect: |-
+                                                        =Refresh('QLSX List RollList');
+                                                        Set(
+                                                            varRecordRollDetail,
+                                                            Patch(
+                                                                'QLSX List RollList',
+                                                                varRecordRollDetail,
+                                                                {
+                                                                   // RecoverTimes: ThisItem.RecoverTimes - 1,
+                                                                    FeedTons: ThisItem.FeedTons + varRecordRollDetail.FeedTons
+                                                                }
+                                                            )
+                                                        );
+                                                        Remove('QLSX List Roll Change History',ThisItem);
+                                                        Clear(col_Recover);
+                                                        ClearCollect(
+                                                            col_Recover,
+                                                            SortByColumns(
+                                                                Filter(
+                                                                    'QLSX List Roll Change History',
+                                                                    PlantCode = varRecordDieDetail.PlantCode &&
+                                                                    IDRoll = varRecordRollDetail.ID
+                                                                ),
+                                                                "ChangeDate",
+                                                                SortOrder.Ascending,
+                                                                "ID",
+                                                                SortOrder.Ascending
+                                                            )
+                                                        );
+
+                                                        ForAll(
+                                                            Sequence(CountRows(col_Recover)) As seq,
+                                                            Patch(
+                                                                'QLSX List Roll Change History',
+                                                                Index(col_Recover, seq.Value),
+                                                                {
+                                                                    RecoverTimes: seq.Value
+                                                                }
+                                                            )
+                                                        );
+
+                                                        Set(
+                                                            varRecordRollDetail,
+                                                            Patch(
+                                                                'QLSX List RollList',
+                                                                varRecordRollDetail,
+                                                                {
+                                                                   RecoverTimes: CountRows(col_Recover)
+                                                                }
+                                                            )
+                                                        );
+                                                        Notify("Xóa thành công",NotificationType.Success,2000);
+                                                      Text: =
+                                                      Width: =36
+                                                      X: =1220
+                                    - ButtonCanvas5_9:
+                                        Control: Button
+                                        Properties:
+                                          Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Icon: ="Add"
+                                          OnSelect: |-
+                                            =UpdateContext(
+                                                {
+                                                    _varPopupRollHistory: true,
+                                                    varRecordRollHistoryDetail: {}
+                                                }
+                                            );
+
+                                            Reset(NumberInput6_4);
+                                            Reset(DatePicker2_1);
+                                          Text: ="Tạo mới"
+                                          Width: =120
+                                          X: =1181
+                                          Y: =15
+      - Container_Loading_2:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.4)
+            Height: =Parent.Height
+            Visible: |
+              =varLoading
+            Width: =Parent.Width
+          Children:
+            - Spinner1_5:
+                Control: Spinner
+                Properties:
+                  Height: =50
+                  Width: =50
+                  X: =658
+                  Y: =359
+            - Label1_2:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisplayMode: =DisplayMode.View
+                  Font: =Font.'Open Sans'
+                  Size: =17
+                  Text: |
+                    ="Processing..."
+                  Width: =500
+                  X: =433
+                  Y: =409
+      - Container13_1:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =_varPopupRollHistory
+            Width: =Parent.Width
+          Children:
+            - Container16_1:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.SetByContainer
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: =300
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =10
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =10
+                  PaddingLeft: =10
+                  PaddingRight: =10
+                  PaddingTop: =10
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - Container17_1:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.Regular
+                        FillPortions: =0
+                        Height: =40
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingLeft: =10
+                        RadiusBottomLeft: =5
+                        RadiusBottomRight: =5
+                        RadiusTopLeft: =5
+                        RadiusTopRight: =5
+                      Children:
+                        - ButtonCanvas7_9:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Icon: ="ChevronLeft"
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: =UpdateContext({_varPopupRollHistory:false})
+                              Text: =
+                              Width: =30
+                        - ButtonCanvas7_10:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Icon: ="Save"
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: |-
+                                =UpdateContext({_varPopupRollHistory: false});
+                                Set(
+                                    varRecordRollHistoryDetail,
+                                    Patch(
+                                        'QLSX List Roll Change History',
+                                        If(
+                                            IsBlank(varRecordRollHistoryDetail.ID),
+                                            Defaults('QLSX List Roll Change History'),
+                                            varRecordRollHistoryDetail
+                                        ),
+                                        {
+                                            RollCode: TextInput3_1.Text,
+                                            RecoverTimes: NumberInput6_3.Value,
+                                            FeedTons: NumberInput6_4.Value,
+                                            ChangeDate: DatePicker2_1.SelectedDate,
+                                            IDRoll: varRecordRollDetail.ID,
+                                            PlantCode: varRecordRollDetail.PlantCode
+                                        }
+                                    )
+                                );
+                                If(
+                                    IsBlank(varRecordRollHistoryDetail.ID),
+                                    Set(
+                                        varRecordRollDetail,
+                                        Patch(
+                                            'QLSX List RollList',
+                                            varRecordRollDetail,
+                                            {
+                                                RecoverTimes: Coalesce(varRecordRollDetail.RecoverTimes, 0) + 1,
+                                                FeedTons: 0
+                                            }
+                                        )
+                                    )
+                                )
+                              Text: ="Lưu và đóng"
+                              Width: =140
+                  - Container18_1:
+                      Control: GroupContainer
+                      Variant: GridLayout
+                      Properties:
+                        LayoutGridColumns: =5
+                        LayoutGridRows: =5
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                      Children:
+                        - Text3_5:
+                            Control: ModernText
+                            Properties:
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Bold
+                              LayoutGridColumnEnd: =6
+                              LayoutGridColumnStart: =1
+                              Text: ="Thông tin chung"
+                              X: =40
+                              Y: =40
+                        - TextInput3_1:
+                            Control: ModernTextInput
+                            Properties:
+                              Default: |-
+                                =If(
+                                    IsBlank(varRecordRollHistoryDetail.ID),
+                                    varRecordRollDetail.RollCode,
+                                    varRecordRollHistoryDetail.RollCode
+                                )
+                              DisplayMode: =DisplayMode.View
+                              LayoutGridColumnEnd: =6
+                              LayoutGridColumnStart: =3
+                              LayoutGridRowEnd: =2
+                              LayoutGridRowStart: =2
+                              Placeholder: =
+                              X: =40
+                              Y: =40
+                        - Text3_6:
+                            Control: ModernText
+                            Properties:
+                              Font: =Font.'Segoe UI'
+                              LayoutGridColumnEnd: =3
+                              LayoutGridColumnStart: =1
+                              LayoutGridRowEnd: =2
+                              LayoutGridRowStart: =2
+                              Size: =13
+                              Text: ="Mã số die"
+                              X: =20
+                              Y: =20
+                        - NumberInput6_3:
+                            Control: ModernNumberInput
+                            Properties:
+                              Default: |-
+                                =If(
+                                    IsBlank(varRecordRollHistoryDetail.ID),
+                                    varRecordRollDetail.RecoverTimes + 1,
+                                    varRecordRollHistoryDetail.RecoverTimes
+                                )
+                              LayoutGridColumnEnd: =6
+                              LayoutGridColumnStart: =3
+                              LayoutGridRowEnd: =3
+                              LayoutGridRowStart: =3
+                              X: =20
+                              Y: =128
+                        - Text3_8:
+                            Control: ModernText
+                            Properties:
+                              Font: =Font.'Segoe UI'
+                              LayoutGridColumnEnd: =3
+                              LayoutGridColumnStart: =1
+                              LayoutGridRowEnd: =4
+                              LayoutGridRowStart: =4
+                              Size: =13
+                              Text: ="Sản lượng chạy (Kg)"
+                              X: =20
+                              Y: =195
+                        - Text3_7:
+                            Control: ModernText
+                            Properties:
+                              Font: =Font.'Segoe UI'
+                              LayoutGridColumnEnd: =3
+                              LayoutGridColumnStart: =1
+                              LayoutGridRowEnd: =3
+                              LayoutGridRowStart: =3
+                              Size: =13
+                              Text: ="Số lần phục hồi"
+                              X: =20
+                              Y: =108
+                        - NumberInput6_4:
+                            Control: ModernNumberInput
+                            Properties:
+                              Default: |-
+                                =If(
+                                    IsBlank(varRecordRollHistoryDetail.ID),
+                                    varRecordRollDetail.FeedTons,
+                                    varRecordRollHistoryDetail.FeedTons
+                                )
+                              LayoutGridColumnEnd: =6
+                              LayoutGridColumnStart: =3
+                              LayoutGridRowEnd: =4
+                              LayoutGridRowStart: =4
+                              Min: =0
+                              X: =20
+                              Y: =215
+                        - Text3_9:
+                            Control: ModernText
+                            Properties:
+                              Font: =Font.'Segoe UI'
+                              LayoutGridColumnEnd: =3
+                              LayoutGridColumnStart: =1
+                              LayoutGridRowEnd: =5
+                              LayoutGridRowStart: =5
+                              Size: =13
+                              Text: ="Ngày thay"
+                              X: =20
+                              Y: =283
+                        - DatePicker2_1:
+                            Control: ModernDatePicker
+                            Properties:
+                              BasePaletteColor: =RGBA(8, 222, 8, 1)
+                              DefaultDate: |-
+                                =If(
+                                    IsBlank(varRecordRollHistoryDetail.ID),
+                                    Now(),
+                                    varRecordRollHistoryDetail.ChangeDate
+                                )
+                              Format: =DatePickerFormat.Short
+                              LayoutGridColumnEnd: =6
+                              LayoutGridColumnStart: =3
+                              LayoutGridRowEnd: =5
+                              LayoutGridRowStart: =5
+                              Placeholder: ="Chọn ngày"
+                              X: =40
+                              Y: =40

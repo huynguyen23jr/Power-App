@@ -1,0 +1,1267 @@
+Screens:
+  MasterDataProductionScreen:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+    Children:
+      - con_MainMasterDataProduction:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(241, 241, 241, 1)
+            Height: =768
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1366
+          Children:
+            - con_headerHomeMasterDataProduction:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(96, 170, 85, 1)
+                  Height: =72
+                  PaddingRight: =0.00
+                  PaddingTop: =0.00
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =1366
+                Children:
+                  - Header_8:
+                      Control: Header
+                      Properties:
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Font: =Font.'Open Sans'
+                        FontColor: =RGBA(255, 255, 255, 1)
+                        Height: =72
+                        IsLogoVisible: =false
+                        LogoTooltip: =""
+                        OnSelectLogo: =
+                        Style: ='Header.Style'.Primary
+                        Title: ="Dashboard VHSX - Admin"
+                        TitleFontSize: =25
+                        Width: =1366
+            - con_RightMasterDataProductionScreen:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =696
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =1105
+                  X: =261
+                  Y: =72
+                Children:
+                  - con_HomeButtonMasterDataProductionScreen:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.Regular
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =54
+                        Width: =1068
+                        X: =21
+                        Y: =21
+                      Children:
+                        - con_HomeButtonMasterDataProduction:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Height: =54
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              PaddingBottom: =5
+                              PaddingLeft: =2
+                              PaddingRight: =2
+                              PaddingTop: =5
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =1068
+                            Children:
+                              - btn_HomeCreateMasterDataProduction:
+                                  Control: Button
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    Font: =Font.'Segoe UI'
+                                    FontSize: =16
+                                    Height: =40
+                                    Icon: ="Add"
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    OnSelect: |-
+                                      =Set(varRecordDetail,{});
+                                      Navigate(DetailRecordScreen,ScreenTransition.CoverRight);
+                                      Reset(cbb_MedicatedMix);
+                                      Reset(cbb_ProductType);
+                                      Reset(cbb_ProductGroup);
+                                      Reset(cbb_ProductMix);
+                                      Reset(cbb_PelletType);
+                                      Reset(ccb_FeedType);
+                                      Reset(cbb_ProductBrand);
+                                      Set(varSaveMasterDataProduction,false);
+                                    Text: ="Tạo mới"
+                                    Width: =150
+                                    X: =299
+                                    Y: =7
+                              - btn_HomeRefreshMasterDataProduction:
+                                  Control: Button
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    Font: =Font.'Segoe UI'
+                                    FontSize: =16
+                                    Height: =40
+                                    Icon: ="ArrowSync"
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    OnSelect: =Refresh('QLSX List Master Data Production')
+                                    Text: ="Làm mới"
+                                    Width: =150
+                                    X: =299
+                                    Y: =7
+                              - btn_HomeRefreshMasterDataProduction_1:
+                                  Control: Button
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    Font: =Font.'Segoe UI'
+                                    FontSize: =16
+                                    Height: =40
+                                    Icon: ="DocumentAdd"
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    OnSelect: "=Set(varLoading,true);\r\nWith(\r\n    {\r\n        wRowsGallery:  \r\n                    Filter(\r\n                        'QLSX List Master Data Production',\r\n                        StartsWith(SAPcode, txtInput_filterMasterDataProduction.Value) ||\r\n                        StartsWith(ProductionCode, txtInput_filterMasterDataProduction.Value) ||\r\n                        StartsWith(SemiProductCode, txtInput_filterMasterDataProduction.Value) ||\r\n                        StartsWith(PremixCode, txtInput_filterMasterDataProduction.Value) ||\r\n                        StartsWith(EmtyBagCode, txtInput_filterMasterDataProduction.Value),\r\n                        IsBlank(cbb_BuFilterMasterDataProduction.Selected.PlantName) ||  PlantName = cbb_BuFilterMasterDataProduction.Selected.PlantName\r\n                    )\r\n    },\r\n    Clear(col_exportData);\r\n    ForAll(\r\n        wRowsGallery As GalData,\r\n        Collect(\r\n            col_exportData,\r\n            {\r\n                SAPcode : GalData.SAPcode,\r\n                ProductionCode : GalData.ProductionCode,\r\n                SemiProductCode : GalData.SemiProductCode,\r\n                PremixCode : GalData.PremixCode,\r\n                EmtyBagCode : GalData.EmtyBagCode,\r\n                BatchSize : GalData.BatchSize,\r\n                FeedType : GalData.FeedType,\r\n                DieSize : GalData.DieSize,\r\n                PelletType : GalData.PelletType,\r\n                BagSize : GalData.BagSize,\r\n                ProductType : GalData.ProductType,\r\n                Protein : GalData.Protein,\r\n                ProductMix : GalData.ProductMix,\r\n                Species : GalData.Species,\r\n                ProductGroup : GalData.ProductGroup,\r\n                ProductBrand : GalData.ProductBrand,\r\n                InternalCustomer : GalData.InternalExternalCustomer,\r\n                P1 : GalData.P1,\r\n                P2 : GalData.P2,\r\n                P3 : GalData.P3,\r\n                P4 : GalData.P4,\r\n                Note : GalData.Note\r\n            }\r\n        )\r\n    );\r\n    Set(\r\n        _JsonFile,\r\n        JSON(col_exportData)\r\n    );\r\n    //Launch(\r\n    //    ExportDataMasterDataProduction.Run(\r\n    //        _JsonFile,\r\n    //        \"MasterDataProduction\"\r\n    //    ).sharepointfile_link\r\n    //);\r\n    \r\n);\r\nSet(varLoading,false);"
+                                    Text: ="Export"
+                                    Visible: =false
+                                    Width: =150
+                                    X: =299
+                                    Y: =7
+                              - btn_HomeRefreshMasterDataProduction_2:
+                                  Control: Button
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    Font: =Font.'Segoe UI'
+                                    FontSize: =16
+                                    Height: =40
+                                    Icon: ="Print"
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    OnSelect: |-
+                                      =Set(varShowUploadFile, true);
+                                      Reset(att_FileMasterDataProduction);
+                                    Text: ="Import"
+                                    Width: =150
+                                    X: =299
+                                    Y: =7
+                              - btn_templateExcel:
+                                  Control: Button
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    Font: =Font.'Segoe UI'
+                                    FontSize: =16
+                                    Height: =40
+                                    Icon: ="DocumentBulletList"
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    OnSelect: =Launch("https://greenfeedgroup.sharepoint.com/sites/G-PowerApps/TemplateForDownload/QLSX_MasterDataTemplate.xlsx")
+                                    Text: ="Template"
+                                    Width: =150
+                                    X: =299
+                                    Y: =7
+                  - con_RightMasterDataProduction:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.Regular
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =582
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =1068
+                        X: =21
+                        Y: =100
+                      Children:
+                        - con_MasterDataProductionList:
+                            Control: GroupContainer
+                            Variant: ManualLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(255, 255, 255, 1)
+                              Height: =110
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =1068
+                            Children:
+                              - lbl_MainProductionDataTitle:
+                                  Control: Label
+                                  Properties:
+                                    Color: =RGBA(51, 51, 51, 1)
+                                    FocusedBorderColor: =lbl_MainProductionDataTitle.BorderColor
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =45
+                                    HoverBorderColor: =lbl_MainProductionDataTitle.BorderColor
+                                    HoverColor: =lbl_MainProductionDataTitle.Color
+                                    HoverFill: =lbl_MainProductionDataTitle.Fill
+                                    PressedBorderColor: =lbl_MainProductionDataTitle.BorderColor
+                                    PressedColor: =lbl_MainProductionDataTitle.Color
+                                    PressedFill: =lbl_MainProductionDataTitle.Fill
+                                    Size: =17
+                                    TabIndex: =0
+                                    Text: ="Danh sách dữ liệu sản xuất"
+                                    Width: =400
+                                    X: =20
+                                    Y: =10
+                              - btn_ToggleFilterOptions:
+                                  Control: Button
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    Height: =39
+                                    Icon: ="Search"
+                                    OnSelect: =Set(varFilterMasterDataProduction, true);
+                                    Text: ="Edit Filter"
+                                    Visible: "=\r\n    varUserRole.Role.Value = Index( Choices('QLSX List Security Role'.Role),1).Value\r\n   \r\n    "
+                                    Width: =123
+                                    X: =693
+                                    Y: =10
+                              - txtInput_filterMasterDataProduction:
+                                  Control: TextInput
+                                  Properties:
+                                    Appearance: ='TextInputCanvas.Appearance'.Outline
+                                    Placeholder: ="Nhập mã SAP,mã sản phẩm,mã btp,mã bao bì"
+                                    TriggerOutput: ='TextInputCanvas.TriggerOutput'.Keypress
+                                    Width: =220
+                                    X: =816
+                                    Y: =13
+                        - con_GridHorizonMasterDataProduction:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Height: =513
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutOverflowX: =LayoutOverflow.Scroll
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =1050
+                              Y: =69
+                            Children:
+                              - con_gridMasterDataProduction:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =682
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    LayoutMinWidth: =Gallery_MasterDataProduction.Width
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
+                                    Width: =1890
+                                    X: =15
+                                    Y: =230
+                                  Children:
+                                    - Gallery_MasterDataProduction:
+                                        Control: Gallery
+                                        Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                                        Properties:
+                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          Default: ={}
+                                          Height: =422
+                                          Items: |+
+                                            =
+
+
+                                            Switch(
+                                                varUserRole.Role.Value,
+                                                Index( Choices('QLSX List Security Role'.Role),1).Value, // HO Support
+
+                                                SortByColumns(
+                                                    Filter(
+                                                        'QLSX List Master Data Production',
+                                                        StartsWith(
+                                                            SAPcode,
+                                                            txtInput_filterMasterDataProduction.Value
+                                                        ) || StartsWith(
+                                                            ProductionCode,
+                                                            txtInput_filterMasterDataProduction.Value
+                                                        ) || StartsWith(
+                                                            SemiProductCode,
+                                                            txtInput_filterMasterDataProduction.Value
+                                                        ) || StartsWith(
+                                                            PremixCode,
+                                                            txtInput_filterMasterDataProduction.Value
+                                                        ) || StartsWith(
+                                                            EmtyBagCode,
+                                                            txtInput_filterMasterDataProduction.Value
+                                                        ),
+                                                        (IsBlank(cbb_BuFilterMasterDataProduction.Selected.PlantCode) || (PlantCode = cbb_BuFilterMasterDataProduction.Selected.PlantCode))
+                                                    ),
+                                                    "SemiProductCode",
+                                                    SortOrder.Ascending
+                                                    ,
+                                                    "Modified",
+                                                    SortOrder.Descending
+                                                )
+
+                                                ,
+                                                // Default
+                                                SortByColumns(
+                                                    Filter(
+                                                        'QLSX List Master Data Production',
+                                                        StartsWith(
+                                                            SAPcode,
+                                                            txtInput_filterMasterDataProduction.Value
+                                                        ) || StartsWith(
+                                                            ProductionCode,
+                                                            txtInput_filterMasterDataProduction.Value
+                                                        ) || StartsWith(
+                                                            SemiProductCode,
+                                                            txtInput_filterMasterDataProduction.Value
+                                                        ) || StartsWith(
+                                                            PremixCode,
+                                                            txtInput_filterMasterDataProduction.Value
+                                                        ) || StartsWith(
+                                                            EmtyBagCode,
+                                                            txtInput_filterMasterDataProduction.Value
+                                                        ),
+                                                        PlantCode = varCurrentPlant.PlantCode
+                                                    ),
+                                                    "SemiProductCode",
+                                                    SortOrder.Ascending
+                                                    ,
+                                                    "Modified",
+                                                    SortOrder.Descending
+                                                )
+
+                                            )
+
+                                          ShowScrollbar: =false
+                                          TemplateFill: |
+                                            =RGBA(0, 0, 0, 0)
+                                          TemplateSize: =42
+                                          Width: =1850
+                                          Y: =40
+                                        Children:
+                                          - txt_ValueSAPCode_1:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.PlantName
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =155
+                                                X: =txt_lbSAPCode_1.X
+                                          - rec_ValueMasterDataProduction:
+                                              Control: Rectangle
+                                              Properties:
+                                                Fill: =RGBA(68, 68, 68, 1)
+                                                Height: =0.2
+                                                Width: =Gallery_MasterDataProduction.Width - 50
+                                                X: =25
+                                                Y: =38
+                                          - txt_ValueSAPCode:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.SAPcode
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =200
+                                                X: =txt_lbSAPCode.X
+                                          - txt_ValueSemiProductCode:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.SemiProductCode
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =200
+                                                X: =txt_lbSemiProductCode.X
+                                          - txt_ValuePremixCode:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.PremixCode
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =200
+                                                X: =txt_lbPremixCode.X
+                                          - txt_ValueEmtyBagCode:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.EmtyBagCode
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =200
+                                                X: =txt_lbEmtyBagCode.X
+                                          - txt_ValueBatchSize:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.BatchSize
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =100
+                                                X: =txt_lbBatchSize.X
+                                          - txt_ValueFeedType:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.FeedType.Value
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =100
+                                                X: =txt_lbFeedType.X
+                                          - txt_ValueDieSize:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.DieSize
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =60
+                                                X: =txt_lbDieSize.X
+                                          - txt_ValuePelletType:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.PelletType.Value
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =100
+                                                X: =txt_lbPelletType.X
+                                          - txt_ValueBagSize:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.BagSize
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =100
+                                                X: =txt_lbBagSize.X
+                                          - txt_ValueProductType:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.ProductType.Value
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =100
+                                                X: =txt_lbProductType.X
+                                          - txt_ValueProtein:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.Protein
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =100
+                                                X: =txt_lbProtein.X
+                                          - txt_ValueProductMix:
+                                              Control: Text
+                                              Properties:
+                                                Height: =41
+                                                Text: =ThisItem.ProductMix.Value
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Width: =100
+                                                X: =txt_lbProductMix.X
+                                          - btn_OpenRecordMasterDataProduction:
+                                              Control: Button
+                                              Properties:
+                                                Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                                Height: =41
+                                                OnSelect: |-
+                                                  =Set(varRecordDetail,ThisItem);
+                                                  Set(varSaveMasterDataProduction,false);
+                                                  Reset(txtInput_filterMasterDataProduction);
+                                                  Navigate(DetailRecordScreen,ScreenTransition.CoverRight);
+                                                  Reset(cbb_ProductBrand);
+                                                  //Reset(cbb_BuFilterMasterDataProduction)
+                                                Text: =" "
+                                                Width: =1750
+                                          - btn_DeleteRecordMasterDataProduction:
+                                              Control: Button
+                                              Properties:
+                                                Align: =Align.Center
+                                                Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                                Height: =40
+                                                Icon: ="Delete"
+                                                OnSelect: |-
+                                                  =Set(varConfirmDeleteMasterDataProduction,true);
+                                                  Set(varRecordDeleteMasterDataProduction,ThisItem)
+                                                Text: =
+                                                Width: =40
+                                                X: =1785
+                                    - con_HeaderGridMasterDataProduction:
+                                        Control: GroupContainer
+                                        Variant: ManualLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          Height: =50
+                                          RadiusBottomLeft: =0
+                                          RadiusBottomRight: =0
+                                          RadiusTopLeft: =0
+                                          RadiusTopRight: =0
+                                          Width: =Gallery_MasterDataProduction.Width
+                                        Children:
+                                          - txt_lbSAPCode:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Mã SAP"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =160
+                                                X: =215
+                                                Y: =7
+                                          - rec_headerMasterDataProduction:
+                                              Control: Rectangle
+                                              Properties:
+                                                Fill: =RGBA(68, 68, 68, 1)
+                                                Height: =0.2
+                                                Width: =con_HeaderGridMasterDataProduction.Width - 50
+                                                X: =25
+                                                Y: =42
+                                          - txt_lbSemiProductCode:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Mã BTP"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =160
+                                                X: =388
+                                                Y: =7
+                                          - txt_lbPremixCode:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Mã Premix"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =200
+                                                X: =561
+                                                Y: =7
+                                          - txt_lbEmtyBagCode:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Mã bao bì"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =200
+                                                X: =774
+                                                Y: =7
+                                          - txt_lbBatchSize:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Lô trộn"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =100
+                                                X: =987
+                                                Y: =7
+                                          - txt_lbFeedType:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Loại cám"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =100
+                                                X: =1100
+                                                Y: =7
+                                          - txt_lbDieSize:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Cỡ die"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =60
+                                                X: =1213
+                                                Y: =7
+                                          - txt_lbPelletType:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Loại viên"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =90
+                                                X: =1286
+                                                Y: =7
+                                          - txt_lbBagSize:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Cỡ bao"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =90
+                                                X: =1389
+                                                Y: =7
+                                          - txt_lbProductType:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Loại hàng"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =90
+                                                X: =1492
+                                                Y: =7
+                                          - txt_lbProtein:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Độ đạm"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =70
+                                                X: =1595
+                                                Y: =7
+                                          - txt_lbProductMix:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Cơ cấu SP"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =111
+                                                X: =1679
+                                                Y: =7
+                                          - txt_lbSAPCode_1:
+                                              Control: Text
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Start
+                                                Font: =Font.Arial
+                                                Text: ="Nhà máy"
+                                                VerticalAlign: =VerticalAlign.Middle
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =160
+                                                X: =25
+                                                Y: =10
+                                    - TextCanvas1:
+                                        Control: Text
+                                        Properties:
+                                          Text: |-
+                                            =$"Row : {Gallery_MasterDataProduction.AllItemsCount}"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          X: =12
+                                          Y: =462
+            - Gallery_MenuMasterDataProductionScreen:
+                Control: Gallery
+                Variant: Vertical
+                Properties:
+                  DelayItemLoading: =false
+                  Fill: =RGBA(0,0,0,0)
+                  Height: =657
+                  Items: =col_NavigationMenu
+                  LoadingSpinner: =LoadingSpinner.None
+                  LoadingSpinnerColor: =Gallery_MenuMasterDataProductionScreen.BorderColor
+                  OnSelect: =
+                  ShowScrollbar: =false
+                  TemplateFill: =If(ThisItem.NameScreen = App.ActiveScreen, RGBA(220, 220, 220, 1), RGBA(0,0,0,0))
+                  TemplatePadding: =0
+                  TemplateSize: =59
+                  Width: =261
+                  X: =0+0
+                  Y: =111
+                Children:
+                  - lb_MenuMasterDataProductionScreen:
+                      Control: Label
+                      Properties:
+                        FocusedBorderColor: =lb_MenuMasterDataProductionScreen.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =42
+                        HoverBorderColor: =lb_MenuMasterDataProductionScreen.BorderColor
+                        HoverColor: =lb_MenuMasterDataProductionScreen.Color
+                        HoverFill: =lb_MenuMasterDataProductionScreen.Fill
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =lb_MenuMasterDataProductionScreen.BorderColor
+                        PressedColor: =lb_MenuMasterDataProductionScreen.Color
+                        PressedFill: =lb_MenuMasterDataProductionScreen.Fill
+                        Size: =12
+                        TabIndex: =0
+                        Text: =ThisItem.Title
+                        Width: =196
+                        X: =60
+                        Y: =9
+                  - rec_MenuMasterDataProductionScreen:
+                      Control: Rectangle
+                      Properties:
+                        Fill: =RGBA(96, 170, 85, 1)
+                        FocusedBorderColor: =rec_MenuMasterDataProductionScreen.BorderColor
+                        Height: =20
+                        OnSelect: =Select(Parent)
+                        Visible: =ThisItem.Row = _selectedTutorial.Row
+                        Width: =4
+                        X: =11
+                        Y: =20
+                  - icon_MenuMasterDataProductionScreen:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(0, 0, 0, 1)
+                        Height: =30
+                        Icon: =ThisItem.Image
+                        OnSelect: =
+                        Width: =30
+                        X: =22
+                        Y: =15
+                  - btn_MenuMasterDataProductionScreen:
+                      Control: Button
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Transparent
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =59
+                        OnSelect: |-
+                          =Set(
+                              _selectedTutorial,
+                              ThisItem
+                          );
+                          Navigate(ThisItem.NameScreen, ScreenTransition.Fade);
+                          Reset(Gallery_BUListView);
+                          Reset(txtInput_filterMasterDataProduction);
+                          Set(varDetailUser, {});
+                        Text: =""
+                        Width: =261
+            - iconHamburgerMenu_14:
+                Control: Classic/Icon
+                Properties:
+                  Color: =RGBA(51, 51, 51, 1)
+                  FocusedBorderColor: =iconHamburgerMenu_14.BorderColor
+                  Height: =23
+                  Icon: =Icon.Hamburger
+                  OnSelect: =Set(IsExpand, !IsExpand)
+                  TabIndex: =0
+                  Width: =25
+                  X: =12
+                  Y: =88
+            - Rectangle2_13:
+                Control: Rectangle
+                Properties:
+                  Fill: =RGBA(166, 166, 166, 1)
+                  FocusedBorderColor: =Rectangle2_13.BorderColor
+                  Height: =692
+                  Width: =1
+                  X: =260
+                  Y: =76
+      - con_FilterMasterDataProduction:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.35)
+            Height: =768
+            Visible: =varFilterMasterDataProduction
+            Width: =1366
+          Children:
+            - Container8:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.Regular
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =768
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =590
+                  X: =776
+                Children:
+                  - Container9:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        Height: =83
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =590
+                        Y: =685
+                      Children:
+                        - ButtonCanvas5_1:
+                            Control: Button
+                            Properties:
+                              BasePaletteColor: =RGBA(8, 222, 8, 1)
+                              Height: =40
+                              OnSelect: =Set(varFilterMasterDataProduction, false);
+                              Text: ="Apply"
+                              X: =365
+                              Y: =22
+                        - ButtonCanvas5_2:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Secondary
+                              Height: =40
+                              OnSelect: "=Set(varFilterMasterDataProduction, false);\r\nReset(cbb_BuFilterMasterDataProduction); "
+                              Text: ="Cancel"
+                              X: =477
+                              Y: =22
+                  - Container9_3:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        Height: =115
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =590
+                      Children:
+                        - Label6:
+                            Control: Label
+                            Properties:
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Size: =15
+                              Text: |-
+                                ="Edit filter: Master Data Production"
+                              Width: =458
+                              X: =15
+                              Y: =22
+                        - icon_close:
+                            Control: Classic/Icon
+                            Properties:
+                              Color: =RGBA(39, 113, 194, 1)
+                              FocusedBorderThickness: =1
+                              Height: =25
+                              Icon: =Icon.Cancel
+                              OnSelect: |+
+                                =Set(varFilterMasterDataProduction, false);
+                                Reset(cbb_BuFilterMasterDataProduction); 
+
+                              Width: =25
+                              X: =550
+                              Y: =29
+                        - icon_filter:
+                            Control: Classic/Icon
+                            Properties:
+                              Height: =20
+                              Icon: =Icon.Filter
+                              Width: =20
+                              X: =32
+                              Y: =70
+                        - ButtonCanvas3_1:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              BasePaletteColor: =RGBA(5, 102, 178, 1)
+                              OnSelect: "=Set(varFilterProject, false);\r\nReset(cbb_BuFilterMasterDataProduction); "
+                              Text: ="Reset to default"
+                              Width: =150
+                              X: =32
+                              Y: =62
+                  - Label8:
+                      Control: Label
+                      Properties:
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        Size: =12
+                        Text: ="Field"
+                        X: =44
+                        Y: =135
+                  - Label8_1:
+                      Control: Label
+                      Properties:
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        Size: =12
+                        Text: ="Operator"
+                        X: =216
+                        Y: =135
+                  - Label8_2:
+                      Control: Label
+                      Properties:
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        Size: =12
+                        Text: ="Value"
+                        X: =388
+                        Y: =135
+                  - Label8_3:
+                      Control: Label
+                      Properties:
+                        Font: =Font.'Segoe UI'
+                        Height: =32
+                        Size: =12
+                        Text: ="Equal"
+                        X: =216
+                        Y: =179
+                  - cbb_BuFilterMasterDataProduction:
+                      Control: ComboBox
+                      Properties:
+                        BasePaletteColor: =RGBA(8, 222, 8, 1)
+                        InputTextPlaceholder: =
+                        IsSearchable: =false
+                        Items: =SortByColumns('QLSX List Plant',"PlantName",SortOrder.Ascending)
+                        Width: =180
+                        X: =388
+                        Y: =179
+                      Children:
+                        - PlantName3:
+                            Control: ComboBoxDataField
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="PlantName"
+                              FieldName: ="PlantName"
+                              FieldType: ="s"
+                              Order: =1
+                  - Label8_6:
+                      Control: Label
+                      Properties:
+                        Font: =Font.'Segoe UI'
+                        Height: =32
+                        Size: =12
+                        Text: ="Nhà máy"
+                        X: =44
+                        Y: =179
+      - con_PopupComfirmDeleteMasterDataProduction:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.35)
+            Height: =768
+            Visible: =varConfirmDeleteMasterDataProduction
+            Width: =1366
+          Children:
+            - con_AlertConfirmDeleteMasterDataProductionScreen:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =250
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Width: =550
+                  X: =408
+                  Y: =259
+                Children:
+                  - btn_DeleteMasterDataProductionScreen:
+                      Control: Button
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Primary
+                        BasePaletteColor: =RGBA(8, 222, 8, 1)
+                        Font: =Font.'Open Sans'
+                        FontSize: =17
+                        Height: =40
+                        OnSelect: |
+                          =Set(varConfirmDeleteMasterDataProduction,false);
+                          RemoveIf('QLSX List Master Data Production',ID = varRecordDeleteMasterDataProduction.ID);
+                          Refresh('QLSX List Master Data Production')
+                        Text: ="Delete"
+                        Width: =120
+                        X: =270
+                        Y: =180
+                  - btn_CancelMasterDataProductionScreen:
+                      Control: Button
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Outline
+                        Font: =Font.'Open Sans'
+                        FontSize: =17
+                        Height: =40
+                        OnSelect: =Set(varConfirmDeleteMasterDataProduction,false)
+                        Text: ="Cancel"
+                        Width: =120
+                        X: =405
+                        Y: =180
+                  - lbl_InforDeleteMasterDataProductionScreen:
+                      Control: Label
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =70
+                        Text: ="Are you sure you want to delete the Master Data Production? You cannot undo this action."
+                        Width: =500
+                        X: =25
+                        Y: =75
+                  - lbl_ConfirmMasterDataProductionScreen:
+                      Control: Label
+                      Properties:
+                        FontWeight: =FontWeight.Bold
+                        Height: =41
+                        Size: =15
+                        Text: ="Confirm Deletion"
+                        Width: =400
+                        X: =lbl_InforDeleteMasterDataProductionScreen.X
+                        Y: =23
+                  - icon_CloseMasterDataProductionScreen:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(39, 113, 194, 1)
+                        FocusedBorderThickness: =1
+                        Height: =25
+                        Icon: =Icon.Cancel
+                        OnSelect: =Set(varConfirmDeleteMasterDataProduction,false)
+                        Width: =25
+                        X: =500
+                        Y: =31
+      - con_PopUpImportDataProduction:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =768
+            Visible: =varShowUploadFile
+            Width: =1366
+          Children:
+            - con_ImportMasterDataProduction:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =314
+                  Width: =400
+                  X: =483
+                  Y: =227
+                Children:
+                  - att_FileMasterDataProduction:
+                      Control: Attachments
+                      Properties:
+                        BorderColor: =Color.Black
+                        Color: =Color.Black
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        Height: =127
+                        HoverFill: =RGBA(186, 202, 226, 1)
+                        ItemColor: =RGBA(255, 255, 255, 1)
+                        ItemFill: =RGBA(56, 96, 178, 1)
+                        ItemHoverFill: =RGBA(186, 202, 226, 1)
+                        MaxAttachmentSize: =1
+                        MaxAttachments: =1
+                        PaddingBottom: =5
+                        PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(0, 18, 107, 1)
+                        Tooltip: =
+                        Width: =Parent.Width - 60
+                        X: =30
+                        Y: =63
+                  - btn_UploadPopUpImportMasterDataProduction:
+                      Control: Button
+                      Properties:
+                        BasePaletteColor: =RGBA(8, 222, 8, 1)
+                        Icon: ="Print"
+                        OnSelect: |
+                          =If(
+                              IsEmpty(att_FileMasterDataProduction.Attachments) || IsBlank(cbb_PlantSelected_1.Selected.PlantCode),
+                              Notify("Vui lòng chọn file và nhà máy trước khi upload.", NotificationType.Error, 2000),
+
+                              // Check file extension (.xlsx or .xls)
+                              Not(
+                                  EndsWith(
+                                      Lower(First(att_FileMasterDataProduction.Attachments).Name),
+                                      ".xlsx"
+                                  ) ||
+                                  EndsWith(
+                                      Lower(First(att_FileMasterDataProduction.Attachments).Name),
+                                      ".xls"
+                                  )
+                              ),
+                              Notify("Chỉ hỗ trợ file Excel (.xlsx, .xls).", NotificationType.Error, 2000),
+
+                              Set(varLoadingMasterDataProduction, true);
+                              Set(varShowUploadFile, false);
+                              Set(varPopupDataExits,false);
+                              Set(varDataExist,Blank());
+                              Set(varRunSucess, false);
+                              Set(varResult,
+                                  UploadFileExcelMasterDataProduction.Run(
+                                      cbb_PlantSelected_1.Selected.PlantCode,
+                                      cbb_PlantSelected_1.Selected.PlantName,
+                                      {
+                                          file: {
+                                              contentBytes: First(att_FileMasterDataProduction.Attachments).Value,
+                                              name: First(att_FileMasterDataProduction.Attachments).Name
+                                          }
+                                      }
+                                  )
+                              );
+                              Set(
+                                  varRunSucess,
+                                  varResult.issuccess
+                              );
+                             Set(
+                              varDataExist,
+                                      Split(varResult.data, ";")
+                                  );
+                              Set(varPopupDataExits,If(IsBlank(varResult.data),false,true));
+                              Refresh('QLSX List Master Data Production')
+                          )
+                        Text: ="Upload"
+                        Width: =100
+                        X: =270
+                        Y: =270
+                  - Icon2:
+                      Control: Classic/Icon
+                      Properties:
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Height: =30
+                        Icon: =Icon.Cancel
+                        OnSelect: =Set(varShowUploadFile, false);
+                        Width: =30
+                        X: =340
+                        Y: =15
+                  - cbb_PlantSelected_1:
+                      Control: ComboBox
+                      Properties:
+                        DefaultSelectedItems: |-
+                          ={PlantName : varCurrentPlant.PlantName}
+                        InputTextPlaceholder: =
+                        IsSearchable: =false
+                        Items: =SortByColumns(Filter('QLSX List User In BU', UserId = varCurrentUserLogin.UserId ) ,"PlantName",SortOrder.Ascending)
+                        ValidationState: =If( varSaveCurrentPlant && IsBlank(Self.Selected.PlantCode), "Error",  "None")
+                        Width: =Parent.Width - 60
+                        X: =30
+                        Y: =214
+                      Children:
+                        - PlantName4_1:
+                            Control: ComboBoxDataField
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="PlantName"
+                              FieldName: ="PlantName"
+                              FieldType: ="s"
+                              Order: =1
+      - con_PopUpWaitingImportDataProduction:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =768
+            Visible: =varLoadingMasterDataProduction && !varRunSucess
+            Width: =1366
+          Children:
+            - Container2_1:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.Semilight
+                  Fill: =RGBA(255, 255, 255, 1)
+                  RadiusBottomLeft: =15
+                  RadiusBottomRight: =15
+                  RadiusTopLeft: =15
+                  RadiusTopRight: =15
+                  Visible: =varLoadingMasterDataProduction && !varRunSucess
+                  Width: =200
+                  X: =583
+                  Y: =284
+                Children:
+                  - Spinner1_1:
+                      Control: Spinner
+                      Properties:
+                        Height: =100
+                        Width: =100
+                        X: =50
+                        Y: =50
+                  - TextCanvas1_1:
+                      Control: Text
+                      Properties:
+                        Text: ="Vui lòng đợi ...."
+                        X: =54
+                        Y: =138
+      - Container1:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height
+            Visible: =varPopupDataExits
+            Width: =Parent.Width
+          Children:
+            - Container2:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =App.Height / 2
+                  Width: =App.Width / 2
+                  X: =(App.Width - Self.Width) / 2
+                  Y: =(App.Height - Self.Height) / 2
+                Children:
+                  - TextCanvas2:
+                      Control: Text
+                      Properties:
+                        Font: =Font.'Segoe UI'
+                        Height: =57
+                        Size: =20
+                        Text: ="Dữ liệu sản xuất đã tồn tại"
+                        Weight: ='TextCanvas.Weight'.Bold
+                        Width: =623
+                        X: =33
+                        Y: =15
+                  - TextCanvas3:
+                      Control: Text
+                      Properties:
+                        Text: =
+                        X: =40
+                        Y: =40
+                  - Table1:
+                      Control: Table
+                      Properties:
+                        Height: =277
+                        Items: |-
+                          =Filter(
+                              RenameColumns(
+                                  varDataExist,
+                                  Value,
+                                  SAPCode
+                              ),
+                              SAPCode <> ""
+                          )
+                        Width: =683
+                        Y: =60
+                      Children:
+                        - SAPCode1:
+                            Control: TableDataField
+                            Variant: textualColumn
+                            IsLocked: true
+                            Properties:
+                              FieldDisplayName: ="SAPCode"
+                              FieldName: ="SAPCode"
+                              FieldType: ="s"
+                              Order: =1
+                  - ButtonCanvas4:
+                      Control: Button
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Outline
+                        Icon: ="DismissCircle"
+                        OnSelect: =Set(varPopupDataExits,false)
+                        Text: ="Đóng"
+                        X: =560
+                        Y: =337

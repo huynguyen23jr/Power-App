@@ -1,0 +1,581 @@
+Screens:
+  DetailRecordMachineScreen:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+    Children:
+      - con_FormMasterDataProductionDetail_3:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =768
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1366
+          Children:
+            - con_buttonDetailRecordScreen_3:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.Regular
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =54
+                  Width: =Parent.Width - 40
+                  X: =20
+                  Y: =20
+                Children:
+                  - con_Actions_3:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Height: =54
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =5
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =2
+                        PaddingTop: =5
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =1222
+                      Children:
+                        - btn_BackHome_3:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="ArrowLeft"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: =Back(ScreenTransition.Fade)
+                              Text: =
+                              Width: =50
+                              X: =299
+                              Y: =7
+                        - btn_NewMasterDataProduction_3:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="Add"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              Text: ="Tạo mới"
+                              Width: =120
+                              X: =299
+                              Y: =7
+                        - btn_SaveMasterDataProduction_6:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="Save"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: =Select(btn_PatchMasterDataProduction_3);
+                              Text: ="Lưu"
+                              Width: =100
+                              X: =299
+                              Y: =7
+                        - btn_SaveMasterDataProduction_7:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="Save"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: |-
+                                =Select(btn_PatchMasterDataProduction_3);
+                                Back();
+                              Text: ="Lưu và đóng"
+                              Width: =150
+                              X: =299
+                              Y: =7
+                  - btn_PatchMasterDataProduction_3:
+                      Control: Button
+                      Properties:
+                        Height: =54
+                        OnSelect: "=If(\n    IsBlank(varRecordMachineDetail.ID),\n    /* --- CREATE --- */\n    If(\n        IsBlank(\n            LookUp(\n                'QLSX List Master Data Machine',\n                PlantCode = varCurrentPlant.PlantCode &&\n                NameMachine = ComboboxCanvas2.Selected.BrandName\n            )\n        ),\n        Set(\n            varRecordMachineDetail,\n            Patch(\n                'QLSX List Master Data Machine',\n                Defaults('QLSX List Master Data Machine'),\n                {\n                    PlantCode: varCurrentPlant.PlantCode,\n                    NameMachine: ComboboxCanvas2.Selected.BrandName,\n                    DieName: ComboboxCanvas2_1.Selected.DieName,\n                    IDDie: ComboboxCanvas2_1.Selected.ID,\n                    RollSpecsRight: ComboboxCanvas4_right.Selected.RollSpecs,\n                    IDRightRollSpecs:ComboboxCanvas4_right.Selected.ID,\n                    RollSpecsLeft: ComboboxCanvas3_left.Selected.RollSpecs,\n                    IDLeftRollSpecs:ComboboxCanvas3_left.Selected.ID\n                }\n            )\n        );\n        Notify(\"Lưu thành công.\", NotificationType.Success, 2000),\n        \n        /* ĐÃ TỒN TẠI → KHÔNG SET() GÌ CẢ, chỉ thông báo */\n        Notify(\"Thông tin máy đã tồn tại\", NotificationType.Error, 2000)\n    ),\n    /* --- UPDATE --- */\n    Set(\n        varRecordMachineDetail,\n        Patch(\n            'QLSX List Master Data Machine',\n            varRecordMachineDetail,\n            {\n                PlantCode: varCurrentPlant.PlantCode,\n                NameMachine: ComboboxCanvas2.Selected.BrandName,\n                DieName: ComboboxCanvas2_1.Selected.DieName,\n                IDDie: ComboboxCanvas2_1.Selected.ID,\n                RollSpecsRight: ComboboxCanvas4_right.Selected.RollSpecs,\n                IDRightRollSpecs:ComboboxCanvas4_right.Selected.ID,\n                RollSpecsLeft: ComboboxCanvas3_left.Selected.RollSpecs,\n                IDLeftRollSpecs:ComboboxCanvas3_left.Selected.ID\n            }\n        )\n    );\n    Notify(\"Lưu thành công.\", NotificationType.Success, 2000)\n);\n"
+                        Text: ="patch"
+                        Visible: =false
+                        Width: =104
+                        X: =1222
+            - con_DetailHeaderMasterDataProduction_3:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.Regular
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =125
+                  Width: =con_buttonDetailRecordScreen_3.Width
+                  X: =con_buttonDetailRecordScreen_3.X
+                  Y: =con_buttonDetailRecordScreen_3.Y + con_buttonDetailRecordScreen_3.Height + 20
+                Children:
+                  - lbl_EsignRequest_3:
+                      Control: Label
+                      Properties:
+                        FocusedBorderColor: =lbl_EsignRequest_3.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        HoverBorderColor: =lbl_EsignRequest_3.BorderColor
+                        HoverColor: =lbl_EsignRequest_3.Color
+                        HoverFill: =lbl_EsignRequest_3.Fill
+                        PressedBorderColor: =lbl_EsignRequest_3.BorderColor
+                        PressedColor: =lbl_EsignRequest_3.Color
+                        PressedFill: =lbl_EsignRequest_3.Fill
+                        Size: =15
+                        TabIndex: =0
+                        Text: |
+                          =If(
+                              !IsBlank(varRecordMachineDetail.ID),
+                              varRecordMachineDetail.DieName,
+                              "Tạo mới"
+                          )
+                        Width: =1000
+                        X: =28
+                        Y: =24
+                  - img_formServiceCatalogue_4:
+                      Control: Image
+                      Properties:
+                        Height: =60
+                        Image: |
+                          =If(
+                              !IsBlank(varRecordMachineDetail.'Created By'.Email),
+                              Office365Users.UserPhotoV2(varRecordMachineDetail.'Created By'.Email),
+                              Office365Users.UserPhotoV2(User().Email)
+                          )
+                        RadiusBottomLeft: =60
+                        RadiusBottomRight: =60
+                        RadiusTopLeft: =60
+                        RadiusTopRight: =60
+                        Width: =60
+                        X: =1028
+                        Y: =28
+                  - txt_OwnerTickets_6:
+                      Control: Text
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        Font: =Font.'Segoe UI'
+                        FontColor: =RGBA(17, 94, 163, 1)
+                        Height: =28
+                        Text: |
+                          =If(
+                              !IsBlank(varRecordMachineDetail.'Created By'.Email),
+                              varRecordMachineDetail.'Created By'.DisplayName,
+                              User().FullName
+                          )
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =204
+                        X: =1100
+                        Y: =28
+                  - lbl_EtaxEsign_3:
+                      Control: Label
+                      Properties:
+                        FocusedBorderColor: =lbl_EtaxEsign_3.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        HoverBorderColor: =lbl_EtaxEsign_3.BorderColor
+                        HoverColor: =lbl_EtaxEsign_3.Color
+                        HoverFill: =lbl_EtaxEsign_3.Fill
+                        PressedBorderColor: =lbl_EtaxEsign_3.BorderColor
+                        PressedColor: =lbl_EtaxEsign_3.Color
+                        PressedFill: =lbl_EtaxEsign_3.Fill
+                        Size: =12
+                        TabIndex: =0
+                        Text: ="Danh sách dữ liệu máy"
+                        Width: =320
+                        X: =28
+                        Y: =59
+                  - txtOwner1_6:
+                      Control: Text
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        Font: =Font.'Segoe UI'
+                        FontColor: =RGBA(68, 68, 68, 1)
+                        Height: =25
+                        Size: =16
+                        Text: ="Owner"
+                        VerticalAlign: =VerticalAlign.Top
+                        Weight: ='TextCanvas.Weight'.Bold
+                        Width: =70
+                        X: =1100
+                        Y: =59
+            - con_MasterDataProductionDetail_3:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Height: =528
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =1366
+                  Y: =con_DetailHeaderMasterDataProduction_3.Height +  con_DetailHeaderMasterDataProduction_3.Y + 10
+                Children:
+                  - Canvas_MasterDataProductionDetail_3:
+                      Control: FluidGrid
+                      Properties:
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =528
+                        Width: =1366
+                      Children:
+                        - DataCard_MasterDataProductionDetail_3:
+                            Control: DataCard
+                            Properties:
+                              BorderStyle: =BorderStyle.None
+                              Height: =500
+                              Width: =Parent.Width
+                              X: =0
+                              Y: =0
+                            Children:
+                              - con_generalDetailMasterProduction_7:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =190
+                                    Width: =1326
+                                    X: =20
+                                    Y: =5
+                                  Children:
+                                    - lbl_DetailsTeamInformation_13:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          FocusedBorderColor: =lbl_DetailsTeamInformation_13.BorderColor
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverBorderColor: =lbl_DetailsTeamInformation_13.BorderColor
+                                          HoverColor: =lbl_DetailsTeamInformation_13.Color
+                                          HoverFill: =lbl_DetailsTeamInformation_13.Fill
+                                          PressedBorderColor: =lbl_DetailsTeamInformation_13.BorderColor
+                                          PressedColor: =lbl_DetailsTeamInformation_13.Color
+                                          PressedFill: =lbl_DetailsTeamInformation_13.Fill
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="THÔNG TIN CHUNG"
+                                          Width: =220
+                                          X: =29
+                                          Y: =5
+                                    - rec_GeneralDetailMasterProduction_7:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =35
+                                    - txt_SapCodeLabel_7:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Nhà máy"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_SAPCode_7.Y
+                                    - txtInput_SAPCode_7:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: |-
+                                            =If(
+                                                IsBlank(varRecordMachineDetail.ID),
+                                                LookUp(
+                                                    'QLSX List Plant',
+                                                    PlantCode = varCurrentPlant.PlantCode
+                                                ).PlantName,
+                                                LookUp(
+                                                    'QLSX List Plant',
+                                                    PlantCode = varRecordMachineDetail.PlantCode
+                                                ).PlantName
+                                            )
+                                          Width: =1100
+                                          X: =189
+                                          Y: =51
+                                    - lbl_BtpCode_7:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Máy"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =ComboboxCanvas2.Y
+                                    - ComboboxCanvas2:
+                                        Control: ComboBox
+                                        Properties:
+                                          DefaultSelectedItems: |-
+                                            ={BrandName : varRecordMachineDetail.NameMachine}
+                                          InputTextPlaceholder: =""
+                                          Items: |-
+                                            =SortByColumns(
+                                                Filter(
+                                                    'QLSX List PelletMillList',
+                                                    PlantCode = varCurrentPlant.PlantCode
+                                                ),
+                                                "BrandName",
+                                                SortOrder.Ascending
+                                            )
+                                          Width: =1100
+                                          X: =189
+                                          Y: =98
+                                        Children:
+                                          - BrandName1:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="BrandName"
+                                                FieldName: ="BrandName"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - lbl_BtpCode_8:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Thông số "
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =145
+                                    - ComboboxCanvas2_1:
+                                        Control: ComboBox
+                                        Properties:
+                                          DefaultSelectedItems: |-
+                                            ={DieName : varRecordMachineDetail.DieName}
+                                          InputTextPlaceholder: =""
+                                          Items: |-
+                                            =SortByColumns(
+                                                Filter(
+                                                    'QLSX List DieList',
+                                                    PlantCode = varCurrentPlant.PlantCode
+                                                ),
+                                                "DieName",
+                                                SortOrder.Ascending
+                                            )
+                                          Width: =1100
+                                          X: =189
+                                          Y: =145
+                                        Children:
+                                          - DieName1:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="DieName"
+                                                FieldName: ="DieName"
+                                                FieldType: ="s"
+                                                Order: =1
+                              - con_generalDetailMasterProduction_8:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =116
+                                    Width: =650
+                                    X: =con_generalDetailMasterProduction_7.X
+                                    Y: =con_generalDetailMasterProduction_7.Height + con_generalDetailMasterProduction_7.Y + 20
+                                  Children:
+                                    - lbl_DetailsTeamInformation_14:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          FocusedBorderColor: =lbl_DetailsTeamInformation_14.BorderColor
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverBorderColor: =lbl_DetailsTeamInformation_14.BorderColor
+                                          HoverColor: =lbl_DetailsTeamInformation_14.Color
+                                          HoverFill: =lbl_DetailsTeamInformation_14.Fill
+                                          PressedBorderColor: =lbl_DetailsTeamInformation_14.BorderColor
+                                          PressedColor: =lbl_DetailsTeamInformation_14.Color
+                                          PressedFill: =lbl_DetailsTeamInformation_14.Fill
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="Thông tin kỹ thuật của roll trái"
+                                          Width: =300
+                                          X: =29
+                                          Y: =5
+                                    - rec_GeneralDetailMasterProduction_8:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =35
+                                    - txt_SapCodeLabel_8:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Thông số roll"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =51
+                                    - ComboboxCanvas3_left:
+                                        Control: ComboBox
+                                        Properties:
+                                          DefaultSelectedItems: |-
+                                            ={RollSpecs: varRecordMachineDetail.RollSpecsLeft}
+                                          InputTextPlaceholder: =""
+                                          Items: |-
+                                            =SortByColumns(
+                                                Filter(
+                                                    'QLSX List RollList',
+                                                    PlantCode = varCurrentPlant.PlantCode,
+                                                    Area = "Trái"
+                                                ),
+                                                "RollSpecs",
+                                                SortOrder.Ascending
+                                            )
+                                          Width: =440
+                                          X: =189
+                                          Y: =51
+                                        Children:
+                                          - RollSpecs3:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="RollSpecs"
+                                                FieldName: ="RollSpecs"
+                                                FieldType: ="s"
+                                                Order: =1
+                              - con_generalDetailMasterProduction_9:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =116
+                                    Width: =650
+                                    X: =con_generalDetailMasterProduction_8.X + con_generalDetailMasterProduction_8.Width + 25
+                                    Y: =con_generalDetailMasterProduction_7.Height + con_generalDetailMasterProduction_7.Y + 20
+                                  Children:
+                                    - lbl_DetailsTeamInformation_15:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          FocusedBorderColor: =lbl_DetailsTeamInformation_15.BorderColor
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverBorderColor: =lbl_DetailsTeamInformation_15.BorderColor
+                                          HoverColor: =lbl_DetailsTeamInformation_15.Color
+                                          HoverFill: =lbl_DetailsTeamInformation_15.Fill
+                                          PressedBorderColor: =lbl_DetailsTeamInformation_15.BorderColor
+                                          PressedColor: =lbl_DetailsTeamInformation_15.Color
+                                          PressedFill: =lbl_DetailsTeamInformation_15.Fill
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="Thông tin kỹ thuật của roll phải"
+                                          Width: =400
+                                          X: =29
+                                          Y: =5
+                                    - rec_GeneralDetailMasterProduction_9:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =35
+                                    - txt_SapCodeLabel_9:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Thông số roll"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =51
+                                    - ComboboxCanvas4_right:
+                                        Control: ComboBox
+                                        Properties:
+                                          DefaultSelectedItems: |-
+                                            ={RollSpecs: varRecordMachineDetail.RollSpecsRight}
+                                          InputTextPlaceholder: =""
+                                          Items: |-
+                                            =SortByColumns(
+                                                Filter(
+                                                    'QLSX List RollList',
+                                                    PlantCode = varCurrentPlant.PlantCode,
+                                                    Area = "Phải"
+                                                ),
+                                                "RollSpecs",
+                                                SortOrder.Ascending
+                                            )
+                                          Width: =440
+                                          X: =189
+                                          Y: =51
+                                        Children:
+                                          - RollSpecs2:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="RollSpecs"
+                                                FieldName: ="RollSpecs"
+                                                FieldType: ="s"
+                                                Order: =7
+      - Container_Loading_3:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.4)
+            Height: =Parent.Height
+            Visible: |
+              =varLoading
+            Width: =Parent.Width
+          Children:
+            - Spinner1_7:
+                Control: Spinner
+                Properties:
+                  Height: =50
+                  Width: =50
+                  X: =658
+                  Y: =359
+            - Label1_3:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisplayMode: =DisplayMode.View
+                  Font: =Font.'Open Sans'
+                  Size: =17
+                  Text: |
+                    ="Processing..."
+                  Width: =500
+                  X: =433
+                  Y: =409

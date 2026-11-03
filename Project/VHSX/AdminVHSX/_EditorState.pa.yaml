@@ -1,0 +1,16 @@
+EditorState:
+  ScreensOrder:
+    - BUScreen
+    - AdminScreen
+    - BUDetailScreen
+    - MasterDataProductionScreen
+    - MasterDataDieScreen
+    - MasterDataRollScreen
+    - MasterDataMachineScreen
+    - DetailRecordScreen
+    - DetailRecordDieScreen
+    - DetailRecordRollScreen
+    - DetailRecordMachineScreen
+    - MasterDataReasonScreen
+    - MasterDataCriteriaScreen
+    - DetailIndicatorScreen
