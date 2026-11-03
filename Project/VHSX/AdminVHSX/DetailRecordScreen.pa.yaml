@@ -1,0 +1,1248 @@
+Screens:
+  DetailRecordScreen:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: =SetFocus(TextInput1)
+    Children:
+      - con_FormMasterDataProductionDetail:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =768
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1366
+          Children:
+            - con_buttonDetailRecordScreen:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.Regular
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =54
+                  Width: =Parent.Width - 40
+                  X: =20
+                  Y: =20
+                Children:
+                  - con_Actions:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Height: =54
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =5
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =2
+                        PaddingTop: =5
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =1222
+                      Children:
+                        - btn_BackHome:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="ArrowLeft"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: |-
+                                =
+                                Back(ScreenTransition.Fade)
+                              Text: =
+                              Width: =50
+                              X: =299
+                              Y: =7
+                        - btn_NewMasterDataProduction:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="Add"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: |-
+                                =Set(varRecordDetail,{});
+                                Set(varSaveMasterDataProduction,false);
+
+                                Reset(cbb_MedicatedMix);
+
+                                Reset(cbb_ProductType);
+                                Reset(cbb_ProductGroup);
+                                Reset(cbb_ProductMix);
+                                Reset(cbb_PelletType);
+                                Reset(ccb_FeedType);
+                                Reset(cbb_ProductBrand);
+                                Navigate(DetailRecordScreen,ScreenTransition.UnCoverRight)
+                              Text: ="Tạo mới"
+                              Width: =120
+                              X: =299
+                              Y: =7
+                        - btn_SaveMasterDataProduction:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="Save"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: |
+                                =Set(varSaveMasterDataProduction, true);
+
+                                If(
+                                    txtInput_SAPCode.ValidationState     = "None" &&
+                                    txtInput_ProductCode.ValidationState = "None" &&
+                                    txtInput_BtpCode.ValidationState     = "None" &&
+                                    txtInput_PremixCode.ValidationState  = "None" &&
+                                    //txtInput_PackageCode.ValidationState = "None" &&
+                                    cbb_bu.ValidationState               = "None" &&
+                                    cbb_ProductBrand.ValidationState     = "None"
+                                    ,
+                                    With(
+                                        {
+                                            _masterDataProduction: Filter(
+                                                'QLSX List Master Data Production',
+                                                PlantCode = cbb_bu.Selected.PlantCode,
+                                                SAPcode   = txtInput_SAPCode.Value
+                                            )
+                                        },
+                                        If(
+                                            CountRows(Filter(_masterDataProduction, ID <> varRecordDetail.ID)) > 0,
+                                            Notify("Dữ liệu đã tồn tại trong hệ thống.", NotificationType.Information, 2000),
+                                            Select(btn_PatchMasterDataProduction)
+                                        )
+                                    ),
+                                    Notify("Bạn cần nhập dữ liệu.", NotificationType.Error, 2000)
+                                )
+                              Text: ="Lưu"
+                              Width: =100
+                              X: =299
+                              Y: =7
+                        - btn_SaveMasterDataProduction_1:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="Save"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: "=Set(varSaveMasterDataProduction,true);\r\nIf(\r\n    txtInput_SAPCode.ValidationState = \"None\" &&\r\n    txtInput_ProductCode.ValidationState = \"None\" &&\r\n    txtInput_BtpCode.ValidationState = \"None\" &&\r\n    txtInput_PremixCode.ValidationState = \"None\" &&\r\n    txtInput_PackageCode.ValidationState = \"None\" &&\r\n    cbb_bu.ValidationState = \"None\" &&\r\n    cbb_ProductBrand.ValidationState = \"None\" \r\n    ,\r\n     With(\r\n        {\r\n             _masterDataProduction : Filter('QLSX List Master Data Production',PlantCode = cbb_bu.Selected.PlantCode ,SAPcode = txtInput_SAPCode.Value)\r\n        }\r\n        ,\r\n        If(\r\n            CountRows(Filter(_masterDataProduction, ID <> varRecordDetail.ID)) > 0,\r\n            Notify(\"Dữ liệu đã tồn tại trong hệ thống.\",NotificationType.Information,2000),\r\n            Select(btn_PatchMasterDataProduction);\r\n            Navigate(MasterDataProductionScreen,ScreenTransition.UnCoverRight)\r\n        )\r\n    );\r\n \r\n    ,\r\n    Notify(\"Bạn cần nhập dữ liệu.\",NotificationType.Error,2000)\r\n)"
+                              Text: ="Lưu và đóng"
+                              Width: =150
+                              X: =299
+                              Y: =7
+                        - btn_Duplicate:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              Font: =Font.'Segoe UI'
+                              FontSize: =16
+                              Height: =40
+                              Icon: ="Copy"
+                              LayoutMaxHeight: =
+                              LayoutMaxWidth: =
+                              OnSelect: |
+                                =Set(varLoading,true);
+                                If(
+                                    !IsBlank(varRecordDetail.ID),
+                                    Set(
+                                        varDuplicatedRequest,
+                                        Patch(
+                                            'QLSX List Master Data Production'
+                                            ,
+                                            Defaults('QLSX List Master Data Production'),
+                                            {
+                                                PlantCode: varRecordDetail.PlantCode,
+                                                PlantName: varRecordDetail.PlantName,
+                                                //SAPcode: varRecordDetail.SAPcode,
+                                                ProductionCode: varRecordDetail.ProductionCode,
+                                                ShortCode: varRecordDetail.ShortCode,
+                                                SemiProductCode: varRecordDetail.SemiProductCode,
+                                                PremixCode: varRecordDetail.PremixCode,
+                                                EmtyBagCode: varRecordDetail.EmtyBagCode,
+                                                BatchSize: varRecordDetail.BatchSize,
+                                                FeedType: varRecordDetail.FeedType,
+                                                DieSize: varRecordDetail.DieSize,
+                                                PelletType: varRecordDetail.PelletType,
+                                                BagSize: varRecordDetail.BagSize,
+                                                ProductType: varRecordDetail.ProductType,
+                                                Protein: varRecordDetail.Protein,
+                                                ProductMix: varRecordDetail.ProductMix,
+                                                Species: varRecordDetail.Species,
+                                                ProductGroup: varRecordDetail.ProductGroup,
+                                                Description: varRecordDetail.Description,
+                                                ProductBrand: varRecordDetail.ProductBrand,
+                                                CustomizeFeed: varRecordDetail.CustomizeFeed,
+                                                InternalExternalCustomer: varRecordDetail.InternalExternalCustomer,
+                                                P1: varRecordDetail.P1,
+                                                P2: varRecordDetail.P2,
+                                                P3: varRecordDetail.P3,
+                                                P4: varRecordDetail.P4,
+                                                Note: varRecordDetail.Note                 
+                                            }
+                                        )
+                                    );
+                                    Set(varRecordDetail, varDuplicatedRequest);
+                                    Notify("Duplicated data successed.",NotificationType.Success,3000);
+                                    ,
+                                    Notify("Duplicated data failed.",NotificationType.Error,3000);
+                                );
+                                Set(varLoading,false);
+                              Text: ="Duplicate"
+                              Visible: =!IsBlank(varRecordDetail.ID)
+                              Width: =130
+                              X: =299
+                              Y: =7
+                  - btn_PatchMasterDataProduction:
+                      Control: Button
+                      Properties:
+                        Height: =54
+                        OnSelect: |-
+                          =If(
+                                  IsBlank(varRecordDetail.ID)
+                                  ,//create request
+                                  Set(varRecordDetail,
+                                          Patch(
+                                          'QLSX List Master Data Production',
+                                          Defaults('QLSX List Master Data Production'),
+                                          {
+                                              SAPcode: txtInput_SAPCode.Value,
+                                              ProductionCode: txtInput_ProductCode.Value,
+                                              SemiProductCode: txtInput_BtpCode.Text,
+                                              PremixCode: txtInput_PremixCode.Value,
+                                              EmtyBagCode: txtInput_PackageCode.Value,
+                                              ProductBrand: cbb_ProductBrand.Selected,
+                                              FeedType: ccb_FeedType.Selected,
+                                              PelletType: cbb_PelletType.Selected,
+                                              Protein: Value(numInput_Protein.Value),
+                                              BagSize: Value(numInput_PackageSize.Value),
+                                              BatchSize: Value(numInput_MixBatch.Value),
+                                              ProductGroup: cbb_ProductGroup.Selected,
+                                              Species: ccb_SpeciesGroup.Selected,
+                                              ProductMix: cbb_ProductMix.Selected,
+                                              ProductType: cbb_ProductType.Selected,
+                                              DieSize: Value(numInput_DieSize.Value),
+                                              CustomizeFeed: { Value: cbb_MedicatedMix.Selected.Value },
+                                              P1: Value(numInput_NS_Machine1.Value),
+                                              P2: Value(numInput_NS_Machine2.Value),
+                                              P3: Value(numInput_NS_Machine3.Value),
+                                              P4: Value(numInput_NS_Machine4.Value),
+                                              InternalExternalCustomer:txtInput_InternalExternalCustomer.Value,
+                                              Note: txtInput_Note.Value,
+                                              MoistureCTTK: numInput_MixBatch_1.Value,
+                                              PlantCode: cbb_bu.Selected.PlantCode,
+                                              PlantName: cbb_bu.Selected.PlantName
+                                          }
+                                      )       
+                                  );
+                                  ,
+                                  Set(
+                                      varRecordDetail,
+                                      Patch(
+                                          'QLSX List Master Data Production',
+                                          varRecordDetail,
+                                          {
+                                              SAPcode: txtInput_SAPCode.Value,
+                                              ProductionCode: txtInput_ProductCode.Value,
+                                              SemiProductCode: txtInput_BtpCode.Text,
+                                              PremixCode: txtInput_PremixCode.Value,
+                                              EmtyBagCode: txtInput_PackageCode.Value,
+                                              ProductBrand: cbb_ProductBrand.Selected,
+                                              FeedType: ccb_FeedType.Selected,
+                                              PelletType: cbb_PelletType.Selected,
+                                              Protein: Value(numInput_Protein.Value),
+                                              BagSize: Value(numInput_PackageSize.Value),
+                                              BatchSize: Value(numInput_MixBatch.Value),
+                                              ProductGroup: cbb_ProductGroup.Selected,
+                                              Species: ccb_SpeciesGroup.Selected,
+                                              ProductMix: cbb_ProductMix.Selected,
+                                              ProductType: cbb_ProductType.Selected,
+                                              DieSize: Value(numInput_DieSize.Value),
+                                              CustomizeFeed: { Value: cbb_MedicatedMix.Selected.Value },
+                                              P1: Value(numInput_NS_Machine1.Value),
+                                              P2: Value(numInput_NS_Machine2.Value),
+                                              P3: Value(numInput_NS_Machine3.Value),
+                                              P4: Value(numInput_NS_Machine4.Value),
+                                              InternalExternalCustomer:txtInput_InternalExternalCustomer.Value,
+                                              Note: txtInput_Note.Value,
+                                              MoistureCTTK: numInput_MixBatch_1.Value,
+                                              PlantCode: cbb_bu.Selected.PlantCode,
+                                              PlantName: cbb_bu.Selected.PlantName
+                                          }
+                                      )
+                                  );
+                              );
+                          Notify("Lưu thành công.", NotificationType.Success, 2000);
+                        Text: ="patch"
+                        Visible: =false
+                        Width: =104
+                        X: =1222
+            - con_DetailHeaderMasterDataProduction:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.Regular
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =125
+                  Width: =con_buttonDetailRecordScreen.Width
+                  X: =con_buttonDetailRecordScreen.X
+                  Y: =con_buttonDetailRecordScreen.Y + con_buttonDetailRecordScreen.Height + 20
+                Children:
+                  - lbl_EtaxEsign:
+                      Control: Label
+                      Properties:
+                        FocusedBorderColor: =lbl_EtaxEsign.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        HoverBorderColor: =lbl_EtaxEsign.BorderColor
+                        HoverColor: =lbl_EtaxEsign.Color
+                        HoverFill: =lbl_EtaxEsign.Fill
+                        PressedBorderColor: =lbl_EtaxEsign.BorderColor
+                        PressedColor: =lbl_EtaxEsign.Color
+                        PressedFill: =lbl_EtaxEsign.Fill
+                        Size: =12
+                        TabIndex: =0
+                        Text: ="Danh sách dữ liệu sản xuất"
+                        Width: =320
+                        X: =28
+                        Y: =59
+                  - lbl_EsignRequest:
+                      Control: Label
+                      Properties:
+                        FocusedBorderColor: =lbl_EsignRequest.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =32
+                        HoverBorderColor: =lbl_EsignRequest.BorderColor
+                        HoverColor: =lbl_EsignRequest.Color
+                        HoverFill: =lbl_EsignRequest.Fill
+                        PressedBorderColor: =lbl_EsignRequest.BorderColor
+                        PressedColor: =lbl_EsignRequest.Color
+                        PressedFill: =lbl_EsignRequest.Fill
+                        Size: =15
+                        TabIndex: =0
+                        Text: |
+                          =If(
+                              !IsBlank(varRecordDetail.ID),
+                              varRecordDetail.SAPcode,
+                              "Tạo mới"
+                          )
+                        Width: =1000
+                        X: =28
+                        Y: =24
+                  - txtOwner1_2:
+                      Control: Text
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        Font: =Font.'Segoe UI'
+                        FontColor: =RGBA(68, 68, 68, 1)
+                        Height: =25
+                        Size: =16
+                        Text: ="Owner"
+                        VerticalAlign: =VerticalAlign.Top
+                        Weight: ='TextCanvas.Weight'.Bold
+                        Width: =70
+                        X: =1100
+                        Y: =59
+                  - txt_OwnerTickets_2:
+                      Control: Text
+                      Properties:
+                        Align: ='TextCanvas.Align'.Start
+                        Font: =Font.'Segoe UI'
+                        FontColor: =RGBA(17, 94, 163, 1)
+                        Height: =28
+                        Text: |
+                          =If(
+                              !IsBlank(varRecordDetail.'Created By'.Email),
+                              varRecordDetail.'Created By'.DisplayName,
+                              User().FullName
+                          )
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =204
+                        X: =1100
+                        Y: =28
+                  - img_formServiceCatalogue:
+                      Control: Image
+                      Properties:
+                        Height: =60
+                        Image: |
+                          =If(
+                              !IsBlank(varRecordDetail.'Created By'.Email),
+                              Office365Users.UserPhotoV2(varRecordDetail.'Created By'.Email),
+                              Office365Users.UserPhotoV2(User().Email)
+                          )
+                        RadiusBottomLeft: =60
+                        RadiusBottomRight: =60
+                        RadiusTopLeft: =60
+                        RadiusTopRight: =60
+                        Width: =60
+                        X: =1028
+                        Y: =28
+            - con_MasterDataProductionDetail:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Height: =528
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =1366
+                  Y: =con_DetailHeaderMasterDataProduction.Height +  con_DetailHeaderMasterDataProduction.Y + 10
+                Children:
+                  - Canvas_MasterDataProductionDetail:
+                      Control: FluidGrid
+                      Properties:
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =750
+                        Width: =1366
+                      Children:
+                        - DataCard_MasterDataProductionDetail:
+                            Control: DataCard
+                            Properties:
+                              BorderStyle: =BorderStyle.None
+                              Height: =970
+                              Width: =Parent.Width
+                              X: =0
+                              Y: =0
+                            Children:
+                              - con_generalDetailMasterProduction:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =295
+                                    Width: =627
+                                    X: =20
+                                    Y: =5
+                                  Children:
+                                    - rec_GeneralDetailMasterProduction:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =35
+                                    - lbl_DetailsTeamInformation_4:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          FocusedBorderColor: =lbl_DetailsTeamInformation_4.BorderColor
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverBorderColor: =lbl_DetailsTeamInformation_4.BorderColor
+                                          HoverColor: =lbl_DetailsTeamInformation_4.Color
+                                          HoverFill: =lbl_DetailsTeamInformation_4.Fill
+                                          PressedBorderColor: =lbl_DetailsTeamInformation_4.BorderColor
+                                          PressedColor: =lbl_DetailsTeamInformation_4.Color
+                                          PressedFill: =lbl_DetailsTeamInformation_4.Fill
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="THÔNG TIN CHUNG"
+                                          Width: =220
+                                          X: =29
+                                          Y: =5
+                                    - txt_SapCodeLabel:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Mã SAP *"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_SAPCode.Y
+                                    - lbl_ProductCode:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Mã sản phẩm *"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_ProductCode.Y
+                                    - lbl_BtpCode:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Mã BTP *"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_BtpCode.Y
+                                    - lbl_PackageCode:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Mã bao bì"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_PackageCode.Y
+                                    - txtInput_SAPCode:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: =varRecordDetail.SAPcode
+                                          Width: =417
+                                          X: =189
+                                          Y: =51
+                                    - txtInput_ProductCode:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: =varRecordDetail.ProductionCode
+                                          Width: =417
+                                          X: =txtInput_SAPCode.X
+                                          Y: =90
+                                    - txtInput_PackageCode:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =//If(
+                                            //    IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                            //    "Error",
+                                            //    "None"
+                                            //)
+                                            "None"
+                                          Value: =varRecordDetail.EmtyBagCode
+                                          Width: =417
+                                          X: =txtInput_SAPCode.X
+                                          Y: =207
+                                    - txtInput_BtpCode:
+                                        Control: ModernTextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Default: =varRecordDetail.SemiProductCode
+                                          Font: =Font.Arial
+                                          FontWeight: =""
+                                          MaxLength: =-1
+                                          Placeholder: =""
+                                          Size: =0
+                                          TriggerOutput: =TriggerOutput.FocusOut
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Text) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Width: =417
+                                          X: =txtInput_SAPCode.X
+                                          Y: =129
+                                    - lbl_PremixCode:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Mã Premix *"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =txtInput_PremixCode.Y
+                                    - txtInput_PremixCode:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: =varRecordDetail.PremixCode
+                                          Width: =417
+                                          X: =txtInput_SAPCode.X
+                                          Y: =168
+                                    - cbb_ProductBrand:
+                                        Control: ComboBox
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          DefaultSelectedItems: ={ Value :varRecordDetail.ProductBrand.Value }
+                                          Font: =Font.Arial
+                                          InputTextPlaceholder: =""
+                                          IsSearchable: =false
+                                          Items: =Choices([@'QLSX List Master Data Production'].ProductBrand)
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Selected.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Width: =417
+                                          X: =189
+                                          Y: =249
+                                        Children:
+                                          - Value4:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="Value"
+                                                FieldName: ="Value"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - lbl_ProductBrand:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: |-
+                                            ="Dòng sản phẩm *
+                                            "
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =29
+                                          Y: =249
+                              - con_ProductAttributes:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =295
+                                    Width: =673
+                                    X: =con_generalDetailMasterProduction.X +  con_generalDetailMasterProduction.Width + 25
+                                    Y: =con_generalDetailMasterProduction.Y
+                                  Children:
+                                    - rec_ProductAttributes:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =35
+                                    - lbl_DetailsTeamInformation_5:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          FocusedBorderColor: =lbl_DetailsTeamInformation_5.BorderColor
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverBorderColor: =lbl_DetailsTeamInformation_5.BorderColor
+                                          HoverColor: =lbl_DetailsTeamInformation_5.Color
+                                          HoverFill: =lbl_DetailsTeamInformation_5.Fill
+                                          PressedBorderColor: =lbl_DetailsTeamInformation_5.BorderColor
+                                          PressedColor: =lbl_DetailsTeamInformation_5.Color
+                                          PressedFill: =lbl_DetailsTeamInformation_5.Fill
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="ĐẶC TÍNH SẢN PHẨM"
+                                          Width: =220
+                                          X: =29
+                                          Y: =5
+                                    - lbl_FeedType:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Loại cám"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =100
+                                          X: =29
+                                          Y: =51
+                                    - lbl_PelletType:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Loại viên"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =100
+                                          X: =29
+                                          Y: =90
+                                    - lbl_Protein:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Độ đạm"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =100
+                                          X: =29
+                                          Y: =129
+                                    - TextCanvas6_12:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Cỡ bao"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =100
+                                          X: =29
+                                          Y: =168
+                                    - lbl_DieSize:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Cỡ die"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =100
+                                          X: =lbl_ProductGroup.X
+                                          Y: =numInput_MixBatch.Y
+                                    - ccb_FeedType:
+                                        Control: ComboBox
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          DefaultSelectedItems: |-
+                                            ={Value :  varRecordDetail.FeedType.Value}
+                                          Font: =Font.Arial
+                                          InputTextPlaceholder: =""
+                                          IsSearchable: =false
+                                          Items: =Choices([@'QLSX List Master Data Production'].FeedType)
+                                          Width: =180
+                                          X: =129
+                                          Y: =51
+                                        Children:
+                                          - Value5:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="Value"
+                                                FieldName: ="Value"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - cbb_PelletType:
+                                        Control: ComboBox
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          DefaultSelectedItems: |-
+                                            ={Value :  varRecordDetail.PelletType.Value}
+                                          Font: =Font.Arial
+                                          InputTextPlaceholder: =""
+                                          IsSearchable: =false
+                                          Items: =Choices([@'QLSX List Master Data Production'].PelletType)
+                                          Width: =ccb_FeedType.Width
+                                          X: =ccb_FeedType.X
+                                          Y: =90
+                                        Children:
+                                          - Value6:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="Value"
+                                                FieldName: ="Value"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - lbl_ProductMix:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Cơ cấu SP"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =lbl_ProductGroup.X
+                                          Y: =numInput_Protein.Y
+                                    - cbb_ProductMix:
+                                        Control: ComboBox
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          DefaultSelectedItems: |-
+                                            ={Value :  varRecordDetail.ProductMix.Value}
+                                          Font: =Font.Arial
+                                          InputTextPlaceholder: =""
+                                          IsSearchable: =false
+                                          Items: =Choices([@'QLSX List Master Data Production'].ProductMix)
+                                          Width: =cbb_ProductGroup.Width
+                                          X: =cbb_ProductGroup.X
+                                          Y: =numInput_Protein.Y
+                                        Children:
+                                          - Value8:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="Value"
+                                                FieldName: ="Value"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - lbl_ProductGroup:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Nhóm sản phẩm"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =352
+                                          Y: =52
+                                    - cbb_ProductGroup:
+                                        Control: ComboBox
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          DefaultSelectedItems: ={Value :varRecordDetail.ProductGroup.Value}
+                                          Font: =Font.Arial
+                                          InputTextPlaceholder: =""
+                                          IsSearchable: =false
+                                          Items: =Choices([@'QLSX List Master Data Production'].ProductGroup)
+                                          Width: =180
+                                          X: =472
+                                          Y: =52
+                                        Children:
+                                          - Value9:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="Value"
+                                                FieldName: ="Value"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - lbl_SpeciesGroup:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Nhóm loài"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =lbl_ProductGroup.X
+                                          Y: =cbb_PelletType.Y
+                                    - ccb_SpeciesGroup:
+                                        Control: ComboBox
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          DefaultSelectedItems: ={Value :varRecordDetail.Species.Value}
+                                          Font: =Font.Arial
+                                          InputTextPlaceholder: =""
+                                          IsSearchable: =false
+                                          Items: =Choices([@'QLSX List Master Data Production'].Species)
+                                          Width: =cbb_ProductGroup.Width
+                                          X: =cbb_ProductGroup.X
+                                          Y: =cbb_PelletType.Y
+                                        Children:
+                                          - Value10:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="Value"
+                                                FieldName: ="Value"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - cbb_ProductType:
+                                        Control: ComboBox
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          DefaultSelectedItems: ={Value :varRecordDetail.ProductType.Value}
+                                          Font: =Font.Arial
+                                          InputTextPlaceholder: =""
+                                          IsSearchable: =false
+                                          Items: =Choices([@'QLSX List Master Data Production'].ProductType)
+                                          Width: =cbb_ProductGroup.Width
+                                          X: =cbb_ProductGroup.X
+                                          Y: =numInput_PackageSize.Y
+                                        Children:
+                                          - Value7:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="Value"
+                                                FieldName: ="Value"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - lbl_ProductType:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Loại hàng"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =120
+                                          X: =lbl_ProductGroup.X
+                                          Y: =numInput_PackageSize.Y
+                                    - lbl_MixBatch:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Lô trộn"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =100
+                                          X: =29
+                                          Y: =207
+                                    - cbb_MedicatedMix:
+                                        Control: ComboBox
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          DefaultSelectedItems: |-
+                                            ={Value :  varRecordDetail.CustomizeFeed.Value}
+                                          Font: =Font.Arial
+                                          InputTextPlaceholder: =""
+                                          IsSearchable: =false
+                                          Items: =Choices('QLSX List Master Data Production'.CustomizeFeed)
+                                          Width: =180
+                                          X: =472
+                                          Y: =249
+                                        Children:
+                                          - Value2:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="Value"
+                                                FieldName: ="Value"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - numInput_Protein:
+                                        Control: NumberInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Precision: ='NumberInput.Precision'.'1'
+                                          Value: =varRecordDetail.Protein
+                                          Width: =ccb_FeedType.Width
+                                          X: =129
+                                          Y: =129
+                                    - numInput_PackageSize:
+                                        Control: NumberInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Precision: ='NumberInput.Precision'.'1'
+                                          Value: =varRecordDetail.BagSize
+                                          Width: =ccb_FeedType.Width
+                                          X: =129
+                                          Y: =168
+                                    - numInput_MixBatch:
+                                        Control: NumberInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Precision: ='NumberInput.Precision'.'1'
+                                          Value: =varRecordDetail.BatchSize
+                                          Width: =ccb_FeedType.Width
+                                          X: =129
+                                          Y: =207
+                                    - numInput_DieSize:
+                                        Control: NumberInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Precision: ='NumberInput.Precision'.'1'
+                                          Value: =varRecordDetail.DieSize
+                                          Width: =ccb_FeedType.Width
+                                          X: =472
+                                          Y: =207
+                                    - lbl_MedicatedMix:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="SP trộn thuốc"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =100
+                                          X: =352
+                                          Y: =249
+                                    - lbl_MixBatch_1:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Ẩm CTTK (%)"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =100
+                                          X: =29
+                                          Y: =249
+                                    - numInput_MixBatch_1:
+                                        Control: NumberInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Precision: ='NumberInput.Precision'.'1'
+                                          Value: =varRecordDetail.MoistureCTTK
+                                          Width: =ccb_FeedType.Width
+                                          X: =129
+                                          Y: =249
+                              - con_Note:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Width: =1325
+                                    X: =con_generalDetailMasterProduction.X
+                                    Y: =con_ProductionInfo.Y+con_ProductionInfo.Height + 15
+                                  Children:
+                                    - lbl_Note:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          FocusedBorderColor: =lbl_Note.BorderColor
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverBorderColor: =lbl_Note.BorderColor
+                                          HoverColor: =lbl_Note.Color
+                                          HoverFill: =lbl_Note.Fill
+                                          PressedBorderColor: =lbl_Note.BorderColor
+                                          PressedColor: =lbl_Note.Color
+                                          PressedFill: =lbl_Note.Fill
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="GHI CHÚ"
+                                          Width: =220
+                                          X: =29
+                                          Y: =5
+                                    - rec_Note:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =37
+                                    - txtInput_Note:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Height: =136
+                                          Mode: ='TextInputCanvas.Mode'.Multiline
+                                          Value: =varRecordDetail.Note
+                                          Width: =1275
+                                          X: =29
+                                          Y: =51
+                              - con_ProductionInfo:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =215
+                                    Width: =1325
+                                    X: =20
+                                    Y: =con_generalDetailMasterProduction.Y +  con_generalDetailMasterProduction.Height + 15
+                                  Children:
+                                    - lbl_DetailsTeamInformation_7:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          FocusedBorderColor: =lbl_DetailsTeamInformation_7.BorderColor
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          HoverBorderColor: =lbl_DetailsTeamInformation_7.BorderColor
+                                          HoverColor: =lbl_DetailsTeamInformation_7.Color
+                                          HoverFill: =lbl_DetailsTeamInformation_7.Fill
+                                          PressedBorderColor: =lbl_DetailsTeamInformation_7.BorderColor
+                                          PressedColor: =lbl_DetailsTeamInformation_7.Color
+                                          PressedFill: =lbl_DetailsTeamInformation_7.Fill
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="THÔNG TIN SẢN XUẤT"
+                                          Width: =220
+                                          X: =29
+                                          Y: =5
+                                    - Rectangle3_12:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =40
+                                    - lbl_NS_Machine1:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="NS máy 1"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =150
+                                          X: =29
+                                          Y: =51
+                                    - lbl_NS_Machine2:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="NS máy 2"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =150
+                                          X: =29
+                                          Y: =numInput_NS_Machine2.Y
+                                    - lbl_NS_Machine3:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="NS máy 3"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =150
+                                          X: =29
+                                          Y: =numInput_NS_Machine3.Y
+                                    - lbl_NS_Machine4:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="NS máy 4"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =150
+                                          X: =lbl_NS_Machine3.X
+                                          Y: =numInput_NS_Machine4.Y
+                                    - lbl_InternalGoods:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Loại hàng"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =150
+                                          X: =679
+                                          Y: =numInput_NS_Machine2.Y
+                                    - lbl_bu:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.Arial
+                                          Text: ="Nhà máy"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =150
+                                          X: =679
+                                          Y: =51
+                                    - cbb_bu:
+                                        Control: ComboBox
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          DefaultSelectedItems: |-
+                                            ={PlantName : varRecordDetail.PlantName}
+                                          Font: =Font.Arial
+                                          InputTextPlaceholder: =""
+                                          IsSearchable: =false
+                                          Items: =SortByColumns('QLSX List Plant',"PlantName",SortOrder.Ascending)
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Selected.PlantCode) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Width: =450
+                                          X: =854
+                                          Y: =51
+                                        Children:
+                                          - PlantName1:
+                                              Control: ComboBoxDataField
+                                              Variant: textualColumn
+                                              IsLocked: true
+                                              Properties:
+                                                FieldDisplayName: ="PlantName"
+                                                FieldName: ="PlantName"
+                                                FieldType: ="s"
+                                                Order: =1
+                                    - numInput_NS_Machine1:
+                                        Control: NumberInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Precision: ='NumberInput.Precision'.'1'
+                                          Value: =varRecordDetail.P1
+                                          Width: =450
+                                          X: =204
+                                          Y: =51
+                                    - numInput_NS_Machine2:
+                                        Control: NumberInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Precision: ='NumberInput.Precision'.'1'
+                                          Value: =varRecordDetail.P2
+                                          Width: =450
+                                          X: =204
+                                          Y: =90
+                                    - numInput_NS_Machine3:
+                                        Control: NumberInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Precision: ='NumberInput.Precision'.'1'
+                                          Value: =varRecordDetail.P3
+                                          Width: =numInput_NS_Machine1.Width
+                                          X: =204
+                                          Y: =130
+                                    - numInput_NS_Machine4:
+                                        Control: NumberInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Precision: ='NumberInput.Precision'.'1'
+                                          Value: =varRecordDetail.P4
+                                          Width: =numInput_NS_Machine1.Width
+                                          X: =numInput_NS_Machine1.X
+                                          Y: =170
+                                    - txtInput_InternalExternalCustomer:
+                                        Control: TextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =Font.Arial
+                                          ValidationState: |-
+                                            =If(
+                                                IsBlank(Self.Value) && varSaveMasterDataProduction,
+                                                "Error",
+                                                "None"
+                                            )
+                                          Value: =varRecordDetail.InternalExternalCustomer
+                                          Width: =450
+                                          X: =854
+                                          Y: =90
+                              - TextInput1:
+                                  Control: Classic/TextInput
+                                  Properties:
+                                    BorderColor: =RGBA(255, 255, 255, 1)
+                                    BorderThickness: =1
+                                    Default: =
+                                    Font: =Font.'Open Sans'
+                                    Height: =0
+                                    HoverBorderColor: =RGBA(255, 255, 255, 1)
+                                    HoverFill: =RGBA(186, 202, 226, 1)
+                                    LineHeight: =0.2
+                                    RadiusBottomLeft: =1
+                                    RadiusBottomRight: =1
+                                    RadiusTopLeft: =1
+                                    RadiusTopRight: =1
+                                    Width: =0
+                                    Y: =25
+      - Container_Loading:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(0, 0, 0, 0.4)
+            Height: =Parent.Height
+            Visible: |
+              =varLoading
+            Width: =Parent.Width
+          Children:
+            - Spinner1:
+                Control: Spinner
+                Properties:
+                  Height: =50
+                  Width: =50
+                  X: =658
+                  Y: =359
+            - Label1:
+                Control: Label
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisplayMode: =DisplayMode.View
+                  Font: =Font.'Open Sans'
+                  Size: =17
+                  Text: |
+                    ="Processing..."
+                  Width: =500
+                  X: =433
+                  Y: =409

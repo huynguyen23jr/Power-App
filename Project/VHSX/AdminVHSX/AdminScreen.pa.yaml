@@ -1,0 +1,897 @@
+Screens:
+  AdminScreen:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+    Children:
+      - con_MainUser:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(241, 241, 241, 1)
+            Height: =768
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =1366
+          Children:
+            - con_UserMain:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(96, 170, 85, 1)
+                  Height: =72
+                  PaddingRight: =0.00
+                  PaddingTop: =0.00
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =1366
+                Children:
+                  - Header_5:
+                      Control: Header
+                      Properties:
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Font: =Font.'Open Sans'
+                        FontColor: =RGBA(255, 255, 255, 1)
+                        Height: =72
+                        IsLogoVisible: =false
+                        LogoTooltip: =""
+                        OnSelectLogo: =
+                        Style: ='Header.Style'.Primary
+                        Title: ="Dashboard VHSX - Admin"
+                        TitleFontSize: =25
+                        Width: =1366
+            - con_rightUserList:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =696
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =1105
+                  X: =261
+                  Y: =72
+                Children:
+                  - Container_RequestHomeButton_1:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.Regular
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =54
+                        Width: =1068
+                        X: =21
+                        Y: =21
+                      Children:
+                        - Container_HomeTeam_2:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Height: =54
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              PaddingBottom: =5
+                              PaddingLeft: =2
+                              PaddingRight: =2
+                              PaddingTop: =5
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =598
+                            Children:
+                              - btn_HomeRefresh_2:
+                                  Control: Button
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    Font: =Font.'Segoe UI'
+                                    FontSize: =16
+                                    Height: =40
+                                    Icon: ="ArrowSync"
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    OnSelect: =Refresh('QLSX List Employees')
+                                    Text: ="Làm mới"
+                                    Width: =150
+                                    X: =299
+                                    Y: =7
+                  - con_UserList:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.Regular
+                        Fill: =RGBA(255, 255, 255, 1)
+                        Height: =582
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Width: =1068
+                        X: =21
+                        Y: =100
+                      Children:
+                        - Gallery_UserHeader:
+                            Control: Gallery
+                            Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                            Properties:
+                              Height: =448
+                              Items: |-
+                                =SortByColumns(
+                                    Filter(
+                                        'QLSX List Employees',
+                                        (StartsWith(G_Email,txtInput_SearchUser.Value)|| 
+                                         StartsWith(UserId,txtInput_SearchUser.Value) || 
+                                         StartsWith(FullName, txtInput_SearchUser.Value) || 
+                                         IsBlank(txtInput_SearchUser.Value) 
+                                        )
+                                    ),
+                                    "G_Email",
+                                    SortOrder.Ascending
+                                )
+                              TemplateFill: = If(ThisItem.ID = varDetailUser.ID , RGBA(180, 214, 250, 1),  RGBA(0, 0, 0, 0))
+                              TemplateSize: =44
+                              Width: =1033
+                              X: =35
+                              Y: =120
+                            Children:
+                              - rec_ListUserValue:
+                                  Control: Rectangle
+                                  Properties:
+                                    Fill: =RGBA(68, 68, 68, 1)
+                                    Height: =0.2
+                                    Width: =1018
+                                    Y: =43
+                              - txt_lbLegalEntityValue:
+                                  Control: Text
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Start
+                                    Font: =Font.'Segoe UI'
+                                    Height: =30
+                                    Text: =LookUp('QLSX List Legal', LegalId = ThisItem.LegalId).LegalName_TiengViet
+                                    Weight: ='TextCanvas.Weight'.Regular
+                                    Width: =278
+                                    Wrap: =false
+                                    X: =715
+                                    Y: =12
+                              - txt_lbUserEmailValue:
+                                  Control: Text
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Start
+                                    Font: =Font.'Segoe UI'
+                                    Text: |
+                                      =ThisItem.G_Email
+                                    Weight: ='TextCanvas.Weight'.Regular
+                                    Width: =250
+                                    Wrap: =false
+                                    X: =435
+                                    Y: =10
+                              - txt_lbEmployeeIDValue:
+                                  Control: Text
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Start
+                                    Font: =Font.'Segoe UI'
+                                    Text: |
+                                      =ThisItem.UserId
+                                    Weight: ='TextCanvas.Weight'.Regular
+                                    Width: =100
+                                    Wrap: =false
+                                    X: =305
+                                    Y: =10
+                              - txt_lbNameUserValue:
+                                  Control: Text
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Start
+                                    Font: =Font.'Segoe UI'
+                                    Text: |
+                                      =ThisItem.FullName
+                                    Weight: ='TextCanvas.Weight'.Regular
+                                    Width: =267
+                                    Wrap: =false
+                                    X: =15
+                                    Y: =10
+                              - btn_OpenUser:
+                                  Control: Button
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    Height: =42
+                                    OnSelect: |
+                                      =Set(varDetailUser,ThisItem);
+                                      Set(varEitRolePerson,false);
+                                      Set(varEditUserInBU, false);
+                                      Set(varDetailUserRole, LookUp('QLSX List Security Role', UserId = ThisItem.UserId));
+                                      If( 
+                                          IsBlank(varDetailUserRole.ID),
+                                          Set( varDetailUserRole,
+                                              Patch(
+                                                  'QLSX List Security Role',
+                                                  Defaults('QLSX List Security Role'),
+                                                  {
+                                                      Title: varDetailUser.FullName,
+                                                      UserId: varDetailUser.UserId,
+                                                      Email: varDetailUser.G_Email
+                                                  }
+                                              )
+                                          );
+                                      );
+                                    Text: ="  "
+                                    Width: =1019
+                        - con_listViewUserHeader:
+                            Control: GroupContainer
+                            Variant: ManualLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(255, 255, 255, 1)
+                              Height: =120
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =1068
+                            Children:
+                              - txt_lbUserHeader:
+                                  Control: Label
+                                  Properties:
+                                    Color: =RGBA(51, 51, 51, 1)
+                                    FocusedBorderColor: =txt_lbUserHeader.BorderColor
+                                    Font: =Font.'Segoe UI'
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =45
+                                    HoverBorderColor: =txt_lbUserHeader.BorderColor
+                                    HoverColor: =txt_lbUserHeader.Color
+                                    HoverFill: =txt_lbUserHeader.Fill
+                                    PressedBorderColor: =txt_lbUserHeader.BorderColor
+                                    PressedColor: =txt_lbUserHeader.Color
+                                    PressedFill: =txt_lbUserHeader.Fill
+                                    Size: =17
+                                    TabIndex: =0
+                                    Text: ="Thông Tin Người Dùng"
+                                    Width: =400
+                                    X: =20
+                                    Y: =10
+                              - btn_editFilterTeam_1:
+                                  Control: Button
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    Icon: ="ArrowSync"
+                                    OnSelect: |-
+                                      =Reset(txtInput_SearchUser);
+                                      Set(varDetailUser, {});
+                                    Text: ="Reset"
+                                    Width: =100
+                                    X: =716
+                                    Y: =13
+                              - txt_lbLegalEntityHeader:
+                                  Control: Text
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Start
+                                    Font: =Font.'Segoe UI'
+                                    Text: ="Pháp nhân"
+                                    Weight: ='TextCanvas.Weight'.Semibold
+                                    Width: =152
+                                    X: =751
+                                    Y: =83
+                              - txt_lbUserEmailHeader:
+                                  Control: Text
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Start
+                                    Font: =Font.'Segoe UI'
+                                    Text: ="Email"
+                                    Weight: ='TextCanvas.Weight'.Semibold
+                                    Width: =230
+                                    X: =471
+                                    Y: =83
+                              - txt_lbEmployeeIDHeader:
+                                  Control: Text
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Start
+                                    Font: =Font.'Segoe UI'
+                                    Text: ="Mã NV"
+                                    Weight: ='TextCanvas.Weight'.Semibold
+                                    Width: =100
+                                    X: =340
+                                    Y: =83
+                              - txt_lbNameUserHeader:
+                                  Control: Text
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Start
+                                    Font: =Font.'Segoe UI'
+                                    Text: ="Tên người dùng"
+                                    Weight: ='TextCanvas.Weight'.Semibold
+                                    Width: =200
+                                    X: =50
+                                    Y: =83
+                              - rec_ListViewUserHeader:
+                                  Control: Rectangle
+                                  Properties:
+                                    Fill: =RGBA(68, 68, 68, 1)
+                                    Height: =0.2
+                                    Width: =1008
+                                    X: =35
+                                    Y: =115
+                              - txtInput_SearchUser:
+                                  Control: TextInput
+                                  Properties:
+                                    Appearance: ='TextInputCanvas.Appearance'.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Placeholder: ="Nhập tên ,email, mã nhân viên"
+                                    TriggerOutput: ='TextInputCanvas.TriggerOutput'.Keypress
+                                    Width: =220
+                                    X: =816
+                                    Y: =13
+            - Gallery_MenuUser:
+                Control: Gallery
+                Variant: Vertical
+                Properties:
+                  DelayItemLoading: =false
+                  Fill: =RGBA(0,0,0,0)
+                  Height: =657
+                  Items: =col_NavigationMenu
+                  LoadingSpinner: =LoadingSpinner.None
+                  LoadingSpinnerColor: =Gallery_MenuUser.BorderColor
+                  OnSelect: =
+                  ShowScrollbar: =false
+                  TemplateFill: =If(ThisItem.NameScreen = App.ActiveScreen, RGBA(220, 220, 220, 1), RGBA(0,0,0,0))
+                  TemplatePadding: =0
+                  TemplateSize: =59
+                  Width: =261
+                  X: =0+0
+                  Y: =111
+                Children:
+                  - lb_MenuTeam:
+                      Control: Label
+                      Properties:
+                        FocusedBorderColor: =lb_MenuTeam.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =42
+                        HoverBorderColor: =lb_MenuTeam.BorderColor
+                        HoverColor: =lb_MenuTeam.Color
+                        HoverFill: =lb_MenuTeam.Fill
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =lb_MenuTeam.BorderColor
+                        PressedColor: =lb_MenuTeam.Color
+                        PressedFill: =lb_MenuTeam.Fill
+                        Size: =12
+                        TabIndex: =0
+                        Text: =ThisItem.Title
+                        Width: =196
+                        X: =60
+                        Y: =9
+                  - rec_MenuUser:
+                      Control: Rectangle
+                      Properties:
+                        Fill: =RGBA(96, 170, 85, 1)
+                        FocusedBorderColor: =rec_MenuUser.BorderColor
+                        Height: =20
+                        OnSelect: =Select(Parent)
+                        Visible: =ThisItem.Row = _selectedTutorial.Row
+                        Width: =4
+                        X: =11
+                        Y: =20
+                  - icon_MenuUser:
+                      Control: Classic/Icon
+                      Properties:
+                        Color: =RGBA(0, 0, 0, 1)
+                        Height: =30
+                        Icon: =ThisItem.Image
+                        OnSelect: =
+                        Width: =30
+                        X: =22
+                        Y: =15
+                  - btn_MenuUser:
+                      Control: Button
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Transparent
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =59
+                        OnSelect: |-
+                          =Set(
+                              _selectedTutorial,
+                              ThisItem
+                          );
+                          Navigate(ThisItem.NameScreen, ScreenTransition.Fade);
+                          Reset(txtInput_SearchUser);
+                          Reset(Gallery_UserHeader);
+                          Reset(Gallery_BUListView);
+                          Set(varDetailUser, {});
+                        Text: =""
+                        Width: =261
+            - iconHamburgerMenu_11:
+                Control: Classic/Icon
+                Properties:
+                  Color: =RGBA(51, 51, 51, 1)
+                  FocusedBorderColor: =iconHamburgerMenu_11.BorderColor
+                  Height: =23
+                  Icon: =Icon.Hamburger
+                  OnSelect: =Set(IsExpand, !IsExpand)
+                  TabIndex: =0
+                  Width: =25
+                  X: =12
+                  Y: =88
+            - Rectangle2_10:
+                Control: Rectangle
+                Properties:
+                  Fill: =RGBA(166, 166, 166, 1)
+                  FocusedBorderColor: =Rectangle2_10.BorderColor
+                  Height: =692
+                  Width: =1
+                  X: =260
+                  Y: =76
+      - con_SecurityRole:
+          Control: GroupContainer
+          Variant: ManualLayout
+          Properties:
+            BorderThickness: =1
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =768
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =!IsBlank(varDetailUser.ID)
+            Width: =1366
+          Children:
+            - Container3_1:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =Color.White
+                  Height: =714
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: =1200
+                  X: =83
+                  Y: =27
+                Children:
+                  - Container4_1:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semilight
+                        Height: =54
+                        Width: =1164
+                        X: =18
+                        Y: =21
+                      Children:
+                        - Container7_1:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Height: =54
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =528
+                            Children:
+                              - btn_backToHomeMyTicket_1:
+                                  Control: Button
+                                  Properties:
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                    Font: =Font.'Segoe UI'
+                                    FontSize: =16
+                                    Height: =54
+                                    Icon: ="ArrowLeft"
+                                    LayoutMaxHeight: =
+                                    LayoutMaxWidth: =
+                                    OnSelect: =Set(varDetailUser,{})
+                                    Text: =
+                                    Width: =50
+                  - Container5_3:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semilight
+                        Height: =97
+                        Width: =Container4_1.Width
+                        X: =Container4_1.X
+                        Y: =Container4_1.Y+Container4_1.Height+15
+                      Children:
+                        - lbl_ticketNumber_3:
+                            Control: Label
+                            Properties:
+                              FocusedBorderColor: =lbl_ticketNumber_3.BorderColor
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              Height: =25
+                              HoverBorderColor: =lbl_ticketNumber_3.BorderColor
+                              HoverColor: =lbl_ticketNumber_3.Color
+                              HoverFill: =lbl_ticketNumber_3.Fill
+                              PressedBorderColor: =lbl_ticketNumber_3.BorderColor
+                              PressedColor: =lbl_ticketNumber_3.Color
+                              PressedFill: =lbl_ticketNumber_3.Fill
+                              Size: =15
+                              TabIndex: =0
+                              Text: ="User"
+                              Width: =417
+                              X: =20
+                              Y: =51
+                        - lbl_ticketNumber_4:
+                            Control: Label
+                            Properties:
+                              FocusedBorderColor: =lbl_ticketNumber_4.BorderColor
+                              Font: =Font.'Segoe UI'
+                              Height: =32
+                              HoverBorderColor: =lbl_ticketNumber_4.BorderColor
+                              HoverColor: =lbl_ticketNumber_4.Color
+                              HoverFill: =lbl_ticketNumber_4.Fill
+                              PressedBorderColor: =lbl_ticketNumber_4.BorderColor
+                              PressedColor: =lbl_ticketNumber_4.Color
+                              PressedFill: =lbl_ticketNumber_4.Fill
+                              Size: =15
+                              TabIndex: =0
+                              Text: =varDetailUser.FullName
+                              Width: =400
+                              X: =20
+                              Y: =10
+                        - txtOwner1_4:
+                            Control: Text
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              Font: =Font.'Segoe UI'
+                              FontColor: =RGBA(68, 68, 68, 1)
+                              Height: =25
+                              Size: =16
+                              Text: ="Owner"
+                              VerticalAlign: =VerticalAlign.Top
+                              Weight: ='TextCanvas.Weight'.Bold
+                              Width: =70
+                              X: =941
+                              Y: =39
+                        - txt_OwnerTickets_4:
+                            Control: Text
+                            Properties:
+                              Align: ='TextCanvas.Align'.Start
+                              Font: =Font.'Segoe UI'
+                              FontColor: =RGBA(17, 94, 163, 1)
+                              Height: =28
+                              Text: |
+                                =If(
+                                    !IsBlank(varDetailUser.'Created By'.Email),
+                                    varDetailUser.'Created By'.DisplayName,
+                                    User().FullName
+                                )
+                              VerticalAlign: =VerticalAlign.Middle
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =200
+                              X: =941
+                              Y: =10
+                        - img_formServiceCatalogue_2:
+                            Control: Image
+                            Properties:
+                              Height: =60
+                              Image: |
+                                =If(
+                                    !IsBlank(varRecordDetail.'Created By'.Email),
+                                    Office365Users.UserPhotoV2(varRecordDetail.'Created By'.Email),
+                                    Office365Users.UserPhotoV2(User().Email)
+                                )
+                              RadiusBottomLeft: =60
+                              RadiusBottomRight: =60
+                              RadiusTopLeft: =60
+                              RadiusTopRight: =60
+                              Width: =60
+                              X: =863
+                              Y: =16
+                  - Container5_4:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semilight
+                        Height: =217
+                        Width: =1164
+                        X: =Container4_1.X
+                        Y: =Container5_3.Y + Container5_3.Height + 15
+                      Children:
+                        - TextCanvas1_3:
+                            Control: Text
+                            Properties:
+                              Font: =Font.'Segoe UI'
+                              Text: ="Chi tiết"
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =200
+                              X: =20
+                              Y: =5
+                        - TextCanvas2_2:
+                            Control: Text
+                            Properties:
+                              Text: ="Họ & tên"
+                              Width: =90
+                              X: =25
+                              Y: =50
+                        - TextCanvas2_3:
+                            Control: Text
+                            Properties:
+                              Text: ="Email"
+                              Width: =90
+                              X: =25
+                              Y: =90
+                        - Rectangle3_5:
+                            Control: Rectangle
+                            Properties:
+                              Fill: =RGBA(68, 68, 68, 1)
+                              Height: =0.2
+                              Width: =1120
+                              X: =20
+                              Y: =TextCanvas1_3.Y+TextCanvas1_3.Height
+                        - TextInputCanvas1_2:
+                            Control: TextInput
+                            Properties:
+                              Appearance: ='TextInputCanvas.Appearance'.Outline
+                              DisplayMode: =DisplayMode.View
+                              Value: =varDetailUser.FullName
+                              Width: =1000
+                              X: =140
+                              Y: =51
+                        - TextInputCanvas1_3:
+                            Control: TextInput
+                            Properties:
+                              Appearance: ='TextInputCanvas.Appearance'.Outline
+                              DisplayMode: =DisplayMode.View
+                              Value: =varDetailUser.G_Email
+                              Width: =1000
+                              X: =140
+                              Y: =TextCanvas2_3.Y
+                        - TextCanvas2_4:
+                            Control: Text
+                            Properties:
+                              Text: ="Vị trí"
+                              Width: =90
+                              X: =25
+                              Y: =130
+                        - cbb_Qlsx_Role:
+                            Control: ComboBox
+                            Properties:
+                              Appearance: ='ComboboxCanvas.Appearance'.Outline
+                              DefaultSelectedItems: |-
+                                ={Value : varDetailUserRole.Role.Value}
+                              DisplayMode: =If(varEitRolePerson, DisplayMode.Edit, DisplayMode.Disabled)
+                              InputTextPlaceholder: =
+                              Items: =Choices('QLSX List Security Role'.Role)
+                              Width: =1000
+                              X: =140
+                              Y: =TextCanvas2_4.Y
+                            Children:
+                              - Value1:
+                                  Control: ComboBoxDataField
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Value"
+                                    FieldName: ="Value"
+                                    FieldType: ="s"
+                                    Order: =1
+                        - SubmitButton1_4:
+                            Control: Button
+                            Properties:
+                              AccessibleLabel: ="Submit approval request button"
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
+                              Icon: ="Save"
+                              OnSelect: |
+                                =Set(
+                                    varEitRolePerson,
+                                    false
+                                );
+                                Set(varDetailUserRole,
+
+                                    Patch(
+                                        'QLSX List Security Role',
+                                        LookUp(
+                                            'QLSX List Security Role',
+                                            UserId = varDetailUser.UserId
+                                        ),
+                                        {
+                                            Role: cbb_Qlsx_Role.Selected
+                                        }
+                                    );
+                                );
+                                Notify(
+                                    "Cập nhật thành công.",
+                                    NotificationType.Success,
+                                    2000
+                                );
+                              Text: ="Cập nhật"
+                              Visible: =varEitRolePerson
+                              Width: =120
+                              X: =1020
+                              Y: =175
+                        - btn_edit_6:
+                            Control: Button
+                            Properties:
+                              BasePaletteColor: =RGBA(8, 222, 8, 1)
+                              Icon: ="Edit"
+                              OnSelect: =Set(varEitRolePerson, true);
+                              Text: ="Chỉnh sửa"
+                              Visible: =!varEitRolePerson
+                              Width: =120
+                              X: =1020
+                              Y: =175
+                        - SubmitButton1_5:
+                            Control: Button
+                            Properties:
+                              AccessibleLabel: ="Submit approval request button"
+                              Appearance: ='ButtonCanvas.Appearance'.Secondary
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
+                              Icon: ="ArrowUndo"
+                              OnSelect: |-
+                                =Set(
+                                    varEitRolePerson,
+                                    false
+                                );
+                                Reset(cbb_Qlsx_Role);
+                              Text: ="Hủy"
+                              Visible: =varEitRolePerson
+                              Width: =120
+                              X: =887
+                              Y: =175
+                  - Container5_5:
+                      Control: GroupContainer
+                      Variant: ManualLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semilight
+                        Height: =270
+                        Width: =1164
+                        X: =18
+                        Y: =Container5_4.Y + Container5_4.Height + 15
+                      Children:
+                        - TextCanvas1_4:
+                            Control: Text
+                            Properties:
+                              Font: =Font.'Segoe UI'
+                              Text: ="Nhà máy phụ trách"
+                              Weight: ='TextCanvas.Weight'.Semibold
+                              Width: =221
+                              X: =20
+                              Y: =5
+                        - Rectangle3_6:
+                            Control: Rectangle
+                            Properties:
+                              Fill: =RGBA(68, 68, 68, 1)
+                              Height: =0.2
+                              Width: =1120
+                              X: =20
+                              Y: =TextCanvas1_4.Y+TextCanvas1_4.Height
+                        - Container6_2:
+                            Control: GroupContainer
+                            Variant: ManualLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Height: =171
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =1131
+                              X: =20
+                              Y: =89
+                            Children:
+                              - Gallery_GroupUser_2:
+                                  Control: Gallery
+                                  Variant: Vertical
+                                  Properties:
+                                    Height: =149
+                                    Items: =SortByColumns( Filter( 'QLSX List User In BU', UserId = varDetailUser.UserId) ,"PlantName",SortOrder.Ascending)
+                                    TemplateSize: =32
+                                    Width: =1131
+                                    Y: =36
+                                  Children:
+                                    - TextCanvas4_2:
+                                        Control: Text
+                                        Properties:
+                                          Font: =Font.'Segoe UI'
+                                          Text: =ThisItem.PlantName
+                                          Width: =900
+                                          X: =13
+                                    - Rectangle3_36:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =1104
+                                          X: =10
+                                          Y: =30
+                                    - ButtonCanvas9_2:
+                                        Control: Button
+                                        Properties:
+                                          Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                          FontColor: =RGBA(215, 58, 60, 1)
+                                          Height: =30
+                                          Icon: ="Delete"
+                                          OnSelect: |-
+                                            =Remove('QLSX List User In BU', ThisItem);
+                                            Notify("Xóa thành công.", NotificationType.Success, 1500)
+                                          Text: =
+                                          Width: =30
+                                          X: =1084
+                                          Y: =2
+                              - TextCanvas3_1:
+                                  Control: Text
+                                  Properties:
+                                    Text: ="Tên nhà máy"
+                                    Width: =140
+                                    X: =14
+                                    Y: =3
+                              - Rectangle3_37:
+                                  Control: Rectangle
+                                  Properties:
+                                    Fill: =RGBA(68, 68, 68, 1)
+                                    Height: =0.2
+                                    Width: =1104
+                                    X: =14
+                                    Y: =35
+                        - cbb_group_2:
+                            Control: ComboBox
+                            Properties:
+                              Appearance: ='ComboboxCanvas.Appearance'.FilledDarker
+                              BasePaletteColor: =RGBA(8, 222, 8, 1)
+                              DefaultSelectedItems: =Filter('QLSX List Plant', PlantCode in Concat(SortByColumns( Filter( 'QLSX List User In BU', UserId = varDetailUser.UserId) ,"PlantName",SortOrder.Ascending),PlantCode, ","))
+                              DisplayMode: =If(varEditUserInBU, DisplayMode.Edit , DisplayMode.View)
+                              Font: =Font.'Segoe UI'
+                              InputTextPlaceholder: =""
+                              IsSearchable: =false
+                              Items: =SortByColumns('QLSX List Plant',"PlantName",SortOrder.Ascending)
+                              SelectMultiple: =true
+                              Visible: |-
+                                =//varEditUserInGroup
+                                true
+                              Width: =834
+                              X: =160
+                              Y: =47
+                            Children:
+                              - PlantName2:
+                                  Control: ComboBoxDataField
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="PlantName"
+                                    FieldName: ="PlantName"
+                                    FieldType: ="s"
+                                    Order: =1
+                        - TextCanvas3_2:
+                            Control: Text
+                            Properties:
+                              Text: ="Nhà máy"
+                              Width: =140
+                              X: =20
+                              Y: =47
+                        - ButtonCanvas1_2:
+                            Control: Button
+                            Properties:
+                              BasePaletteColor: =RGBA(8, 222, 8, 1)
+                              Icon: ="Edit"
+                              OnSelect: |-
+                                =Set(varEditUserInBU, true);
+                                Reset(cbb_group_2)
+                              Text: ="Chỉnh sửa"
+                              Visible: =!varEditUserInBU
+                              Width: =120
+                              X: =1020
+                              Y: =47
+                        - ButtonCanvas8_2:
+                            Control: Button
+                            Properties:
+                              Appearance: ='ButtonCanvas.Appearance'.Primary
+                              BasePaletteColor: =RGBA(8, 222, 8, 1)
+                              Icon: ="Edit"
+                              OnSelect: "=Remove('QLSX List User In BU', Filter( 'QLSX List User In BU', UserId = varDetailUser.UserId));\n\nForAll (\n    cbb_group_2.SelectedItems As ItemBu,\n    Patch(\n        'QLSX List User In BU',\n        Defaults('QLSX List User In BU'),\n        {\n            UserId: varDetailUser.UserId,\n            Email: varDetailUser.G_Email,\n            UserName: varDetailUser.FullName,\n            PlantCode: ItemBu.PlantCode,\n            PlantName: ItemBu.PlantName\n        }\n    );\n    \n);\nNotify(\"Cập nhật thành công.\", NotificationType.Success, 1500)"
+                              Text: ="Cập nhật"
+                              Visible: =varEditUserInBU
+                              Width: =120
+                              X: =1020
+                              Y: =47

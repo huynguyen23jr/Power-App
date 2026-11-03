@@ -1,0 +1,217 @@
+App:
+  Properties:
+    OnStart: |
+      =// Get Infor User Loggin
+      Set(
+          varCurrentUserLogin,
+          LookUp(
+              'QLSX List Employees',
+              G_Email = User().Email
+              //G_Email = "phuong.ph1@greenfeed.com.vn"
+          )
+      );
+
+      Set(varUserRole , LookUp('QLSX List Security Role',UserId = varCurrentUserLogin.UserId));
+
+      // Nếu không tồn tại role => tạo role mặc định
+      If( IsBlank(varUserRole.ID), Patch( 'QLSX List Security Role', Defaults( 'QLSX List Security Role' ), { Title: varCurrentUserLogin.FullName, Email: varCurrentUserLogin.G_Email, UserId: varCurrentUserLogin.UserId })); 
+
+      Set(varCurrentPlant, First( SortByColumns(Filter('QLSX List User In BU', UserId = varCurrentUserLogin.UserId ) ,"PlantName",SortOrder.Ascending)) );
+
+      Switch(
+          varUserRole.Role.Value,
+          Index( Choices('QLSX List Security Role'.Role),1).Value, // HO Support
+          ClearCollect(
+          col_NavigationMenu,
+
+          {
+              Row: 1,
+              Title: "Nhà máy",
+              Image: Icon.Home,
+              NameScreen: BUScreen
+          },
+          {
+              Row: 2,
+              Title: "Danh sách dữ liệu sản xuất",
+              Image: Icon.Database,
+              NameScreen: MasterDataProductionScreen
+          },
+          {
+                  Row: 4,
+                  Title: "Danh sách dữ liệu Die",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataDieScreen
+              }
+              ,
+              {
+                  Row: 5,
+                  Title: "Danh sách dữ liệu Roll",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataRollScreen
+              },
+              {
+                  Row: 6,
+                  Title: "Danh sách dữ liệu máy",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataMachineScreen
+              },
+              /*{
+                  Row: 7,
+                  Title: "Danh sách chỉ tiêu",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataCriteriaScreen
+              },
+              {
+                  Row: 8,
+                  Title: "Danh sách lý do",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataReasonScreen
+              },*/
+              {
+                  Row: 3,
+                  Title: "Quản trị viên",
+                  Image: Icon.People,
+                  NameScreen: AdminScreen
+              }
+
+      );,
+          // Default
+          ClearCollect(
+          col_NavigationMenu,
+              {
+                  Row: 1,
+                  Title: "Nhà máy",
+                  Image: Icon.Home,
+                  NameScreen: BUScreen
+              },
+              {
+                  Row: 2,
+                  Title: "Danh sách dữ liệu sản xuất",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataProductionScreen
+              },
+              {
+                  Row: 4,
+                  Title: "Danh sách dữ liệu Die",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataDieScreen
+              }
+              ,
+              {
+                  Row: 5,
+                  Title: "Danh sách dữ liệu Roll",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataRollScreen
+              },
+              {
+                  Row: 6,
+                  Title: "Danh sách dữ liệu máy",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataMachineScreen
+              }        
+              /*{
+                  Row: 7,
+                  Title: "Danh sách chỉ tiêu",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataCriteriaScreen
+              },
+              {
+                  Row: 8,
+                  Title: "Danh sách lý do",
+                  Image: Icon.Database,
+                  NameScreen: MasterDataReasonScreen
+              }*/
+          )
+      );
+
+      ClearCollect(col_productGroup, 
+          { Name: "Gà con", Value: "Gà con"}, 
+          { Name: "Gà đẻ", Value: "Gà đẻ"}, 
+          { Name: "Gà thịt", Value: "Gà thịt"}, 
+          { Name: "Vịt đẻ", Value: "Vịt đẻ"}, 
+          { Name: "Heo nái", Value: "Heo nái"}, 
+          { Name: "Heo thịt", Value: "Heo thịt"}, 
+          { Name: "Bò", Value: "Bò"} 
+      );
+
+      ClearCollect(col_feedType, 
+          { Name: "Mãnh", Value: "Mãnh"}, 
+          { Name: "Viên", Value: "Viên"}, 
+          { Name: "Bột", Value: "Bột"} 
+      );
+
+      ClearCollect(col_pelletType, 
+          { Name: "2.5M", Value: "2.5M" }, 
+          { Name: "4.0M", Value: "4.0M"}, 
+          { Name: "2.5V", Value: "2.5V"}, 
+          { Name: "4.0V", Value: "4.0V"}, 
+          { Name: "Bột", Value: "Bột"}, 
+          { Name: "3.2V", Value: "3.2V"} 
+      );
+
+      ClearCollect(col_Species, 
+          { Name: "Cám gà", Value: "Cám gà"}, 
+          { Name: "Cám vịt", Value: "Cám vịt"}, 
+          { Name: "Cám heo", Value: "Cám heo"}, 
+          { Name: "Cám bò", Value: "Cám bò"} 
+      );
+
+      ClearCollect(col_ProductBrand, 
+          { Name: "Greenfeed", Value: "Greenfeed"}, 
+          { Name: "Higain", Value: "Higain"} 
+      );
+
+      ClearCollect(col_ProductType, 
+          { Name: "Xanh", Value: "Xanh"}, 
+          { Name: "Đỏ", Value: "Đỏ"}, 
+          { Name: "Vàng", Value: "Vàng"} 
+      );
+
+      ClearCollect(col_productMix, 
+          { Name: "Gia cầm", Value: "Gia cầm"}, 
+          { Name: "Gia súc", Value: "Gia súc"} 
+      );
+
+
+      ClearCollect(col_yesNo, 
+          { Name: "Yes", Value: true}, 
+          { Name: "No", Value: false } 
+      );
+
+      ClearCollect(
+          col_YesNo_VN, 
+          { Name: "Có", Value: true }, 
+          { Name: "Không", Value: false }
+      );
+
+
+      ClearCollect(
+          col_TabMenu,
+          { Row: 1, Title: "Thông tin chung" },
+          { Row: 2, Title: "Ca" }
+      );
+
+      ClearCollect(col_ShiftRoles, 
+          { Role: "Trưởng ca / Shift Supervisor" },
+          { Role: "NV trộn / Mixer Staff" },
+          { Role: "NV ép viên / Pelleting Staff" },
+          { Role: "NV ra bao / Bagging Control Staff" }
+      );
+
+
+      ClearCollect(col_Shift, 
+          { Name: "Ca A", Value: "A"}, 
+          { Name: "Ca B", Value: "B"}, 
+          { Name: "Ca C", Value: "C"} 
+      );
+
+      ClearCollect(
+          colCriteria,
+          { ID: 1, ChiTieu: "Cảm quan (màu, mùi)", Loai: "Sensory", DonVi: "", TrangThai: "Đang sử dụng" },
+          { ID: 2, ChiTieu: "Chiều dài viên (%)", Loai: "Physical", DonVi: "%", TrangThai: "Đang sử dụng" },
+          { ID: 3, ChiTieu: "Tỷ lệ lọt sàng (%)", Loai: "Physical", DonVi: "%", TrangThai: "Đang sử dụng" },
+          { ID: 4, ChiTieu: "PDI", Loai: "Physical", DonVi: "%", TrangThai: "Đang sử dụng" },
+          { ID: 5, ChiTieu: "Độ cứng viên", Loai: "Physical", DonVi: "kg", TrangThai: "Đang sử dụng" },
+          { ID: 6, ChiTieu: "Độ ẩm", Loai: "Chemical", DonVi: "%", TrangThai: "Đang sử dụng" }
+      );
+    Theme: =PowerAppsTheme
