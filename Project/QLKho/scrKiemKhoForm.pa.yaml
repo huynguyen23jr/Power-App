@@ -259,7 +259,9 @@ Screens:
                                       =With(
                                           {
                                               // Loại kiểm kê lấy theo combobox đang chọn trên form (BAOQC / XABIN / BIGBAG)
-                                              _type: cmb_StockCountType.Selected.ProductTypeCode
+                                              _type: cmb_StockCountType.Selected.ProductTypeCode,
+                                              // Ghi nhận phiếu mới hay đã có TRƯỚC khi Set(varStockCountDetail) cập nhật lại ID
+                                              _isNew: IsBlank(varStockCountDetail.ID)
                                           },
                                           With(
                                               {
@@ -345,8 +347,9 @@ Screens:
                                                   ),
                                                   Notify("Lưu không thành công", NotificationType.Error, 2000),
                                                   Notify("Lưu thành công", NotificationType.Success, 2000);
-                                                  // Mobile: lưu xong thì quay về màn hình danh sách
-                                                  If(scrKiemKhoForm.Size = 1, Back())
+                                                  // Mobile: chỉ quay về danh sách khi lưu lần 2 trở đi (cập nhật).
+                                                  // Lưu lần đầu (tạo mới) thì ở lại form để nhập/chọn tiếp dữ liệu.
+                                                  If(scrKiemKhoForm.Size = 1 && !_isNew, Back())
                                               )
                                           )
                                       )
