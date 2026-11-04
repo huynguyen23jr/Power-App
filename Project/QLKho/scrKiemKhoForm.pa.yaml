@@ -1,7 +1,8 @@
 Screens:
   scrKiemKhoForm:
     Properties:
-      OnVisible: =//UpdateContext({varShowMoreButton:!varShowMoreButton})
+      OnHidden: =UpdateContext({varShowMoreButton:false})
+      OnVisible: =UpdateContext({varShowMoreButton:false})
     Children:
       - con_MainKiemKhoHangBaoForm:
           Control: GroupContainer
@@ -149,7 +150,7 @@ Screens:
                                     Layout: =ButtonLayout.IconOnly
                                     LayoutMinHeight: =16
                                     LayoutMinWidth: =16
-                                    OnSelect: =Back();
+                                    OnSelect: =UpdateContext({varShowMoreButton:false});Back();
                                     RadiusBottomLeft: =If(scrKiemKhoForm.Size = 1, 8, 4)
                                     RadiusBottomRight: =If(scrKiemKhoForm.Size = 1, 8, 4)
                                     RadiusTopLeft: =If(scrKiemKhoForm.Size = 1, 8, 4)
@@ -163,7 +164,6 @@ Screens:
                                     Font: =fxFontFamily
                                     Height: =If(scrKiemKhoForm.Size = 1, 40, 32)
                                     Icon: ="Save"
-                                    Layout: =If(scrKiemKhoForm.Size = 1, ButtonLayout.IconOnly, ButtonLayout.IconBefore)
                                     LayoutMinHeight: =16
                                     LayoutMinWidth: =16
                                     OnSelect: |-
@@ -181,7 +181,6 @@ Screens:
                                     Visible: |-
                                       =// Chỉ cho phép thao tác khi phiếu đang ở trạng thái nháp
                                       varStockCountDetail.StatusCode = "DRAFT" || IsBlank(varStockCountDetail.ID)
-                                    Width: =If(scrKiemKhoForm.Size = 1, 40, 96)
                               - btn_SendKiemKho:
                                   Control: ModernButton
                                   Properties:
@@ -235,7 +234,6 @@ Screens:
                                     Font: =fxFontFamily
                                     Height: =If(scrKiemKhoForm.Size = 1, 40, 32)
                                     Icon: ="ArrowClockwise"
-                                    Layout: =If(scrKiemKhoForm.Size = 1, ButtonLayout.IconOnly, ButtonLayout.IconBefore)
                                     LayoutMinHeight: =16
                                     LayoutMinWidth: =16
                                     OnSelect: =Refresh('QLK List Stock Count Details')
@@ -251,7 +249,7 @@ Screens:
                                           true,
                                           scrKiemKhoForm.Size <> 1
                                       )
-                                    Width: =If(scrKiemKhoForm.Size = 1, 40, 120)
+                                    Width: =120
                               - btn_PatchKiemKhoHangBao:
                                   Control: ModernButton
                                   Properties:
@@ -346,7 +344,9 @@ Screens:
                                                       )
                                                   ),
                                                   Notify("Lưu không thành công", NotificationType.Error, 2000),
-                                                  Notify("Lưu thành công", NotificationType.Success, 2000)
+                                                  Notify("Lưu thành công", NotificationType.Success, 2000);
+                                                  // Mobile: lưu xong thì quay về màn hình danh sách
+                                                  If(scrKiemKhoForm.Size = 1, Back())
                                               )
                                           )
                                       )
@@ -2208,12 +2208,13 @@ Screens:
           Control: ModernButton
           Properties:
             Appearance: =ButtonAppearance.Transparent
-            Height: =Parent.Height
+            Height: =Parent.Height - (con_HeaderKiemKhoHangBaoForm.Height + 66)
             Layout: =ButtonLayout.TextOnly
             OnSelect: =UpdateContext({varShowMoreButton:false})
             Text: =""
-            Visible: =varShowMoreButton && varStockCountDetail.StatusCode = "DRAFT"
+            Visible: =scrKiemKhoForm.Size = 1 && varShowMoreButton && varStockCountDetail.StatusCode = "DRAFT"
             Width: =Parent.Width
+            Y: =con_HeaderKiemKhoHangBaoForm.Height + 66
       - Container21:
           Control: GroupContainer
           Variant: AutoLayout
@@ -2235,7 +2236,7 @@ Screens:
             RadiusBottomRight: =12
             RadiusTopLeft: =12
             RadiusTopRight: =12
-            Visible: =varShowMoreButton && varStockCountDetail.StatusCode = "DRAFT"
+            Visible: =scrKiemKhoForm.Size = 1 && varShowMoreButton && varStockCountDetail.StatusCode = "DRAFT"
             Width: =230
             X: =Parent.Width - 245
             Y: =con_HeaderKiemKhoHangBaoForm.Height + 65
@@ -2284,7 +2285,7 @@ Screens:
                             )
                         )
                     );
-                    UpdateContext({varShowMoreButton:!varShowMoreButton})
+                    UpdateContext({varShowMoreButton:false})
                   PaddingLeft: =12
                   Size: =fxFontSizeMD
                   Text: ="Xác nhận"
@@ -2305,7 +2306,7 @@ Screens:
                   LayoutMinWidth: =16
                   OnSelect: |-
                     =Refresh('QLK List Stock Count Details');
-                    UpdateContext({varShowMoreButton:!varShowMoreButton})
+                    UpdateContext({varShowMoreButton:false})
                   PaddingLeft: =12
                   Size: =fxFontSizeMD
                   Text: ="Làm mới"
@@ -2346,7 +2347,7 @@ Screens:
                             Back()
                         )
                     );
-                    UpdateContext({varShowMoreButton:!varShowMoreButton})
+                    UpdateContext({varShowMoreButton:false})
                   PaddingLeft: =12
                   Size: =fxFontSizeMD
                   Text: ="Xóa"
