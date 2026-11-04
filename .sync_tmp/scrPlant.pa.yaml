@@ -1,0 +1,606 @@
+Screens:
+  scrPlant:
+    Properties:
+      OnVisible: =varShowMenuUser && scrPlant.Size <> 1
+    Children:
+      - conMainUser_1:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+            X: |
+              =0
+          Children:
+            - conHeaderPlant:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =55
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - HeaderPlant:
+                      Control: CanvasComponent
+                      ComponentName: Header
+                      Properties:
+                        Height: =App.Height
+                        IDRecord: =100
+                        Width: =App.Width - Parent.PaddingLeft*2 - 5
+                        varSizeScreen: =scrUsers.Size
+            - conBodyUser_1:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: |-
+                    =If(
+                        !varShowMenuUser,
+                        DropShadow.None,
+                        DropShadow.Semibold
+                    )
+                  FillPortions: =0
+                  Height: =Parent.Height - conHeaderPlant.Height
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =If(!varShowMenuUser, 0, 5)
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                  PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                  PaddingRight: =If(!varShowMenuUser, 0, 5)
+                  PaddingTop: =If(!varShowMenuUser, 0, 5)
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                  RadiusTopRight: =0
+                Children:
+                  - conBodyMenuUser_1:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semilight
+                        FillPortions: =0
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        RadiusBottomLeft: =5
+                        RadiusBottomRight: =5
+                        RadiusTopLeft: =5
+                        RadiusTopRight: =5
+                        Visible: |-
+                          =If(
+                              scrUsers.Size = 1,
+                              false,
+                              true
+                          )
+                        Width: |-
+                          =If(
+                              varShowMenuUser,
+                              240,
+                              0
+                          )
+                      Children:
+                        - NavSiderBarUser_3:
+                            Control: CanvasComponent
+                            ComponentName: NavSiderBar
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Height: =Parent.Height
+                              SidebarWidth: =Parent.Width
+                              Width: =Parent.Width
+                  - conBodyMainUser_1:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: |-
+                          =If(
+                              !varShowMenuUser,
+                              DropShadow.None,
+                              DropShadow.Semibold
+                          )
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        RadiusBottomLeft: =5
+                        RadiusBottomRight: =5
+                        RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                        RadiusTopRight: =5
+                      Children:
+                        - Text2_1:
+                            Control: ModernText
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =RGBA(45, 128, 40, 1)
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightSemiBold
+                              Height: |
+                                =40
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              PaddingLeft: =10
+                              Size: =fxFontSizeXL
+                              Text: |
+                                ="Thông tin nhà máy"
+                        - con_ListUser_1:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Start
+                              DropShadow: |-
+                                =If(
+                                    scrUsers.Size = 1,
+                                    DropShadow.None,
+                                    DropShadow.Semibold
+                                )
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              LayoutOverflowX: =LayoutOverflow.Scroll
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: |-
+                                =If(
+                                    scrUsers.Size = 1,
+                                    0,
+                                    5
+                                )
+                              RadiusTopRight: =0
+                              Width: =Parent.Width - Parent.PaddingLeft*2
+                            Children:
+                              - con_UserListBody_1:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    LayoutOverflowX: =LayoutOverflow.Scroll
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
+                                  Children:
+                                    - con_UserGalleryWrapper_1:
+                                        Control: GroupContainer
+                                        Variant: ManualLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Start
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =Parent.Height - Text4_1.Height
+                                          LayoutMinHeight: =Parent.Height
+                                          LayoutMinWidth: =16
+                                          RadiusBottomLeft: =0
+                                          RadiusBottomRight: =0
+                                          RadiusTopLeft: =0
+                                          RadiusTopRight: =0
+                                          Width: =conBodyMainUser_1.Width - 10
+                                        Children:
+                                          - con_UserTableHeader_1:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(249, 249, 249, 1)
+                                                Height: "=If(\r\n    scrUsers.Size = 1,\r\n    0,\r\n    50\r\n    \r\n)"
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                PaddingLeft: =10
+                                                PaddingRight: =10
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Visible: |-
+                                                  =If(
+                                                      scrUsers.Size = 1,
+                                                      false,
+                                                      true
+                                                  )
+                                                Width: =Parent.Width
+                                                X: |
+                                                  =0
+                                              Children:
+                                                - lbl_UserHeaderMSSV_1:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Mã nhà máy"
+                                                      Width: =Parent.Width * 0.2
+                                                - lbl_UserHeaderEmail_1:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Tên nhà máy"
+                                                      Width: =Parent.Width * 0.3
+                                                - lbl_UserHeaderRole_1:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Phân loại nhà máy"
+                                                      Width: =Parent.Width * 0.3
+                                                - lbl_UserHeaderActions_1:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Thao tác"
+                                                      Width: =Parent.Width * 0.2
+                                          - gal_Users_1:
+                                              Control: Gallery
+                                              Variant: Vertical
+                                              Properties:
+                                                BorderStyle: =BorderStyle.None
+                                                Height: =Parent.Height- con_UserTableHeader_1.Height
+                                                Items: =Filter('QLK List Plant',PlantCode = varUserInPlant.PlantCode)
+                                                ShowScrollbar: =false
+                                                TemplateSize: |-
+                                                  =If(
+                                                      scrPlant.Size = 1,
+                                                      lbl_UserMSSV_1.Height * 3,
+                                                      50
+                                                  )
+                                                Width: =Parent.Width
+                                                X: |
+                                                  =0
+                                                Y: =con_UserTableHeader_1.Height
+                                              Children:
+                                                - con_UserRowDesktop_1:
+                                                    Control: GroupContainer
+                                                    Variant: ManualLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Fill: =RGBA(242, 243, 247, 1)
+                                                      Height: =0.5
+                                                      RadiusBottomLeft: =0
+                                                      RadiusBottomRight: =0
+                                                      RadiusTopLeft: =0
+                                                      RadiusTopRight: =0
+                                                      Visible: |-
+                                                        =If(
+                                                            scrUsers.Size = 1,
+                                                            false,
+                                                            true
+                                                        )
+                                                      Width: =Parent.Width - 10
+                                                      Y: =gal_Users_1.TemplateHeight - 1
+                                                - con_parentUser_1:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: |-
+                                                        =If(
+                                                            scrUsers.Size = 1,
+                                                            DropShadow.Light,
+                                                            DropShadow.None
+                                                        )
+                                                      Height: |-
+                                                        =If(
+                                                            scrPlant.Size = 1,
+                                                            lbl_UserMSSV_1.Height * 3,
+                                                            50
+                                                        )
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: |-
+                                                        =If(
+                                                            scrPlant.Size = 1,
+                                                            5,
+                                                            0
+                                                        )
+                                                      RadiusBottomLeft: =1
+                                                      RadiusBottomRight: =1
+                                                      RadiusTopLeft: |-
+                                                        =If(
+                                                            scrUsers.Size = 1,
+                                                            0,
+                                                            5
+                                                        )
+                                                      RadiusTopRight: =1
+                                                      Width: =Parent.Width - 10
+                                                    Children:
+                                                      - conUserRow_1:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.SetByContainer
+                                                            DropShadow: =DropShadow.None
+                                                            FillPortions: =0
+                                                            Height: |-
+                                                              =If(
+                                                                  scrPlant.Size = 1,
+                                                                  lbl_UserMSSV_1.Height * 3,
+                                                                  50
+                                                              )
+                                                            LayoutAlignItems: |
+                                                              =If(
+                                                                  scrUsers.Size = 1,
+                                                                  LayoutAlignItems.Start,
+                                                                  LayoutAlignItems.Center
+                                                              )
+                                                            LayoutDirection: |-
+                                                              =If(
+                                                                  scrUsers.Size =1,
+                                                                  LayoutDirection.Vertical,
+                                                                  LayoutDirection.Horizontal
+                                                              )
+                                                            PaddingLeft: |-
+                                                              =If(
+                                                                  scrUsers.Size = 1,
+                                                                  10,
+                                                                  5
+                                                              )
+                                                            PaddingRight: =10
+                                                            RadiusBottomLeft: =0
+                                                            RadiusBottomRight: =0
+                                                            RadiusTopLeft: =0
+                                                            RadiusTopRight: =0
+                                                            Width: |-
+                                                              =If(
+                                                                  scrUsers.Size = 1,
+                                                                  Parent.Width /1.12,
+                                                                  Parent.Width
+                                                              )
+                                                            X: |
+                                                              =0
+                                                          Children:
+                                                            - lbl_UserMSSV_1:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: |
+                                                                    =
+                                                                    If(
+                                                                        scrPlant.Size = 1,
+                                                                        AlignInContainer.Stretch,
+                                                                        AlignInContainer.SetByContainer
+                                                                    )
+                                                                  FillPortions: |
+                                                                    =0
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightNormal
+                                                                  Height: =30
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: =ThisItem.PlantCode
+                                                                  Width: =lbl_UserHeaderMSSV_1.Width
+                                                                  Wrap: =false
+                                                            - lbl_UserFullName_1:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: |
+                                                                    =
+                                                                    If(
+                                                                        scrPlant.Size = 1,
+                                                                        AlignInContainer.Stretch,
+                                                                        AlignInContainer.SetByContainer
+                                                                    )
+                                                                  FillPortions: |
+                                                                    =0
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightNormal
+                                                                  Height: =30
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: =ThisItem.PlantName
+                                                                  Width: =lbl_UserHeaderEmail_1.Width
+                                                                  Wrap: =false
+                                                            - CheckboxCanvas1:
+                                                                Control: ModernCheckbox
+                                                                Properties:
+                                                                  Default: =ThisItem.HasCategory
+                                                                  DisplayMode: =DisplayMode.Disabled
+                                                                  FillPortions: |
+                                                                    =0
+                                                                  FontWeight: =""
+                                                                  Label: =
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  OnCheck: =
+                                                                  OnUncheck: =
+                                                                  Width: =lbl_UserHeaderRole_1.Width
+                                                            - con_UserActions_1:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  DropShadow: =DropShadow.None
+                                                                  FillPortions: |
+                                                                    =0
+                                                                  Height: |
+                                                                    =30
+                                                                  LayoutAlignItems: =LayoutAlignItems.Center
+                                                                  LayoutDirection: =LayoutDirection.Horizontal
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  PaddingBottom: =8
+                                                                  PaddingLeft: =20
+                                                                  RadiusBottomLeft: =0
+                                                                  RadiusBottomRight: =0
+                                                                  RadiusTopLeft: =0
+                                                                  RadiusTopRight: =0
+                                                                  Visible: |-
+                                                                    =If(
+                                                                        scrUsers.Size = 1,
+                                                                        false,
+                                                                        true
+                                                                    )
+                                                                  Width: =lbl_UserHeaderActions_1.Width
+                                                                Children:
+                                                                  - btn_UserView_1:
+                                                                      Control: ModernButton
+                                                                      Properties:
+                                                                        Appearance: =ButtonAppearance.Transparent
+                                                                        Icon: ="Eye"
+                                                                        Layout: =ButtonLayout.IconOnly
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                        OnSelect: |-
+                                                                          =Set(
+                                                                              varPlantDetail,
+                                                                              ThisItem
+                                                                          );
+                                                                          Navigate(scrPlantForm,ScreenTransition.CoverRight)
+                                                                        Width: =30
+                                                      - con_buttonUserMobile_1:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.SetByContainer
+                                                            DropShadow: =DropShadow.None
+                                                            FillPortions: =0
+                                                            Height: |-
+                                                              =If(
+                                                                  scrPlant.Size = 1,
+                                                                  lbl_UserMSSV_1.Height * 3,
+                                                                  50
+                                                              )
+                                                            LayoutDirection: =LayoutDirection.Vertical
+                                                            RadiusBottomLeft: =0
+                                                            RadiusBottomRight: =0
+                                                            RadiusTopLeft: =0
+                                                            RadiusTopRight: =0
+                                                            Visible: |-
+                                                              =If(
+                                                                  scrUsers.Size = 1,
+                                                                  true,
+                                                                  false
+                                                              )
+                                                            Width: =Parent.Width - conUserRow_1.Width - 10
+                                                            X: =conUserRow_1.Width
+                                                          Children:
+                                                            - Button3_1:
+                                                                Control: ModernButton
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Stretch
+                                                                  Appearance: =ButtonAppearance.Transparent
+                                                                  Height: =Parent.Height
+                                                                  Icon: ="Eye"
+                                                                  Layout: =ButtonLayout.IconOnly
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  OnSelect: |-
+                                                                    =Set(
+                                                                        varPlantDetail,
+                                                                        ThisItem
+                                                                    );
+                                                                    Navigate(scrPlantForm,ScreenTransition.CoverRight)
+                                    - Text4_1:
+                                        Control: ModernText
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          Size: =fxFontSizeMD
+                                          Text: ="Hiển thị " & CountRows(gal_Users_1.AllItems) & " dòng"
+      - con_MainBodyMenuPlantMobile:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height - 55
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowMenuUser && scrPlant.Size = 1
+            Width: =Parent.Width
+            Y: =55
+          Children:
+            - conBodyMenuPlantMobile:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =743
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  PaddingBottom: =5
+                  PaddingRight: =5
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Visible: |-
+                    =If(
+                        scrPlant.Size = 1,
+                        true,
+                        false
+                    )
+                  Width: =Parent.Width*0.7
+                  Y: |
+                    =55
+                Children:
+                  - NavSiderBarUser_4:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width
+            - Button4_1:
+                Control: ModernButton
+                Properties:
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Appearance: =ButtonAppearance.Transparent
+                  FillPortions: =1
+                  Layout: =ButtonLayout.TextOnly
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =Set(
+                        varShowMenuUser,
+                        !varShowMenuUser
+                    )
+                  Text: =

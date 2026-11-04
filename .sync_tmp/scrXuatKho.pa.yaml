@@ -1,0 +1,784 @@
+Screens:
+  scrXuatKho:
+    Properties:
+      OnVisible: =varShowMenuUser && scrXuatKho.Size <> 1
+    Children:
+      - con_MainXuatKho:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+          Children:
+            - con_HeaderXuatKho:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =55
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - cmp_HeaderXuatKho:
+                      Control: CanvasComponent
+                      ComponentName: Header
+                      Properties:
+                        Height: =App.Height
+                        IDRecord: =100
+                        Width: =App.Width - Parent.PaddingLeft * 2 - 5
+                        varSizeScreen: =scrXuatKho.Size
+            - con_BodyXuatKho:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
+                  FillPortions: =0
+                  Height: =Parent.Height - con_HeaderXuatKho.Height
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =If(!varShowMenuUser, 0, 5)
+                  PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                  PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                  PaddingRight: =If(!varShowMenuUser, 0, 5)
+                  PaddingTop: =If(!varShowMenuUser, 0, 5)
+                Children:
+                  - con_MenuXuatKho:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semilight
+                        FillPortions: =0
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        Visible: =scrXuatKho.Size <> 1
+                        Width: =If(varShowMenuUser, 240, 0)
+                      Children:
+                        - cmp_NavSidebarXuatKho:
+                            Control: CanvasComponent
+                            ComponentName: NavSiderBar
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Height: =Parent.Height
+                              SidebarWidth: =Parent.Width
+                              Width: =Parent.Width
+                  - con_ContentXuatKho:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: |-
+                          =If(
+                              scrDanhMucBin.Size = 1,
+                              DropShadow.Semibold,
+                              DropShadow.None
+                          )
+                        Fill: =RGBA(255, 255, 255, 1)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        PaddingBottom: =5
+                        PaddingLeft: =5
+                        PaddingRight: =5
+                        PaddingTop: =5
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                        RadiusTopRight: =0
+                      Children:
+                        - con_ActionHeaderXuatKho:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =40
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =10
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                            Children:
+                              - btn_AddXuatKho:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Add"
+                                    OnSelect: |-
+                                      =Set(
+                                          varGoodsIssue,
+                                          {}
+                                      );
+                                      Navigate(
+                                          scrXuatKhoForm,
+                                          ScreenTransition.CoverRight
+                                      )
+                                    Size: =fxFontSizeMD
+                                    Text: ="Thêm"
+                                    Visible: |-
+                                      =varUserInPlant.Role = Index(col_RoleUser,1).RoleCode ||     // FG_WH         - Thủ kho thành phẩm
+                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode        // VHSX_HO       - VHSX HO
+                              - btn_RefreshXuatKho:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="ArrowSync"
+                                    OnSelect: |-
+                                      =Refresh('QLK List Issue Header');
+                                      Refresh('QLK List Issue Detail')
+                                    Size: =fxFontSizeMD
+                                    Text: ="Làm mới"
+                                    Width: =120
+                        - lbl_TitleXuatKho:
+                            Control: ModernText
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =RGBA(45, 128, 40, 1)
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightSemiBold
+                              Height: =40
+                              PaddingLeft: =10
+                              Size: =fxFontSizeXL
+                              Text: ="Xuất kho"
+                        - con_FilterXuatKho:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              BorderColor: =RGBA(229, 231, 235, 1)
+                              BorderThickness: =If(scrXuatKho.Size = 1, 1, 0)
+                              DropShadow: =DropShadow.None
+                              Fill: =If(scrXuatKho.Size = 1, RGBA(248, 250, 252, 1), RGBA(0, 0, 0, 0))
+                              FillPortions: =0
+                              Height: =If(scrXuatKho.Size = 1, 92, 45)
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutWrap: =scrXuatKho.Size = 1
+                              PaddingBottom: =If(scrXuatKho.Size = 1, 8, 0)
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =If(scrXuatKho.Size = 1, 8, 0)
+                              RadiusBottomLeft: =If(scrXuatKho.Size = 1, 8, 0)
+                              RadiusBottomRight: =If(scrXuatKho.Size = 1, 8, 0)
+                              RadiusTopLeft: =If(scrXuatKho.Size = 1, 8, 0)
+                              RadiusTopRight: =If(scrXuatKho.Size = 1, 8, 0)
+                            Children:
+                              - txt_SearchXuatKho:
+                                  Control: ModernTextInput
+                                  Properties:
+                                    FillPortions: =If(scrXuatKho.Size = 1, 0, 1)
+                                    Font: =fxFontFamily
+                                    LayoutMinWidth: =16
+                                    Placeholder: ="Tìm kiếm ...."
+                                    Width: =If(scrXuatKho.Size = 1, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight - 2, 320)
+                                    X: =40
+                                    Y: =40
+                              - btn_FilterXuatKho_1:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="Filter"
+                                    OnSelect: |-
+                                      =UpdateContext({varPopUpFilterXuatKho: true})
+                                    Text: ="Bộ lọc"
+                                    Visible: =false
+                                    Width: =110
+                                    X: =40
+                                    Y: =40
+                              - DatePicker1_1:
+                                  Control: ModernDatePicker
+                                  Properties:
+                                    DefaultDate: =Today()
+                                    Format: =DatePickerFormat.Short
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    Placeholder: ="Chọn ngày ..."
+                                    Width: =If(scrXuatKho.Size = 1, RoundDown((Parent.Width - Parent.PaddingLeft - Parent.PaddingRight - Parent.LayoutGap * 2 - Button5_2.Width - 4) / 2, 0), 120)
+                                    X: =40
+                                    Y: =40
+                              - cbo_FilterProductTypeNhapTuSanXuat_3:
+                                  Control: ModernCombobox
+                                  Properties:
+                                    DefaultSelectedItems: =LookUp(col_ProductCategories, ProductCategoryCode = varUserInPlant.ProductCategoryCode)
+                                    FillPortions: =
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightNormal
+                                    InputTextPlaceholder: ="Tất cả"
+                                    IsSearchable: =false
+                                    ItemDisplayText: =ThisItem.ProductCategoryNameVI
+                                    Items: =col_ProductCategories
+                                    SelectMultiple: =false
+                                    Width: =If(scrXuatKho.Size = 1, DatePicker1_1.Width, 120)
+                                    X: =40
+                                    Y: =40
+                              - Button5_2:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =If(scrXuatKho.Size = 1, ButtonAppearance.Outline, ButtonAppearance.Transparent)
+                                    Icon: ="Eraser"
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: |-
+                                      =Reset(cbo_FilterProductTypeNhapTuSanXuat_3);
+                                      Reset(txt_SearchXuatKho);
+                                      Reset(DatePicker1_1)
+                                    Text: =
+                                    Width: =30
+                                    X: =40
+                                    Y: =40
+                        - con_ListXuatKho:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Start
+                              BorderStyle: =BorderStyle.None
+                              DropShadow: =If(scrXuatKho.Size = 1, DropShadow.None, DropShadow.Semibold)
+                              Fill: =RGBA(255, 255, 255, 1)
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutOverflowX: =LayoutOverflow.Scroll
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              RadiusBottomLeft: =6
+                              RadiusBottomRight: =6
+                              RadiusTopLeft: =If(scrXuatKho.Size = 1, 0, 5)
+                              RadiusTopRight: =6
+                              Width: =Parent.Width - Parent.PaddingLeft * 2
+                            Children:
+                              - con_TableHeaderXuatKho:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Fill: =RGBA(250, 250, 250, 1)
+                                    FillPortions: =0
+                                    Height: =46
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =5
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    Visible: =scrXuatKho.Size <> 1
+                                  Children:
+                                    - lbl_HeaderIssueNo:
+                                        Control: ModernText
+                                        Properties:
+                                          FillPortions: =2
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Mã phiếu"
+                                          Wrap: =false
+                                    - lbl_HeaderIssueDate:
+                                        Control: ModernText
+                                        Properties:
+                                          FillPortions: =2
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Ngày xuất"
+                                          Wrap: =false
+                                    - lbl_HeaderStatusXuatKho:
+                                        Control: ModernText
+                                        Properties:
+                                          FillPortions: =2
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Trạng thái"
+                                          Wrap: =false
+                                    - lbl_HeaderLoaiSanPham:
+                                        Control: ModernText
+                                        Properties:
+                                          FillPortions: =2
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Loại sản phẩm"
+                                          Wrap: =false
+                                    - lbl_HeaderTotalWeight:
+                                        Control: ModernText
+                                        Properties:
+                                          FillPortions: =2
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Tổng xuất"
+                                          Wrap: =false
+                                    - lbl_HeaderActionXuatKho:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Thao tác"
+                                          Width: =72
+                                          Wrap: =false
+                              - gal_XuatKho:
+                                  Control: Gallery
+                                  Variant: Vertical
+                                  Properties:
+                                    BorderStyle: =BorderStyle.None
+                                    Height: =Parent.Height - con_TableHeaderXuatKho.Height - lbl_TotalRowsXuatKho.Height
+                                    Items: |-
+                                      =Switch(
+                                          varRoleCurrentFirst.Role,
+                                          Index(col_RoleUser, 15).RoleCode, // Trưởng ca
+                                          SortByColumns(
+                                              Filter(
+                                                  'QLK List Issue Header',
+                                                  PlantCode = varUserInPlant.PlantCode,
+                                                  IsBlank(txt_SearchXuatKho.Text) || StartsWith(IssueNo, txt_SearchXuatKho.Text),
+                                                  'Created By'.Email = varCurrentUser.G_Email,
+                                                  IsBlank(DatePicker1_1 .SelectedDate) ||  IssueDate >= DatePicker1_1 .SelectedDate,
+                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_3.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_3.Selected.ProductCategoryCode
+                                              ),
+                                              "Created",
+                                              SortOrder.Descending
+                                          ),
+                                          Index(col_RoleUser, 1).RoleCode, // Thủ kho thành phẩm
+                                          SortByColumns(
+                                              Filter(
+                                                  'QLK List Issue Header',
+                                                  PlantCode = varUserInPlant.PlantCode,
+                                                  ProductCategoryCode = Index(col_ProductCategories,2).ProductCategoryCode,
+                                                  IsBlank(txt_SearchXuatKho.Text) || StartsWith(IssueNo, txt_SearchXuatKho.Text),
+                                                  'Created By'.Email = varCurrentUser.G_Email,
+                                                  IsBlank(DatePicker1_1 .SelectedDate) ||  IssueDate >= DatePicker1_1 .SelectedDate,
+                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_3.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_3.Selected.ProductCategoryCode
+                                              ),
+                                              "Created",
+                                              SortOrder.Descending
+                                          ),
+                                          Index(col_RoleUser, 3).RoleCode, // Thủ kho nguyên liệu
+                                          SortByColumns(
+                                              Filter(
+                                                  'QLK List Issue Header',
+                                                  PlantCode = varUserInPlant.PlantCode,
+                                                  ProductCategoryCode = Index(col_ProductCategories,1).ProductCategoryCode,
+                                                  IsBlank(txt_SearchXuatKho.Text) || StartsWith(IssueNo, txt_SearchXuatKho.Text),
+                                                  'Created By'.Email = varCurrentUser.G_Email,
+                                                  IsBlank(DatePicker1_1 .SelectedDate) ||  IssueDate >= DatePicker1_1 .SelectedDate,
+                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_3.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_3.Selected.ProductCategoryCode
+                                              ),
+                                              "Created",
+                                              SortOrder.Descending
+                                          ),
+                                          SortByColumns(
+                                              Filter(
+                                                  'QLK List Issue Header',
+                                                  PlantCode = varUserInPlant.PlantCode,
+                                                  IsBlank(txt_SearchXuatKho.Text) || StartsWith(IssueNo, txt_SearchXuatKho.Text),
+                                                  IsBlank(DatePicker1_1 .SelectedDate) ||  IssueDate >= DatePicker1_1 .SelectedDate,
+                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_3.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_3.Selected.ProductCategoryCode
+                                              ),
+                                              "Created",
+                                              SortOrder.Descending
+                                          )
+                                      )
+                                    ShowScrollbar: =false
+                                    TemplateSize: |-
+                                      =If(
+                                          scrXuatKho.Size = 1,
+                                          lbl_IssueNo_Row.Height * 8.5,
+                                          45
+                                      )
+                                    Width: =Parent.Width
+                                  Children:
+                                    - con_RowDividerXuatKho:
+                                        Control: GroupContainer
+                                        Variant: ManualLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(229, 231, 235, 1)
+                                          Height: =1
+                                          Visible: =scrXuatKho.Size <> 1
+                                          Width: =gal_XuatKho.Width -10
+                                          Y: =gal_XuatKho.TemplateHeight
+                                    - con_RowMasterXuatKho:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          BorderColor: =RGBA(229, 231, 235, 1)
+                                          BorderStyle: =If(scrXuatKho.Size = 1, BorderStyle.Solid, BorderStyle.None)
+                                          BorderThickness: =If(scrXuatKho.Size = 1, 1, 0)
+                                          DropShadow: =If(scrXuatKho.Size = 1, DropShadow.Light, DropShadow.None)
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          Height: =If(scrXuatKho.Size = 1, gal_XuatKho.TemplateHeight - 8, gal_XuatKho.TemplateHeight)
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: |-
+                                            =If(
+                                                scrXuatKho.Size = 1,
+                                                LayoutDirection.Vertical,
+                                                LayoutDirection.Horizontal
+                                            )
+                                          LayoutGap: =If(scrXuatKho.Size = 1, 5, 0)
+                                          PaddingBottom: =If(scrXuatKho.Size = 1, 8, 0)
+                                          PaddingLeft: =If(scrXuatKho.Size = 1, 8, 0)
+                                          PaddingRight: =If(scrXuatKho.Size = 1, 8, 0)
+                                          PaddingTop: =If(scrXuatKho.Size = 1, 8, 0)
+                                          RadiusBottomLeft: =If(scrXuatKho.Size = 1, 8, 0)
+                                          RadiusBottomRight: =If(scrXuatKho.Size = 1, 8, 0)
+                                          RadiusTopLeft: =If(scrXuatKho.Size = 1, 8, 0)
+                                          RadiusTopRight: =If(scrXuatKho.Size = 1, 8, 0)
+                                          Width: =Parent.Width - 10
+                                        Children:
+                                          - con_RowXuatKho:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(255, 255, 255, 0)
+                                                FillPortions: =0
+                                                Height: |-
+                                                  =If(
+                                                      scrXuatKho.Size = 1,
+                                                      gal_XuatKho.TemplateHeight - 8 - 16 - 5 - con_MobileActionXuatKho.Height,
+                                                      48
+                                                  )
+                                                LayoutAlignItems: =If(scrXuatKho.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
+                                                LayoutDirection: =If(scrXuatKho.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                                LayoutGap: =If(scrXuatKho.Size = 1, 4, 5)
+                                                LayoutMinHeight: =10
+                                                PaddingLeft: =If(scrXuatKho.Size = 1, 10, 5)
+                                                PaddingRight: =If(scrXuatKho.Size = 1, 10, 5)
+                                                PaddingTop: =If(scrXuatKho.Size = 1, 10, 5)
+                                                Width: |-
+                                                  =If(
+                                                      scrXuatKho.Size = 1,
+                                                      Parent.Width - Parent.PaddingLeft - Parent.PaddingRight,
+                                                      Parent.Width - Parent.PaddingRight * 2 - Parent.LayoutGap 
+                                                  )
+                                              Children:
+                                                - lbl_IssueNo_Row:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =
+                                                        If(
+                                                            scrXuatKho.Size = 1,
+                                                            "Mã phiếu: " & ThisItem.IssueNo,
+                                                            ThisItem.IssueNo
+                                                        )
+                                                      Width: =If(scrXuatKho.Size = 1, Parent.Width - 20, lbl_HeaderIssueNo.Width)
+                                                      Wrap: =false
+                                                - lbl_IssueDate_Row:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(
+                                                            scrXuatKho.Size = 1,
+                                                            "Ngày xuất: " & Text(ThisItem.IssueDate, "dd/mm/yyyy"),
+                                                            Text(ThisItem.IssueDate, "dd/mm/yyyy")
+                                                        )
+                                                      Width: =If(scrXuatKho.Size = 1, Parent.Width - 20, lbl_HeaderIssueDate.Width)
+                                                      Wrap: =false
+                                                - lbl_StatusXuatKho_Row:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =With(
+                                                            {statusItem: LookUp(col_WorkflowStatus, StatusCode = ThisItem.StatusCode)},
+                                                            If(
+                                                                scrXuatKho.Size = 1,
+                                                                "Trạng thái: " & Coalesce(
+                                                                    If(_defaultLanguage.Code = "EN", statusItem.StatusNameEN, statusItem.StatusNameVI),
+                                                                    ThisItem.StatusCode
+                                                                ),
+                                                                Coalesce(
+                                                                    If(_defaultLanguage.Code = "EN", statusItem.StatusNameEN, statusItem.StatusNameVI),
+                                                                    ThisItem.StatusCode
+                                                                )
+                                                            )
+                                                        )
+                                                      Width: =If(scrXuatKho.Size = 1, Parent.Width - 20, lbl_HeaderStatusXuatKho.Width)
+                                                      Wrap: =false
+                                                - lbl_LoaiSanPham_Row:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =With(
+                                                            {_cat: LookUp(col_ProductCategories, ProductCategoryCode = ThisItem.ProductCategoryCode)},
+                                                            If(
+                                                                scrXuatKho.Size = 1,
+                                                                "Loại sản phẩm: " & _cat.ProductCategoryNameVI,
+                                                                _cat.ProductCategoryNameVI
+                                                            )
+                                                        )
+                                                      Width: =If(scrXuatKho.Size = 1, Parent.Width - 20, lbl_HeaderLoaiSanPham.Width)
+                                                      Wrap: =false
+                                                - lbl_TotalWeight_Row:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Height: =30
+                                                      Size: =fxFontSizeMD
+                                                      Text: |-
+                                                        =If(
+                                                            scrXuatKho.Size = 1,
+                                                            "Tổng xuất: " & Text(Coalesce(ThisItem.TotalIssueQuantity,0), "[$-vi-VN]#.##0##"),
+                                                            Text(Coalesce(ThisItem.TotalIssueQuantity,0), "[$-vi-VN]#.##0##")
+                                                        )
+                                                      Width: =If(scrXuatKho.Size = 1, Parent.Width - 20, lbl_HeaderTotalWeight.Width)
+                                                      Wrap: =false
+                                                - con_ActionXuatKho:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =32
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutMinHeight: =Parent.Height - Parent.PaddingTop
+                                                      Visible: =scrXuatKho.Size <> 1
+                                                      Width: =lbl_HeaderActionXuatKho.Width
+                                                    Children:
+                                                      - btn_ViewXuatKho:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Eye"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |-
+                                                              =Set(varGoodsIssue, ThisItem);
+                                                              Navigate(scrXuatKhoForm, ScreenTransition.CoverRight)
+                                                            Width: =32
+                                                      - btn_DeleteXuatKho:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Delete"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |
+                                                              =If(
+                                                                  Confirm(
+                                                                      "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                      {
+                                                                          Title: "Xác nhận xóa",
+                                                                          Subtitle: "Hành động này không thể hoàn tác.",
+                                                                          ConfirmButton: "Xóa",
+                                                                          CancelButton: "Hủy"
+                                                                      }
+                                                                  ),
+                                                                  UpdateContext({varShowPopupProcessing: true});
+                                                                  IfError(
+                                                                      Clear(col_IssueDetailToDelete);
+                                                                      ClearCollect(
+                                                                          col_IssueDetailToDelete,
+                                                                          Filter('QLK List Issue Detail', IssueHeaderId = ThisItem.ID)
+                                                                      );
+                                                                      Remove('QLK List Issue Detail', col_IssueDetailToDelete);
+                                                                      Remove('QLK List Issue Header', ThisItem),
+                                                                      UpdateContext({varShowPopupProcessing: false});
+                                                                      Notify("Xóa không thành công", NotificationType.Error,2000);
+                                                                      ,
+                                                                      UpdateContext({varShowPopupProcessing: false});
+                                                                      Notify("Đã xoá thành công", NotificationType.Success,2000);
+                                                                  )
+                                                              )
+                                                            Visible: |
+                                                              =ThisItem.StatusCode = Index(col_WorkflowStatus,1).StatusCode &&  
+                                                              (
+                                                                  varUserInPlant.Role = Index(col_RoleUser,1).RoleCode ||     // FG_WH         - Thủ kho thành phẩm
+                                                                  varUserInPlant.Role = Index(col_RoleUser,9).RoleCode        // VHSX_HO       - VHSX HO
+                                                              )
+                                                            Width: =32
+                                          - con_MobileActionXuatKho:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =45
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =10
+                                                Visible: =scrXuatKho.Size = 1
+                                                Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                                              Children:
+                                                - btn_MobileOpenXuatKho:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      BasePaletteColor: =RGBA(7, 220, 8, 1)
+                                                      Font: =Font.'Segoe UI'
+                                                      Icon: ="Eye"
+                                                      OnSelect: |-
+                                                        =Set(varGoodsIssue, ThisItem);
+                                                        Navigate(scrXuatKhoForm, ScreenTransition.CoverRight)
+                                                      Size: =14
+                                                      Text: ="Xem chi tiết"
+                                                      Width: =If(btn_DeleteXuatKho_1.Visible, (Parent.Width - Parent.LayoutGap) / 2, Parent.Width)
+                                                - btn_DeleteXuatKho_1:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      Appearance: =ButtonAppearance.Outline
+                                                      BasePaletteColor: =RGBA(107, 114, 128, 1)
+                                                      Font: =Font.'Segoe UI'
+                                                      Icon: ="Delete"
+                                                      OnSelect: |
+                                                        =If(
+                                                            Confirm(
+                                                                "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                {
+                                                                    Title: "Xác nhận xóa",
+                                                                    Subtitle: "Hành động này không thể hoàn tác.",
+                                                                    ConfirmButton: "Xóa",
+                                                                    CancelButton: "Hủy"
+                                                                }
+                                                            ),
+                                                            UpdateContext({varShowPopupProcessing: true});
+                                                            IfError(
+                                                                Clear(col_IssueDetailToDelete);
+                                                                ClearCollect(
+                                                                    col_IssueDetailToDelete,
+                                                                    Filter('QLK List Issue Detail', IssueHeaderId = ThisItem.ID)
+                                                                );
+                                                                Remove('QLK List Issue Detail', col_IssueDetailToDelete);
+                                                                Remove('QLK List Issue Header', ThisItem),
+                                                                UpdateContext({varShowPopupProcessing: false});
+                                                                Notify("Xóa không thành công", NotificationType.Error,2000);
+                                                                ,
+                                                                UpdateContext({varShowPopupProcessing: false});
+                                                                Notify("Đã xoá thành công", NotificationType.Success,2000);
+                                                            )
+                                                        )
+                                                      Size: =14
+                                                      Text: ="Xóa"
+                                                      Visible: |
+                                                        =ThisItem.StatusCode = Index(col_WorkflowStatus,1).StatusCode &&  
+                                                        (
+                                                            varUserInPlant.Role = Index(col_RoleUser,1).RoleCode ||     // FG_WH         - Thủ kho thành phẩm
+                                                            varUserInPlant.Role = Index(col_RoleUser,9).RoleCode        // VHSX_HO       - VHSX HO
+                                                        )
+                                                      Width: =(Parent.Width - Parent.LayoutGap) / 2
+                              - con_FooterXuatKho:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =44
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =16
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                  Children:
+                                    - lbl_TotalRowsXuatKho:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="Hiển thị " & CountRows(gal_XuatKho.AllItems) & " dòng"
+                                          Wrap: =false
+      - con_MenuOverlayNhapTuSanXuatHangBaoMobile_3:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height - 55
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =5
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowMenuUser && scrNhapTuSanXuat.Size = 1
+            Width: =Parent.Width
+            Y: =55
+          Children:
+            - con_MenuPanelNhapTuSanXuatMobile_4:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =743
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Visible: =scrNhapTuSanXuat.Size = 1
+                  Width: =Parent.Width*0.7
+                Children:
+                  - cmp_NavSidebarNhapTuSanXuatMobile_4:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width
+            - btn_CloseMenuOverlayNhapTuSanXuatMobile_4:
+                Control: ModernButton
+                Properties:
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Appearance: =ButtonAppearance.Transparent
+                  FillPortions: =1
+                  Layout: =ButtonLayout.TextOnly
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =Set(
+                        varShowMenuUser,
+                        !varShowMenuUser
+                    )
+                  Text: =
+      - con_PopupProcessingKiemKho_5:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowPopupProcessing
+            Width: =Parent.Width
+          Children:
+            - DialogProccessingKiemKho_6:
+                Control: CanvasComponent
+                ComponentName: DialogProccessing
+                Properties:
+                  Height: =App.Height
+                  Width: =App.Width
