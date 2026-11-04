@@ -71,6 +71,7 @@ Screens:
                             Control: CanvasComponent
                             ComponentName: NavSiderBar
                             Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
                               Height: =Parent.Height
                               SidebarWidth: =Parent.Width
                               Width: =Parent.Width
@@ -606,9 +607,10 @@ Screens:
                       Control: CanvasComponent
                       ComponentName: NavSiderBar
                       Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
                         Height: =Parent.Height
                         SidebarWidth: =Parent.Width
-                        Width: =Parent.Width - 10
+                        Width: =Parent.Width
             - btn_DanhMucBinFormMenuOverlay:
                 Control: ModernButton
                 Properties:

@@ -84,7 +84,6 @@ Screens:
                                     Icon: ="Add"
                                     OnSelect: |-
                                       =Set(varIndicatorSelected, {});
-                                      RemoveIf(colIndicatorOptions, IndicatorID = 0);
                                       Navigate(DetailIndicatorScreen, ScreenTransition.CoverRight)
                                     PaddingBottom: =5
                                     PaddingLeft: =12

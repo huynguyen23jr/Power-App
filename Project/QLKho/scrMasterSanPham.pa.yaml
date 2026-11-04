@@ -97,6 +97,7 @@ Screens:
                             Control: CanvasComponent
                             ComponentName: NavSiderBar
                             Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
                               Height: =Parent.Height
                               SidebarWidth: =Parent.Width
                               Width: =Parent.Width
@@ -159,6 +160,19 @@ Screens:
                                       Navigate(scrMasterDataProductionForm,ScreenTransition.CoverRight)
                                     Size: =fxFontSizeMD
                                     Text: ="Thêm"
+                              - btn_DownloadTemplateMasterSanPham:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                    Font: =fxFontFamily
+                                    Icon: ="ArrowDownload"
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: =Launch("https://greenfeedgroup.sharepoint.com/:x:/s/Feed-StockManagement-Dev2/IQC0ElvB-6hKQa34ij3X_bCFAQdHJBO2XBtbhOm25S6nYOA?e=gB3ZyN&download=1")
+                                    Size: =fxFontSizeMD
+                                    Text: ="Tải template"
+                                    Width: =150
                               - btn_AddMasterSanPham_1:
                                   Control: ModernButton
                                   Properties:
@@ -827,7 +841,7 @@ Screens:
                                                                               ),
                                                                               IfError(
                                                                                   Remove('QLK List Master Data Production', ThisItem),
-                                                                                  Notify("Xóa không thành công", NotificationType.Error,2000),
+                                                                                  Notify("Xóa không thành công: " & FirstError.Message, NotificationType.Error,5000),
                                                                                   Notify("Đã xóa thành công!", NotificationType.Success,2000)
                                                                               )
                                                                           )
@@ -893,7 +907,7 @@ Screens:
                                                                         ),
                                                                         IfError(
                                                                             Remove('QLK List Master Data Production', ThisItem),
-                                                                            Notify("Xóa không thành công", NotificationType.Error,2000),
+                                                                            Notify("Xóa không thành công: " & FirstError.Message, NotificationType.Error,5000),
                                                                             Notify("Đã xóa thành công!", NotificationType.Success,2000)
                                                                         )
                                                                     )
@@ -1193,9 +1207,10 @@ Screens:
                       Control: CanvasComponent
                       ComponentName: NavSiderBar
                       Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
                         Height: =Parent.Height
                         SidebarWidth: =Parent.Width
-                        Width: =Parent.Width - 10
+                        Width: =Parent.Width
             - btn_CloseMenuOverlayMasterSanPhamMobile:
                 Control: ModernButton
                 Properties:
