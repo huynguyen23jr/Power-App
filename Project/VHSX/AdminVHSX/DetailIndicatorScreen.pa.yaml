@@ -3,7 +3,8 @@ Screens:
     Properties:
       LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
       OnVisible: |-
-        =Set(varIndicatorSave, false);
+        =Clear(colSelOptions);
+        Set(varIndicatorSave, false);
         Set(varIndicatorSaved, false);
         Set(varShowOptionForm, false);
         Set(varOptionFormMode, "New");
@@ -20,7 +21,9 @@ Screens:
         Reset(chk_RequiredResult);
         Reset(chk_RequiredNote);
         Reset(chk_ExportBMQC);
-        Reset(chk_IsActive)
+        Reset(chk_IndicatorIsActive);
+        Reset(txt_IndicatorMapCode);
+        Reset(txt_IndicatorMapPName)
     Children:
       - con_FormIndicatorDetail:
           Control: GroupContainer
@@ -61,6 +64,7 @@ Screens:
                             Properties:
                               Align: =Align.Center
                               Appearance: =ButtonAppearance.Transparent
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
                               Font: =Font.'Segoe UI'
                               FontWeight: =""
                               Height: =40
@@ -83,11 +87,14 @@ Screens:
                             Properties:
                               Align: =Align.Center
                               Appearance: =ButtonAppearance.Transparent
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
                               Font: =Font.'Segoe UI'
                               FontWeight: =""
                               Height: =40
                               Icon: ="Save"
-                              OnSelect: =Select(btn_PatchIndicator)
+                              OnSelect: |-
+                                =Set(varCloseAfterSave, false);
+                                Select(btn_PatchIndicator)
                               PaddingBottom: =5
                               PaddingLeft: =12
                               PaddingRight: =12
@@ -105,13 +112,14 @@ Screens:
                             Properties:
                               Align: =Align.Center
                               Appearance: =ButtonAppearance.Transparent
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
                               Font: =Font.'Segoe UI'
                               FontWeight: =""
                               Height: =40
                               Icon: ="Save"
                               OnSelect: |-
-                                =Select(btn_PatchIndicator);
-                                If(varIndicatorSaved, Back(ScreenTransition.Fade))
+                                =Set(varCloseAfterSave, true);
+                                Select(btn_PatchIndicator)
                               PaddingBottom: =5
                               PaddingLeft: =12
                               PaddingRight: =12
@@ -129,6 +137,7 @@ Screens:
                             Properties:
                               Align: =Align.Center
                               Appearance: =ButtonAppearance.Transparent
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
                               Font: =Font.'Segoe UI'
                               FontWeight: =""
                               Height: =40
@@ -155,7 +164,9 @@ Screens:
                                 Reset(chk_RequiredResult);
                                 Reset(chk_RequiredNote);
                                 Reset(chk_ExportBMQC);
-                                Reset(chk_IsActive)
+                                Reset(chk_IndicatorIsActive);
+                                Reset(txt_IndicatorMapCode);
+                                Reset(txt_IndicatorMapPName)
                               PaddingBottom: =5
                               PaddingLeft: =12
                               PaddingRight: =12
@@ -168,10 +179,50 @@ Screens:
                               Text: ="Làm mới"
                               VerticalAlign: =VerticalAlign.Middle
                               Width: =150
+                        - btn_DeleteIndicator:
+                            Control: ModernButton
+                            Properties:
+                              Align: =Align.Center
+                              Appearance: =ButtonAppearance.Transparent
+                              BasePaletteColor: =RGBA(96, 170, 85, 1)
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =""
+                              Height: =40
+                              Icon: ="Delete"
+                              OnSelect: |-
+                                =If(
+                                    Confirm(
+                                        "Xóa chỉ tiêu """ & varIndicatorSelected.Title & """ và toàn bộ option của nó? Thao tác này không hoàn tác được.",
+                                        {Title: "Xác nhận xóa", ConfirmButton: "Xóa", CancelButton: "Hủy"}
+                                    ),
+                                    RemoveIf('QLSX List Criteria Option', CriteriaID = varIndicatorSelected.ID);
+                                    Remove('QLSX List Criteria Master', varIndicatorSelected);
+                                    If(
+                                        IsEmpty(Errors('QLSX List Criteria Master')),
+                                        Notify("Đã xóa chỉ tiêu.", NotificationType.Success, 2000);
+                                        Set(varIndicatorSelected, {});
+                                        Back(ScreenTransition.Fade),
+                                        Notify("Xóa không thành công.", NotificationType.Error)
+                                    )
+                                )
+                              PaddingBottom: =5
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =5
+                              RadiusBottomLeft: =4
+                              RadiusBottomRight: =4
+                              RadiusTopLeft: =4
+                              RadiusTopRight: =4
+                              Size: =16
+                              Text: ="Xóa"
+                              VerticalAlign: =VerticalAlign.Middle
+                              Visible: =!IsBlank(varIndicatorSelected.ID)
+                              Width: =120
                   - btn_PatchIndicator:
                       Control: ModernButton
                       Properties:
                         Align: =Align.Center
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
                         FontWeight: =""
                         Height: =54
                         OnSelect: |-
@@ -186,6 +237,8 @@ Screens:
                               Notify("Vui lòng chọn cách nhập.", NotificationType.Error),
                               IsBlank(cbb_ResultType.Selected.Value),
                               Notify("Vui lòng chọn kiểu kết quả thực tế.", NotificationType.Error),
+                              !(chk_MultipleOption.Checked || chk_RequiredResult.Checked || chk_RequiredNote.Checked || chk_ExportBMQC.Checked || chk_IndicatorIsActive.Checked),
+                              Notify("Vui lòng chọn ít nhất một cấu hình nhập liệu.", NotificationType.Error),
                               If(
                                   IsBlank(varIndicatorSelected.ID),
                                   Set(
@@ -208,7 +261,13 @@ Screens:
                                               IsResultRequired: chk_RequiredResult.Checked,
                                               IsNoteRequired: chk_RequiredNote.Checked,
                                               ExportToBMQC: chk_ExportBMQC.Checked,
+<<<<<<< HEAD
+                                              PropertyCode: If(chk_ExportBMQC.Checked, Trim(txt_IndicatorMapCode.Text), ""),
+                                              PropertyName: If(chk_ExportBMQC.Checked, Trim(txt_IndicatorMapPName.Text), ""),
+                                              IsActive: chk_IndicatorIsActive.Checked
+=======
                                               IsActive: chk_IsActive.Checked
+>>>>>>> origin/main
                                           }
                                       )
                                   ),
@@ -230,13 +289,16 @@ Screens:
                                           IsResultRequired: chk_RequiredResult.Checked,
                                           IsNoteRequired: chk_RequiredNote.Checked,
                                           ExportToBMQC: chk_ExportBMQC.Checked,
-                                          IsActive: chk_IsActive.Checked
+                                          PropertyCode: If(chk_ExportBMQC.Checked, Trim(txt_IndicatorMapCode.Text), ""),
+                                          PropertyName: If(chk_ExportBMQC.Checked, Trim(txt_IndicatorMapPName.Text), ""),
+                                          IsActive: chk_IndicatorIsActive.Checked
                                       }
                                   );
                                   Set(varIndicatorSelected, LookUp('QLSX List Criteria Master', ID = varIndicatorSelected.ID))
                               );
                               Notify("Lưu thành công.", NotificationType.Success, 2000);
-                              Set(varIndicatorSaved, true)
+                              Set(varIndicatorSaved, true);
+                              If(varCloseAfterSave, Back(ScreenTransition.Fade))
                           )
                         PaddingBottom: =5
                         PaddingLeft: =12
@@ -283,8 +345,12 @@ Screens:
                         Height: =32
                         Size: =12
                         TabIndex: =0
+<<<<<<< HEAD
+                        Text: =CountRows(Gallery_IndicatorOptions.AllItems) & " option · " & Coalesce(varIndicatorSelected.ResultTypeCode.Value, "Đạt / Không đạt")
+=======
                         Text: |-
                           =CountRows(Gallery_IndicatorOptions.AllItems) & " option · " & Coalesce(varIndicatorSelected.ResultTypeCode.Value, "Đạt / Không đạt")
+>>>>>>> origin/main
                         Width: =1000
                         X: =28
                         Y: =59
@@ -347,7 +413,7 @@ Screens:
                             Control: DataCard
                             Properties:
                               BorderStyle: =BorderStyle.None
-                              Height: =If(IsBlank(varIndicatorSelected.ID), 440, 920)
+                              Height: =con_IndicatorOptions.Y + If(chk_MultipleOption.Checked && !IsBlank(varIndicatorSelected.ID), con_IndicatorOptions.Height + 20, 20)
                               Width: =Parent.Width
                               X: =0
                               Y: =0
@@ -503,10 +569,8 @@ Screens:
                                     - cbb_InputMethod:
                                         Control: ModernCombobox
                                         Properties:
-                                          AllowExternalSelectedItems: =false
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          DefaultSelectedItems: |-
-                                            =If(IsBlank(varIndicatorSelected.ID), {Value: ""}, {Value: Coalesce(varIndicatorSelected.InputModeCode.Value, "")})
+                                          DefaultSelectedItems: =If(IsBlank(varIndicatorSelected.ID), Blank(), varIndicatorSelected.InputModeCode)
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           InputTextPlaceholder: =""
@@ -539,10 +603,8 @@ Screens:
                                     - cbb_ResultType:
                                         Control: ModernCombobox
                                         Properties:
-                                          AllowExternalSelectedItems: =false
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          DefaultSelectedItems: |-
-                                            =If(IsBlank(varIndicatorSelected.ID), {Value: ""}, {Value: Coalesce(varIndicatorSelected.ResultTypeCode.Value, "")})
+                                          DefaultSelectedItems: =If(IsBlank(varIndicatorSelected.ID), Blank(), varIndicatorSelected.ResultTypeCode)
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           InputTextPlaceholder: =""
@@ -605,10 +667,8 @@ Screens:
                                     - cbb_DecimalPlaces:
                                         Control: ModernCombobox
                                         Properties:
-                                          AllowExternalSelectedItems: =false
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
-                                          DefaultSelectedItems: |-
-                                            =If(IsBlank(varIndicatorSelected.ID), {Value: ""}, {Value: Coalesce(varIndicatorSelected.DecimalPlaces.Value, "")})
+                                          DefaultSelectedItems: =If(IsBlank(varIndicatorSelected.ID), Blank(), varIndicatorSelected.DecimalPlaces)
                                           Font: =Font.Arial
                                           FontWeight: =""
                                           InputTextPlaceholder: =""
@@ -633,13 +693,18 @@ Screens:
                                     - lbl_IndicatorCfgTitle:
                                         Control: Label
                                         Properties:
-                                          Color: =RGBA(51, 51, 51, 1)
+                                          Color: |-
+                                            =If(
+                                                varIndicatorSave && !(chk_MultipleOption.Checked || chk_RequiredResult.Checked || chk_RequiredNote.Checked || chk_ExportBMQC.Checked || chk_IndicatorIsActive.Checked),
+                                                RGBA(196, 49, 49, 1),
+                                                RGBA(51, 51, 51, 1)
+                                            )
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =FontWeight.Semibold
                                           Height: =32
                                           Size: =12
                                           TabIndex: =0
-                                          Text: ="CẤU HÌNH NHẬP LIỆU"
+                                          Text: ="CẤU HÌNH NHẬP LIỆU *"
                                           Width: =300
                                           X: =29
                                           Y: =5
@@ -703,7 +768,7 @@ Screens:
                                           Width: =380
                                           X: =29
                                           Y: =180
-                                    - chk_IsActive:
+                                    - chk_IndicatorIsActive:
                                         Control: ModernCheckbox
                                         Properties:
                                           BasePaletteColor: =RGBA(96, 170, 85, 1)
@@ -722,10 +787,10 @@ Screens:
                                   Properties:
                                     DropShadow: =DropShadow.Regular
                                     Height: =450
-                                    Visible: =!IsBlank(varIndicatorSelected.ID)
+                                    Visible: =chk_MultipleOption.Checked && !IsBlank(varIndicatorSelected.ID)
                                     Width: =1326
                                     X: =con_generalIndicator_2.X
-                                    Y: =con_generalIndicator_2.Height + con_generalIndicator_2.Y + 20
+                                    Y: =con_generalIndicator_2.Height + con_generalIndicator_2.Y + 20 + If(chk_ExportBMQC.Checked, con_IndicatorMapping.Height + 20, 0)
                                   Children:
                                     - txt_OptionTitle:
                                         Control: ModernText
@@ -765,16 +830,26 @@ Screens:
                                           Width: =535
                                           X: =15
                                           Y: =38
-                                    - btn_AddOption:
+                                    - btn_OptDeleteSelected:
                                         Control: ModernButton
                                         Properties:
                                           Align: =Align.Center
                                           Appearance: =ButtonAppearance.Transparent
+                                          BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                          Color: =RGBA(196, 49, 49, 1)
                                           Font: =Font.'Segoe UI'
                                           FontWeight: =""
                                           Height: =40
-                                          Icon: ="Add"
+                                          Icon: ="Delete"
                                           OnSelect: |-
+<<<<<<< HEAD
+                                            =If(
+                                                Confirm("Bạn có chắc muốn xóa " & CountRows(colSelOptions) & " option đã chọn?", {Title: "Xác nhận xóa", ConfirmButton: "Xóa", CancelButton: "Hủy"}),
+                                                ForAll(colSelOptions As sel, Remove('QLSX List Criteria Option', LookUp('QLSX List Criteria Option', ID = sel.ID)));
+                                                Clear(colSelOptions);
+                                                Notify("Đã xóa các option đã chọn.", NotificationType.Success, 2000)
+                                            )
+=======
                                             =Set(varOptionFormMode, "New");
                                             Set(varSelectedIndicatorOption, {});
                                             Reset(TextInput_OptionName);
@@ -784,6 +859,7 @@ Screens:
                                             Reset(chk_OptionIsDefault);
                                             Reset(chk_OptionIsActive);
                                             Set(varShowOptionForm, true)
+>>>>>>> origin/main
                                           PaddingBottom: =5
                                           PaddingLeft: =12
                                           PaddingRight: =12
@@ -793,10 +869,11 @@ Screens:
                                           RadiusTopLeft: =4
                                           RadiusTopRight: =4
                                           Size: =14
-                                          Text: ="Thêm option"
+                                          Text: ="Xóa đã chọn (" & CountRows(colSelOptions) & ")"
                                           VerticalAlign: =VerticalAlign.Middle
-                                          Width: =140
-                                          X: =1170
+                                          Visible: =CountRows(colSelOptions) > 0
+                                          Width: =180
+                                          X: =970
                                           Y: =12
                                     - rec_OptionTitle:
                                         Control: Rectangle
@@ -821,6 +898,17 @@ Screens:
                                           X: =10
                                           Y: =64
                                         Children:
+                                          - chk_OptionSelectAll:
+                                              Control: ModernCheckbox
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                                Default: =CountRows(Gallery_IndicatorOptions.AllItems) > 0 && CountRows(colSelOptions) = CountRows(Gallery_IndicatorOptions.AllItems)
+                                                Label: =""
+                                                OnCheck: |-
+                                                  =ClearCollect(colSelOptions, ForAll(Gallery_IndicatorOptions.AllItems, {ID: ID}))
+                                                OnUncheck: =Clear(colSelOptions)
+                                                Width: =24
                                           - txt_HdrOption:
                                               Control: ModernText
                                               Properties:
@@ -828,9 +916,11 @@ Screens:
                                                 Color: =RGBA(96, 104, 100, 1)
                                                 Font: =Font.'Segoe UI'
                                                 FontWeight: =FontWeight.Semibold
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 Size: =11
                                                 Text: ="OPTION"
-                                                Width: =400
+                                                Width: =368
                                           - txt_HdrCode:
                                               Control: ModernText
                                               Properties:
@@ -838,6 +928,8 @@ Screens:
                                                 Color: =RGBA(96, 104, 100, 1)
                                                 Font: =Font.'Segoe UI'
                                                 FontWeight: =FontWeight.Semibold
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 Size: =11
                                                 Text: ="PROPERTYCODE"
                                                 Width: =250
@@ -848,6 +940,8 @@ Screens:
                                                 Color: =RGBA(96, 104, 100, 1)
                                                 Font: =Font.'Segoe UI'
                                                 FontWeight: =FontWeight.Semibold
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 Size: =11
                                                 Text: ="PROPERTYNAME"
                                                 Width: =250
@@ -858,6 +952,8 @@ Screens:
                                                 Color: =RGBA(96, 104, 100, 1)
                                                 Font: =Font.'Segoe UI'
                                                 FontWeight: =FontWeight.Semibold
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 Size: =11
                                                 Text: ="MẶC ĐỊNH"
                                                 Width: =120
@@ -886,7 +982,7 @@ Screens:
                                         Properties:
                                           BorderColor: =RGBA(0, 0, 0, 0)
                                           Default: ={}
-                                          Height: =190
+                                          Height: =340
                                           Items: |-
                                             =SortByColumns(
                                                 Filter(
@@ -896,7 +992,7 @@ Screens:
                                                 "ID",
                                                 SortOrder.Ascending
                                             )
-                                          ShowScrollbar: =false
+                                          TemplatePadding: =0
                                           TemplateSize: =44
                                           Width: =Parent.Width - 20
                                           X: =10
@@ -915,6 +1011,17 @@ Screens:
                                                 PaddingRight: =15
                                                 Width: =Gallery_IndicatorOptions.Width
                                               Children:
+                                                - chk_OptionRowSelect:
+                                                    Control: ModernCheckbox
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Center
+                                                      BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                                      Default: =!IsBlank(LookUp(colSelOptions, ID = ThisItem.ID))
+                                                      Label: =""
+                                                      OnCheck: |-
+                                                        =Collect(colSelOptions, {ID: ThisItem.ID})
+                                                      OnUncheck: =RemoveIf(colSelOptions, ID = ThisItem.ID)
+                                                      Width: =24
                                                 - txt_ValOption:
                                                     Control: ModernText
                                                     Properties:
@@ -922,15 +1029,23 @@ Screens:
                                                       Color: =RGBA(32, 38, 36, 1)
                                                       Font: =Font.'Segoe UI'
                                                       FontWeight: =FontWeight.Semibold
+                                                      PaddingLeft: =0
+                                                      PaddingRight: =0
                                                       Size: =13
                                                       Text: =ThisItem.Title
+<<<<<<< HEAD
+                                                      Width: =368
+=======
                                                       Width: =400
+>>>>>>> origin/main
                                                 - txt_ValCode:
                                                     Control: ModernText
                                                     Properties:
                                                       AlignInContainer: =AlignInContainer.Center
                                                       Color: =RGBA(72, 80, 76, 1)
                                                       Font: =Font.'Segoe UI'
+                                                      PaddingLeft: =0
+                                                      PaddingRight: =0
                                                       Size: =13
                                                       Text: =ThisItem.OptionKey
                                                       Width: =250
@@ -940,6 +1055,8 @@ Screens:
                                                       AlignInContainer: =AlignInContainer.Center
                                                       Color: =RGBA(72, 80, 76, 1)
                                                       Font: =Font.'Segoe UI'
+                                                      PaddingLeft: =0
+                                                      PaddingRight: =0
                                                       Size: =13
                                                       Text: =ThisItem.PropertyName
                                                       Width: =250
@@ -971,7 +1088,7 @@ Screens:
                                                             RadiusBottomRight: =6
                                                             RadiusTopLeft: =6
                                                             RadiusTopRight: =6
-                                                            Visible: =ThisItem.IsDefault
+                                                            Visible: =ThisItem.IsDefault = true
                                                             Width: =88
                                                           Children:
                                                             - txt_OptionDefaultPill:
@@ -985,6 +1102,16 @@ Screens:
                                                                   FontWeight: =FontWeight.Semibold
                                                                   Size: =11
                                                                   Text: ="Được chọn"
+                                                      - txt_OptionNotDefault:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Center
+                                                            Color: =RGBA(150, 158, 154, 1)
+                                                            Font: =Font.'Segoe UI'
+                                                            Size: =13
+                                                            Text: ="—"
+                                                            Visible: =Not(ThisItem.IsDefault = true)
+                                                            Width: =88
                                                 - con_OptionActions:
                                                     Control: GroupContainer
                                                     Variant: AutoLayout
@@ -1003,6 +1130,7 @@ Screens:
                                                           Control: ModernButton
                                                           Properties:
                                                             Appearance: =ButtonAppearance.Transparent
+                                                            BasePaletteColor: =RGBA(96, 170, 85, 1)
                                                             Height: =36
                                                             Icon: ="Edit"
                                                             Layout: =ButtonLayout.IconOnly
@@ -1011,18 +1139,28 @@ Screens:
                                                             OnSelect: |-
                                                               =Set(varOptionFormMode, "Edit");
                                                               Set(varSelectedIndicatorOption, ThisItem);
+<<<<<<< HEAD
+                                                              Reset(txt_OptPopupName);
+                                                              Reset(txt_OptPopupCode);
+                                                              Reset(txt_OptPopupPName);
+                                                              Reset(txt_OptPopupUnit);
+                                                              Reset(chk_OptPopupIsDefault);
+                                                              Reset(chk_OptPopupIsActive);
+=======
                                                               Reset(TextInput_OptionName);
                                                               Reset(TextInput_OptionCode);
                                                               Reset(TextInput_OptionPName);
                                                               Reset(TextInput_OptionUnit);
                                                               Reset(chk_OptionIsDefault);
                                                               Reset(chk_OptionIsActive);
+>>>>>>> origin/main
                                                               Set(varShowOptionForm, true)
                                                             Width: =36
                                                       - btn_DeleteOption:
                                                           Control: ModernButton
                                                           Properties:
                                                             Appearance: =ButtonAppearance.Transparent
+                                                            BasePaletteColor: =RGBA(96, 170, 85, 1)
                                                             Color: =RGBA(196, 49, 49, 1)
                                                             Height: =36
                                                             Icon: ="Delete"
@@ -1032,7 +1170,12 @@ Screens:
                                                             OnSelect: |-
                                                               =If(
                                                                   Confirm("Bạn có chắc muốn xóa option """ & ThisItem.Title & """?", {Title: "Xác nhận xóa", ConfirmButton: "Xóa", CancelButton: "Hủy"}),
+<<<<<<< HEAD
+                                                                  Remove('QLSX List Criteria Option', ThisItem);
+                                                                  RemoveIf(colSelOptions, ID = ThisItem.ID)
+=======
                                                                   Remove('QLSX List Criteria Option', ThisItem)
+>>>>>>> origin/main
                                                               )
                                                             Width: =36
                                           - rec_OptionRowLine:
@@ -1040,9 +1183,131 @@ Screens:
                                               Properties:
                                                 Fill: =RGBA(215, 220, 218, 1)
                                                 Height: =1
-                                                Width: =Gallery_IndicatorOptions.Width - 30
-                                                X: =15
+                                                Width: =Gallery_IndicatorOptions.Width - 20
+                                                X: =5
                                                 Y: =Gallery_IndicatorOptions.TemplateHeight - 1
+                                    - btn_OptAdd:
+                                        Control: ModernButton
+                                        Properties:
+                                          Align: =Align.Center
+                                          Appearance: =ButtonAppearance.Transparent
+                                          BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =""
+                                          Height: =40
+                                          Icon: ="Add"
+                                          OnSelect: |-
+                                            =Set(varOptionFormMode, "New");
+                                            Set(varSelectedIndicatorOption, {});
+                                            Reset(txt_OptPopupName);
+                                            Reset(txt_OptPopupCode);
+                                            Reset(txt_OptPopupPName);
+                                            Reset(txt_OptPopupUnit);
+                                            Reset(chk_OptPopupIsDefault);
+                                            Reset(chk_OptPopupIsActive);
+                                            Set(varShowOptionForm, true)
+                                          PaddingBottom: =5
+                                          PaddingLeft: =12
+                                          PaddingRight: =12
+                                          PaddingTop: =5
+                                          RadiusBottomLeft: =4
+                                          RadiusBottomRight: =4
+                                          RadiusTopLeft: =4
+                                          RadiusTopRight: =4
+                                          Size: =14
+                                          Text: ="Thêm option"
+                                          VerticalAlign: =VerticalAlign.Middle
+                                          Width: =140
+                                          X: =1170
+                                          Y: =12
+                              - con_IndicatorMapping:
+                                  Control: GroupContainer
+                                  Variant: ManualLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Height: =150
+                                    Visible: =chk_ExportBMQC.Checked
+                                    Width: =1326
+                                    X: =con_generalIndicator_2.X
+                                    Y: =con_generalIndicator_2.Height + con_generalIndicator_2.Y + 20
+                                  Children:
+                                    - lbl_MapTitle:
+                                        Control: Label
+                                        Properties:
+                                          Color: =RGBA(51, 51, 51, 1)
+                                          Font: =Font.'Segoe UI'
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          Size: =12
+                                          TabIndex: =0
+                                          Text: ="MAPPING KẾT QUẢ TRỰC TIẾP SANG BMQC"
+                                          Width: =500
+                                          X: =29
+                                          Y: =5
+                                    - rec_MapDivider:
+                                        Control: Rectangle
+                                        Properties:
+                                          Fill: =RGBA(68, 68, 68, 1)
+                                          Height: =0.2
+                                          Width: =Parent.Width - 50
+                                          X: =29
+                                          Y: =35
+                                    - lbl_MapCodeLabel:
+                                        Control: ModernText
+                                        Properties:
+                                          Color: =RGBA(72, 80, 76, 1)
+                                          Font: =Font.Arial
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
+                                          PaddingTop: =0
+                                          Size: =14
+                                          Text: ="PropertyCode"
+                                          Width: =300
+                                          X: =29
+                                          Y: =55
+                                    - txt_IndicatorMapCode:
+                                        Control: ModernTextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                          Default: =Coalesce(varIndicatorSelected.PropertyCode, "")
+                                          Font: =Font.Arial
+                                          FontWeight: =""
+                                          MaxLength: =-1
+                                          Placeholder: =""
+                                          Size: =0
+                                          TriggerOutput: =TriggerOutput.FocusOut
+                                          Width: =600
+                                          X: =29
+                                          Y: =85
+                                    - lbl_MapPNameLabel:
+                                        Control: ModernText
+                                        Properties:
+                                          Color: =RGBA(72, 80, 76, 1)
+                                          Font: =Font.Arial
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
+                                          PaddingTop: =0
+                                          Size: =14
+                                          Text: ="PropertyName"
+                                          Width: =300
+                                          X: =680
+                                          Y: =55
+                                    - txt_IndicatorMapPName:
+                                        Control: ModernTextInput
+                                        Properties:
+                                          BasePaletteColor: =RGBA(96, 170, 85, 1)
+                                          Default: =Coalesce(varIndicatorSelected.PropertyName, "")
+                                          Font: =Font.Arial
+                                          FontWeight: =""
+                                          MaxLength: =-1
+                                          Placeholder: =""
+                                          Size: =0
+                                          TriggerOutput: =TriggerOutput.FocusOut
+                                          Width: =600
+                                          X: =680
+                                          Y: =85
       - con_OptionPopup:
           Control: GroupContainer
           Variant: AutoLayout
@@ -1056,32 +1321,271 @@ Screens:
             Visible: =varShowOptionForm
             Width: =Parent.Width
           Children:
-            - Container_OptionPanel:
+            - con_OptPopupPanel:
                 Control: GroupContainer
-                Variant: AutoLayout
+                Variant: ManualLayout
                 Properties:
                   AlignInContainer: =AlignInContainer.SetByContainer
-                  DropShadow: =DropShadow.None
+                  DropShadow: =DropShadow.Bold
                   Fill: =RGBA(255, 255, 255, 1)
                   FillPortions: =0
+<<<<<<< HEAD
+                  Height: =380
+=======
                   Height: =440
                   LayoutDirection: =LayoutDirection.Vertical
                   LayoutGap: =10
+>>>>>>> origin/main
                   LayoutMinHeight: =16
                   LayoutMinWidth: =16
-                  PaddingBottom: =10
-                  PaddingLeft: =10
-                  PaddingRight: =10
-                  PaddingTop: =10
-                  Width: =560
+                  RadiusBottomLeft: =12
+                  RadiusBottomRight: =12
+                  RadiusTopLeft: =12
+                  RadiusTopRight: =12
+                  Width: =640
                 Children:
-                  - Container_OptionHeader:
-                      Control: GroupContainer
-                      Variant: AutoLayout
+                  - lbl_OptPopupTitle:
+                      Control: ModernText
                       Properties:
-                        DropShadow: =DropShadow.Regular
-                        FillPortions: =0
+                        Color: =RGBA(32, 38, 36, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Size: =16
+                        Text: =If(varOptionFormMode = "New", "Thêm option", "Chỉnh sửa option") & " · " & Coalesce(varIndicatorSelected.Title, "")
+                        Width: =540
+                        X: =24
+                        Y: =18
+                  - rec_OptPopupHeaderLine:
+                      Control: Rectangle
+                      Properties:
+                        Fill: =RGBA(225, 229, 227, 1)
+                        Height: =1
+                        Width: =Parent.Width
+                        Y: =68
+                  - lbl_OptPopupName:
+                      Control: ModernText
+                      Properties:
+                        Color: =RGBA(72, 80, 76, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =12
+                        Text: ="Tên option *"
+                        Width: =282
+                        X: =24
+                        Y: =84
+                  - lbl_OptPopupUnit:
+                      Control: ModernText
+                      Properties:
+                        Color: =RGBA(72, 80, 76, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =12
+                        Text: ="Đơn vị"
+                        Width: =282
+                        X: =334
+                        Y: =84
+                  - lbl_OptPopupPName:
+                      Control: ModernText
+                      Properties:
+                        Color: =RGBA(72, 80, 76, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =12
+                        Text: ="PropertyName *"
+                        Width: =282
+                        X: =334
+                        Y: =154
+                  - chk_OptPopupIsDefault:
+                      Control: ModernCheckbox
+                      Properties:
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.IsDefault, false), false)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =""
+                        Height: =28
+                        Label: ="Được chọn mặc định khi tạo mẫu"
+                        OnCheck: =
+                        OnUncheck: =
+                        Width: =560
+                        X: =24
+                        Y: =224
+                  - rec_OptPopupFooterLine:
+                      Control: Rectangle
+                      Properties:
+                        Fill: =RGBA(225, 229, 227, 1)
+                        Height: =1
+                        Width: =Parent.Width
+                        Y: =308
+                  - btn_OptSaveOption:
+                      Control: ModernButton
+                      Properties:
+                        Align: =Align.Center
+                        BasePaletteColor: =RGBA(22, 101, 68, 1)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =""
                         Height: =40
+<<<<<<< HEAD
+                        Icon: ="Save"
+                        OnSelect: |-
+                          =If(
+                              IsBlank(Trim(txt_OptPopupName.Text)),
+                              Notify("Vui lòng nhập tên option.", NotificationType.Error),
+                              IsBlank(Trim(txt_OptPopupCode.Text)),
+                              Notify("Vui lòng nhập PropertyCode.", NotificationType.Error),
+                              IsBlank(Trim(txt_OptPopupPName.Text)),
+                              Notify("Vui lòng nhập PropertyName.", NotificationType.Error),
+                              If(
+                                  varOptionFormMode = "New",
+                                  Patch(
+                                      'QLSX List Criteria Option',
+                                      Defaults('QLSX List Criteria Option'),
+                                      {
+                                          PlantCode: varCurrentPlant.PlantCode,
+                                          PlantName: varCurrentPlant.PlantName,
+                                          CriteriaID: Coalesce(varIndicatorSelected.ID, 0),
+                                          Title: Trim(txt_OptPopupName.Text),
+                                          OptionKey: Upper(Trim(txt_OptPopupCode.Text)),
+                                          PropertyName: Upper(Trim(txt_OptPopupPName.Text)),
+                                          Unit: Trim(txt_OptPopupUnit.Text),
+                                          IsDefault: chk_OptPopupIsDefault.Checked,
+                                          IsActive: chk_OptPopupIsActive.Checked
+                                      }
+                                  ),
+                                  Patch(
+                                      'QLSX List Criteria Option',
+                                      varSelectedIndicatorOption,
+                                      {
+                                          PlantCode: varCurrentPlant.PlantCode,
+                                          PlantName: varCurrentPlant.PlantName,
+                                          CriteriaID: Coalesce(varIndicatorSelected.ID, 0),
+                                          Title: Trim(txt_OptPopupName.Text),
+                                          OptionKey: Upper(Trim(txt_OptPopupCode.Text)),
+                                          PropertyName: Upper(Trim(txt_OptPopupPName.Text)),
+                                          Unit: Trim(txt_OptPopupUnit.Text),
+                                          IsDefault: chk_OptPopupIsDefault.Checked,
+                                          IsActive: chk_OptPopupIsActive.Checked
+                                      }
+                                  )
+                              );
+                              Set(varShowOptionForm, false);
+                              Set(varSelectedIndicatorOption, {});
+                              Notify("Lưu thành công.", NotificationType.Success, 2000)
+                          )
+                        Size: =14
+                        Text: ="Lưu option"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =140
+                        X: =476
+                        Y: =324
+                  - txt_OptPopupPName:
+                      Control: ModernTextInput
+                      Properties:
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.PropertyName, ""), "")
+                        Placeholder: =""
+                        Width: =282
+                        X: =334
+                        Y: =176
+                  - chk_OptPopupIsActive:
+                      Control: ModernCheckbox
+                      Properties:
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.IsActive, true), true)
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =""
+                        Height: =28
+                        Label: ="Đang sử dụng"
+                        OnCheck: =
+                        OnUncheck: =
+                        Width: =560
+                        X: =24
+                        Y: =258
+                  - btn_OptCloseOption:
+                      Control: ModernButton
+                      Properties:
+                        Appearance: =ButtonAppearance.Transparent
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Height: =36
+                        Icon: ="Dismiss"
+                        Layout: =ButtonLayout.IconOnly
+                        OnSelect: |-
+                          =Set(varShowOptionForm, false);
+                          Set(varSelectedIndicatorOption, {})
+                        Width: =36
+                        X: =580
+                        Y: =16
+                  - txt_OptPopupName:
+                      Control: ModernTextInput
+                      Properties:
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.Title, ""), "")
+                        Placeholder: =""
+                        Width: =282
+                        X: =24
+                        Y: =106
+                  - txt_OptPopupUnit:
+                      Control: ModernTextInput
+                      Properties:
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.Unit, ""), "")
+                        Placeholder: =""
+                        Width: =282
+                        X: =334
+                        Y: =106
+                  - lbl_OptPopupCode:
+                      Control: ModernText
+                      Properties:
+                        Color: =RGBA(72, 80, 76, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =20
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =12
+                        Text: ="PropertyCode *"
+                        Width: =282
+                        X: =24
+                        Y: =154
+                  - txt_OptPopupCode:
+                      Control: ModernTextInput
+                      Properties:
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Default: =If(varOptionFormMode = "Edit", Coalesce(varSelectedIndicatorOption.OptionKey, ""), "")
+                        Placeholder: =""
+                        Width: =282
+                        X: =24
+                        Y: =176
+                  - btn_OptPopupCancel:
+                      Control: ModernButton
+                      Properties:
+                        Align: =Align.Center
+                        Appearance: =ButtonAppearance.Secondary
+                        BasePaletteColor: =RGBA(96, 170, 85, 1)
+                        Font: =Font.'Segoe UI'
+                        Height: =40
+                        OnSelect: |-
+                          =Set(varShowOptionForm, false);
+                          Set(varSelectedIndicatorOption, {})
+                        Size: =14
+                        Text: ="Hủy"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =80
+                        X: =384
+                        Y: =324
+=======
                         LayoutAlignItems: =LayoutAlignItems.Center
                         LayoutDirection: =LayoutDirection.Horizontal
                         LayoutGap: =10
@@ -1318,3 +1822,4 @@ Screens:
                               OnCheck: =
                               OnUncheck: =
                               Width: =250
+>>>>>>> origin/main

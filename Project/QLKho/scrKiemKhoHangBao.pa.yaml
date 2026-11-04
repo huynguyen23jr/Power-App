@@ -74,6 +74,7 @@ Screens:
                             Control: CanvasComponent
                             ComponentName: NavSiderBar
                             Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
                               Height: =Parent.Height
                               SidebarWidth: =Parent.Width
                               Width: =Parent.Width
@@ -361,6 +362,7 @@ Screens:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
                                     DropShadow: =DropShadow.None
                                     Fill: =RGBA(250, 250, 250, 1)
                                     FillPortions: =0
@@ -529,6 +531,7 @@ Screens:
                                   Control: Gallery
                                   Variant: Vertical
                                   Properties:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
                                     BorderStyle: =BorderStyle.None
                                     Height: =Parent.Height - con_TableHeaderKiemKhoHangBao.Height - lbl_TotalRowsKiemKhoHangBao.Height
                                     Items: |-
@@ -1000,7 +1003,6 @@ Screens:
                               - lbl_TotalRowsKiemKhoHangBao:
                                   Control: ModernText
                                   Properties:
-                                    AlignInContainer: =AlignInContainer.Stretch
                                     Font: =fxFontFamily
                                     FontWeight: =fxFontWeightBold
                                     Size: =fxFontSizeMD
@@ -1042,9 +1044,10 @@ Screens:
                       Control: CanvasComponent
                       ComponentName: NavSiderBar
                       Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
                         Height: =Parent.Height
                         SidebarWidth: =Parent.Width
-                        Width: =Parent.Width - 10
+                        Width: =Parent.Width
             - btn_CloseMenuOverlayNhapTuSanXuatMobile_8:
                 Control: ModernButton
                 Properties:
