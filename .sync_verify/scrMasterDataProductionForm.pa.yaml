@@ -1,0 +1,1014 @@
+Screens:
+  scrMasterDataProductionForm:
+    Children:
+      - con_MainMasterDataProductionForm:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+          Children:
+            - conHeaderMasterDataProductionForm:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =55
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - HeaderFormMasterDataProduction:
+                      Control: CanvasComponent
+                      ComponentName: Header
+                      Properties:
+                        Height: =App.Height
+                        IDRecord: =100
+                        Width: =App.Width - Parent.PaddingLeft*2 - 5
+                        varSizeScreen: =scrMasterDataProductionForm.Size
+            - con_BodyMasterDataProductionForm:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =Parent.Height - conHeaderMasterDataProductionForm.Height
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =5
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =If(!varShowMenuUser,0,5)
+                  PaddingLeft: =If(!varShowMenuUser,0,5)
+                  PaddingRight: =If(!varShowMenuUser,0,5)
+                  PaddingTop: =If(!varShowMenuUser,0,5)
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - con_BodyMenuMasterDataProductionForm:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Start
+                        DropShadow: =DropShadow.Semilight
+                        FillPortions: =0
+                        Height: =con_BodyMainMasterProductForm.Height
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        RadiusBottomLeft: =5
+                        RadiusBottomRight: =5
+                        RadiusTopLeft: =5
+                        RadiusTopRight: =5
+                        Visible: |-
+                          =If(
+                              scrMasterDataProductionForm.Size = 1,
+                              false,
+                              true
+                          )
+                        Width: |-
+                          =If(
+                              varShowMenuUser,
+                              240,
+                              0
+                          )
+                      Children:
+                        - NavSiderBarMasterDataProduction:
+                            Control: CanvasComponent
+                            ComponentName: NavSiderBar
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Height: =Parent.Height
+                              SidebarWidth: =Parent.Width
+                              Width: =Parent.Width
+                  - con_BodyMainMasterProductForm:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Start
+                        DropShadow: =DropShadow.None
+                        Fill: =RGBA(250, 250, 251, 1)
+                        Height: =Parent.Height
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                      Children:
+                        - conMasterProduct_ActionBar:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.Semilight
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FillPortions: =0
+                              Height: =52
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =8
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              PaddingBottom: =8
+                              PaddingLeft: =8
+                              PaddingRight: =8
+                              PaddingTop: =8
+                              RadiusBottomLeft: =5
+                              RadiusBottomRight: =5
+                              RadiusTopLeft: =5
+                              RadiusTopRight: =5
+                            Children:
+                              - btnMasterProduct_Back:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Transparent
+                                    Icon: ="ChevronLeft"
+                                    Layout: =ButtonLayout.IconOnly
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: =Back()
+                                    Width: =36
+                              - btnMasterProduct_Save:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    Font: =fxFontFamily
+                                    Icon: ="Save"
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: |
+                                      =With(
+                                          {
+                                              _isDuplicate: Filter(
+                                                      'QLK List Master Data Production',
+                                                      PlantCode = varUserInPlant.PlantCode,
+                                                      SAPCode = txtMasterProduct_SAPCode.Text
+                                                  )
+                                          },
+                                          If(
+                                              CountRows(_isDuplicate) > 0,
+                                              Notify("Mã SAP đã tồn tại trong nhà máy này.", NotificationType.Warning, 2000),
+                                              IfError(
+                                                  Patch(
+                                                      'QLK List Master Data Production',
+                                                      If(
+                                                          IsBlank(varMasterProductDetail),
+                                                          Defaults('QLK List Master Data Production'),
+                                                          varMasterProductDetail
+                                                      ),
+                                                      {
+                                                          SAPCode:           txtMasterProduct_SAPCode.Text,
+                                                          ProductionCode:    txtMasterProduct_ProductionCode.Text,
+                                                          ShortCode:         txtMasterProduct_ShortCode.Text,
+                                                          ProductGroupCode:  cbbMasterProduct_ProductGroupCode.Selected.ProductGroupCode,
+                                                          ProductTypeCode:   cbbMasterProduct_ProductTypeCode.Selected.ProductTypeCode,
+                                                          PelletSize:        cmbMasterProduct_PelletSize.Selected,
+                                                          BagSize:           txtInutMasterProduct_BagSize.Value,
+                                                          BagWeight:         txtMasterProduct_BagWeight.Value,
+                                                          SmallBagPerBag:    txtMasterProduct_SmallBagPerBag.Value,
+                                                          PalletSize:        txtMasterProduct_PalletSize.Value,
+                                                          LayerPerPallet:    txtInput_MasterProduct_LayerPerPallet.Value,
+                                                          BagPerLayer:       txtMasterProduct_BagPerLayer.Value,
+                                                          BoxPerPallet:      txtMasterProduct_BoxPerPallet.Value,
+                                                          BagPerBox:         txtMasterProduct_BagPerBox.Value,
+                                                          AgingLevel1:       txtInputMasterProduct_AgingLevel1.Value,
+                                                          AgingLevel2:       txtInputMasterProduct_AgingLevel2.Value,
+                                                          AgingLevel3:       txtInputMasterProduct_AgingLevel3.Value,
+                                                          BusinessGroupCode: cmbMasterProduct_PhanLoai.Selected.BusinessGroupCode,
+                                                          Description:       txtMasterProduct_Description.Text,
+                                                          PlantCode:         varUserInPlant.PlantCode,
+                                                          PlantName:         varUserInPlant.PlantName
+                                                      }
+                                                  ),
+                                                  Notify("Không thể lưu dữ liệu.", NotificationType.Error, 2000),
+                                                  Notify("Đã lưu thành công.", NotificationType.Success, 2000)
+                                              )
+                                          )
+                                      )
+                                    Text: ="Lưu"
+                              - btnMasterProduct_Refresh:
+                                  Control: ModernButton
+                                  Properties:
+                                    Appearance: =ButtonAppearance.Outline
+                                    Font: =fxFontFamily
+                                    Icon: ="ArrowClockwise"
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    OnSelect: =Refresh('QLK List Master Data Production')
+                                    Text: ="Làm mới"
+                                    Width: =120
+                        - conMasterProduct_Content:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =12
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                            Children:
+                              - conMasterProduct_SectionCode:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =If(scrMasterDataProductionForm.Size = 1, 320, 170)
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - lblMasterProduct_SectionCode:
+                                        Control: ModernText
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =RGBA(45, 128, 40, 1)
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeLG
+                                          Text: ="1. Thông tin mã sản phẩm"
+                                    - conMasterProduct_GridCode:
+                                        Control: GroupContainer
+                                        Variant: GridLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutGap: =10
+                                          LayoutGridColumns: =If(scrMasterDataProductionForm.Size = 1, 1, 3)
+                                          LayoutGridRows: =If(scrMasterDataProductionForm.Size = 1, 3, 1)
+                                        Children:
+                                          - conMasterProduct_FieldSAPCode:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_SAPCode:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="SAP Code *"
+                                                - txtMasterProduct_SAPCode:
+                                                    Control: ModernTextInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.SAPCode
+                                                      Font: =fxFontFamily
+                                                      LayoutMinWidth: =Parent.Width
+                                                      Placeholder: ="Nhập SAPCode"
+                                                      Size: =fxFontSizeMD
+                                          - conMasterProduct_FieldProductionCode:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_ProductionCode:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Mã hàng *"
+                                                - txtMasterProduct_ProductionCode:
+                                                    Control: ModernTextInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.ProductionCode
+                                                      Font: =fxFontFamily
+                                                      LayoutMinWidth: =Parent.Width
+                                                      Placeholder: ="Nhập ProductionCode"
+                                                      Size: =fxFontSizeMD
+                                          - conMasterProduct_FieldShortCode:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_ShortCode:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Mã rút gọn"
+                                                - txtMasterProduct_ShortCode:
+                                                    Control: ModernTextInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.ShortCode
+                                                      Font: =fxFontFamily
+                                                      LayoutMinWidth: |
+                                                        =Parent.Width
+                                                      Placeholder: ="Nhập ShortCode"
+                                                      Size: =fxFontSizeMD
+                              - conMasterProduct_SectionCategory:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =If(scrMasterDataProductionForm.Size = 1, 406, 170)
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - lblMasterProduct_SectionCategory:
+                                        Control: ModernText
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =RGBA(45, 128, 40, 1)
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeLG
+                                          Text: ="2. Phân loại sản phẩm"
+                                    - conMasterProduct_GridCategory:
+                                        Control: GroupContainer
+                                        Variant: GridLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutGap: =10
+                                          LayoutGridColumns: =If(scrMasterDataProductionForm.Size = 1, 1, 4)
+                                          LayoutGridRows: =If(scrMasterDataProductionForm.Size = 1, 4, 1)
+                                        Children:
+                                          - conMasterProduct_FieldProductGroupCode:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_ProductGroupCode:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Nhóm hàng"
+                                                - cbbMasterProduct_ProductGroupCode:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      DefaultSelectedItems: =LookUp(col_ProductGroups, ProductGroupCode = varMasterProductDetail.ProductGroupCode)
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: =""
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.ProductGroupNameVI
+                                                      Items: =col_ProductGroups
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                          - conMasterProduct_FieldProductTypeCode:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_ProductTypeCode:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Loại hàng"
+                                                - cbbMasterProduct_ProductTypeCode:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      DefaultSelectedItems: =LookUp(col_ProductTypes, ProductTypeCode = varMasterProductDetail.ProductTypeCode)
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: =""
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.ProductTypeNameVI
+                                                      Items: =col_ProductTypes
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                          - conMasterProduct_FieldPhanLoai:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_PhanLoai:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Phân loại"
+                                                - cmbMasterProduct_PhanLoai:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      DefaultSelectedItems: =LookUp(colProductCategories,BusinessGroupCode = varMasterProductDetail.BusinessGroupCode)
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: =""
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.BusinessGroupNameVI
+                                                      Items: =colProductCategories
+                                                      LayoutMinWidth: =Parent.Width
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                          - conMasterProduct_FieldPelletSize:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_PelletSize:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Cỡ viên"
+                                                - cmbMasterProduct_PelletSize:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      DefaultSelectedItems: =If(IsBlank(varMasterProductDetail.PelletSize), Blank(), [varMasterProductDetail.PelletSize])
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: =""
+                                                      ItemDisplayText: =ThisItem.Value
+                                                      Items: =Choices('QLK List Master Data Production'.PelletSize)
+                                                      LayoutMinWidth: =Parent.Width
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                              - conMasterProduct_SectionBag:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =If(scrMasterDataProductionForm.Size = 1, 320, 170)
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - lblMasterProduct_SectionBag:
+                                        Control: ModernText
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =RGBA(45, 128, 40, 1)
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeLG
+                                          Text: ="3. Thông tin bao"
+                                    - conMasterProduct_GridBag:
+                                        Control: GroupContainer
+                                        Variant: GridLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutGap: =10
+                                          LayoutGridColumns: =If(scrMasterDataProductionForm.Size = 1, 1, 3)
+                                          LayoutGridRows: =If(scrMasterDataProductionForm.Size = 1, 3, 1)
+                                        Children:
+                                          - conMasterProduct_FieldBagSize:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_BagSize:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Cỡ bao"
+                                                - txtInutMasterProduct_BagSize:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.BagSize
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                          - conMasterProduct_FieldBagWeight:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_BagWeight:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="KL bao bì"
+                                                - txtMasterProduct_BagWeight:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.BagWeight
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                          - conMasterProduct_FieldSmallBagPerBag:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_SmallBagPerBag:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Số túi/bao"
+                                                - txtMasterProduct_SmallBagPerBag:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.SmallBagPerBag
+                                                      Font: =fxFontFamily
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                              - conMasterProduct_SectionPallet:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =If(scrMasterDataProductionForm.Size = 1, 320, 170)
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - lblMasterProduct_SectionPallet:
+                                        Control: ModernText
+                                        Properties:
+                                          Color: =RGBA(45, 128, 40, 1)
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeLG
+                                          Text: ="4. Quy cách pallet"
+                                    - conMasterProduct_GridPallet:
+                                        Control: GroupContainer
+                                        Variant: GridLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutGap: =10
+                                          LayoutGridColumns: =If(scrMasterDataProductionForm.Size = 1, 1, 3)
+                                          LayoutGridRows: =If(scrMasterDataProductionForm.Size = 1, 3, 1)
+                                        Children:
+                                          - conMasterProduct_FieldPalletSize:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_PalletSize:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Kích thước pallet"
+                                                - txtMasterProduct_PalletSize:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.PalletSize
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                          - conMasterProduct_FieldLayerPerPallet:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_LayerPerPallet:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Số lớp/pallet"
+                                                - txtInput_MasterProduct_LayerPerPallet:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.LayerPerPallet
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                          - conMasterProduct_FieldBagPerLayer:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_BagPerLayer:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Số bao/lớp"
+                                                - txtMasterProduct_BagPerLayer:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.BagPerLayer
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                              - conMasterProduct_SectionBox:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =If(scrMasterDataProductionForm.Size = 1, 230, 170)
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - lblMasterProduct_SectionBox:
+                                        Control: ModernText
+                                        Properties:
+                                          Color: =RGBA(45, 128, 40, 1)
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeLG
+                                          Text: ="5. Quy cách box"
+                                    - conMasterProduct_GridBox:
+                                        Control: GroupContainer
+                                        Variant: GridLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutGap: =10
+                                          LayoutGridColumns: =If(scrMasterDataProductionForm.Size = 1, 1, 2)
+                                          LayoutGridRows: =If(scrMasterDataProductionForm.Size = 1, 2, 1)
+                                        Children:
+                                          - conMasterProduct_FieldBoxPerPallet:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_BoxPerPallet:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Số thùng/pallet"
+                                                - txtMasterProduct_BoxPerPallet:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.BoxPerPallet
+                                                      Font: =fxFontFamily
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                          - conMasterProduct_FieldBagPerBox:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_BagPerBox:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Số túi/thùng"
+                                                - txtMasterProduct_BagPerBox:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.BagPerBox
+                                                      Font: =fxFontFamily
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                              - conMasterProduct_SectionAging:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =If(scrMasterDataProductionForm.Size = 1, 320, 170)
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - lblMasterProduct_SectionAging:
+                                        Control: ModernText
+                                        Properties:
+                                          Color: =RGBA(45, 128, 40, 1)
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeLG
+                                          Text: ="6. Aging"
+                                    - conMasterProduct_GridAging:
+                                        Control: GroupContainer
+                                        Variant: GridLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutGap: =10
+                                          LayoutGridColumns: =If(scrMasterDataProductionForm.Size = 1, 1, 3)
+                                          LayoutGridRows: =If(scrMasterDataProductionForm.Size = 1, 3, 1)
+                                        Children:
+                                          - conMasterProduct_FieldAgingLevel1:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_AgingLevel1:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Hạn lưu kho mức 1"
+                                                - txtInputMasterProduct_AgingLevel1:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.AgingLevel1
+                                                      Font: =fxFontFamily
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                          - conMasterProduct_FieldAgingLevel2:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_AgingLevel2:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Hạn lưu kho mức 2"
+                                                - txtInputMasterProduct_AgingLevel2:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.AgingLevel2
+                                                      Font: =fxFontFamily
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                                          - conMasterProduct_FieldAgingLevel3:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Height: =76
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lblMasterProduct_AgingLevel3:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Hạn lưu kho mức 3"
+                                                - txtInputMasterProduct_AgingLevel3:
+                                                    Control: ModernNumberInput
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Default: =varMasterProductDetail.AgingLevel3
+                                                      Font: =fxFontFamily
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeMD
+                              - conMasterProduct_SectionDescription:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =220
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    PaddingBottom: =12
+                                    PaddingLeft: =12
+                                    PaddingRight: =12
+                                    PaddingTop: =12
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                  Children:
+                                    - lblMasterProduct_SectionDescription:
+                                        Control: ModernText
+                                        Properties:
+                                          Color: =RGBA(45, 128, 40, 1)
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeLG
+                                          Text: ="7. Mô tả"
+                                    - txtMasterProduct_Description:
+                                        Control: ModernTextInput
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Default: =varMasterProductDetail.Description
+                                          Font: =fxFontFamily
+                                          Height: =150
+                                          Placeholder: ="Nhập Description"
+                                          Size: =fxFontSizeMD
+                                          Type: =TextInputType.Multiline
+      - con_MainBodyMenuMasterDataProductionMobile:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height - 55
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowMenuUser && scrMasterDataProductionForm.Size = 1
+            Width: =Parent.Width
+            Y: =55
+          Children:
+            - conBodyMenuMasterDataProductionMobile:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =743
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  PaddingBottom: =5
+                  PaddingRight: =5
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Visible: |-
+                    =If(
+                        scrMasterDataProductionForm.Size = 1,
+                        true,
+                        false
+                    )
+                  Width: =Parent.Width*0.7
+                  Y: =55
+                Children:
+                  - NavSiderBarMasterDataProductionMobile:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width
+            - Button_MasterDataProductionMenuOverlay:
+                Control: ModernButton
+                Properties:
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Appearance: =ButtonAppearance.Transparent
+                  FillPortions: =1
+                  Layout: =ButtonLayout.TextOnly
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =Set(
+                        varShowMenuUser,
+                        !varShowMenuUser
+                    )
+                  Text: =

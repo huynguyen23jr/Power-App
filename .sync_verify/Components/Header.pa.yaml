@@ -1,0 +1,89 @@
+ComponentDefinitions:
+  Header:
+    DefinitionType: CanvasComponent
+    AccessAppScope: true
+    CustomProperties:
+      IDRecord:
+        PropertyKind: Input
+        DisplayName: IDRecord
+        Description: A custom property
+        DataType: Number
+        Default: =100
+      varSizeScreen:
+        PropertyKind: Input
+        DisplayName: varSizeScreen
+        Description: A custom property
+        DataType: Number
+        Default: =100
+    Properties:
+      Height: =App.Height
+      Width: =App.Width
+    Children:
+      - Container1:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(45, 128, 40, 1)
+            Height: =55
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =10
+            PaddingLeft: =20
+            PaddingRight: =20
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =App.Width
+          Children:
+            - icoToggleMenu:
+                Control: Classic/Icon
+                Properties:
+                  Color: =fxTextWhite
+                  Height: =30
+                  Icon: |-
+                    =If(
+                        Header.varSizeScreen = 1 && Header.IDRecord = 2,
+                        Icon.ArrowLeft,
+                        Icon.Hamburger
+                    )
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =// Đảo trạng thái menu:
+                    // Nếu đang mở thì đóng lại.
+                    // Nếu đang đóng thì mở ra.
+                    Set(
+                        varShowMenuUser,
+                        !varShowMenuUser
+                    )
+                  Width: =30
+            - Image1:
+                Control: Image
+                Properties:
+                  Image: ='Designer (1)'
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  Width: =60
+            - Text1:
+                Control: ModernText
+                Properties:
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Color: =fxTextWhite
+                  FillPortions: =1
+                  Font: =fxFontFamily
+                  FontWeight: =FontWeight.Bold
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  Size: =fxFontSizeXL
+                  Text: =Upper(varAppName)
+            - Avatar1:
+                Control: Avatar
+                Properties:
+                  AlignInContainer: =AlignInContainer.Center
+                  Badge: ='Avatar.Badge'.Available
+                  Height: =45
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  Width: =45
