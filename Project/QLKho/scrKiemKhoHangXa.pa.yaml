@@ -400,7 +400,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Mã rút gọn"
-                                          Width: =Parent.Width * 0.1
+                                          Width: =(Parent.Width - 200) * 0.10
                                           Wrap: =false
                                     - lbl_HeaderSAPCode_Xa:
                                         Control: ModernText
@@ -410,7 +410,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Mã SAP"
-                                          Width: =Parent.Width * 0.1
+                                          Width: =(Parent.Width - 200) * 0.12
                                           Wrap: =false
                                     - lbl_HeaderStockCountDateXa:
                                         Control: ModernText
@@ -420,7 +420,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Ngày kiểm kê"
-                                          Width: =Parent.Width * 0.1
+                                          Width: =(Parent.Width - 200) * 0.10
                                           Wrap: =false
                                     - lbl_HeaderStatusCodeKiemKhoHangXa:
                                         Control: ModernText
@@ -430,7 +430,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Trạng thái"
-                                          Width: =Parent.Width * 0.12
+                                          Width: =(Parent.Width - 200) * 0.12
                                           Wrap: =false
                                     - lbl_HeaderBinCode_1:
                                         Control: ModernText
@@ -440,7 +440,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Mã bin"
-                                          Width: =Parent.Width * 0.05
+                                          Width: =(Parent.Width - 200) * 0.07
                                           Wrap: =false
                                     - lbl_HeaderMeasure1:
                                         Control: ModernText
@@ -450,7 +450,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Đo lần 1 (m)"
-                                          Width: =Parent.Width * 0.08
+                                          Width: =(Parent.Width - 200) * 0.09
                                           Wrap: =false
                                     - lbl_HeaderMeasure2:
                                         Control: ModernText
@@ -460,7 +460,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Đo lần 2 (m)"
-                                          Width: =Parent.Width * 0.08
+                                          Width: =(Parent.Width - 200) * 0.09
                                           Wrap: =false
                                     - lbl_HeaderMeasure3:
                                         Control: ModernText
@@ -470,7 +470,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Đo lần 3 (m)"
-                                          Width: =Parent.Width * 0.08
+                                          Width: =(Parent.Width - 200) * 0.09
                                           Wrap: =false
                                     - lbl_HeaderDustSteamQty:
                                         Control: ModernText
@@ -479,7 +479,8 @@ Screens:
                                           FontWeight: =fxFontWeightBold
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
-                                          Text: ="Bụi hơi (kg)"
+                                          Text: ="Bụi sau sàn (kg)"
+                                          Width: =(Parent.Width - 200) * 0.11
                                           Wrap: =false
                                     - lbl_HeaderActualQtyXa:
                                         Control: ModernText
@@ -489,7 +490,7 @@ Screens:
                                           PaddingTop: =0
                                           Size: =fxFontSizeMD
                                           Text: ="Số kg tồn (Kg)"
-                                          Width: =Parent.Width * 0.1
+                                          Width: =(Parent.Width - 200) * 0.11
                                           Wrap: =false
                                     - lbl_HeaderActionKiemKhoHangXa:
                                         Control: ModernText

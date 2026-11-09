@@ -281,7 +281,7 @@ App:
     OnStart: |
       =// varCurrentUser phải load trước
       Set(varCurrentUser, LookUp('GFVN_SharePointListHREmployeesURL', G_Email = User().Email));
-      //Set(varCurrentUser, LookUp('GFVN_SharePointListHREmployeesURL', G_Email = "tung.lt1@greenfeed.com.vn"));
+      //Set(varCurrentUser, LookUp('GFVN_SharePointListHREmployeesURL', G_Email = "thukhotp.bl@greenfeed.com.vn"));
 
       // varUserInPlant phụ thuộc varCurrentUser, và các mục bên dưới phụ thuộc varUserInPlant.Role
       Set(varUserInPlant, LookUp('QLK List User In Plant', UserEmail = varCurrentUser.G_Email));
@@ -292,7 +292,8 @@ App:
           Set(_defaultLanguage,        LookUp(col_lan, Code = "VN")),
           Set(varSelectedMenuId,       1),
           Set(varLoad,       1),
-          //Set(varShowMenuUser,         true),
+          // Trước đây biến này chỉ được gán ở scrUsers.OnVisible; giờ vào thẳng màn hình theo role (App.StartScreen) nên khởi tạo ở đây (màn rộng: hiện menu, mobile: ẩn)
+          Set(varShowMenuUser,         App.Width > 600),
           Set(varSelectedWarehouseTab, LookUp(col_WarehouseFormTabs, Code = "GENERAL")),
           With(
               {
@@ -472,4 +473,30 @@ App:
               )
           )
       );
+    StartScreen: |-
+      =// Vào thẳng màn hình theo role (thay cho timer tmr_AutoNavigate ở scrUsers).
+      // StartScreen không dùng được biến Set() trong OnStart nên tra role trực tiếp theo email.
+      // Role không có trong danh sách → scrUsers như trước đây
+      IfError(
+          With(
+              { _role: LookUp('QLK List User In Plant', UserEmail = User().Email).Role },
+              Switch(
+                  _role,
+                  Index(col_RoleUser,9).RoleCode,  scrUsers,           // VHSX_HO       - VHSX HO
+                  Index(col_RoleUser,16).RoleCode, srcLogin,           // FG_STAFF      - Nhân viên kho thành phẩm
+                  Index(col_RoleUser,3).RoleCode,  srcLogin,           // RM_WH         - Thủ kho nguyên liệu
+                  Index(col_RoleUser,2).RoleCode,  scrMasterSanPham,   // FG_SUP        - Giám sát thành phẩm
+                  Index(col_RoleUser,7).RoleCode,  scrMasterSanPham,   // WH_MGR        - Trưởng bộ phận kho
+                  Index(col_RoleUser,6).RoleCode,  scrMasterSanPham,   // PROD_STAT     - Thống kê sản xuất
+                  Index(col_RoleUser,12).RoleCode, scrMasterSanPham,   // PROD_ASST     - Trợ lý sản xuất
+                  Index(col_RoleUser,15).RoleCode, scrNhapTuSanXuat,   // SHIFT_LEADER  - Trưởng ca
+                  Index(col_RoleUser,17).RoleCode, scrNhapTuSanXuat,   // WH_ACC        - Kế toán kho
+                  Index(col_RoleUser,18).RoleCode, scrNhapTuSanXuat,   // SALES_ACC     - Kế toán bán hàng
+                  Index(col_RoleUser,8).RoleCode,  scrNXT,             // PLANT_DIR     - Giám đốc nhà máy
+                  Index(col_RoleUser,13).RoleCode, scrNXT,             // VHSX_DD       - P.TGĐ VHSX
+                  scrUsers
+              )
+          ),
+          scrUsers
+      )
     Theme: =GreenTheme

@@ -259,9 +259,7 @@ Screens:
                                       =With(
                                           {
                                               // Loại kiểm kê lấy theo combobox đang chọn trên form (BAOQC / XABIN / BIGBAG)
-                                              _type: cmb_StockCountType.Selected.ProductTypeCode,
-                                              // Ghi nhận phiếu mới hay đã có TRƯỚC khi Set(varStockCountDetail) cập nhật lại ID
-                                              _isNew: IsBlank(varStockCountDetail.ID)
+                                              _type: cmb_StockCountType.Selected.ProductTypeCode
                                           },
                                           With(
                                               {
@@ -347,9 +345,8 @@ Screens:
                                                   ),
                                                   Notify("Lưu không thành công", NotificationType.Error, 2000),
                                                   Notify("Lưu thành công", NotificationType.Success, 2000);
-                                                  // Mobile: chỉ quay về danh sách khi lưu lần 2 trở đi (cập nhật).
-                                                  // Lưu lần đầu (tạo mới) thì ở lại form để nhập/chọn tiếp dữ liệu.
-                                                  If(scrKiemKhoForm.Size = 1 && !_isNew, Back())
+                                                  // Mobile: lưu xong thì quay về màn hình danh sách
+                                                  If(scrKiemKhoForm.Size = 1, Back())
                                               )
                                           )
                                       )
@@ -1359,19 +1356,19 @@ Screens:
                                                     Properties:
                                                       AlignInContainer: =AlignInContainer.Stretch
                                                       Default: |-
-                                                        =RoundUp(
+                                                        =Round(
                                                             With(
                                                                 {
                                                                     dailyEmptyMeter: Coalesce(Value(num_DailyEmptyMeter.Value), 0), // Số mét rỗng đo hàng ngày
-                                                                    h1:              Coalesce(Value(cmb_XaBinCode.Selected.H1), 0)  // Chiều cao tối đa Phần 1 (từ bin)
+                                                                    h1: Coalesce(Value(cmb_XaBinCode.Selected.H1), 0)             // Chiều cao tối đa Phần 1 (từ bin)
                                                                 },
                                                                 If(
-                                                                    dailyEmptyMeter <= h1,           // Mét rỗng nằm trong Phần 1
-                                                                    h1 - dailyEmptyMeter,            // Chiều cao hàng Phần 1 = H1 - mét rỗng
-                                                                    0                                // Mét rỗng vượt qua Phần 1 → cao = 0
+                                                                    dailyEmptyMeter <= h1,       // Mét rỗng nằm trong Phần 1
+                                                                    h1 - dailyEmptyMeter,        // Chiều cao hàng Phần 1 = H1 - mét rỗng
+                                                                    0                            // Mét rỗng vượt qua Phần 1 → cao = 0
                                                                 )
                                                             ),
-                                                            2
+                                                            2                                    // Làm tròn thông thường đến 2 chữ số thập phân
                                                         )
                                                       DisplayMode: =DisplayMode.Disabled
                                                       Font: =fxFontFamily
