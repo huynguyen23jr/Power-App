@@ -1,7 +1,8 @@
 Screens:
   scrKiemKhoForm:
     Properties:
-      OnVisible: =//UpdateContext({varShowMoreButton:!varShowMoreButton})
+      OnHidden: =UpdateContext({varShowMoreButton:false})
+      OnVisible: =UpdateContext({varShowMoreButton:false})
     Children:
       - con_MainKiemKhoHangBaoForm:
           Control: GroupContainer
@@ -123,16 +124,16 @@ Screens:
                               DropShadow: =DropShadow.Regular
                               Fill: =RGBA(255, 255, 255, 1)
                               FillPortions: =0
-                              Height: =45
+                              Height: =If(scrKiemKhoForm.Size = 1, 56, 45)
                               LayoutAlignItems: =LayoutAlignItems.Center
                               LayoutDirection: =LayoutDirection.Horizontal
-                              LayoutGap: =5
+                              LayoutGap: =If(scrKiemKhoForm.Size = 1, 8, 5)
                               LayoutMinHeight: =16
                               LayoutMinWidth: =16
-                              PaddingBottom: =10
-                              PaddingLeft: =10
-                              PaddingRight: =10
-                              PaddingTop: =10
+                              PaddingBottom: =If(scrKiemKhoForm.Size = 1, 8, 10)
+                              PaddingLeft: =If(scrKiemKhoForm.Size = 1, 8, 10)
+                              PaddingRight: =If(scrKiemKhoForm.Size = 1, 8, 10)
+                              PaddingTop: =If(scrKiemKhoForm.Size = 1, 8, 10)
                               RadiusBottomLeft: =5
                               RadiusBottomRight: =5
                               RadiusTopLeft: =5
@@ -143,18 +144,25 @@ Screens:
                               - btn_BackKiemKhoHangBaoForm:
                                   Control: ModernButton
                                   Properties:
-                                    Appearance: =ButtonAppearance.Transparent
+                                    Appearance: =If(scrKiemKhoForm.Size = 1, ButtonAppearance.Secondary, ButtonAppearance.Transparent)
+                                    Height: =If(scrKiemKhoForm.Size = 1, 40, 32)
                                     Icon: ="ChevronLeft"
                                     Layout: =ButtonLayout.IconOnly
                                     LayoutMinHeight: =16
                                     LayoutMinWidth: =16
-                                    OnSelect: =Back();
-                                    Width: =30
+                                    OnSelect: =UpdateContext({varShowMoreButton:false});Back();
+                                    RadiusBottomLeft: =If(scrKiemKhoForm.Size = 1, 8, 4)
+                                    RadiusBottomRight: =If(scrKiemKhoForm.Size = 1, 8, 4)
+                                    RadiusTopLeft: =If(scrKiemKhoForm.Size = 1, 8, 4)
+                                    RadiusTopRight: =If(scrKiemKhoForm.Size = 1, 8, 4)
+                                    Width: =If(scrKiemKhoForm.Size = 1, 40, 30)
                               - btn_SaveKiemKhoHangBaoForm:
                                   Control: ModernButton
                                   Properties:
-                                    Appearance: =ButtonAppearance.Outline
+                                    Align: =Align.Center
+                                    Appearance: =If(scrKiemKhoForm.Size = 1, ButtonAppearance.Primary, ButtonAppearance.Outline)
                                     Font: =fxFontFamily
+                                    Height: =If(scrKiemKhoForm.Size = 1, 40, 32)
                                     Icon: ="Save"
                                     LayoutMinHeight: =16
                                     LayoutMinWidth: =16
@@ -164,7 +172,12 @@ Screens:
                                           Notify("Vui lòng chọn Loại sản phẩm", NotificationType.Error, 2000),
                                           Select(btn_PatchKiemKhoHangBao)
                                       )
+                                    RadiusBottomLeft: =If(scrKiemKhoForm.Size = 1, 8, 4)
+                                    RadiusBottomRight: =If(scrKiemKhoForm.Size = 1, 8, 4)
+                                    RadiusTopLeft: =If(scrKiemKhoForm.Size = 1, 8, 4)
+                                    RadiusTopRight: =If(scrKiemKhoForm.Size = 1, 8, 4)
                                     Text: ="Lưu"
+                                    Tooltip: ="Lưu"
                                     Visible: |-
                                       =// Chỉ cho phép thao tác khi phiếu đang ở trạng thái nháp
                                       varStockCountDetail.StatusCode = "DRAFT" || IsBlank(varStockCountDetail.ID)
@@ -219,11 +232,17 @@ Screens:
                                   Properties:
                                     Appearance: =ButtonAppearance.Outline
                                     Font: =fxFontFamily
+                                    Height: =If(scrKiemKhoForm.Size = 1, 40, 32)
                                     Icon: ="ArrowClockwise"
                                     LayoutMinHeight: =16
                                     LayoutMinWidth: =16
                                     OnSelect: =Refresh('QLK List Stock Count Details')
+                                    RadiusBottomLeft: =If(scrKiemKhoForm.Size = 1, 8, 4)
+                                    RadiusBottomRight: =If(scrKiemKhoForm.Size = 1, 8, 4)
+                                    RadiusTopLeft: =If(scrKiemKhoForm.Size = 1, 8, 4)
+                                    RadiusTopRight: =If(scrKiemKhoForm.Size = 1, 8, 4)
                                     Text: ="Làm mới"
+                                    Tooltip: ="Làm mới"
                                     Visible: |-
                                       =If(
                                           varStockCountDetail.StatusCode <> "DRAFT",
@@ -240,7 +259,9 @@ Screens:
                                       =With(
                                           {
                                               // Loại kiểm kê lấy theo combobox đang chọn trên form (BAOQC / XABIN / BIGBAG)
-                                              _type: cmb_StockCountType.Selected.ProductTypeCode
+                                              _type: cmb_StockCountType.Selected.ProductTypeCode,
+                                              // Ghi nhận phiếu mới hay đã có TRƯỚC khi Set(varStockCountDetail) cập nhật lại ID
+                                              _isNew: IsBlank(varStockCountDetail.ID)
                                           },
                                           With(
                                               {
@@ -325,7 +346,10 @@ Screens:
                                                       )
                                                   ),
                                                   Notify("Lưu không thành công", NotificationType.Error, 2000),
-                                                  Notify("Lưu thành công", NotificationType.Success, 2000)
+                                                  Notify("Lưu thành công", NotificationType.Success, 2000);
+                                                  // Mobile: chỉ quay về danh sách khi lưu lần 2 trở đi (cập nhật).
+                                                  // Lưu lần đầu (tạo mới) thì ở lại form để nhập/chọn tiếp dữ liệu.
+                                                  If(scrKiemKhoForm.Size = 1 && !_isNew, Back())
                                               )
                                           )
                                       )
@@ -364,19 +388,25 @@ Screens:
                               - Button10:
                                   Control: ModernButton
                                   Properties:
-                                    Appearance: =ButtonAppearance.Outline
+                                    Appearance: =ButtonAppearance.Secondary
+                                    Height: =40
                                     Icon: ="MoreHorizontal"
                                     Layout: =ButtonLayout.IconOnly
                                     LayoutMinHeight: =16
                                     LayoutMinWidth: =16
                                     OnSelect: =UpdateContext({varShowMoreButton:!varShowMoreButton})
+                                    RadiusBottomLeft: =8
+                                    RadiusBottomRight: =8
+                                    RadiusTopLeft: =8
+                                    RadiusTopRight: =8
+                                    Tooltip: ="Thêm thao tác"
                                     Visible: |-
                                       =If(
                                           varStockCountDetail.StatusCode <> "DRAFT",
                                           false,
                                           scrKiemKhoForm.Size = 1
                                       )
-                                    Width: =60
+                                    Width: =40
                         - con_ScrollContentKiemKhoHangBaoForm:
                             Control: GroupContainer
                             Variant: AutoLayout
@@ -418,6 +448,7 @@ Screens:
                                     RadiusBottomRight: =5
                                     RadiusTopLeft: =5
                                     RadiusTopRight: =5
+                                    Visible: =scrKiemKhoForm.Width > 768 || IsBlank(varStockCountDetail.ID)
                                     Width: =Parent.Width - 20
                                   Children:
                                     - lbl_TitleChung:
@@ -463,9 +494,13 @@ Screens:
                                                       AlignInContainer: =AlignInContainer.Start
                                                       DefaultDate: |-
                                                         =If(
-                                                            IsBlank(varStockCountDetail.ID),
-                                                            Today(),
-                                                            varStockCountDetail.StockCountDate
+                                                            scrKiemKhoForm.Width <= 768 && !IsBlank(varStockCountDetail.ID),
+                                                            dp_StockCountDate_Clone.SelectedDate,
+                                                            If(
+                                                                IsBlank(varStockCountDetail.ID),
+                                                                Today(),
+                                                                varStockCountDetail.StockCountDate
+                                                            )
                                                         )
                                                       DisplayMode: =If(!IsBlank(varStockCountDetail.ID) && varStockCountDetail.StatusCode <> "DRAFT", DisplayMode.Disabled, DisplayMode.Edit)
                                                       Font: =fxFontFamily
@@ -543,12 +578,16 @@ Screens:
                                                       AlignInContainer: =AlignInContainer.Stretch
                                                       DefaultSelectedItems: |-
                                                         =If(
-                                                            IsBlank(varStockCountDetail.ID),
-                                                            Filter(
-                                                                col_ProductCategories,
-                                                                ProductCategoryCode = varUserInPlant.ProductCategoryCode
-                                                            ),
-                                                            Filter(col_ProductCategories, ProductCategoryCode = varStockCountDetail.ProductCategoryCode)
+                                                            scrKiemKhoForm.Width <= 768 && !IsBlank(varStockCountDetail.ID),
+                                                            Filter(col_ProductCategories, ProductCategoryCode = cmb_ProductCategory_Clone.Selected.ProductCategoryCode),
+                                                            If(
+                                                                IsBlank(varStockCountDetail.ID),
+                                                                Filter(
+                                                                    col_ProductCategories,
+                                                                    ProductCategoryCode = varUserInPlant.ProductCategoryCode
+                                                                ),
+                                                                Filter(col_ProductCategories, ProductCategoryCode = varStockCountDetail.ProductCategoryCode)
+                                                            )
                                                         )
                                                       DisplayMode: =If(!IsBlank(varStockCountDetail.ID) && varStockCountDetail.StatusCode <> "DRAFT", DisplayMode.Disabled, DisplayMode.Edit)
                                                       Font: =fxFontFamily
@@ -608,12 +647,7 @@ Screens:
                                     DropShadow: =DropShadow.Regular
                                     Fill: =RGBA(255, 255, 255, 1)
                                     FillPortions: =0
-                                    Height: |-
-                                      =If(
-                                          scrKiemKhoForm.Size = 1,
-                                          700,
-                                          450
-                                      )
+                                    Height: =450
                                     LayoutAlignItems: =LayoutAlignItems.Stretch
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =5
@@ -643,10 +677,10 @@ Screens:
                                         Variant: GridLayout
                                         Properties:
                                           DropShadow: =DropShadow.None
-                                          Height: =If(scrKiemKhoForm.Size = 1, 810, 390)
-                                          LayoutGap: =If(scrKiemKhoForm.Size = 1, 0, 5)
-                                          LayoutGridColumns: =If(scrKiemKhoForm.Size = 1, 1, 2)
-                                          LayoutGridRows: =If(scrKiemKhoForm.Size = 1, 9, 5)
+                                          Height: =390
+                                          LayoutGap: =5
+                                          LayoutGridColumns: =2
+                                          LayoutGridRows: =5
                                           PaddingBottom: =5
                                           PaddingLeft: =5
                                           PaddingRight: =5
@@ -1850,6 +1884,211 @@ Screens:
                                                       Text: ="*"
                                                       Visible: =false
                                                       Width: =30
+                              - con_SectionChung_Clone:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =If(scrKiemKhoForm.Size = 1, 340, 220)
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =If(scrKiemKhoForm.Size = 1, 0, 5)
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =5
+                                    RadiusBottomRight: =5
+                                    RadiusTopLeft: =5
+                                    RadiusTopRight: =5
+                                    Visible: =scrKiemKhoForm.Width <= 768 && !IsBlank(varStockCountDetail.ID)
+                                    Width: =Parent.Width - 20
+                                  Children:
+                                    - lbl_TitleChung_Clone:
+                                        Control: ModernText
+                                        Properties:
+                                          Color: =RGBA(45, 128, 40, 1)
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeLG
+                                          Text: ="Thông tin chung"
+                                    - con_GridChung_Clone:
+                                        Control: GroupContainer
+                                        Variant: GridLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Height: =If(scrKiemKhoForm.Size = 1, 300, 160)
+                                          LayoutGap: =If(scrKiemKhoForm.Size = 1, 0, 5)
+                                          LayoutGridColumns: =If(scrKiemKhoForm.Size = 1, 1, 2)
+                                          LayoutGridRows: =If(scrKiemKhoForm.Size = 1, 4, 2)
+                                          PaddingBottom: =5
+                                          PaddingLeft: =5
+                                          PaddingRight: =5
+                                          PaddingTop: =5
+                                        Children:
+                                          - con_FieldStockCountDate_Clone:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lbl_StockCountDate_Clone:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Ngày kiểm kê *"
+                                                - dp_StockCountDate_Clone:
+                                                    Control: ModernDatePicker
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Start
+                                                      DefaultDate: |-
+                                                        =If(
+                                                            IsBlank(varStockCountDetail.ID),
+                                                            Today(),
+                                                            varStockCountDetail.StockCountDate
+                                                        )
+                                                      DisplayMode: =If(!IsBlank(varStockCountDetail.ID) && varStockCountDetail.StatusCode <> "DRAFT", DisplayMode.Disabled, DisplayMode.Edit)
+                                                      Font: =fxFontFamily
+                                                      Format: =DatePickerFormat.Short
+                                                      LayoutMinWidth: =Parent.Width
+                                                      Size: =fxFontSizeMD
+                                                      Width: =Parent.Width
+                                          - con_FieldStockCountType_Clone:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lbl_StockCountType_Clone:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Loại kiểm kê *"
+                                                - cmb_StockCountType_Clone:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      DefaultSelectedItems: =Filter(col_ProductTypes, ProductTypeCode = varStockCountType)
+                                                      DisplayMode: =DisplayMode.Disabled
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: ="Chọn loại kiểm kê..."
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.ProductTypeNameVI
+                                                      Items: =col_ProductTypes
+                                                      LayoutMinWidth: =16
+                                                      OnChange: |-
+                                                        =Reset(cmb_ProductCode);
+                                                        Reset(num_PalletQty);
+                                                        Reset(num_OddBagQty);
+                                                        Reset(dp_ProductionDate);
+                                                        Reset(num_BrokenBagQty);
+                                                        Reset(num_OddBoxQty);
+                                                        Reset(num_OddKgQty);
+                                                        Reset(txt_Note_Bao);
+                                                        Reset(txt_LocationName_Bao);
+                                                        Reset(cmb_XaDensityCode);
+                                                        Reset(cmb_XaBinCode);
+                                                        Reset(num_Measure1);
+                                                        Reset(num_Measure2);
+                                                        Reset(num_Measure3);
+                                                        Reset(num_DustSteamQty);
+                                                        Reset(cmb_ProductCode_Bigbag);
+                                                        Reset(num_BigBagQty);
+                                                        Reset(num_BigBagWeight);
+                                                        Reset(num_NetBigBagWeight)
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                          - con_FieldProductCategory_Clone:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lbl_ProductCategory_Clone:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Loại hàng *"
+                                                - cmb_ProductCategory_Clone:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      DefaultSelectedItems: |-
+                                                        =If(
+                                                            IsBlank(varStockCountDetail.ID),
+                                                            Filter(
+                                                                col_ProductCategories,
+                                                                ProductCategoryCode = varUserInPlant.ProductCategoryCode
+                                                            ),
+                                                            Filter(col_ProductCategories, ProductCategoryCode = varStockCountDetail.ProductCategoryCode)
+                                                        )
+                                                      DisplayMode: =If(!IsBlank(varStockCountDetail.ID) && varStockCountDetail.StatusCode <> "DRAFT", DisplayMode.Disabled, DisplayMode.Edit)
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: ="Chọn loại hàng..."
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.ProductCategoryNameVI
+                                                      Items: =col_ProductCategories
+                                                      LayoutMinWidth: =16
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                          - con_FieldStatus_Clone:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =4
+                                              Children:
+                                                - lbl_Status_Clone:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Trạng thái"
+                                                - cmb_Status_Clone:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      DefaultSelectedItems: |-
+                                                        =With(
+                                                            {
+                                                                statusCode: Coalesce(
+                                                                    varStockCountDetail.StatusCode,
+                                                                    "DRAFT"
+                                                                )
+                                                            },
+                                                            Filter(
+                                                                col_WorkflowStatus,
+                                                                StatusCode = statusCode
+                                                            )
+                                                        )
+                                                      DisplayMode: =DisplayMode.Disabled
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: ="Chọn trạng thái..."
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.StatusNameVI
+                                                      Items: =col_WorkflowStatus
+                                                      LayoutMinWidth: =16
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
       - con_PopupSendKiemKho:
           Control: GroupContainer
           Variant: AutoLayout
@@ -1968,36 +2207,51 @@ Screens:
                         !varShowMenuUser
                     )
                   Text: =
+      - btn_CloseMoreMenuKiemKho:
+          Control: ModernButton
+          Properties:
+            Appearance: =ButtonAppearance.Transparent
+            Height: =Parent.Height - (con_HeaderKiemKhoHangBaoForm.Height + 66)
+            Layout: =ButtonLayout.TextOnly
+            OnSelect: =UpdateContext({varShowMoreButton:false})
+            Text: =""
+            Visible: =scrKiemKhoForm.Size = 1 && varShowMoreButton && varStockCountDetail.StatusCode = "DRAFT"
+            Width: =Parent.Width
+            Y: =con_HeaderKiemKhoHangBaoForm.Height + 66
       - Container21:
           Control: GroupContainer
           Variant: AutoLayout
           Properties:
-            DropShadow: =DropShadow.Semibold
+            BorderColor: =RGBA(229, 231, 235, 1)
+            BorderThickness: =1
+            DropShadow: =DropShadow.Regular
             Fill: =RGBA(255, 255, 255, 1)
-            Height: =32 * 3 +  20
+            Height: =44 * 3 + 1 + 6 * 2 + 2 * 3
             LayoutAlignItems: =LayoutAlignItems.Center
             LayoutDirection: =LayoutDirection.Vertical
-            LayoutGap: =5
+            LayoutGap: =2
             LayoutJustifyContent: =LayoutJustifyContent.Center
-            PaddingBottom: =8
-            PaddingLeft: =8
-            PaddingRight: =8
-            PaddingTop: =8
-            RadiusBottomLeft: =5
-            RadiusBottomRight: =5
-            RadiusTopLeft: =5
-            RadiusTopRight: =5
-            Visible: =varShowMoreButton && varStockCountDetail.StatusCode = "DRAFT"
-            Width: =130
-            X: =Parent.Width - 150
-            Y: =con_HeaderKiemKhoHangBaoForm.Height + 60
+            PaddingBottom: =6
+            PaddingLeft: =6
+            PaddingRight: =6
+            PaddingTop: =6
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            Visible: =scrKiemKhoForm.Size = 1 && varShowMoreButton && varStockCountDetail.StatusCode = "DRAFT"
+            Width: =230
+            X: =Parent.Width - 245
+            Y: =con_HeaderKiemKhoHangBaoForm.Height + 65
           Children:
             - btn_SendKiemKho_1:
                 Control: ModernButton
                 Properties:
                   Align: =Align.Left
                   Appearance: =ButtonAppearance.Transparent
+                  Color: =RGBA(45, 128, 40, 1)
                   Font: =fxFontFamily
+                  Height: =44
                   Icon: ="CheckmarkCircle"
                   LayoutMinHeight: =16
                   LayoutMinWidth: =16
@@ -2034,33 +2288,47 @@ Screens:
                             )
                         )
                     );
-                    UpdateContext({varShowMoreButton:!varShowMoreButton})
+                    UpdateContext({varShowMoreButton:false})
+                  PaddingLeft: =12
+                  Size: =fxFontSizeMD
                   Text: ="Xác nhận"
                   Visible: |-
                     =// Chỉ cho phép thao tác khi phiếu đang ở trạng thái nháp
                     varStockCountDetail.StatusCode = "DRAFT"
-                  Width: =120
+                  Width: =218
             - btn_RefreshKiemKhoHangBaoForm_2:
                 Control: ModernButton
                 Properties:
                   Align: =Align.Left
                   Appearance: =ButtonAppearance.Transparent
+                  Color: =RGBA(55, 65, 81, 1)
                   Font: =fxFontFamily
+                  Height: =44
                   Icon: ="ArrowClockwise"
                   LayoutMinHeight: =16
                   LayoutMinWidth: =16
                   OnSelect: |-
                     =Refresh('QLK List Stock Count Details');
-                    UpdateContext({varShowMoreButton:!varShowMoreButton})
+                    UpdateContext({varShowMoreButton:false})
+                  PaddingLeft: =12
+                  Size: =fxFontSizeMD
                   Text: ="Làm mới"
-                  Width: =120
+                  Width: =218
+            - rec_DividerMoreMenuKiemKho:
+                Control: Rectangle
+                Properties:
+                  Fill: =RGBA(229, 231, 235, 1)
+                  Height: =1
+                  Width: =Parent.Width - 24
             - btn_RefreshKiemKhoHangBaoForm_3:
                 Control: ModernButton
                 Properties:
                   Align: =Align.Left
                   AlignInContainer: =AlignInContainer.Center
                   Appearance: =ButtonAppearance.Transparent
+                  Color: =RGBA(220, 38, 38, 1)
                   Font: =fxFontFamily
+                  Height: =44
                   Icon: ="Delete"
                   LayoutMinHeight: =16
                   LayoutMinWidth: =16
@@ -2082,9 +2350,11 @@ Screens:
                             Back()
                         )
                     );
-                    UpdateContext({varShowMoreButton:!varShowMoreButton})
+                    UpdateContext({varShowMoreButton:false})
+                  PaddingLeft: =12
+                  Size: =fxFontSizeMD
                   Text: ="Xóa"
                   Visible: |-
                     =// Chỉ cho phép thao tác khi phiếu đang ở trạng thái nháp
                     varStockCountDetail.StatusCode = "DRAFT"
-                  Width: =120
+                  Width: =218

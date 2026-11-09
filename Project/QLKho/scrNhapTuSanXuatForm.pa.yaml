@@ -504,7 +504,8 @@ Screens:
                                       (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
                                       varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
                                       varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
-                                      varUserInPlant.Role = Index(col_RoleUser,8).RoleCode)     // VHSX_HO       - VHSX HO
+                                      varUserInPlant.Role = Index(col_RoleUser,8).RoleCode   || // PLANT_DIR     - Giám đốc nhà máy
+                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
                                     Width: =100
                         - con_tabReceipt:
                             Control: GroupContainer
@@ -916,7 +917,7 @@ Screens:
                                                 FontWeight: =fxFontWeightBold
                                                 Size: =fxFontSizeLG
                                                 Text: ="Nhập sản xuất - Hàng bao"
-                                                Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 2, Parent.Width - btn_AddNhapKhac_3.Width -btn_AddHangBao_1.Width - btn_AddHangBao.Width - 240)
+                                                Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 2, Parent.Width - btn_AddNhapKhac_3.Width -btn_AddHangBao_1.Width - btn_AddHangBao.Width - 240 - If(btn_AddNhapKhac_3.Visible, btn_AddNhapKhac_3.Width + Parent.LayoutGap, 0))
                                           - TextInput1_3:
                                               Control: ModernTextInput
                                               Properties:
@@ -1035,6 +1036,7 @@ Screens:
                                           - btn_AddNhapKhac_3:
                                               Control: ModernButton
                                               Properties:
+                                                AlignInContainer: =If(scrNhapTuSanXuatForm.Size = 1, AlignInContainer.Center, If(varProductionReceiptDetail.StatusCode <> "DRAFT", AlignInContainer.Start, AlignInContainer.Center))
                                                 Appearance: =ButtonAppearance.Outline
                                                 Font: =fxFontFamily
                                                 Icon: ="Delete"
@@ -1143,9 +1145,9 @@ Screens:
                                                   =Switch(
                                                       scrNhapTuSanXuatForm.Size,
                                                       1, Parent.Width ,
-                                                      2, Max(Parent.Width, 3000),
-                                                      3, Max(Parent.Width, 3000),
-                                                      4, Max(Parent.Width, 3000),
+                                                      2, Max(Parent.Width, 2300),
+                                                      3, Max(Parent.Width, 2300),
+                                                      4, Max(Parent.Width, 2300),
                                                       Parent.Width
                                                   )
                                               Children:
@@ -1190,7 +1192,8 @@ Screens:
                                                               (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
                                                               varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
                                                               varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
-                                                              varUserInPlant.Role = Index(col_RoleUser,8).RoleCode)     // VHSX_HO       - VHSX HO
+                                                              varUserInPlant.Role = Index(col_RoleUser,8).RoleCode   || // PLANT_DIR     - Giám đốc nhà máy
+                                                              varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
                                                             Width: =32
                                                       - lbl_HB_SAPCode:
                                                           Control: ModernText
@@ -1210,7 +1213,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Mã hàng"
-                                                            Width: =Parent.Width* 0.05
+                                                            Width: =Parent.Width* 0.048
                                                             Wrap: =false
                                                       - lbl_HB_BagSize:
                                                           Control: ModernText
@@ -1220,7 +1223,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Cỡ bao"
-                                                            Width: =Parent.Width* 0.05
+                                                            Width: =Parent.Width* 0.035
                                                             Wrap: =false
                                                       - lbl_HB_BaggingDate:
                                                           Control: ModernText
@@ -1230,7 +1233,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Ngày đóng bao"
-                                                            Width: =Parent.Width* 0.07
+                                                            Width: =Parent.Width* 0.057
                                                             Wrap: =false
                                                       - lbl_HB_BaggingShift:
                                                           Control: ModernText
@@ -1240,7 +1243,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Ca"
-                                                            Width: =Parent.Width* 0.02
+                                                            Width: =Parent.Width* 0.022
                                                             Wrap: =false
                                                       - lbl_HB_ShiftName:
                                                           Control: ModernText
@@ -1250,7 +1253,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Tên ca"
-                                                            Width: =Parent.Width* 0.04
+                                                            Width: =Parent.Width* 0.035
                                                             Wrap: =false
                                                       - lbl_HB_Line:
                                                           Control: ModernText
@@ -1260,7 +1263,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Line"
-                                                            Width: =Parent.Width* 0.03
+                                                            Width: =Parent.Width* 0.043
                                                             Wrap: =false
                                                       - lbl_HB_FromBin:
                                                           Control: ModernText
@@ -1270,7 +1273,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Từ bin"
-                                                            Width: =Parent.Width* 0.05
+                                                            Width: =Parent.Width* 0.039
                                                             Wrap: =false
                                                       - lbl_HB_StartTime:
                                                           Control: ModernText
@@ -1280,7 +1283,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Bắt đầu"
-                                                            Width: =Parent.Width* 0.075
+                                                            Width: =Parent.Width* 0.083
                                                             Wrap: =false
                                                       - lbl_HB_EndTime:
                                                           Control: ModernText
@@ -1290,7 +1293,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Kết thúc"
-                                                            Width: =Parent.Width* 0.075
+                                                            Width: =Parent.Width* 0.083
                                                             Wrap: =false
                                                       - lbl_HB_FinishedBags:
                                                           Control: ModernText
@@ -1300,7 +1303,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Tổng bao"
-                                                            Width: =Parent.Width* 0.07
+                                                            Width: =Parent.Width* 0.039
                                                             Wrap: =false
                                                       - lbl_HB_BaggingWeight:
                                                           Control: ModernText
@@ -1310,7 +1313,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Tổng kg"
-                                                            Width: =Parent.Width* 0.05
+                                                            Width: =Parent.Width* 0.039
                                                             Wrap: =false
                                                       - lbl_HB_Note:
                                                           Control: ModernText
@@ -1320,7 +1323,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Ghi chú"
-                                                            Width: =Parent.Width* 0.08
+                                                            Width: =Parent.Width* 0.096
                                                             Wrap: =false
                                                       - lbl_HB_BaggingStaff:
                                                           Control: ModernText
@@ -1330,7 +1333,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Nhân viên"
-                                                            Width: =Parent.Width* 0.08
+                                                            Width: =Parent.Width* 0.078
                                                             Wrap: =false
                                                       - lbl_HB_ShiftSupervisor:
                                                           Control: ModernText
@@ -1340,7 +1343,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: ="Trưởng ca"
-                                                            Width: =Parent.Width* 0.08
+                                                            Width: =Parent.Width* 0.078
                                                             Wrap: =false
                                                       - lbl_HB_Actions:
                                                           Control: ModernText
@@ -1350,7 +1353,7 @@ Screens:
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
                                                             Text: =""
-                                                            Width: =Parent.Width* 0.07
+                                                            Width: =Parent.Width* 0.057
                                                             Wrap: =false
                                                 - gal_HangBao:
                                                     Control: Gallery
@@ -1426,7 +1429,8 @@ Screens:
                                                                     (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
                                                                     varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
                                                                     varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
-                                                                    varUserInPlant.Role = Index(col_RoleUser,8).RoleCode)     // VHSX_HO       - VHSX HO
+                                                                    varUserInPlant.Role = Index(col_RoleUser,8).RoleCode   || // PLANT_DIR     - Giám đốc nhà máy
+                                                                    varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
                                                                   Width: =32
                                                             - con_HB_MobileHeader:
                                                                 Control: GroupContainer
@@ -1967,7 +1971,7 @@ Screens:
                                                 FontWeight: =fxFontWeightBold
                                                 Size: =fxFontSizeLG
                                                 Text: ="Nhập sản xuất - Hàng xá"
-                                                Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 2, Parent.Width - btn_AddHangBao_2.Width -TextInput1_4.Width - btn_AddHangXa.Width - 20)
+                                                Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 2, Parent.Width - btn_AddHangBao_2.Width -TextInput1_4.Width - btn_AddHangXa.Width - 20 - If(btn_AddNhapKhac_2.Visible, btn_AddNhapKhac_2.Width + Parent.LayoutGap, 0))
                                           - TextInput1_4:
                                               Control: ModernTextInput
                                               Properties:
@@ -2077,6 +2081,7 @@ Screens:
                                           - btn_AddNhapKhac_2:
                                               Control: ModernButton
                                               Properties:
+                                                AlignInContainer: =If(scrNhapTuSanXuatForm.Size = 1, AlignInContainer.Center, If(varProductionReceiptDetail.StatusCode <> "DRAFT", AlignInContainer.Start, AlignInContainer.Center))
                                                 Appearance: =ButtonAppearance.Outline
                                                 Font: =fxFontFamily
                                                 Icon: ="Delete"
@@ -2231,7 +2236,8 @@ Screens:
                                                               (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
                                                               varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
                                                               varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
-                                                              varUserInPlant.Role = Index(col_RoleUser,8).RoleCode)     // VHSX_HO       - VHSX HO
+                                                              varUserInPlant.Role = Index(col_RoleUser,8).RoleCode   || // PLANT_DIR     - Giám đốc nhà máy
+                                                              varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
                                                             Width: =32
                                                       - lbl_HX_SAPCode:
                                                           Control: ModernText
@@ -2477,7 +2483,8 @@ Screens:
                                                                     (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
                                                                     varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
                                                                     varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
-                                                                    varUserInPlant.Role = Index(col_RoleUser,8).RoleCode)     // VHSX_HO       - VHSX HO
+                                                                    varUserInPlant.Role = Index(col_RoleUser,8).RoleCode   || // PLANT_DIR     - Giám đốc nhà máy
+                                                                    varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
                                                                   Width: =32
                                                             - txt_HX_SAPCode:
                                                                 Control: ModernText
@@ -3040,6 +3047,7 @@ Screens:
                                           - btn_AddNhapKhac_1:
                                               Control: ModernButton
                                               Properties:
+                                                AlignInContainer: =AlignInContainer.End
                                                 Appearance: =ButtonAppearance.Outline
                                                 Font: =fxFontFamily
                                                 Icon: ="Delete"
