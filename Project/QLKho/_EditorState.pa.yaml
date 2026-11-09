@@ -33,10 +33,10 @@ EditorState:
     - scrMaTranPheDuyetForm
     - scrNhapTuSanXuatForm
     - scrXuatKhoForm
-    - scrKiemKhoForm
     - scrDanhMucChenhLechForm
     - srcNhapKhacForm
     - srcLogin
+    - scrKiemKhoForm
   ComponentDefinitionsOrder:
     - NavSiderBar
     - Header

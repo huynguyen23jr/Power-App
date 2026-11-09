@@ -2316,7 +2316,7 @@ Screens:
                                                             Font: =fxFontFamily
                                                             FontWeight: =fxFontWeightBold
                                                             Size: =fxFontSizeMD
-                                                            Text: ="Chuyền"
+                                                            Text: ="Bin đích"
                                                             Width: =Parent.Width* 0.045
                                                             Wrap: =false
                                                       - lbl_HX_StartTime:
@@ -2609,7 +2609,7 @@ Screens:
                                                                   Text: |-
                                                                     =If(
                                                                         scrNhapTuSanXuatForm.Size = 1,
-                                                                        "Chuyền: " & ThisItem.Source,
+                                                                        "Bin đích: " & ThisItem.Source,
                                                                         ThisItem.Source
                                                                     )
                                                                   Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_HX_Source.Width)
@@ -2648,8 +2648,8 @@ Screens:
                                                                   Text: |-
                                                                     =If(
                                                                         scrNhapTuSanXuatForm.Size = 1,
-                                                                        "Tổng TG: " & Text(RoundDown(ThisItem.TotalTime / 3600, 0)) & " giờ " & Text(RoundDown(Mod(ThisItem.TotalTime, 3600) / 60, 0)) & " phút",
-                                                                        Text(RoundDown(ThisItem.TotalTime / 3600, 0)) & " giờ " & Text(RoundDown(Mod(ThisItem.TotalTime, 3600) / 60, 0)) & " phút "
+                                                                        "Tổng TG: " & Text(RoundDown(Round(ThisItem.TotalTime * 60, 0) / 60, 0)) & " giờ " & Text(Mod(Round(ThisItem.TotalTime * 60, 0), 60)) & " phút",
+                                                                        Text(RoundDown(Round(ThisItem.TotalTime * 60, 0) / 60, 0)) & " giờ " & Text(Mod(Round(ThisItem.TotalTime * 60, 0), 60)) & " phút "
                                                                     )
                                                                   Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_HX_TotalTime.Width)
                                                                   Wrap: =false
@@ -3047,7 +3047,6 @@ Screens:
                                           - btn_AddNhapKhac_1:
                                               Control: ModernButton
                                               Properties:
-                                                AlignInContainer: =AlignInContainer.End
                                                 Appearance: =ButtonAppearance.Outline
                                                 Font: =fxFontFamily
                                                 Icon: ="Delete"
@@ -3953,7 +3952,7 @@ Screens:
                                                     FromBin:             txt_HB_FormFromBin.Text,
                                                     StartTime:           startDateTime,
                                                     EndTime:             endDateTime,
-                                                    TotalTime:           DateDiff(startDateTime, endDateTime, TimeUnit.Seconds),
+                                                    TotalTime:           Round(DateDiff(startDateTime, endDateTime, TimeUnit.Seconds) / 3600, 2), // Đơn vị: giờ (0.5 = 30 phút)
                                                     FinishedBags:        num_HB_FormFinishedBags.Value,
                                                     BaggingWeight:       num_HB_FormBaggingWeight.Value,
                                                     Note:                txt_HB_FormNote.Text,
@@ -4504,7 +4503,8 @@ Screens:
                                                         =If(
                                                             IsBlank(varHangBaoDetail.ID),
                                                             Today(),
-                                                            varHangBaoDetail.StartTime
+                                                            // Chỉ lấy phần ngày (giờ/phút/giây đã có ở các ô chọn giờ)
+                                                            Date(Year(varHangBaoDetail.StartTime), Month(varHangBaoDetail.StartTime), Day(varHangBaoDetail.StartTime))
                                                         )
                                                       DisplayMode: |-
                                                         =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
@@ -4673,7 +4673,8 @@ Screens:
                                                         =If(
                                                             IsBlank(varHangBaoDetail.ID),
                                                             Today(),
-                                                            varHangBaoDetail.EndTime
+                                                            // Chỉ lấy phần ngày (giờ/phút/giây đã có ở các ô chọn giờ)
+                                                            Date(Year(varHangBaoDetail.EndTime), Month(varHangBaoDetail.EndTime), Day(varHangBaoDetail.EndTime))
                                                         )
                                                       DisplayMode: |-
                                                         =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
@@ -5306,7 +5307,7 @@ Screens:
                                                     Source:              txt_HX_ToBin.Text,
                                                     StartTime:           startDateTime,
                                                     EndTime:             endDateTime,
-                                                    TotalTime:           DateDiff(startDateTime, endDateTime, TimeUnit.Seconds),
+                                                    TotalTime:           Round(DateDiff(startDateTime, endDateTime, TimeUnit.Seconds) / 3600, 2), // Đơn vị: giờ (0.5 = 30 phút)
                                                     BaggingWeight:       num_HX_Quantity.Value,
                                                     Productivity:        num_HX_Productivity.Value,
                                                     StartEndSetBack:     num_HX_Recycle.Value,
@@ -5769,7 +5770,7 @@ Screens:
                                               Properties:
                                                 Font: =fxFontFamily
                                                 Size: =fxFontSizeMD
-                                                Text: ="Chuyền"
+                                                Text: ="Bin đích"
                                           - txt_HX_ToBin:
                                               Control: ModernTextInput
                                               Properties:
@@ -5797,6 +5798,7 @@ Screens:
                             Properties:
                               DropShadow: =DropShadow.Regular
                               FillPortions: =0
+                              Height: =If(scrNhapTuSanXuatForm.Size = 1, 330, 230)
                               LayoutDirection: =LayoutDirection.Vertical
                               LayoutGap: =8
                               PaddingBottom: =10
@@ -5824,6 +5826,7 @@ Screens:
                                     DropShadow: =DropShadow.None
                                     LayoutGap: =5
                                     LayoutGridColumns: =If(scrNhapTuSanXuatForm.Size = 1, 1, 2)
+                                    LayoutGridRows: =If(scrNhapTuSanXuatForm.Size = 1, 3, 2)
                                     LayoutMinHeight: =10
                                     PaddingBottom: =5
                                     PaddingLeft: =5
@@ -5862,7 +5865,8 @@ Screens:
                                                         =If(
                                                             IsBlank(varHangXaDetail.ID),
                                                             Today(),
-                                                            varHangXaDetail.StartTime
+                                                            // Chỉ lấy phần ngày (giờ/phút/giây đã có ở các ô chọn giờ)
+                                                            Date(Year(varHangXaDetail.StartTime), Month(varHangXaDetail.StartTime), Day(varHangXaDetail.StartTime))
                                                         )
                                                       DisplayMode: |-
                                                         =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
@@ -6022,7 +6026,8 @@ Screens:
                                                         =If(
                                                             IsBlank(varHangXaDetail.ID),
                                                             Today(),
-                                                            varHangXaDetail.EndTime
+                                                            // Chỉ lấy phần ngày (giờ/phút/giây đã có ở các ô chọn giờ)
+                                                            Date(Year(varHangXaDetail.EndTime), Month(varHangXaDetail.EndTime), Day(varHangXaDetail.EndTime))
                                                         )
                                                       DisplayMode: |-
                                                         =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
@@ -6176,24 +6181,16 @@ Screens:
                                                   =If(
                                                       IsBlank(dp_HX_StartDate.SelectedDate) || IsBlank(dp_HX_EndDate.SelectedDate),
                                                       "--",
+                                                      // Số giờ (giống giá trị lưu vào TotalTime): 0.5 = 30 phút
                                                       Text(
-                                                          RoundDown(
+                                                          Round(
                                                               DateDiff(
-                                                                  DateAdd(dp_HX_StartDate.SelectedDate, Value(cbx_HX_StartHour.Selected.Value)*60 + Value(cbx_HX_StartMinute.Selected.Value), TimeUnit.Minutes),
-                                                                  DateAdd(dp_HX_EndDate.SelectedDate, Value(cbx_HX_EndHour.Selected.Value)*60 + Value(cbx_HX_EndMinute.Selected.Value), TimeUnit.Minutes),
-                                                                  TimeUnit.Minutes
-                                                              ) / 60, 0
-                                                          ), "0"
-                                                      ) & " giờ " &
-                                                      Text(
-                                                          Mod(
-                                                              DateDiff(
-                                                                  DateAdd(dp_HX_StartDate.SelectedDate, Value(cbx_HX_StartHour.Selected.Value)*60 + Value(cbx_HX_StartMinute.Selected.Value), TimeUnit.Minutes),
-                                                                  DateAdd(dp_HX_EndDate.SelectedDate, Value(cbx_HX_EndHour.Selected.Value)*60 + Value(cbx_HX_EndMinute.Selected.Value), TimeUnit.Minutes),
-                                                                  TimeUnit.Minutes
-                                                              ), 60
-                                                          ), "0"
-                                                      ) & " phút"
+                                                                  DateAdd(dp_HX_StartDate.SelectedDate, Value(cbx_HX_StartHour.Selected.Value)*3600 + Value(cbx_HX_StartMinute.Selected.Value)*60 + Value(cbx_HX_StartSecond.Selected.Value), TimeUnit.Seconds),
+                                                                  DateAdd(dp_HX_EndDate.SelectedDate, Value(cbx_HX_EndHour.Selected.Value)*3600 + Value(cbx_HX_EndMinute.Selected.Value)*60 + Value(cbx_HX_EndSecond.Selected.Value), TimeUnit.Seconds),
+                                                                  TimeUnit.Seconds
+                                                              ) / 3600, 2
+                                                          ), "0.00"
+                                                      )
                                                   )
                         - con_Row3_SanLuongNhanSuHX:
                             Control: GroupContainer

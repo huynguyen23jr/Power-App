@@ -132,7 +132,7 @@ Screens:
                                     Visible: |-
                                       =varUserInPlant.Role = Index(col_RoleUser,1).RoleCode ||   // FG_WH         - Thủ kho thành phẩm
                                       varUserInPlant.Role = Index(col_RoleUser,9).RoleCode ||   // VHSX_HO       - VHSX HO
-                                      varUserInPlant.Role = Index(col_RoleUser,4).RoleCode      // RM_SUP        - Giám sát nguyên liệu
+                                      varUserInPlant.Role = Index(col_RoleUser,2).RoleCode      // FG_SUP        - Giám sát thành phẩm
                                     Width: =120
                               - btn_RefreshNXT:
                                   Control: ModernButton

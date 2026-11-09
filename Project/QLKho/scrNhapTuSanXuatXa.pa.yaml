@@ -321,7 +321,7 @@ Screens:
                                                 Font: =fxFontFamily
                                                 FontWeight: =fxFontWeightBold
                                                 Size: =fxFontSizeMD
-                                                Text: ="Chuyền"
+                                                Text: ="Bin đích"
                                                 Width: =Parent.Width * 0.03
                                                 Wrap: =false
                                           - lbl_HX_StartTime_1:
@@ -581,7 +581,7 @@ Screens:
                                                             Text: |-
                                                               =If(
                                                                   scrNhapTuSanXuatXa.Size = 1,
-                                                                  "Chuyền: " & ThisItem.Source,
+                                                                  "Bin đích: " & ThisItem.Source,
                                                                   ThisItem.Source
                                                               )
                                                             Width: =If(scrNhapTuSanXuatXa.Size = 1, Parent.Width - 20, lbl_HX_Source_1.Width)
@@ -623,8 +623,8 @@ Screens:
                                                             Text: |-
                                                               =If(
                                                                   scrNhapTuSanXuatXa.Size = 1,
-                                                                  "Tổng TG: " & Text(Int(ThisItem.TotalTime / 3600)) & " giờ " & Text(Int(Mod(ThisItem.TotalTime, 3600) / 60)) & " phút",
-                                                                  Text(Int(ThisItem.TotalTime / 3600)) & " giờ " & Text(Int(Mod(ThisItem.TotalTime, 3600) / 60)) & " phút"
+                                                                  "Tổng TG: " & Text(RoundDown(Round(ThisItem.TotalTime * 60, 0) / 60, 0)) & " giờ " & Text(Mod(Round(ThisItem.TotalTime * 60, 0), 60)) & " phút",
+                                                                  Text(RoundDown(Round(ThisItem.TotalTime * 60, 0) / 60, 0)) & " giờ " & Text(Mod(Round(ThisItem.TotalTime * 60, 0), 60)) & " phút"
                                                               )
                                                             Width: =If(scrNhapTuSanXuatXa.Size = 1, Parent.Width - 20, lbl_HX_TotalTime_1.Width)
                                                             Wrap: =false

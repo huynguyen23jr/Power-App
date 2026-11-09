@@ -1246,35 +1246,3 @@ Screens:
             Visible: =User().Email = "idt.automation@greenfeed.com.vn"
             Width: =453
             X: =60
-      - tmr_AutoNavigate:
-          Control: Timer
-          Properties:
-            AutoPause: =false
-            AutoStart: =true
-            Duration: =1
-            OnTimerEnd: "=UpdateContext({varShowPopupProcessing:true});\r\nIf(varLoad = 1,\r\nSwitch(\r\n    varUserInPlant.Role,\r\n\r\n    Index(col_RoleUser,9).RoleCode,   // VHSX_HO       - VHSX HO\r\n    Navigate(scrUsers, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,16).RoleCode,  // FG_STAFF      - Nhân viên kho thành phẩm\r\n    Navigate(srcLogin, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,3).RoleCode,  // RM_WH         - Thủ kho nguyên liệu\r\n    Navigate(srcLogin, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,16).RoleCode, // FG_STAFF      - Nhân viên kho thành phẩm\r\n    Navigate(srcLogin, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,2).RoleCode,  // FG_SUP        - Giám sát thành phẩm\r\n    Navigate(scrMasterSanPham, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,7).RoleCode,  // WH_MGR        - Trưởng bộ phận kho\r\n    Navigate(scrMasterSanPham, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,15).RoleCode, // SHIFT_LEADER  - Trưởng ca\r\n    Navigate(scrNhapTuSanXuat, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,6).RoleCode,  // PROD_STAT     - Thống kê sản xuất\r\n    Navigate(scrMasterSanPham, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,12).RoleCode, // PROD_ASST     - Trợ lý sản xuất\r\n    Navigate(scrMasterSanPham, ScreenTransition.CoverRight),\r\n    \r\n    Index(col_RoleUser,8).RoleCode,  // PLANT_DIR     - Giám đốc nhà máy\r\n    Navigate(scrNXT, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,13).RoleCode, // VHSX_DD       - P.TGĐ VHSX\r\n    Navigate(scrNXT, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,17).RoleCode, // WH_ACC        - Kế toán kho\r\n    Navigate(scrNhapTuSanXuat, ScreenTransition.CoverRight),\r\n\r\n    Index(col_RoleUser,18).RoleCode, // SALES_ACC     - Kế toán bán hàng\r\n    Navigate(scrNhapTuSanXuat, ScreenTransition.CoverRight)\r\n););\r\nSet(varLoad,2);\r\nUpdateContext({varShowPopupProcessing:false});"
-            Start: =varHasAutoNavigated
-            Visible: =false
-            X: =989
-            Y: =15
-      - con_PopupProcessingKiemKho_7:
-          Control: GroupContainer
-          Variant: AutoLayout
-          Properties:
-            DropShadow: =DropShadow.None
-            Height: =Parent.Height
-            LayoutAlignItems: =LayoutAlignItems.Center
-            LayoutDirection: =LayoutDirection.Vertical
-            RadiusBottomLeft: =0
-            RadiusBottomRight: =0
-            RadiusTopLeft: =0
-            RadiusTopRight: =0
-            Visible: =varShowPopupProcessing
-            Width: =Parent.Width
-          Children:
-            - DialogProccessingKiemKho_8:
-                Control: CanvasComponent
-                ComponentName: DialogProccessing
-                Properties:
-                  Height: =App.Height
-                  Width: =App.Width

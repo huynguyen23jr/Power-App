@@ -599,7 +599,7 @@ Screens:
                                     TemplateSize: |-
                                       =If(
                                           scrKiemKhoHangBao.Size = 1,
-                                          32 * 7.2 + 10,
+                                          175,
                                           45
                                       )
                                     Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width, Max(Parent.Width, 1100))
@@ -708,6 +708,7 @@ Screens:
                                                                 Coalesce(_s.StatusNameVI, ThisItem.StatusCode)
                                                             )
                                                         )
+                                                      Visible: =scrKiemKhoHangBao.Size <> 1
                                                       Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width - 20, lbl_HeaderStatusCodeKiemKho.Width)
                                                       Wrap: =false
                                                 - lbl_PalletQty:
@@ -722,6 +723,7 @@ Screens:
                                                             "Số pallet   :   " & ThisItem.PalletQty,
                                                             Text(ThisItem.PalletQty)
                                                         )
+                                                      Visible: =scrKiemKhoHangBao.Size <> 1
                                                       Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width - 20, lbl_HeaderPalletQty.Width)
                                                       Wrap: =false
                                                 - lbl_LooseBagQty:
@@ -736,6 +738,7 @@ Screens:
                                                             "Số bao lẻ  :  " & ThisItem.OddBagQty,
                                                             Text(ThisItem.OddBagQty)
                                                         )
+                                                      Visible: =scrKiemKhoHangBao.Size <> 1
                                                       Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width - 20, lbl_HeaderLooseBagQty.Width)
                                                       Wrap: =false
                                                 - lbl_ProductionDate:
@@ -756,6 +759,7 @@ Screens:
                                                                 "dd/mm/yyyy"
                                                             )
                                                         )
+                                                      Visible: =scrKiemKhoHangBao.Size <> 1
                                                       Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width - 20, lbl_HeaderProductionDate.Width)
                                                       Wrap: =false
                                                 - lbl_StockCountDate_1:
@@ -776,6 +780,7 @@ Screens:
                                                       Size: =fxFontSizeMD
                                                       Text: |-
                                                         =If(scrKiemKhoHangBao.Size = 1, "Bao rách: " & ThisItem.BrokenBagQty, Text(ThisItem.BrokenBagQty))
+                                                      Visible: =scrKiemKhoHangBao.Size <> 1
                                                       Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width - 20, lbl_HeaderTornBagQty.Width)
                                                       Wrap: =false
                                                 - lbl_LooseBoxQty:
@@ -786,6 +791,7 @@ Screens:
                                                       Size: =fxFontSizeMD
                                                       Text: |-
                                                         =If(scrKiemKhoHangBao.Size = 1, "Thùng lẻ: " & ThisItem.OddBoxQty, Text(ThisItem.OddBoxQty))
+                                                      Visible: =scrKiemKhoHangBao.Size <> 1
                                                       Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width - 20, lbl_HeaderLooseBoxQty.Width)
                                                       Wrap: =false
                                                 - lbl_LooseKgQty:
@@ -796,6 +802,7 @@ Screens:
                                                       Size: =fxFontSizeMD
                                                       Text: |-
                                                         =If(scrKiemKhoHangBao.Size = 1, "Kg lẻ: " & ThisItem.OddKgQty, Text(ThisItem.OddKgQty))
+                                                      Visible: =scrKiemKhoHangBao.Size <> 1
                                                       Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width - 20, lbl_HeaderLooseKgQty.Width)
                                                       Wrap: =false
                                                 - lbl_Note:
@@ -806,6 +813,7 @@ Screens:
                                                       Size: =fxFontSizeMD
                                                       Text: |-
                                                         =If(scrKiemKhoHangBao.Size = 1, "Ghi chú: " & ThisItem.Note, ThisItem.Note)
+                                                      Visible: =scrKiemKhoHangBao.Size <> 1
                                                       Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width - 20, lbl_HeaderNote.Width)
                                                       Wrap: =false
                                                 - lbl_Location:
@@ -816,6 +824,7 @@ Screens:
                                                       Size: =fxFontSizeMD
                                                       Text: |-
                                                         =If(scrKiemKhoHangBao.Size = 1, "Vị trí: " & ThisItem.LocationName, ThisItem.LocationName)
+                                                      Visible: =scrKiemKhoHangBao.Size <> 1
                                                       Width: =If(scrKiemKhoHangBao.Size = 1, Parent.Width - 20, lbl_HeaderLocation.Width)
                                                       Wrap: =false
                                                 - lbl_ActualQty_1:
