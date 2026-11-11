@@ -1,0 +1,589 @@
+Screens:
+  srcLogin:
+    Properties:
+      OnVisible: =UpdateContext({varShowPopupProcessing:false});
+    Children:
+      - Container6:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            Fill: =Color.White
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            Width: =Parent.Width
+          Children:
+            - Container14:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =Parent.Height/5
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutJustifyContent: =LayoutJustifyContent.Center
+                  LayoutMaxHeight: =
+                  LayoutMaxWidth: =
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - TextCanvas1:
+                      Control: ModernText
+                      Properties:
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Bold
+                        Height: =Parent.Height/2
+                        LayoutMinWidth: =96
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Size: =fxFontSizeXL
+                        Text: ="Đăng nhập"
+                        Width: =96
+            - Container14_1:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =20
+                  LayoutJustifyContent: =LayoutJustifyContent.Center
+                  LayoutMaxHeight: =
+                  LayoutMaxWidth: =
+                  PaddingLeft: =10
+                  PaddingRight: =10
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - TextInputCanvas1:
+                      Control: ModernTextInput
+                      Properties:
+                        FontWeight: =""
+                        Height: =40
+                        MaxLength: =-1
+                        Placeholder: ="Tên đăng nhập"
+                        RadiusBottomLeft: =20
+                        RadiusBottomRight: =20
+                        RadiusTopLeft: =20
+                        RadiusTopRight: =20
+                        Size: =0
+                        TriggerOutput: =TriggerOutput.FocusOut
+                        Width: '=Parent.Width  - Parent.PaddingLeft - Parent.PaddingRight '
+                  - TextInputCanvas1_1:
+                      Control: ModernTextInput
+                      Properties:
+                        FontWeight: =""
+                        Height: =40
+                        MaxLength: =-1
+                        Placeholder: ="Mật khẩu"
+                        RadiusBottomLeft: =20
+                        RadiusBottomRight: =20
+                        RadiusTopLeft: =20
+                        RadiusTopRight: =20
+                        Size: =0
+                        TriggerOutput: =TriggerOutput.FocusOut
+                        Type: =TextInputType.Password
+                        Width: =Parent.Width  - Parent.PaddingLeft - Parent.PaddingRight
+            - Container14_4:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =20
+                  LayoutMaxHeight: =
+                  LayoutMaxWidth: =
+                  PaddingLeft: =20
+                  PaddingRight: =20
+                  PaddingTop: =20
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - ButtonCanvas12:
+                      Control: ModernButton
+                      Properties:
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Center
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =""
+                        Height: =40
+                        OnSelect: |
+                          =/*UpdateContext(
+                              {
+                                  varProcessing: true,
+                                  _result: 'QLTS|LoginUser'.Run(
+                                      TextInputCanvas1.Value,
+                                      TextInputCanvas1_1.Value
+                                  )
+                              }
+                          );
+
+                          If(
+                              _result.statuscode = "200",
+                              // ✅ Nếu thành công
+                              Navigate(
+                                  scrRequest,
+                                  ScreenTransition.CoverRight
+                              );
+                              Set(varUserInPlant , Filter('QLTS Farm List User In Plant',UserID = TextInputCanvas1.Value && Password = TextInputCanvas1_1.Value));
+                              UpdateContext({ varProcessing: false });
+                              ,
+                              //  Nếu thất bại
+                              Notify(_result.message,NotificationType.Error,2000);
+                              UpdateContext({ varProcessing: false });
+                          );*/
+                          UpdateContext({ varProcessing: true });
+                          // Lấy user trong Plant
+                          Set(
+                              varUserInPlant,
+                              LookUp(
+                                  'QLK List User In Plant',
+                                  UserID = TextInputCanvas1.Text &&
+                                  Password = TextInputCanvas1_1.Text
+                              )
+                          );
+
+                          // Kiểm tra có tìm thấy user hay không
+                          If(
+                              IsBlank(varUserInPlant.ID)
+                              ,
+                              UpdateContext({ varProcessing: false });
+                              Notify(
+                                  "Sai tên đăng nhập hoặc mật khẩu. Vui lòng kiểm tra lại",
+                                  NotificationType.Error,
+                                  2000
+                              ),
+                              UpdateContext(
+                                  { 
+                                      varProcessing: false,
+                                      varPopUpWelcom : true
+                                  }
+                                  );
+                              Set(varRoleCurrentFirst,varUserInPlant);
+                          )
+                        PaddingBottom: =5
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =5
+                        RadiusBottomLeft: =20
+                        RadiusBottomRight: =20
+                        RadiusTopLeft: =20
+                        RadiusTopRight: =20
+                        Size: =fxFontSizeLG
+                        Text: ="Đăng nhập"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =Parent.Width - 20
+                  - ButtonCanvas12_1:
+                      Control: ModernButton
+                      Properties:
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Center
+                        Appearance: =ButtonAppearance.Outline
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =""
+                        Height: =40
+                        OnSelect: =Exit()
+                        PaddingBottom: =5
+                        PaddingLeft: =12
+                        PaddingRight: =12
+                        PaddingTop: =5
+                        RadiusBottomLeft: =20
+                        RadiusBottomRight: =20
+                        RadiusTopLeft: =20
+                        RadiusTopRight: =20
+                        Size: |
+                          =18
+                        Text: ="Thoát"
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =Parent.Width - 20
+      - ContainerLoginSuccess:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            PaddingBottom: =8
+            PaddingLeft: =8
+            PaddingRight: =8
+            PaddingTop: =8
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varPopUpWelcom
+            Width: =Parent.Width
+          Children:
+            - Container69:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.Center
+                  DropShadow: =DropShadow.Semibold
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: |
+                    =Switch(
+                        srcLogin.Size,
+
+                        // ===============================
+                        // 1. MOBILE (Phone Layout - Mobile dọc)
+                        // ===============================
+                        1,
+                            Parent.Height * 0.4,
+
+                        // ===============================
+                        // 2. TABLET 
+                        //    (và MOBILE NGANG trong Phone Layout)
+                        // ===============================
+                        2,
+                            If(
+                                srcLogin.Width > srcLogin.Height,
+                                    // ===== NGANG =====
+                                    If(
+                                        App.Width > App.Height && App.Height < 600,
+                                            Parent.Height * 0.7,   // Mobile ngang (Phone Layout)
+                                            Parent.Height * 0.4     // Tablet ngang
+                                    ),
+                                    // ===== DỌC =====
+                                    Parent.Height * 0.5            // Tablet dọc
+                            ),
+
+                        // ===============================
+                        // 3. MOBILE (Tablet Layout mới xài tới)
+                        // ===============================
+                        3,
+                            If(
+                                srcLogin.Width > srcLogin.Height,
+                                    Parent.Height * 0.65,          // Mobile ngang (Tablet Layout)
+                                    Parent.Height * 0.3           // Mobile dọc (Tablet Layout)
+                            ),
+
+                        // ===============================
+                        // MẶC ĐỊNH
+                        // ===============================
+                        Parent.Height * 0.4
+                    )
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Width: |-
+                    =Switch(
+                        srcLogin.Size,
+                        1,  Parent.Width * 0.9,   // Desktop
+                        2,  Parent.Width * 0.7,   // Tablet dọc
+                        2.1,Parent.Width * 0.6,   // Tablet ngang
+                        3,  Parent.Width * 0.5,   // Mobile
+                        Parent.Width * 0.3     // Mặc định
+                    )
+                Children:
+                  - Container70:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =Parent.Height - Container70_1.Height
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                      Children:
+                        - TextCanvas11:
+                            Control: ModernText
+                            Properties:
+                              Align: =Align.Center
+                              FillPortions: =1
+                              Font: =Font.'Segoe UI'
+                              FontWeight: =FontWeight.Semibold
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              PaddingBottom: =10
+                              PaddingLeft: =10
+                              PaddingRight: =10
+                              PaddingTop: =10
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Size: =fxFontSizeXL
+                              Text: |-
+                                =$"Xin chào, {varRoleCurrentFirst.UserName}! 👋  
+                                 Chào mừng bạn đã đăng nhập.
+                                Thời gian: {Text(Now(),"dd/mm/yyyy hh:mm:ss am/pm","en-US")}"
+                              Width: =Parent.Width
+                  - Container70_1:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =50
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                      Children:
+                        - ButtonCanvas33:
+                            Control: ModernButton
+                            Properties:
+                              Align: =Align.Center
+                              Appearance: =ButtonAppearance.Outline
+                              FontWeight: =""
+                              Icon: ="DismissCircle"
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: |-
+                                =Navigate(scrNhapTuSanXuat, ScreenTransition.CoverRight);
+                                Concurrent(
+                                    Set(varHasAutoNavigated, true),
+                                    Set(_defaultLanguage,        LookUp(col_lan, Code = "VN")),
+                                    Set(varSelectedMenuId,       1),
+                                    Set(varLoad,       1),
+                                    //Set(varShowMenuUser,         true),
+                                    Set(varSelectedWarehouseTab, LookUp(col_WarehouseFormTabs, Code = "GENERAL")),
+                                    With(
+                                        {
+                                            rc1:  Index(col_RoleUser,1).RoleCode,   // FG_WH         - Thủ kho thành phẩm
+                                            rc2:  Index(col_RoleUser,2).RoleCode,   // FG_SUP        - Giám sát thành phẩm
+                                            rc3:  Index(col_RoleUser,3).RoleCode,   // RM_WH         - Thủ kho nguyên liệu
+                                            rc4:  Index(col_RoleUser,4).RoleCode,   // RM_SUP        - Giám sát nguyên liệu
+                                            rc5:  Index(col_RoleUser,5).RoleCode,   // WH_STAT       - Thống kê kho
+                                            rc6:  Index(col_RoleUser,6).RoleCode,   // PROD_STAT     - Thống kê sản xuất
+                                            rc7:  Index(col_RoleUser,7).RoleCode,   // WH_MGR        - Trưởng bộ phận kho
+                                            rc8:  Index(col_RoleUser,8).RoleCode,   // PLANT_DIR     - Giám đốc nhà máy
+                                            rc9:  Index(col_RoleUser,9).RoleCode,   // VHSX_HO       - VHSX HO
+                                            rc10: Index(col_RoleUser,10).RoleCode,  // FUNC_HEAD     - Trưởng khối chức năng
+                                            rc11: Index(col_RoleUser,11).RoleCode,  // SYS_ADMIN     - Quản trị hệ thống
+                                            rc12: Index(col_RoleUser,12).RoleCode,  // PROD_ASST     - Trợ lý sản xuất
+                                            rc13: Index(col_RoleUser,13).RoleCode,  // VHSX_DD       - P.TGĐ VHSX
+                                            rc14: Index(col_RoleUser,14).RoleCode,  // INV_STAFF     - Nhân viên kiểm kê/xe nâng
+                                            rc15: Index(col_RoleUser,15).RoleCode,  // SHIFT_LEADER  - Trưởng ca
+                                            rc16: Index(col_RoleUser,16).RoleCode,  // FG_STAFF      - Nhân viên kho thành phẩm
+                                            rc17: Index(col_RoleUser,17).RoleCode,  // WH_ACC        - Kế toán kho
+                                            rc18: Index(col_RoleUser,18).RoleCode   // SALES_ACC     - Kế toán bán hàng
+                                        },
+                                        ClearCollect(
+                                            colNavigationItems,
+                                            {
+                                                ID: 1, Title: "Thông tin người dùng", Icon: "People", Screen: scrUsers, IsGroup: false, Sort: 1,
+                                                Visible: varUserInPlant.Role in [rc9],
+                                                SubMenu: []
+                                            },
+                                            {
+                                                ID: 2, Title: "Danh mục", Icon: "Database", Screen: Blank(), IsGroup: true, Sort: 2,
+                                                Visible: varUserInPlant.Role in [rc7, rc6, rc12, rc9, rc2],
+                                                SubMenu: [
+                                                    {
+                                                        ID: 21, Title: "Master data sản phẩm", Icon: "Tag", Screen: scrMasterSanPham, Sort: 2.1,
+                                                        Visible: varUserInPlant.Role in [rc7, rc6, rc12, rc9, rc2]
+                                                    },
+                                                    {
+                                                        ID: 22, Title: "Danh mục bin", Icon: "Cube", Screen: scrDanhMucBin, Sort: 2.2,
+                                                        Visible: varUserInPlant.Role in [rc7, rc9, rc2]
+                                                    },
+                                                    {
+                                                        ID: 23, Title: "Danh mục density", Icon: "Calculator", Screen: scrDanhMucDensity, Sort: 2.3,
+                                                        Visible: varUserInPlant.Role in [rc7, rc9, rc2]
+                                                    },
+                                                    {
+                                                        ID: 24, Title: "Ma trận phê duyệt", Icon: "Document", Screen: scrMaTranPheDuyet, Sort: 2.4,
+                                                        Visible: varUserInPlant.Role in [rc9]
+                                                    },
+                                                    /*{
+                                                        ID: 25, Title: "Danh mục khách hàng", Icon: "OfficeBuilding", Screen: scrDanhMucKhachHang, Sort: 2.5,
+                                                        Visible: varUserInPlant.Role in [rc9]
+                                                    },*/
+                                                    {
+                                                        ID: 26, Title: "Phê duyệt chênh lệch", Icon: "Warning", Screen: scrPheDuyetChenhLech, Sort: 2.6,
+                                                        Visible: false
+                                                    },
+                                                    {
+                                                        ID: 27, Title: "Nhà máy", Icon: "Warning", Screen: scrPlant, Sort: 2.7,
+                                                        Visible: varUserInPlant.Role in [rc9]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                ID: 3, Title: "Nhập kho", Icon: "ArrowDownload", Screen: scrNhapTuSanXuat, IsGroup: true, Sort: 3,
+                                                Visible: varUserInPlant.Role in [rc15, rc6, rc12, rc9, rc17, rc18, rc1, rc16, rc2],
+                                                SubMenu: [
+                                                    {
+                                                        ID: 31, Title: "Nhập kho sản xuất", Icon: "Document", Screen: scrNhapTuSanXuat, Sort: 3.1,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc12, rc16, rc1]
+                                                    },
+                                                    /*{
+                                                        ID: 32, Title: "Nhập từ hàng bao", Icon: "Factory", Screen: scrNhapTuSanXuatHangBao, Sort: 3.2,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc12,rc16]
+                                                    },
+                                                    {
+                                                        ID: 33, Title: "Nhập từ hàng xá", Icon: "Factory", Screen: scrNhapTuSanXuatXa, Sort: 3.3,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc1]
+                                                    },*/
+                                                    {
+                                                        ID: 34, Title: "Nhập khác", Icon: "Document", Screen: scrNhapKhac, Sort: 3.4,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                                                    }
+                                                ]
+                                                //SubMenu : []
+                                            },
+                                            {
+                                                ID: 4, Title: "Xuất kho", Icon: "ArrowUp", Screen: scrXuatKho, IsGroup: true, Sort: 4,
+                                                Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2,rc6],
+                                                /*SubMenu: [
+                                                    {
+                                                        ID: 41, Title: "Xuất kho", Icon: "Truck", Screen: scrXuatKho, Sort: 4.1,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                                                    },
+                                                    {
+                                                        ID: 42, Title: "Xuất đại lý", Icon: "Truck", Screen: scrXuatDaiLy, Sort: 4.2,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                                                    },
+                                                    {
+                                                        ID: 43, Title: "Xuất nội bộ", Icon: "Home", Screen: scrXuatNoiBo, Sort: 4.3,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
+                                                    },
+                                                    {
+                                                        ID: 44, Title: "Xuất khác", Icon: "Switch", Screen: scrXuatKhac, Sort: 4.4,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2,rc6]
+                                                    }
+                                                ]*/
+                                                // Tách "Xuất kho" thành 1 nhóm riêng trên menu (tiêu đề nhóm XUẤT KHO + mục Xuất kho)
+                                                SubMenu: [
+                                                    {
+                                                        ID: 41, Title: "Xuất kho", Icon: "ArrowUp", Screen: scrXuatKho, Sort: 4.1,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc6]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                ID: 5, Title: "Kiểm kho", Icon: "DocumentBulletList", Screen: Blank(), IsGroup: true, Sort: 5,
+                                                Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16],
+                                                SubMenu: [
+                                                    {
+                                                        ID: 51, Title: "Kiểm kho hàng bao", Icon: "Document", Screen: scrKiemKhoHangBao, Sort: 5.1,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16]
+                                                    },
+                                                    {
+                                                        ID: 52, Title: "Kiểm kho hàng xá", Icon: "Document", Screen: scrKiemKhoHangXa, Sort: 5.2,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16]
+                                                    },
+                                                    {
+                                                        ID: 53, Title: "Kiểm kho hàng bigbag", Icon: "Document", Screen: scrKiemKeBigbag, Sort: 5.3,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc16, rc1, rc7, rc6,rc2]
+                                                    },
+                                                    {
+                                                        ID: 54, Title: "Sai lệch ngày", Icon: "Warning", Screen: scrDanhMucChenhLech, Sort: 5.4,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc6, rc12, rc1]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                ID: 6, Title: "Báo cáo NXT", Icon: "Document", Screen: scrNXT, IsGroup: true, Sort: 6,
+                                                Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc15, rc12, rc8, rc13, rc1, rc7, rc6],
+                                                SubMenu: [
+                                                    {
+                                                        ID: 61, Title: "Danh sách XNT", Icon: "Document", Screen: scrNXT, Sort: 6.1,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc15, rc12, rc8, rc13, rc1, rc7, rc6]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                ID: 7, Title: "Báo cáo khác", Icon: "Document", Screen: Blank(), IsGroup: true, Sort: 7,
+                                                Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc15, rc6, rc12, rc13, rc1, rc8],
+                                                SubMenu: [
+                                                    {
+                                                        ID: 71, Title: "Quá hạn lưu kho", Icon: "Cube", Screen: scrAgingStockCount, Sort: 7.1,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc15, rc6, rc12, rc13, rc1, rc8]
+                                                    },
+                                                    /*{
+                                                        ID: 72, Title: "FIFO", Icon: "Cube", Screen: scrNXTForm, Sort: 7.2,
+                                                        Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc7, rc15, rc6, rc12, rc13, rc8]
+                                                    }*/
+                                                ]
+                                            },
+                                            {
+                                                ID: 8, Title: "Tồn kho - SAP", Icon: "GlobeArrowUp", Screen: Blank(), IsGroup: true, Sort: 8,
+                                                Visible: false,
+                                                SubMenu: [
+                                                    {
+                                                        ID: 81, Title: "Tồn kho gia súc", Icon: "Cube", Screen: scrNXTForm, Sort: 8.1,
+                                                        Visible: false
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                ID: 99,
+                                                Title: "Thoát ứng dụng",
+                                                Icon: "ArrowExit",
+                                                Screen: Blank(),
+                                                IsGroup: false,
+                                                Sort: 99,
+                                                Visible: App.Width <= 600,
+                                                Action: "EXIT",
+                                                SubMenu: []
+                                            }
+                                        )
+                                    )
+                                );
+                              PaddingBottom: =5
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =5
+                              RadiusBottomLeft: =4
+                              RadiusBottomRight: =4
+                              RadiusTopLeft: =4
+                              RadiusTopRight: =4
+                              Text: ="Đóng"
+                              VerticalAlign: =VerticalAlign.Middle
+      - con_PopupProcessingLogin:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varProcessing
+            Width: =Parent.Width
+          Children:
+            - DialogProcessingLogin:
+                Control: CanvasComponent
+                ComponentName: DialogProccessing
+                Properties:
+                  Height: =App.Height
+                  Width: =App.Width

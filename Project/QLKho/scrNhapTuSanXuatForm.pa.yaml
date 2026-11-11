@@ -388,7 +388,7 @@ Screens:
                                               CountRows(
                                                   Filter(
                                                       dataCheck,
-                                                      ReceiptTypeCode = Index(col_ReceiptType, 2).ReceiptTypeCode,
+                                                      (ReceiptTypeCode = Index(col_ReceiptType, 2).ReceiptTypeCode || ReceiptTypeCode = "BIGBAG"),
                                                       !ConfirmFromWarehouse
                                                   )
                                               ) > 0,
@@ -430,7 +430,7 @@ Screens:
                                               CountRows(
                                                   Filter(
                                                       dataCheck,
-                                                      ReceiptTypeCode = Index(col_ReceiptType, 2).ReceiptTypeCode,
+                                                      (ReceiptTypeCode = Index(col_ReceiptType, 2).ReceiptTypeCode || ReceiptTypeCode = "BIGBAG"),
                                                       !ConfirmFromWarehouse
                                                   )
                                               ) > 0,
@@ -557,10 +557,10 @@ Screens:
                               AlignInContainer: =AlignInContainer.Start
                               DropShadow: =DropShadow.None
                               FillPortions: =0
-                              Height: =con_FormNhapTuSanXuatButton.Height + con_ThongTinNhapTuSanXuat.Height + con_ListHangBao.Height + con_ListHangXa.Height  + Self.LayoutGap  + Self.PaddingTop + Self.PaddingBottom
+                              Height: =con_FormNhapTuSanXuatButton.Height + con_ThongTinNhapTuSanXuat.Height + con_ListHangBao.Height + con_ListHangXa.Height + con_ListBigbag.Height + Self.LayoutGap  + Self.PaddingTop + Self.PaddingBottom
                               LayoutDirection: =LayoutDirection.Vertical
                               LayoutGap: =10
-                              LayoutMaxHeight: =con_FormNhapTuSanXuatButton.Height + con_ThongTinNhapTuSanXuat.Height + con_ListHangBao.Height + con_ListHangXa.Height + con_ListNhapKhac.Height + Self.LayoutGap * 4 + Self.PaddingTop + Self.PaddingBottom
+                              LayoutMaxHeight: =con_FormNhapTuSanXuatButton.Height + con_ThongTinNhapTuSanXuat.Height + con_ListHangBao.Height + con_ListHangXa.Height + con_ListBigbag.Height + con_ListNhapKhac.Height + Self.LayoutGap * 5 + Self.PaddingTop + Self.PaddingBottom
                               LayoutMinHeight: =Parent.Height
                               LayoutMinWidth: =16
                               LayoutOverflowY: =LayoutOverflow.Scroll
@@ -1026,12 +1026,7 @@ Screens:
                                                   Reset(txt_HB_FormBaggingStaff);
                                                   Reset(txt_HB_FormNote)
                                                 Text: ="Thêm"
-                                                Visible: |-
-                                                  =varProductionReceiptDetail.StatusCode = "DRAFT"       &&
-                                                  (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
-                                                  varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
-                                                  varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
-                                                  varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                Visible: =false
                                                 Width: =If(scrNhapTuSanXuatForm.Size = 1, If(btn_AddHangBao.Visible, (Parent.Width - Parent.LayoutGap) / 2 - 1, Parent.Width - 2), 120)
                                           - btn_AddNhapKhac_3:
                                               Control: ModernButton
@@ -2071,12 +2066,7 @@ Screens:
                                                   Reset(txt_HX_Staff);
                                                   Reset(txt_HX_ShiftSup);
                                                 Text: ="Thêm"
-                                                Visible: |-
-                                                  =varProductionReceiptDetail.StatusCode = "DRAFT"       &&
-                                                  (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
-                                                  varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
-                                                  varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
-                                                  varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                Visible: =false
                                                 Width: =If(scrNhapTuSanXuatForm.Size = 1, If(btn_AddHangBao_2.Visible, (Parent.Width - Parent.LayoutGap) / 2 - 1, Parent.Width - 2), 120)
                                           - btn_AddNhapKhac_2:
                                               Control: ModernButton
@@ -2926,6 +2916,922 @@ Screens:
                                                 Size: =fxFontSizeMD
                                                 Text: |-
                                                   ="Tổng nhập : " & Text(Coalesce(Sum(gal_HangXa.AllItems, BaggingWeight),0), "#,##0") & " KG"
+                              - con_ListBigbag:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =If(scrNhapTuSanXuatForm.Size = 1, 520, 500)
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =5
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                    Visible: "=!IsBlank(varProductionReceiptDetail.ID) && varProductionReceiptDetail.ProductCategoryCode = Index(col_ProductCategories,2).ProductCategoryCode &&\r\n(\r\n    varUserInPlant.Role = Index(col_RoleUser,1).RoleCode         || // FG_WH         - Thủ kho thành phẩm\r\n    varUserInPlant.Role = Index(col_RoleUser,15).RoleCode        || // SHIFT_LEADER  - Trưởng ca\r\n    varUserInPlant.Role = Index(col_RoleUser,6).RoleCode         || // PROD_STAT     - Thống kê sản xuất\r\n    varUserInPlant.Role = Index(col_RoleUser,12).RoleCode        || // PROD_ASST     - Trợ lý sản xuất\r\n    varUserInPlant.Role = Index(col_RoleUser,9).RoleCode            // VHSX_HO       - VHSX HO\r\n)    "
+                                    Width: =Parent.Width - 5
+                                  Children:
+                                    - con_TitleBigbag:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =If(scrNhapTuSanXuatForm.Size = 1, If(varProductionReceiptDetail.StatusCode <> "DRAFT", 76, 116), 40)
+                                          LayoutAlignItems: =If(scrNhapTuSanXuatForm.Size = 1, LayoutAlignItems.Center, LayoutAlignItems.Stretch)
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =If(scrNhapTuSanXuatForm.Size = 1, 8, 5)
+                                          LayoutWrap: =scrNhapTuSanXuatForm.Size = 1
+                                        Children:
+                                          - lbl_TitleNhapBigbag:
+                                              Control: ModernText
+                                              Properties:
+                                                Color: =RGBA(45, 128, 40, 1)
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeLG
+                                                Text: ="Nhập sản xuất - Hàng bigbag"
+                                                Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 2, Parent.Width - btn_SyncBigbag.Width -txt_SearchBigbag.Width - btn_AddBigbag.Width - 20 - If(btn_DeleteSelectedBigbag.Visible, btn_DeleteSelectedBigbag.Width + Parent.LayoutGap, 0))
+                                          - txt_SearchBigbag:
+                                              Control: ModernTextInput
+                                              Properties:
+                                                AlignInContainer: =If(scrNhapTuSanXuatForm.Size = 1, AlignInContainer.Center, If(varProductionReceiptDetail.StatusCode <> "DRAFT", AlignInContainer.Start, AlignInContainer.Center))
+                                                Appearance: =Appearance.Outline
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                Placeholder: ="Nhập SAPCode "
+                                                Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 2, 320)
+                                          - btn_SyncBigbag:
+                                              Control: ModernButton
+                                              Properties:
+                                                AlignInContainer: =If(scrNhapTuSanXuatForm.Size = 1, AlignInContainer.Center, If(varProductionReceiptDetail.StatusCode <> "DRAFT", AlignInContainer.Start, AlignInContainer.Center))
+                                                Appearance: =ButtonAppearance.Outline
+                                                Font: =fxFontFamily
+                                                Icon: ="Database"
+                                                OnSelect: |
+                                                  =// Hiển thị popup loading
+                                                  UpdateContext({ varShowPopupProcessingNhapKho: true });
+
+                                                  // Gọi flow lấy dữ liệu nhập kho từ SAP
+                                                  With(
+                                                      {
+                                                          _result: 'QLK|GetWarehouseReceiptData'.Run(
+                                                              varProductionReceiptDetail.PlantCode,                        // Mã plant
+                                                              Text(varProductionReceiptDetail.ReceiptDate, "dd.mm.yyyy"),  // Ngày nhập (chuỗi hiển thị)
+                                                              Text(varProductionReceiptDetail.ReceiptDate, "yyyy-mm-dd"),  // Ngày nhập (ISO gửi flow)
+                                                              varProductionReceiptDetail.Shift,                            // Ca sản xuất
+                                                              "BIGBAG",                   // Loại nhập đầu tiên
+                                                              varProductionReceiptDetail.ID,                               // ID phiếu nhập
+                                                              varProductionReceiptDetail.ProductCategoryCode,               // Mã loại sản phẩm
+                                                              0,
+                                                              varProductionReceiptDetail.PlantName
+                                                          )
+                                                      },
+                                                      If(
+                                                          _result.status = "OK",
+                                                          // Refresh lại dữ liệu chi tiết phiếu nhập
+                                                          Refresh('QLK List Production Receipt Details');
+                                                          Refresh('QLK List Production Receipts');
+                                                          Set(
+                                                              varProductionReceiptDetail,
+                                                              LookUp('QLK List Production Receipts', ID = varProductionReceiptDetail.ID)
+                                                          );
+                                                          ,
+                                                          Notify("Lấy dữ liệu từ SAP không thành công", NotificationType.Error, 2000);
+                                                      )
+                                                  );
+
+                                                  // Ẩn popup loading sau khi xử lý xong
+                                                  UpdateContext({ varShowPopupProcessingNhapKho: false });
+                                                Text: ="Đồng bộ"
+                                                Visible: |-
+                                                  =varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                  (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                  varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                  varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                  varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                Width: =If(scrNhapTuSanXuatForm.Size = 1, If(btn_AddBigbag.Visible, (Parent.Width - Parent.LayoutGap) / 2 - 1, Parent.Width - 2), 120)
+                                          - btn_AddBigbag:
+                                              Control: ModernButton
+                                              Properties:
+                                                AlignInContainer: =If(scrNhapTuSanXuatForm.Size = 1, AlignInContainer.Center, If(varProductionReceiptDetail.StatusCode <> "DRAFT", AlignInContainer.Start, AlignInContainer.Center))
+                                                Appearance: =ButtonAppearance.Outline
+                                                Font: =fxFontFamily
+                                                Icon: ="Add"
+                                                OnSelect: |-
+                                                  =// Mở form thêm mới hàng bao và reset dữ liệu chi tiết hiện tại
+                                                  UpdateContext(
+                                                      {
+                                                          varBigbagDetail: {},
+                                                          varShowBigbagForm: true
+                                                      }
+                                                  );
+
+                                                  // ── Reset toàn bộ control nhập liệu về Default ───────────────────────────────
+                                                  Reset(txt_BB_ProductionCode);
+                                                  Reset(txt_BB_SAPCode_1);
+                                                  Reset(txt_BB_RunID);
+                                                  Reset(txt_BB_FormulaVersion);
+                                                  Reset(dp_BB_FormDateInput);
+                                                  Reset(cbx_BB_FormShift);
+                                                  Reset(dp_BB_StartDate);
+                                                  Reset(cbx_BB_StartHour);
+                                                  Reset(cbx_BB_StartMinute);
+                                                  Reset(cbx_BB_StartSecond);
+                                                  Reset(dp_BB_EndDate);
+                                                  Reset(cbx_BB_EndHour);
+                                                  Reset(cbx_BB_EndMinute);
+                                                  Reset(cbx_BB_EndSecond);
+                                                  Reset(num_BB_Quantity);
+                                                  Reset(num_BB_Recycle);
+                                                  Reset(num_BB_Rerun);
+                                                  Reset(txt_BB_Staff);
+                                                  Reset(txt_BB_ShiftSup);
+                                                Text: ="Thêm"
+                                                Visible: =false
+                                                Width: =If(scrNhapTuSanXuatForm.Size = 1, If(btn_SyncBigbag.Visible, (Parent.Width - Parent.LayoutGap) / 2 - 1, Parent.Width - 2), 120)
+                                          - btn_DeleteSelectedBigbag:
+                                              Control: ModernButton
+                                              Properties:
+                                                AlignInContainer: =If(scrNhapTuSanXuatForm.Size = 1, AlignInContainer.Center, If(varProductionReceiptDetail.StatusCode <> "DRAFT", AlignInContainer.Start, AlignInContainer.Center))
+                                                Appearance: =ButtonAppearance.Outline
+                                                Font: =fxFontFamily
+                                                Icon: ="Delete"
+                                                OnSelect: |-
+                                                  =If(
+                                                      Confirm(
+                                                          "Bạn có chắc muốn xóa " & CountRows(col_SelectedBIGBAG) & " bản ghi đã chọn không?",
+                                                          {
+                                                              Title: "Xác nhận xóa",
+                                                              Subtitle: "Hành động này không thể hoàn tác.",
+                                                              ConfirmButton: "Xóa",
+                                                              CancelButton: "Hủy"
+                                                          }
+                                                      ),
+                                                      UpdateContext({ varShowPopupProcessingNhapKho: true });
+
+                                                      // Lấy danh sách Sub Bagging của CHÍNH các dòng sắp xóa để mở lại cờ IsSubBaggingLoaded
+                                                      ClearCollect(
+                                                          col_SubBaggingUpdate,
+                                                          ForAll(
+                                                              Filter(col_SelectedBIGBAG, !IsBlank(IDSubBagging)) As item,
+                                                              {
+                                                                  ID: item.IDSubBagging,
+                                                                  IsSubBaggingLoaded: false
+                                                              }
+                                                          )
+                                                      );
+
+                                                      IfError(
+                                                          Remove('QLK List Production Receipt Details', col_SelectedBIGBAG),
+                                                          Notify("Xóa không thành công", NotificationType.Error, 2000),
+
+                                                          If(
+                                                              !IsEmpty(col_SubBaggingUpdate),
+                                                              Patch('QLSX_SubBagging', col_SubBaggingUpdate)
+                                                          ),
+                                                          Notify("Đã xóa chi tiết nhưng không cập nhật được Sub Bagging: " & FirstError.Message, NotificationType.Warning, 3000),
+
+                                                          Clear(col_SelectedBIGBAG);
+                                                          ClearCollect(
+                                                              col_ProductionReceiptDetails,
+                                                              Filter(
+                                                                  'QLK List Production Receipt Details',
+                                                                  ReceiptID = varProductionReceiptDetail.ID
+                                                              )
+                                                          );
+                                                          Set(
+                                                              varProductionReceiptDetail,
+                                                              Patch(
+                                                                  'QLK List Production Receipts',
+                                                                  varProductionReceiptDetail,
+                                                                  { TotalReceipt: Sum(col_ProductionReceiptDetails, BaggingWeight) }
+                                                              )
+                                                          );
+                                                          Notify("Đã xóa thành công!", NotificationType.Success, 2000)
+                                                      );
+
+                                                      Clear(col_SubBaggingUpdate);
+                                                      UpdateContext({ varShowPopupProcessingNhapKho: false })
+                                                  )
+                                                Text: ="Xóa"
+                                                Visible: |-
+                                                  =varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                  CountRows(col_SelectedBIGBAG) > 0 &&
+                                                  (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                  varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                  varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                  varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 2, 100)
+                                    - con_ListMainBigbag:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          DropShadow: =DropShadow.None
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          LayoutOverflowX: =LayoutOverflow.Scroll
+                                          RadiusBottomLeft: =0
+                                          RadiusBottomRight: =0
+                                          RadiusTopLeft: =0
+                                          RadiusTopRight: =0
+                                          Width: =Parent.Width - 20
+                                        Children:
+                                          - con_InnerListBigbag:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                DropShadow: =DropShadow.None
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                LayoutOverflowX: =LayoutOverflow.Scroll
+                                                PaddingBottom: =5
+                                                PaddingLeft: =5
+                                                PaddingRight: =5
+                                                PaddingTop: =5
+                                                RadiusBottomLeft: =0
+                                                RadiusBottomRight: =0
+                                                RadiusTopLeft: =0
+                                                RadiusTopRight: =0
+                                                Width: |-
+                                                  =Switch(
+                                                      scrNhapTuSanXuatForm.Size,
+                                                      1, Parent.Width ,
+                                                      2, Max(Parent.Width, 3000),
+                                                      3, Max(Parent.Width, 3000),
+                                                      4, Max(Parent.Width, 3000),
+                                                      Parent.Width
+                                                  )
+                                              Children:
+                                                - con_HeaderBigbag:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.SetByContainer
+                                                      BorderColor: =RGBA(210, 218, 235, 1)
+                                                      BorderThickness: =1
+                                                      DropShadow: =DropShadow.None
+                                                      Fill: =RGBA(245, 247, 252, 1)
+                                                      FillPortions: =0
+                                                      Height: =42
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      PaddingLeft: =10
+                                                      PaddingRight: =10
+                                                      Visible: =scrNhapTuSanXuatForm.Size <> 1
+                                                      Width: =Parent.Width - Parent.PaddingLeft*2
+                                                    Children:
+                                                      - chk_BB_SelectAll:
+                                                          Control: ModernCheckbox
+                                                          Properties:
+                                                            Default: |-
+                                                              =CountRows(col_SelectedBIGBAG) = CountRows(gal_Bigbag.AllItems) &&
+                                                              CountRows(gal_Bigbag.AllItems) > 0
+                                                            DisplayMode: |-
+                                                              =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                              If(
+                                                                  varProductionReceiptDetail.StatusCode = "DRAFT" || IsBlank(varProductionReceiptDetail.ID) ,
+                                                                  DisplayMode.Edit,
+                                                                  DisplayMode.Disabled
+                                                              )
+                                                            FontWeight: =""
+                                                            Label: =""
+                                                            OnCheck: =ClearCollect(col_SelectedBIGBAG, gal_Bigbag.AllItems)
+                                                            OnUncheck: =Clear(col_SelectedBIGBAG)
+                                                            Visible: |-
+                                                              =CountRows(gal_Bigbag.AllItems) > 0                    &&
+                                                              (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                              varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                              varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                              varUserInPlant.Role = Index(col_RoleUser,8).RoleCode   || // PLANT_DIR     - Giám đốc nhà máy
+                                                              varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                            Width: =32
+                                                      - lbl_BB_SAPCode:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Mã SAP"
+                                                            Width: =Parent.Width* 0.06
+                                                            Wrap: =false
+                                                      - lbl_BB_ProductCode:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Mã SP"
+                                                            Width: =Parent.Width* 0.07
+                                                            Wrap: =false
+                                                      - lbl_BB_RunID_1:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="RunID"
+                                                            Width: =Parent.Width* 0.06
+                                                            Wrap: =false
+                                                      - lbl_BB_FormulaVersion_1:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Formula version"
+                                                            Width: =Parent.Width* 0.06
+                                                            Wrap: =false
+                                                      - lbl_BB_BaggingDate:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Ngày khai báo"
+                                                            Width: =Parent.Width* 0.06
+                                                            Wrap: =false
+                                                      - lbl_BB_ShiftName:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Ca"
+                                                            Width: =Parent.Width* 0.02
+                                                            Wrap: =false
+                                                      - lbl_BB_StartTime:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="TG bắt đầu"
+                                                            Width: =Parent.Width* 0.07
+                                                            Wrap: =false
+                                                      - lbl_BB_EndTime:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="TG kết thúc"
+                                                            Width: =Parent.Width* 0.07
+                                                            Wrap: =false
+                                                      - lbl_BB_TotalTime:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Tổng TG"
+                                                            Width: =Parent.Width* 0.06
+                                                            Wrap: =false
+                                                      - lbl_BB_Weight:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="KL thành phẩm (kg)"
+                                                            Width: =Parent.Width* 0.06
+                                                            Wrap: =false
+                                                      - lbl_BB_StartEndSetBack:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Tái chế đầu/cuối (kg)"
+                                                            Width: =Parent.Width* 0.06
+                                                            Wrap: =false
+                                                      - lbl_BB_ReRun:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="SPKPH"
+                                                            Width: =Parent.Width* 0.04
+                                                            Wrap: =false
+                                                      - lbl_BB_BaggingStaff:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="NV ra bao"
+                                                            Width: =Parent.Width* 0.06
+                                                            Wrap: =false
+                                                      - lbl_BB_ShiftSupervisor:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Trưởng ca"
+                                                            Width: =Parent.Width* 0.06
+                                                            Wrap: =false
+                                                      - lbl_BB_Actions:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrNhapTuSanXuatForm.Size = 1,1,0)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Size: =fxFontSizeMD
+                                                            Text: =""
+                                                            Width: =72
+                                                            Wrap: =false
+                                                - gal_Bigbag:
+                                                    Control: Gallery
+                                                    Variant: Vertical
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.SetByContainer
+                                                      BorderStyle: =BorderStyle.None
+                                                      Items: |-
+                                                        =Filter(
+                                                            'QLK List Production Receipt Details',
+                                                            ReceiptTypeCode = "BIGBAG",
+                                                            ReceiptID = varProductionReceiptDetail.ID,
+                                                            (IsBlank(txt_SearchBigbag.Text) ||  StartsWith(SAPCode, txt_SearchBigbag.Text))
+                                                        )
+                                                      LayoutMinHeight: =Parent.LayoutMinHeight
+                                                      TemplateSize: |-
+                                                        =If(
+                                                            scrNhapTuSanXuatForm.Size = 1,
+                                                            40 + 32*14 + 45 + 30,
+                                                            48
+                                                        )
+                                                      Width: =Parent.Width
+                                                    Children:
+                                                      - con_RowBigbag:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            BorderColor: =RGBA(220, 228, 240, 1)
+                                                            BorderStyle: =
+                                                            BorderThickness: =1
+                                                            DropShadow: =If(scrNhapTuSanXuatForm.Size = 1, DropShadow.Light, DropShadow.None)
+                                                            Fill: =RGBA(255, 255, 255, 1)
+                                                            Height: =gal_Bigbag.TemplateHeight
+                                                            LayoutAlignItems: =If(scrNhapTuSanXuatForm.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
+                                                            LayoutDirection: =If(scrNhapTuSanXuatForm.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                                            PaddingBottom: =If(scrNhapTuSanXuatForm.Size = 1, 10, 0)
+                                                            PaddingLeft: =10
+                                                            PaddingRight: =10
+                                                            PaddingTop: =If(scrNhapTuSanXuatForm.Size = 1, 10, 0)
+                                                            RadiusBottomLeft: =If(scrNhapTuSanXuatForm.Size = 1, 6, 0)
+                                                            RadiusBottomRight: =If(scrNhapTuSanXuatForm.Size = 1, 6, 0)
+                                                            RadiusTopLeft: =If(scrNhapTuSanXuatForm.Size = 1, 6, 0)
+                                                            RadiusTopRight: =If(scrNhapTuSanXuatForm.Size = 1, 6, 0)
+                                                            Width: =Parent.Width - 20
+                                                          Children:
+                                                            - chk_BB_SelectRow:
+                                                                Control: ModernCheckbox
+                                                                Properties:
+                                                                  Default: =ThisItem.ID in col_SelectedBIGBAG.ID
+                                                                  DisplayMode: |-
+                                                                    =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                                    If(
+                                                                        varProductionReceiptDetail.StatusCode = "DRAFT" || IsBlank(varProductionReceiptDetail.ID) ,
+                                                                        DisplayMode.Edit,
+                                                                        DisplayMode.Disabled
+                                                                    )
+                                                                  FontWeight: =""
+                                                                  Label: =""
+                                                                  OnCheck: =Collect(col_SelectedBIGBAG, ThisItem)
+                                                                  OnUncheck: =Remove(col_SelectedBIGBAG, ThisItem)
+                                                                  Visible: |-
+                                                                    =scrNhapTuSanXuatForm.Size <> 1                        &&
+                                                                    (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                                    varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                                    varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                                    varUserInPlant.Role = Index(col_RoleUser,8).RoleCode   || // PLANT_DIR     - Giám đốc nhà máy
+                                                                    varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                                  Width: =32
+                                                            - txt_BB_SAPCode:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "Mã SAP: " & ThisItem.SAPCode,
+                                                                        ThisItem.SAPCode
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_SAPCode.Width)
+                                                                  Wrap: =false
+                                                            - con_BB_MobileHeader:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  DropShadow: =DropShadow.None
+                                                                  FillPortions: =0
+                                                                  Height: =40
+                                                                  LayoutAlignItems: =LayoutAlignItems.Center
+                                                                  LayoutDirection: =LayoutDirection.Horizontal
+                                                                  LayoutGap: =6
+                                                                  PaddingBottom: =4
+                                                                  Visible: =scrNhapTuSanXuatForm.Size = 1
+                                                                  Width: =Parent.Width - 8
+                                                                Children:
+                                                                  - txt_BB_SAPCode_Mobile:
+                                                                      Control: ModernText
+                                                                      Properties:
+                                                                        FillPortions: =1
+                                                                        Font: =fxFontFamily
+                                                                        FontWeight: =fxFontWeightBold
+                                                                        Size: =fxFontSizeMD
+                                                                        Text: |-
+                                                                          ="Mã hàng: " & ThisItem.ProductCode & " | " & ThisItem.SAPCode
+                                                                        Wrap: =false
+                                                            - txt_BB_ProductCode:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "Mã SP: " & ThisItem.ProductCode,
+                                                                        ThisItem.ProductCode
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_ProductCode.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_RunID_1:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "RunID: " & ThisItem.RunID,
+                                                                        ThisItem.RunID
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_RunID_1.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_FormulaVersion_1:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "Formula version: " & ThisItem.FormulaVersion,
+                                                                        ThisItem.FormulaVersion
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_FormulaVersion_1.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_BaggingDate:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "Ngày khai báo: " & Text(ThisItem.BaggingDate, "dd/mm/yyyy"),
+                                                                        Text(ThisItem.BaggingDate, "dd/mm/yyyy")
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_BaggingDate.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_ShiftName:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "Ca : " & ThisItem.BaggingShift,
+                                                                        ThisItem.BaggingShift
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_ShiftName.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_StartTime:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "TG bắt đầu: " & Text(ThisItem.StartTime, "dd/mm/yyyy hh:mm:ss am/pm"),
+                                                                        Text(ThisItem.StartTime, "dd/mm/yyyy hh:mm:ss am/pm")
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_StartTime.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_EndTime:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "TG kết thúc: " & Text(ThisItem.EndTime, "dd/mm/yyyy hh:mm:ss am/pm"),
+                                                                        Text(ThisItem.EndTime, "dd/mm/yyyy hh:mm:ss am/pm")
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_EndTime.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_TotalTime:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "Tổng TG: " & Text(RoundDown(Round(ThisItem.TotalTime * 60, 0) / 60, 0)) & " giờ " & Text(Mod(Round(ThisItem.TotalTime * 60, 0), 60)) & " phút",
+                                                                        Text(RoundDown(Round(ThisItem.TotalTime * 60, 0) / 60, 0)) & " giờ " & Text(Mod(Round(ThisItem.TotalTime * 60, 0), 60)) & " phút "
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_TotalTime.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_Weight:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "KL thành phẩm: " & Text(ThisItem.BaggingWeight, "#,##0") & " kg",
+                                                                        Text(ThisItem.BaggingWeight, "#,##0")
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_Weight.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_StartEndSetBack:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "Tái chế đầu/cuối: " & Text(ThisItem.StartEndSetBack, "#,##0") & " kg",
+                                                                        Text(ThisItem.StartEndSetBack, "#,##0")
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_StartEndSetBack.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_ReRun:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "SPKPH: " & Text(ThisItem.ReRun, "#,##0"),
+                                                                        Text(ThisItem.ReRun, "#,##0")
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_ReRun.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_BaggingStaff:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "NV ra bao: " & ThisItem.BaggingStaff,
+                                                                        ThisItem.BaggingStaff
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_BaggingStaff.Width)
+                                                                  Wrap: =false
+                                                            - txt_BB_ShiftSupervisor:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrNhapTuSanXuatForm.Size = 1,
+                                                                        "Trưởng ca: " & ThisItem.ShiftSupervisor,
+                                                                        ThisItem.ShiftSupervisor
+                                                                    )
+                                                                  Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width - 20, lbl_BB_ShiftSupervisor.Width)
+                                                                  Wrap: =false
+                                                            - con_BB_Actions:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  DropShadow: =DropShadow.None
+                                                                  FillPortions: =0
+                                                                  Height: =36
+                                                                  LayoutAlignItems: =LayoutAlignItems.Center
+                                                                  LayoutDirection: =LayoutDirection.Horizontal
+                                                                  LayoutGap: =4
+                                                                  LayoutMinHeight: =Parent.Height
+                                                                  Visible: =scrNhapTuSanXuatForm.Size <> 1
+                                                                  Width: =lbl_BB_Actions.Width
+                                                                Children:
+                                                                  - btn_BB_View:
+                                                                      Control: ModernButton
+                                                                      Properties:
+                                                                        Appearance: =ButtonAppearance.Outline
+                                                                        Font: =fxFontFamily
+                                                                        Height: =30
+                                                                        Icon: ="Eye"
+                                                                        Layout: =ButtonLayout.IconOnly
+                                                                        OnSelect: |-
+                                                                          =UpdateContext({varBigbagDetail: ThisItem, varShowBigbagForm: true})
+                                                                        Size: =fxFontSizeSM
+                                                                        Text: =""
+                                                                        Width: =30
+                                                                  - btn_BB_Delete:
+                                                                      Control: ModernButton
+                                                                      Properties:
+                                                                        Appearance: =ButtonAppearance.Outline
+                                                                        BasePaletteColor: =RGBA(200, 40, 40, 1)
+                                                                        Font: =fxFontFamily
+                                                                        Height: =30
+                                                                        Icon: ="Delete"
+                                                                        Layout: =ButtonLayout.IconOnly
+                                                                        OnSelect: |-
+                                                                          =If(
+                                                                              Confirm(
+                                                                                  "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                                  {
+                                                                                      Title: "Xác nhận xóa",
+                                                                                      Subtitle: "Hành động này không thể hoàn tác.",
+                                                                                      ConfirmButton: "Xóa",
+                                                                                      CancelButton: "Hủy"
+                                                                                  }
+                                                                              ),
+                                                                              With(
+                                                                                  // Giữ lại ID Sub Bagging trước khi xóa dòng
+                                                                                  {_idSubBagging: ThisItem.IDSubBagging},
+                                                                                  UpdateContext({varShowPopupProcessingNhapKho: true});
+                                                                                  IfError(
+                                                                                      Remove('QLK List Production Receipt Details', ThisItem),
+                                                                                      Notify("Xóa không thành công", NotificationType.Error, 2000),
+
+                                                                                      If(!IsBlank(_idSubBagging), Patch('QLSX_SubBagging', {ID: _idSubBagging, IsSubBaggingLoaded: false}));
+                                                                                      ClearCollect(
+                                                                                          col_ProductionReceiptDetails,
+                                                                                          Filter(
+                                                                                              'QLK List Production Receipt Details',
+                                                                                              ReceiptID = varProductionReceiptDetail.ID
+                                                                                          )
+                                                                                      );
+                                                                                      Set(
+                                                                                          varProductionReceiptDetail,
+                                                                                          Patch(
+                                                                                              'QLK List Production Receipts',
+                                                                                              varProductionReceiptDetail,
+                                                                                              {TotalReceipt: Sum(col_ProductionReceiptDetails, BaggingWeight)}
+                                                                                          )
+                                                                                      );
+                                                                                      Notify("Xóa thành công", NotificationType.Success, 2000)
+                                                                                  );
+                                                                                  // Luôn tắt loading, kể cả khi lỗi
+                                                                                  UpdateContext({varShowPopupProcessingNhapKho: false})
+                                                                              )
+                                                                          )
+                                                                        Size: =fxFontSizeSM
+                                                                        Text: =""
+                                                                        Visible: |-
+                                                                          =varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                                          (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                                          varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                                          varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                                          varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                                        Width: =30
+                                                            - con_BB_MobileActions:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Start
+                                                                  DropShadow: =DropShadow.None
+                                                                  FillPortions: =0
+                                                                  Height: =45
+                                                                  LayoutAlignItems: =LayoutAlignItems.Center
+                                                                  LayoutDirection: =LayoutDirection.Horizontal
+                                                                  LayoutGap: =10
+                                                                  Visible: =scrNhapTuSanXuatForm.Size = 1
+                                                                  Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                                                                Children:
+                                                                  - btn_BB_MobileView:
+                                                                      Control: ModernButton
+                                                                      Properties:
+                                                                        AlignInContainer: =AlignInContainer.Center
+                                                                        BasePaletteColor: =RGBA(7, 220, 8, 1)
+                                                                        Font: =Font.'Segoe UI'
+                                                                        Icon: ="Eye"
+                                                                        OnSelect: |-
+                                                                          =UpdateContext({varBigbagDetail: ThisItem, varShowBigbagForm: true})
+                                                                        Size: =14
+                                                                        Text: ="Xem chi tiết"
+                                                                        Width: =If(btn_BB_MobileDelete.Visible, (Parent.Width - Parent.LayoutGap) / 2, Parent.Width)
+                                                                  - btn_BB_MobileDelete:
+                                                                      Control: ModernButton
+                                                                      Properties:
+                                                                        AlignInContainer: =AlignInContainer.Center
+                                                                        Appearance: =ButtonAppearance.Outline
+                                                                        BasePaletteColor: =RGBA(107, 114, 128, 1)
+                                                                        Font: =Font.'Segoe UI'
+                                                                        Icon: ="Delete"
+                                                                        OnSelect: |-
+                                                                          =If(
+                                                                              Confirm(
+                                                                                  "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                                  {
+                                                                                      Title: "Xác nhận xóa",
+                                                                                      Subtitle: "Hành động này không thể hoàn tác.",
+                                                                                      ConfirmButton: "Xóa",
+                                                                                      CancelButton: "Hủy"
+                                                                                  }
+                                                                              ),
+                                                                              With(
+                                                                                  // Giữ lại ID Sub Bagging trước khi xóa dòng
+                                                                                  {_idSubBagging: ThisItem.IDSubBagging},
+                                                                                  UpdateContext({varShowPopupProcessingNhapKho: true});
+                                                                                  IfError(
+                                                                                      Remove('QLK List Production Receipt Details', ThisItem),
+                                                                                      Notify("Xóa không thành công", NotificationType.Error, 2000),
+
+                                                                                      If(!IsBlank(_idSubBagging), Patch('QLSX_SubBagging', {ID: _idSubBagging, IsSubBaggingLoaded: false}));
+                                                                                      ClearCollect(
+                                                                                          col_ProductionReceiptDetails,
+                                                                                          Filter(
+                                                                                              'QLK List Production Receipt Details',
+                                                                                              ReceiptID = varProductionReceiptDetail.ID
+                                                                                          )
+                                                                                      );
+                                                                                      Set(
+                                                                                          varProductionReceiptDetail,
+                                                                                          Patch(
+                                                                                              'QLK List Production Receipts',
+                                                                                              varProductionReceiptDetail,
+                                                                                              {TotalReceipt: Sum(col_ProductionReceiptDetails, BaggingWeight)}
+                                                                                          )
+                                                                                      );
+                                                                                      Notify("Xóa thành công", NotificationType.Success, 2000)
+                                                                                  );
+                                                                                  // Luôn tắt loading, kể cả khi lỗi
+                                                                                  UpdateContext({varShowPopupProcessingNhapKho: false})
+                                                                              )
+                                                                          )
+                                                                        Size: =14
+                                                                        Text: ="Xóa"
+                                                                        Visible: |-
+                                                                          =varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                                          (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                                          varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                                          varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                                          varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                                        Width: =(Parent.Width - Parent.LayoutGap) / 2
+                                                      - con_RowDividerBigbag_1:
+                                                          Control: GroupContainer
+                                                          Variant: ManualLayout
+                                                          Properties:
+                                                            DropShadow: =DropShadow.None
+                                                            Fill: =RGBA(214, 221, 224, 1)
+                                                            Height: =0.5
+                                                            RadiusBottomLeft: =5
+                                                            RadiusBottomRight: =5
+                                                            RadiusTopLeft: =5
+                                                            RadiusTopRight: =5
+                                                            Visible: =scrNhapTuSanXuatForm.Size <> 1
+                                                            Width: =Parent.Width -10
+                                                            Y: =gal_Bigbag.TemplateHeight
+                                          - lbl_TotalBigbag:
+                                              Control: ModernText
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightSemiBold
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                Size: =fxFontSizeMD
+                                                Text: |-
+                                                  ="Tổng nhập : " & Text(Coalesce(Sum(gal_Bigbag.AllItems, BaggingWeight),0), "#,##0") & " KG"
                               - con_ListNhapKhac:
                                   Control: GroupContainer
                                   Variant: AutoLayout
@@ -6505,6 +7411,1240 @@ Screens:
                                                 Placeholder: ="Nhập tên trưởng ca"
                                                 Size: =fxFontSizeMD
                                                 Width: =Parent.Width - 10
+      - con_PopupBigbagForm:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.35)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowBigbagForm
+            Width: =Parent.Width
+          Children:
+            - con_FormBigbag:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.SetByContainer
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: |-
+                    =Switch(
+                        scrNhapTuSanXuatForm.Size,
+                        1, Parent.Height * 0.95,
+                        2, Parent.Height * 0.65,
+                        3, Min(700, Parent.Height * 0.85),
+                        4, Parent.Height * 0.65,
+                        Parent.Height * 0.65
+                    )
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =8
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Width: |-
+                    =Switch(
+                        scrNhapTuSanXuatForm.Size,
+                        1, Parent.Width - 20,
+                        2, Parent.Width * 0.9,
+                        3, Parent.Width * 0.6,
+                        4, Parent.Width * 0.6,
+                        Parent.Width
+                    )
+                Children:
+                  - con_ActionBigbagForm:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        DropShadow: =DropShadow.Regular
+                        FillPortions: =0
+                        Height: =45
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        PaddingLeft: =10
+                        RadiusBottomLeft: =5
+                        RadiusBottomRight: =5
+                        RadiusTopLeft: =5
+                        RadiusTopRight: =5
+                      Children:
+                        - btn_CancelBigbagForm:
+                            Control: ModernButton
+                            Properties:
+                              Appearance: =ButtonAppearance.Outline
+                              Font: =fxFontFamily
+                              Icon: ="ChevronLeft"
+                              Layout: =ButtonLayout.IconOnly
+                              OnSelect: |-
+                                =Reset(txt_BB_ProductionCode);
+                                Reset(txt_BB_SAPCode_1);
+                                Reset(txt_BB_RunID);
+                                Reset(txt_BB_FormulaVersion);
+                                Reset(dp_BB_FormDateInput);
+                                Reset(cbx_BB_FormShift);
+                                Reset(dp_BB_StartDate);
+                                Reset(cbx_BB_StartHour);
+                                Reset(cbx_BB_StartMinute);
+                                Reset(cbx_BB_StartSecond);
+                                Reset(dp_BB_EndDate);
+                                Reset(cbx_BB_EndHour);
+                                Reset(cbx_BB_EndMinute);
+                                Reset(cbx_BB_EndSecond);
+                                Reset(num_BB_Quantity);
+                                Reset(num_BB_Recycle);
+                                Reset(num_BB_Rerun);
+                                Reset(txt_BB_Staff);
+                                Reset(txt_BB_ShiftSup);
+                                UpdateContext({varShowBigbagForm: false})
+                              Text: =
+                              Width: =30
+                        - btn_SaveBigbagForm:
+                            Control: ModernButton
+                            Properties:
+                              Font: =fxFontFamily
+                              Icon: ="Save"
+                              OnSelect: |-
+                                =With(
+                                    {
+                                        startDateTime: DateAdd(
+                                            dp_BB_StartDate.SelectedDate,
+                                            Value(cbx_BB_StartHour.Selected.Value) * 3600 +
+                                            Value(cbx_BB_StartMinute.Selected.Value) * 60 +
+                                            Value(cbx_BB_StartSecond.Selected.Value),
+                                            TimeUnit.Seconds
+                                        ),
+                                        endDateTime: DateAdd(
+                                            dp_BB_EndDate.SelectedDate,
+                                            Value(cbx_BB_EndHour.Selected.Value) * 3600 +
+                                            Value(cbx_BB_EndMinute.Selected.Value) * 60 +
+                                            Value(cbx_BB_EndSecond.Selected.Value),
+                                            TimeUnit.Seconds
+                                        ),
+                                        vIsNew: IsBlank(varBigbagDetail.ID)
+                                    },
+                                    If(
+                                        // ── Kiểm tra dữ liệu bắt buộc ──────────────────────────────────────
+                                        IsBlank(Trim(txt_BB_SAPCode_1.Text)),
+                                        Notify("Vui lòng nhập Mã SAP", NotificationType.Warning, 2000),
+
+                                        Coalesce(num_BB_Quantity.Value, 0) <= 0,
+                                        Notify("Sản lượng phải lớn hơn 0", NotificationType.Warning, 2000),
+
+                                        IsBlank(dp_BB_StartDate.SelectedDate) || IsBlank(dp_BB_EndDate.SelectedDate),
+                                        Notify("Vui lòng chọn ngày bắt đầu và ngày kết thúc", NotificationType.Warning, 2000),
+
+                                        endDateTime < startDateTime,
+                                        Notify("Thời gian kết thúc phải sau thời gian bắt đầu", NotificationType.Warning, 2000),
+
+                                        // ── Hợp lệ → lưu ───────────────────────────────────────────────────
+                                        UpdateContext({varShowPopupProcessingNhapKho: true});
+                                        With(
+                                            {
+                                                _data: {
+                                                    ProductCode:         txt_BB_ProductionCode.Text,
+                                                    SAPCode:             txt_BB_SAPCode_1.Text,
+                                                    RunID:               txt_BB_RunID.Text,
+                                                    FormulaVersion:      txt_BB_FormulaVersion.Text,
+                                                    BaggingDate:         dp_BB_FormDateInput.SelectedDate,
+                                                    StartTime:           startDateTime,
+                                                    EndTime:             endDateTime,
+                                                    TotalTime:           Round(DateDiff(startDateTime, endDateTime, TimeUnit.Seconds) / 3600, 2), // Đơn vị: giờ (0.5 = 30 phút)
+                                                    BaggingWeight:       num_BB_Quantity.Value,
+                                                    StartEndSetBack:     num_BB_Recycle.Value,
+                                                    ReRun:               num_BB_Rerun.Value,
+                                                    BaggingStaff:        txt_BB_Staff.Text,
+                                                    ShiftSupervisor:     txt_BB_ShiftSup.Text,
+                                                    ReceiptDate:         varProductionReceiptDetail.ReceiptDate,
+                                                    ProductCategoryCode: varProductionReceiptDetail.ProductCategoryCode,
+                                                    BaggingShift:        cbx_BB_FormShift.Selected.ShiftNo,
+                                                    BagSize:             LookUp(
+                                                                             'QLK List Master Data Production',
+                                                                             PlantCode = varProductionReceiptDetail.PlantCode && SAPCode = txt_BB_SAPCode_1.Text
+                                                                         ).BagSize
+                                                }
+                                            },
+                                            With(
+                                                {
+                                                    savedRecord: IfError(
+                                                        If(
+                                                            vIsNew,
+                                                            // TẠO MỚI
+                                                            Patch(
+                                                                'QLK List Production Receipt Details',
+                                                                Defaults('QLK List Production Receipt Details'),
+                                                                {
+                                                                    PlantCode:       varUserInPlant.PlantCode,
+                                                                    PlantName:       varUserInPlant.PlantName,
+                                                                    ReceiptID:       varProductionReceiptDetail.ID,
+                                                                    ReceiptTypeCode: "BIGBAG"
+                                                                },
+                                                                _data
+                                                            ),
+                                                            // CẬP NHẬT
+                                                            Patch('QLK List Production Receipt Details', varBigbagDetail, _data)
+                                                        ),
+                                                        Blank()
+                                                    )
+                                                },
+                                                If(
+                                                    IsBlank(savedRecord),
+                                                    // Giữ form mở để người dùng không mất dữ liệu đã nhập
+                                                    Notify(If(vIsNew, "Thêm không thành công", "Cập nhật không thành công"), NotificationType.Error, 2000),
+
+                                                    // Thành công — refresh collection + cập nhật TotalReceipt
+                                                    ClearCollect(
+                                                        col_ProductionReceiptDetails,
+                                                        Filter('QLK List Production Receipt Details', ReceiptID = varProductionReceiptDetail.ID)
+                                                    );
+                                                    Set(
+                                                        varProductionReceiptDetail,
+                                                        Patch(
+                                                            'QLK List Production Receipts',
+                                                            varProductionReceiptDetail,
+                                                            {TotalReceipt: Sum(col_ProductionReceiptDetails, BaggingWeight)}
+                                                        )
+                                                    );
+                                                    UpdateContext({varShowBigbagForm: false});
+                                                    Notify(If(vIsNew, "Thêm thành công", "Cập nhật thành công"), NotificationType.Success, 2000);
+                                                    Reset(txt_BB_ProductionCode);
+                                                    Reset(txt_BB_SAPCode_1);
+                                                    Reset(txt_BB_RunID);
+                                                    Reset(txt_BB_FormulaVersion);
+                                                    Reset(dp_BB_FormDateInput);
+                                                    Reset(cbx_BB_FormShift);
+                                                    Reset(dp_BB_StartDate);
+                                                    Reset(cbx_BB_StartHour);
+                                                    Reset(cbx_BB_StartMinute);
+                                                    Reset(cbx_BB_StartSecond);
+                                                    Reset(dp_BB_EndDate);
+                                                    Reset(cbx_BB_EndHour);
+                                                    Reset(cbx_BB_EndMinute);
+                                                    Reset(cbx_BB_EndSecond);
+                                                    Reset(num_BB_Quantity);
+                                                    Reset(num_BB_Recycle);
+                                                    Reset(num_BB_Rerun);
+                                                    Reset(txt_BB_Staff);
+                                                    Reset(txt_BB_ShiftSup)
+                                                )
+                                            )
+                                        );
+                                        UpdateContext({varShowPopupProcessingNhapKho: false})
+                                    )
+                                )
+                              Size: =fxFontSizeMD
+                              Text: ="Lưu và đóng"
+                              Visible: |-
+                                =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                If(
+                                    varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                    (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                    varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                    varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                    varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                    ,
+                                    true,
+                                    false
+                                )
+                              Width: =140
+                  - con_FormBodyBigbag:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.Regular
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =12
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        RadiusBottomLeft: =5
+                        RadiusBottomRight: =5
+                        RadiusTopLeft: =5
+                        RadiusTopRight: =5
+                      Children:
+                        - con_TitleFormBigbag:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =40
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                            Children:
+                              - lbl_TitleFormBigbag:
+                                  Control: ModernText
+                                  Properties:
+                                    Color: =RGBA(45, 128, 40, 1)
+                                    FillPortions: =1
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightBold
+                                    Size: =fxFontSizeLG
+                                    Text: =If(IsBlank(varBigbagDetail.ID), "Thêm thông tin hàng bigbag", "Sửa thông tin hàng bigbag")
+                        - con_ThongTinSanPhamBB:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.Regular
+                              FillPortions: =0
+                              Height: =If(scrNhapTuSanXuatForm.Size = 1,525,210)
+                              LayoutDirection: =LayoutDirection.Vertical
+                              PaddingBottom: =10
+                              PaddingLeft: =10
+                              PaddingRight: =10
+                              PaddingTop: =10
+                              RadiusBottomLeft: =5
+                              RadiusBottomRight: =5
+                              RadiusTopLeft: =5
+                              RadiusTopRight: =5
+                            Children:
+                              - lbl_ThongTinSanPhamBB:
+                                  Control: ModernText
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =RGBA(45, 128, 40, 1)
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightBold
+                                    Size: =fxFontSizeMD
+                                    Text: ="1. Thông tin sản phẩm"
+                              - con_FieldsThongTinSanPhamBB:
+                                  Control: GroupContainer
+                                  Variant: GridLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Height: =Parent.Height
+                                    LayoutGridColumns: =If(scrNhapTuSanXuatForm.Size = 1, 1, If(scrNhapTuSanXuatForm.Size = 2, 2, 3))
+                                    LayoutGridRows: =If(scrNhapTuSanXuatForm.Size = 1, 6, 2)
+                                    LayoutMinHeight: =10
+                                  Children:
+                                    - con_FieldBBSAPCode:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =2
+                                          PaddingLeft: =5
+                                        Children:
+                                          - lbl_BB_SAPCode_2:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="Mã SAP"
+                                          - txt_BB_SAPCode_1:
+                                              Control: ModernTextInput
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                Default: =varBigbagDetail.SAPCode
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                Placeholder: ="Nhập mã thành phẩm"
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
+                                    - con_FieldBBProductionCode:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =2
+                                          PaddingLeft: =5
+                                        Children:
+                                          - lbl_BB_ProductionCode:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="Mã hàng"
+                                          - txt_BB_ProductionCode:
+                                              Control: ModernTextInput
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                Default: =varBigbagDetail.ProductCode
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                Placeholder: ="Nhập mã SP"
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
+                                    - con_FieldBBRunID:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =2
+                                          PaddingLeft: =5
+                                        Children:
+                                          - lbl_BB_RunID:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="RunID"
+                                          - txt_BB_RunID:
+                                              Control: ModernTextInput
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                Default: =varBigbagDetail.RunID
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                Placeholder: ="Nhập RunID"
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
+                                    - con_FieldBBFormulaVersion:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =2
+                                          PaddingLeft: =5
+                                        Children:
+                                          - lbl_BB_FormulaVersion:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="Formula version"
+                                          - txt_BB_FormulaVersion:
+                                              Control: ModernTextInput
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                Default: =varBigbagDetail.FormulaVersion
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                Placeholder: ="Nhập formula version"
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
+                                    - con_FieldBBDateInput:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =2
+                                          PaddingLeft: =5
+                                        Children:
+                                          - lbl_BB_DateInput:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="Ngày khai báo"
+                                          - dp_BB_FormDateInput:
+                                              Control: ModernDatePicker
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                DefaultDate: =If(IsBlank(varBigbagDetail.ID), Today(), varBigbagDetail.BaggingDate)
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                Format: =DatePickerFormat.Short
+                                                Placeholder: ="Chọn ngày ..."
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
+                                    - con_FieldBBShift:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =2
+                                          PaddingLeft: =5
+                                        Children:
+                                          - lbl_BB_Shift:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="Ca"
+                                          - cbx_BB_FormShift:
+                                              Control: ModernCombobox
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                DefaultSelectedItems: |-
+                                                  =With(
+                                                      { _shift: If(IsBlank(varBigbagDetail.ID), varProductionReceiptDetail.Shift, varBigbagDetail.BaggingShift) },
+                                                      Filter(col_ShiftName, ShiftNo = _shift)
+                                                  )
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                InputTextPlaceholder: |
+                                                  =
+                                                IsSearchable: =false
+                                                ItemDisplayText: =ThisItem.ShiftNo
+                                                Items: =col_ShiftName
+                                                SelectMultiple: =false
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
+                        - con_ThoiGianBB:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.Regular
+                              FillPortions: =0
+                              Height: =If(scrNhapTuSanXuatForm.Size = 1, 330, 230)
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =8
+                              PaddingBottom: =10
+                              PaddingLeft: =10
+                              PaddingRight: =10
+                              PaddingTop: =10
+                              RadiusBottomLeft: =5
+                              RadiusBottomRight: =5
+                              RadiusTopLeft: =5
+                              RadiusTopRight: =5
+                            Children:
+                              - lbl_ThoiGianBB:
+                                  Control: ModernText
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =RGBA(45, 128, 40, 1)
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightBold
+                                    Size: =fxFontSizeMD
+                                    Text: ="2. Thời gian"
+                              - con_FieldsThoiGianBB:
+                                  Control: GroupContainer
+                                  Variant: GridLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    LayoutGap: =5
+                                    LayoutGridColumns: =If(scrNhapTuSanXuatForm.Size = 1, 1, 2)
+                                    LayoutGridRows: =If(scrNhapTuSanXuatForm.Size = 1, 3, 2)
+                                    LayoutMinHeight: =10
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - con_FieldBBStartTime:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                        Children:
+                                          - lbl_BB_FormStartTime:
+                                              Control: ModernText
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="TG bắt đầu"
+                                          - con_BB_StartTimePicker:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =3
+                                                LayoutMinHeight: =0
+                                                Width: =Parent.Width
+                                              Children:
+                                                - dp_BB_StartDate:
+                                                    Control: ModernDatePicker
+                                                    Properties:
+                                                      DefaultDate: |-
+                                                        =If(
+                                                            IsBlank(varBigbagDetail.ID),
+                                                            Today(),
+                                                            // Chỉ lấy phần ngày (giờ/phút/giây đã có ở các ô chọn giờ)
+                                                            Date(Year(varBigbagDetail.StartTime), Month(varBigbagDetail.StartTime), Day(varBigbagDetail.StartTime))
+                                                        )
+                                                      DisplayMode: |-
+                                                        =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                        If(
+                                                            varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                            (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                            varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                            ,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
+                                                        )
+                                                      Font: =fxFontFamily
+                                                      Format: =DatePickerFormat.Short
+                                                      Placeholder: ="Chọn ngày ..."
+                                                      Size: =fxFontSizeMD
+                                                      Width: =Parent.Width/2 - 40
+                                                - cbx_BB_StartHour:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                      DefaultSelectedItems: |-
+                                                        =If(
+                                                            IsBlank(varBigbagDetail.ID),
+                                                            Blank(),
+                                                            Filter(col_Hours, Value = Text(Hour(varBigbagDetail.StartTime), "00"))
+                                                        )
+                                                      DisplayMode: |-
+                                                        =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                        If(
+                                                            varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                            (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                            varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                            ,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
+                                                        )
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: |
+                                                        =
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.Value
+                                                      Items: =col_Hours
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                                      Width: =Parent.Width/6
+                                                - lbl_BB_StartTimeSep:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: =":"
+                                                      Width: =10
+                                                - cbx_BB_StartMinute:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                      DefaultSelectedItems: |-
+                                                        =If(
+                                                            IsBlank(varBigbagDetail.ID),
+                                                            Blank(),
+                                                            Filter(col_MinSec, Value = Text(Minute(varBigbagDetail.StartTime), "00"))
+                                                        )
+                                                      DisplayMode: |-
+                                                        =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                        If(
+                                                            varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                            (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                            varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                            ,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
+                                                        )
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: |
+                                                        =
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.Value
+                                                      Items: =col_MinSec
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                                      Width: =Parent.Width/6
+                                                - lbl_BB_StartTimeSep_1:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: =":"
+                                                      Width: =10
+                                                - cbx_BB_StartSecond:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                      DefaultSelectedItems: |-
+                                                        =If(
+                                                            IsBlank(varBigbagDetail.ID),
+                                                            Blank(),
+                                                            Filter(col_MinSec, Value = Text(Second(varBigbagDetail.StartTime), "00"))
+                                                        )
+                                                      DisplayMode: |-
+                                                        =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                        If(
+                                                            varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                            (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                            varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                            ,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
+                                                        )
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: |
+                                                        =
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.Value
+                                                      Items: =col_MinSec
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                                      Width: =Parent.Width/6
+                                    - con_FieldBBEndTime:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                        Children:
+                                          - lbl_BB_FormEndTime:
+                                              Control: ModernText
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="TG kết thúc"
+                                          - con_BB_EndTimePicker:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =3
+                                                LayoutMinHeight: =0
+                                                Width: =Parent.Width
+                                              Children:
+                                                - dp_BB_EndDate:
+                                                    Control: ModernDatePicker
+                                                    Properties:
+                                                      DefaultDate: |-
+                                                        =If(
+                                                            IsBlank(varBigbagDetail.ID),
+                                                            Today(),
+                                                            // Chỉ lấy phần ngày (giờ/phút/giây đã có ở các ô chọn giờ)
+                                                            Date(Year(varBigbagDetail.EndTime), Month(varBigbagDetail.EndTime), Day(varBigbagDetail.EndTime))
+                                                        )
+                                                      DisplayMode: |-
+                                                        =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                        If(
+                                                            varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                            (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                            varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                            ,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
+                                                        )
+                                                      Font: =fxFontFamily
+                                                      Format: =DatePickerFormat.Short
+                                                      Placeholder: ="Chọn ngày ..."
+                                                      Size: =fxFontSizeMD
+                                                      Width: =Parent.Width/2 - 40
+                                                - cbx_BB_EndHour:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                      DefaultSelectedItems: |-
+                                                        =If(
+                                                            IsBlank(varBigbagDetail.ID),
+                                                            Blank(),
+                                                            Filter(col_Hours, Value = Text(Hour(varBigbagDetail.EndTime), "00"))
+                                                        )
+                                                      DisplayMode: |-
+                                                        =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                        If(
+                                                            varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                            (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                            varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                            ,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
+                                                        )
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: |
+                                                        =
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.Value
+                                                      Items: =col_Hours
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                                      Width: =Parent.Width/6
+                                                - lbl_BB_EndTimeSep:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: =":"
+                                                      Width: =10
+                                                - cbx_BB_EndMinute:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                      DefaultSelectedItems: |-
+                                                        =If(
+                                                            IsBlank(varBigbagDetail.ID),
+                                                            Blank(),
+                                                            Filter(col_MinSec, Value = Text(Minute(varBigbagDetail.EndTime), "00"))
+                                                        )
+                                                      DisplayMode: |-
+                                                        =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                        If(
+                                                            varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                            (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                            varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                            ,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
+                                                        )
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: |
+                                                        =
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.Value
+                                                      Items: =col_MinSec
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                                      Width: =Parent.Width/6
+                                                - lbl_BB_EndTimeSep_1:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: =":"
+                                                      Width: =10
+                                                - cbx_BB_EndSecond:
+                                                    Control: ModernCombobox
+                                                    Properties:
+                                                      BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                      DefaultSelectedItems: |-
+                                                        =If(
+                                                            IsBlank(varBigbagDetail.ID),
+                                                            Blank(),
+                                                            Filter(col_MinSec, Value = Text(Second(varBigbagDetail.EndTime), "00"))
+                                                        )
+                                                      DisplayMode: |-
+                                                        =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                        If(
+                                                            varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                            (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                            varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                            varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                            ,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
+                                                        )
+                                                      Font: =fxFontFamily
+                                                      InputTextPlaceholder: |
+                                                        =
+                                                      IsSearchable: =false
+                                                      ItemDisplayText: =ThisItem.Value
+                                                      Items: =col_MinSec
+                                                      SelectMultiple: =false
+                                                      Size: =fxFontSizeMD
+                                                      Width: =Parent.Width/6
+                                    - con_FieldBBTotalTime:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                        Children:
+                                          - lbl_BB_FormTotalTime:
+                                              Control: ModernText
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="Tổng TG (Giờ)"
+                                          - lbl_BB_TotalTimeValue:
+                                              Control: ModernText
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                LayoutMinWidth: =Parent.Width - 5
+                                                Size: =fxFontSizeMD
+                                                Text: |-
+                                                  =If(
+                                                      IsBlank(dp_BB_StartDate.SelectedDate) || IsBlank(dp_BB_EndDate.SelectedDate),
+                                                      "--",
+                                                      // Số giờ (giống giá trị lưu vào TotalTime): 0.5 = 30 phút
+                                                      Text(
+                                                          Round(
+                                                              DateDiff(
+                                                                  DateAdd(dp_BB_StartDate.SelectedDate, Value(cbx_BB_StartHour.Selected.Value)*3600 + Value(cbx_BB_StartMinute.Selected.Value)*60 + Value(cbx_BB_StartSecond.Selected.Value), TimeUnit.Seconds),
+                                                                  DateAdd(dp_BB_EndDate.SelectedDate, Value(cbx_BB_EndHour.Selected.Value)*3600 + Value(cbx_BB_EndMinute.Selected.Value)*60 + Value(cbx_BB_EndSecond.Selected.Value), TimeUnit.Seconds),
+                                                                  TimeUnit.Seconds
+                                                              ) / 3600, 2
+                                                          ), "0.00"
+                                                      )
+                                                  )
+                        - con_Row3_SanLuongNhanSuBB:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =If(scrNhapTuSanXuatForm.Size = 1,540, 300)
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =If(scrNhapTuSanXuatForm.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                              LayoutGap: =10
+                              PaddingBottom: =5
+                              PaddingLeft: =5
+                              PaddingRight: =5
+                              PaddingTop: =5
+                            Children:
+                              - con_SanLuongBB:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: |-
+                                      =If(
+                                          scrNhapTuSanXuatForm.Size = 1,
+                                          AlignInContainer.Start,
+                                          AlignInContainer.Stretch
+                                      )
+                                    DropShadow: =DropShadow.Regular
+                                    FillPortions: =0
+                                    Height: |-
+                                      =If(
+                                          scrNhapTuSanXuatForm.Size = 1,
+                                          Parent.Height/2 + 60,
+                                          Parent.Height - 20
+                                      )
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =5
+                                    RadiusBottomRight: =5
+                                    RadiusTopLeft: =5
+                                    RadiusTopRight: =5
+                                    Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width-10,Parent.Width/2 -10)
+                                  Children:
+                                    - lbl_SanLuongBB:
+                                        Control: ModernText
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =RGBA(45, 128, 40, 1)
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="3. Sản lượng"
+                                    - con_FieldBBQuantity:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =4
+                                          LayoutMinHeight: =70
+                                          PaddingLeft: =5
+                                        Children:
+                                          - lbl_BB_Quantity:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="KL thành phẩm (kg)"
+                                          - num_BB_Quantity:
+                                              Control: ModernNumberInput
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                Default: =varBigbagDetail.BaggingWeight
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                LayoutMinWidth: =Parent.Width - 10
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
+                                    - con_FieldBBRecycle:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =4
+                                          LayoutMinHeight: =70
+                                          PaddingLeft: =5
+                                          Width: =250
+                                        Children:
+                                          - lbl_BB_Recycle:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="Tái chế đầu/cuối (kg)"
+                                          - num_BB_Recycle:
+                                              Control: ModernNumberInput
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                Default: =varBigbagDetail.StartEndSetBack
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                LayoutMinWidth: =Parent.Width - 10
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
+                                    - con_FieldBBRerun:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =4
+                                          LayoutMinHeight: =70
+                                          PaddingLeft: =5
+                                        Children:
+                                          - lbl_BB_Rerun:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="SPKPH"
+                                          - num_BB_Rerun:
+                                              Control: ModernNumberInput
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                Default: =varBigbagDetail.ReRun
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
+                              - con_NhanSuBB:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: |-
+                                      =If(
+                                          scrNhapTuSanXuatForm.Size = 1,
+                                          AlignInContainer.Start,
+                                          AlignInContainer.Stretch
+                                      )
+                                    DropShadow: =DropShadow.Regular
+                                    FillPortions: =0
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    PaddingBottom: =10
+                                    PaddingLeft: =10
+                                    PaddingRight: =10
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =5
+                                    RadiusBottomRight: =5
+                                    RadiusTopLeft: =5
+                                    RadiusTopRight: =5
+                                    Width: =If(scrNhapTuSanXuatForm.Size = 1, Parent.Width-10,Parent.Width/2 -10)
+                                  Children:
+                                    - lbl_NhanSuBB:
+                                        Control: ModernText
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =RGBA(45, 128, 40, 1)
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          Size: =fxFontSizeMD
+                                          Text: ="4. Nhân sự"
+                                    - con_FieldBBStaff:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =70
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =4
+                                          LayoutMinHeight: =70
+                                        Children:
+                                          - lbl_BB_Staff:
+                                              Control: ModernText
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="NV ra bao"
+                                          - txt_BB_Staff:
+                                              Control: ModernTextInput
+                                              Properties:
+                                                Default: =varBigbagDetail.BaggingStaff
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                Placeholder: ="Nhập tên NV ra bao"
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
+                                    - con_FieldBBShiftSup:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =70
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =4
+                                          LayoutMinHeight: =70
+                                        Children:
+                                          - lbl_BB_ShiftSup:
+                                              Control: ModernText
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                Font: =fxFontFamily
+                                                Size: =fxFontSizeMD
+                                                Text: ="Trưởng ca"
+                                          - txt_BB_ShiftSup:
+                                              Control: ModernTextInput
+                                              Properties:
+                                                Default: =varBigbagDetail.ShiftSupervisor
+                                                DisplayMode: |-
+                                                  =// Chỉ cho phép chỉnh sửa khi phiếu đang ở trạng thái DRAFT, các trạng thái khác thì khóa
+                                                  If(
+                                                      varProductionReceiptDetail.StatusCode = "DRAFT"       &&
+                                                      (varUserInPlant.Role = Index(col_RoleUser,15).RoleCode || // SHIFT_LEADER  - Trưởng ca
+                                                      varUserInPlant.Role = Index(col_RoleUser,6).RoleCode   || // PROD_STAT     - Thống kê sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,12).RoleCode  || // PROD_ASST     - Trợ lý sản xuất
+                                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)     // VHSX_HO       - VHSX HO
+                                                      ,
+                                                      DisplayMode.Edit,
+                                                      DisplayMode.Disabled
+                                                  )
+                                                Font: =fxFontFamily
+                                                Placeholder: ="Nhập tên trưởng ca"
+                                                Size: =fxFontSizeMD
+                                                Width: =Parent.Width - 10
       - con_PopupNhapKhacForm:
           Control: GroupContainer
           Variant: AutoLayout
@@ -7124,7 +9264,7 @@ Screens:
                                     Filter(
                                         'QLK List Production Receipt Details',
                                         ReceiptID = varProductionReceiptDetail.ID,
-                                        ReceiptTypeCode = Index(col_ReceiptType, 2).ReceiptTypeCode
+                                        (ReceiptTypeCode = Index(col_ReceiptType, 2).ReceiptTypeCode || ReceiptTypeCode = "BIGBAG")
                                     )
                                 ),
                                 {
