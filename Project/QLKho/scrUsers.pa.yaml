@@ -1105,7 +1105,7 @@ Screens:
                               SubMenu: []
                           },
                           {
-                              ID: 2, Title: "Danh mục", Icon: "Database", Screen: Blank(), IsGroup: false, Sort: 2,
+                              ID: 2, Title: "Danh mục", Icon: "Database", Screen: Blank(), IsGroup: true, Sort: 2,
                               Visible: varUserInPlant.Role in [rc7, rc6, rc12, rc9, rc2],
                               SubMenu: [
                                   {
@@ -1139,11 +1139,11 @@ Screens:
                               ]
                           },
                           {
-                              ID: 3, Title: "Nhập kho", Icon: "ArrowDownload", Screen: scrNhapTuSanXuat, IsGroup: false, Sort: 3,
+                              ID: 3, Title: "Nhập kho", Icon: "ArrowDownload", Screen: scrNhapTuSanXuat, IsGroup: true, Sort: 3,
                               Visible: varUserInPlant.Role in [rc15, rc6, rc12, rc9, rc17, rc18, rc1, rc16, rc2],
                               SubMenu: [
                                   {
-                                      ID: 31, Title: "Nhập kho", Icon: "Factory", Screen: scrNhapTuSanXuat, Sort: 3.1,
+                                      ID: 31, Title: "Nhập kho sản xuất", Icon: "Factory", Screen: scrNhapTuSanXuat, Sort: 3.1,
                                       Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc12, rc16, rc1]
                                   },
                                   /*{
@@ -1162,7 +1162,7 @@ Screens:
                               //SubMenu : []
                           },
                           {
-                              ID: 4, Title: "Xuất kho", Icon: "ArrowUp", Screen: scrXuatKho, IsGroup: false, Sort: 4,
+                              ID: 4, Title: "Xuất kho", Icon: "ArrowUp", Screen: scrXuatKho, IsGroup: true, Sort: 4,
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2,rc6],
                               /*SubMenu: [
                                   {
@@ -1185,7 +1185,7 @@ Screens:
                               SubMenu : []
                           },
                           {
-                              ID: 5, Title: "Kiểm kho", Icon: "DocumentBulletList", Screen: Blank(), IsGroup: false, Sort: 5,
+                              ID: 5, Title: "Kiểm kho", Icon: "DocumentBulletList", Screen: Blank(), IsGroup: true, Sort: 5,
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16],
                               SubMenu: [
                                   {
@@ -1207,7 +1207,7 @@ Screens:
                               ]
                           },
                           {
-                              ID: 6, Title: "Báo cáo NXT", Icon: "Document", Screen: scrNXT, IsGroup: false, Sort: 6,
+                              ID: 6, Title: "Báo cáo NXT", Icon: "Document", Screen: scrNXT, IsGroup: true, Sort: 6,
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc15, rc12, rc8, rc13, rc1, rc7, rc6],
                               SubMenu: [
                                   {
@@ -1217,7 +1217,7 @@ Screens:
                               ]
                           },
                           {
-                              ID: 7, Title: "Báo cáo khác", Icon: "Document", Screen: Blank(), IsGroup: false, Sort: 7,
+                              ID: 7, Title: "Báo cáo khác", Icon: "Document", Screen: Blank(), IsGroup: true, Sort: 7,
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc15, rc6, rc12, rc13, rc1, rc8],
                               SubMenu: [
                                   {
@@ -1231,7 +1231,7 @@ Screens:
                               ]
                           },
                           {
-                              ID: 8, Title: "Tồn kho - SAP", Icon: "GlobeArrowUp", Screen: Blank(), IsGroup: false, Sort: 8,
+                              ID: 8, Title: "Tồn kho - SAP", Icon: "GlobeArrowUp", Screen: Blank(), IsGroup: true, Sort: 8,
                               Visible: false,
                               SubMenu: [
                                   {

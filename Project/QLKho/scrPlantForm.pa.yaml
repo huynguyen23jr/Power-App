@@ -1366,7 +1366,12 @@ Screens:
                               - cb_user:
                                   Control: Classic/ComboBox
                                   Properties:
-                                    DefaultSelectedItems: =LookUp(GFVN_SharePointListHREmployeesURL,UserId = varDetailEmployeeInPlant.UserID)
+                                    DefaultSelectedItems: |-
+                                      =Filter(
+                                          GFVN_SharePointListHREmployeesURL,
+                                          !IsBlank(varDetailEmployeeInPlant.UserEmail),
+                                          G_Email = varDetailEmployeeInPlant.UserEmail
+                                      )
                                     DisplayFields: =["FullName"]
                                     InputTextPlaceholder: ="Nhập email,tên nhân viên"
                                     Items: |

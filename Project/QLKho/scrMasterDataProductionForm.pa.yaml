@@ -163,20 +163,22 @@ Screens:
                                     OnSelect: |
                                       =With(
                                           {
-                                              _isDuplicate: Filter(
-                                                      'QLK List Master Data Production',
-                                                      PlantCode = varUserInPlant.PlantCode,
-                                                      SAPCode = txtMasterProduct_SAPCode.Text
-                                                  )
+                                              _isNew: IsBlank(varMasterProductDetail.ID)
                                           },
                                           If(
-                                              CountRows(_isDuplicate) > 0,
+                                              // Chỉ kiểm tra trùng mã SAP khi tạo mới; chỉnh sửa thì bỏ qua
+                                              _isNew && !IsBlank(
+                                                  LookUp(
+                                                      'QLK List Master Data Production',
+                                                      PlantCode = varUserInPlant.PlantCode && SAPCode = txtMasterProduct_SAPCode.Text
+                                                  )
+                                              ),
                                               Notify("Mã SAP đã tồn tại trong nhà máy này.", NotificationType.Warning, 2000),
                                               IfError(
                                                   Patch(
                                                       'QLK List Master Data Production',
                                                       If(
-                                                          IsBlank(varMasterProductDetail),
+                                                          _isNew,
                                                           Defaults('QLK List Master Data Production'),
                                                           varMasterProductDetail
                                                       ),

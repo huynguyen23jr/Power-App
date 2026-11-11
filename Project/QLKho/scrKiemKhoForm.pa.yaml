@@ -1681,7 +1681,7 @@ Screens:
                                                         =// Số kg tồn: tính theo loại kiểm kê (áp dụng cho cả thành phẩm và nguyên liệu)
                                                         Switch(
                                                             cmb_StockCountType.Selected.ProductTypeCode,
-                                                            "BAOQC",    // Hàng bao: (pallet × lớp/pallet × bao/lớp + bao lẻ + bao rách) × kg/bao + kg lẻ
+                                                            "BAOQC",    // Hàng bao: ((pallet × lớp/pallet × bao/lớp × số túi/bao) + bao lẻ + bao rách) × kg/bao + kg lẻ
                                                             With(
                                                                 {
                                                                     palletQty:      Coalesce(Value(num_PalletQty.Value), 0),
@@ -1690,10 +1690,11 @@ Screens:
                                                                     layerPerPallet: Coalesce(Value(cmb_ProductCode.Selected.LayerPerPallet), 0),
                                                                     bagPerLayer:    Coalesce(Value(cmb_ProductCode.Selected.BagPerLayer), 0),
                                                                     bagSize:        Coalesce(Value(cmb_ProductCode.Selected.BagSize), 0),
+                                                                    smallBagPerBag: Coalesce(Value(cmb_ProductCode.Selected.SmallBagPerBag), 0), // Số túi/bao
                                                                     oddKgQty:       Coalesce(Value(num_OddKgQty.Value), 0)
                                                                 },
                                                                 Round(
-                                                                    ((palletQty * layerPerPallet * bagPerLayer) + oddBagQty + brokenBagQty) * bagSize + oddKgQty,
+                                                                    ((palletQty * layerPerPallet * bagPerLayer * If(smallBagPerBag > 0, smallBagPerBag, 1)) + oddBagQty + brokenBagQty) * bagSize + oddKgQty,
                                                                     2
                                                                 )
                                                             ),
