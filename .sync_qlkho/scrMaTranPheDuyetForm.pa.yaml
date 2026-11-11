@@ -1,0 +1,1113 @@
+Screens:
+  scrMaTranPheDuyetForm:
+    Children:
+      - con_MainMaTranPheDuyetForm:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Horizontal
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Width: =Parent.Width
+          Children:
+            - con_MenuMaTranPheDuyetForm:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =Parent.Height
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  Visible: =scrMaTranPheDuyetForm.Size <> 1
+                  Width: =If(varShowMenuUser, 240, 64)
+                Children:
+                  - cmp_NavSidebarMaTranPheDuyetForm:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width
+            - con_SideRight_MainMaTranPheDuyetForm:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - con_HeaderMaTranPheDuyetForm:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =55
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                      Children:
+                        - cmp_HeaderMaTranPheDuyetForm:
+                            Control: CanvasComponent
+                            ComponentName: Header
+                            Properties:
+                              Height: =App.Height
+                              IDRecord: =100
+                              Width: =Parent.Width
+                              varSizeScreen: =scrMaTranPheDuyetForm.Size
+                  - con_BodyMaTranPheDuyetForm:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =Parent.Height - con_HeaderMaTranPheDuyetForm.Height
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =If(!varShowMenuUser, 0, 5)
+                        LayoutOverflowX: =LayoutOverflow.Scroll
+                        LayoutOverflowY: |-
+                          =If(
+                              scrMaTranPheDuyetForm.Size = 1,
+                              LayoutOverflow.Scroll,
+                              LayoutOverflow.Hide
+                          )
+                        PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                        PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                        PaddingRight: =If(!varShowMenuUser, 0, 5)
+                        PaddingTop: =If(!varShowMenuUser, 0, 5)
+                      Children:
+                        - con_BodyMainMaTranPheDuyetForm:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(250, 250, 251, 1)
+                              Height: =Parent.Height
+                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =12
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              PaddingBottom: =10
+                              PaddingLeft: =10
+                              PaddingRight: =10
+                              PaddingTop: =10
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                            Children:
+                              - conMaTranPheDuyetForm_ActionBar:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Semilight
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =52
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    PaddingBottom: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    PaddingTop: =8
+                                    RadiusBottomLeft: =5
+                                    RadiusBottomRight: =5
+                                    RadiusTopLeft: =5
+                                    RadiusTopRight: =5
+                                  Children:
+                                    - btnMaTranPheDuyetForm_Back:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Transparent
+                                          Icon: ="ChevronLeft"
+                                          Layout: =ButtonLayout.IconOnly
+                                          OnSelect: =Back()
+                                          Width: =36
+                                    - btnMaTranPheDuyetForm_Save:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          Font: =fxFontFamily
+                                          Icon: ="Save"
+                                          OnSelect: |-
+                                            =IfError(
+                                                Set(
+                                                    varMaTranPheDuyetDetail,
+                                                    Patch(
+                                                        'QLK List Approval Matrix',
+                                                        If(
+                                                            IsBlank(varMaTranPheDuyetDetail),
+                                                            Defaults('QLK List Approval Matrix'),
+                                                            varMaTranPheDuyetDetail
+                                                        ),
+                                                        {
+                                                            ProductCategoryCode: cmbMaTranPheDuyetForm_ProductCategoryCode.Selected.ProductCategoryCode,
+                                                            ProductTypeCode: cmbMaTranPheDuyetForm_ProductTypeCode.Selected.ProductTypeCode,
+                                                            BagSize: numMaTranPheDuyetForm_BagSize.Value,
+                                                            ApprovalTypeCode: cmbMaTranPheDuyetForm_ApprovalTypeCode.Selected.ApprovalTypeCode,
+                                                            PlantCode: varUserInPlant.PlantCode,
+                                                            PlantName: varUserInPlant.PlantName
+                                                        }
+                                                    )
+                                                ),
+                                                Notify("Không thể lưu dữ liệu.", NotificationType.Error,2000),
+                                                Notify("Đã lưu thành công.", NotificationType.Success,2000)
+                                            )
+                                          Text: ="Lưu"
+                                    - btnMaTranPheDuyetForm_Refresh:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          Font: =fxFontFamily
+                                          Icon: ="ArrowClockwise"
+                                          OnSelect: |-
+                                            =Set(varMaTranPheDuyetDetail,LookUp('QLK List Approval Matrix',ID = varMaTranPheDuyetDetail.ID));
+                                            Refresh('QLK List Approval Matrix');
+                                            Refresh('QLK List Approval Matrix Steps');
+                                          Text: ="Làm mới"
+                                          Width: =120
+                              - conMaTranPheDuyetForm_Content:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Height: |-
+                                      =If(
+                                          scrMaTranPheDuyetForm.Size = 1,
+                                          410,
+                                          240
+                                      )
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - conMaTranPheDuyetForm_SectionInfo:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.Regular
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0
+                                          Height: |-
+                                            =If(
+                                                scrMaTranPheDuyetForm.Size = 1,
+                                                380,
+                                                230
+                                            )
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: |-
+                                            =If(
+                                                scrMaTranPheDuyetForm.Size = 1,
+                                                0,
+                                                5
+                                            )
+                                          PaddingBottom: =12
+                                          PaddingLeft: =12
+                                          PaddingRight: =12
+                                          PaddingTop: =12
+                                          RadiusBottomLeft: =5
+                                          RadiusBottomRight: =5
+                                          RadiusTopLeft: =5
+                                          RadiusTopRight: =5
+                                        Children:
+                                          - lblMaTranPheDuyetForm_SectionInfo:
+                                              Control: ModernText
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                Color: =RGBA(45, 128, 40, 1)
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeLG
+                                                Text: ="Thông tin ma trận phê duyệt"
+                                          - conMaTranPheDuyetForm_GridInfo:
+                                              Control: GroupContainer
+                                              Variant: GridLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                LayoutGap: =15
+                                                LayoutGridColumns: =If(scrMaTranPheDuyetForm.Size = 1, 1, 2)
+                                                LayoutGridRows: =If(scrMaTranPheDuyetForm.Size = 1, 4, 2)
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
+                                                PaddingTop: =0
+                                              Children:
+                                                - conMaTranPheDuyetForm_FieldProductCategoryCode:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =76
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutGap: =4
+                                                    Children:
+                                                      - lblMaTranPheDuyetForm_ProductCategoryCode:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Phân loại sản phẩm *"
+                                                      - cmbMaTranPheDuyetForm_ProductCategoryCode:
+                                                          Control: ModernCombobox
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Stretch
+                                                            DefaultSelectedItems: =LookUp(col_ProductCategories,ProductCategoryCode = varMaTranPheDuyetDetail.ProductCategoryCode)
+                                                            Font: =fxFontFamily
+                                                            InputTextPlaceholder: =""
+                                                            IsSearchable: =false
+                                                            ItemDisplayText: =ThisItem.ProductCategoryNameVI
+                                                            Items: =col_ProductCategories
+                                                            LayoutMinWidth: =Parent.Width
+                                                            SelectMultiple: =false
+                                                            Size: =fxFontSizeMD
+                                                - conMaTranPheDuyetForm_FieldProductTypeCode:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =76
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutGap: =4
+                                                    Children:
+                                                      - lblMaTranPheDuyetForm_ProductTypeCode:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Loại hàng *"
+                                                      - cmbMaTranPheDuyetForm_ProductTypeCode:
+                                                          Control: ModernCombobox
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Stretch
+                                                            DefaultSelectedItems: =LookUp(col_ProductTypes,ProductTypeCode = varMaTranPheDuyetDetail.ProductTypeCode)
+                                                            Font: =fxFontFamily
+                                                            InputTextPlaceholder: =""
+                                                            IsSearchable: =false
+                                                            ItemDisplayText: =ThisItem.ProductTypeNameVI
+                                                            Items: =col_ProductTypes
+                                                            LayoutMinWidth: =Parent.Width
+                                                            SelectMultiple: =false
+                                                            Size: =fxFontSizeMD
+                                                - conMaTranPheDuyetForm_FieldBagSize:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =76
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutGap: =4
+                                                    Children:
+                                                      - lblMaTranPheDuyetForm_BagSize:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Cỡ bao *"
+                                                      - numMaTranPheDuyetForm_BagSize:
+                                                          Control: ModernNumberInput
+                                                          Properties:
+                                                            Default: =varMaTranPheDuyetDetail.BagSize
+                                                            Font: =fxFontFamily
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                - conMaTranPheDuyetForm_FieldApprovalTypeCode:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =76
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutGap: =4
+                                                    Children:
+                                                      - lblMaTranPheDuyetForm_ApprovalTypeCode:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Loại phê duyệt *"
+                                                      - cmbMaTranPheDuyetForm_ApprovalTypeCode:
+                                                          Control: ModernCombobox
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Stretch
+                                                            DefaultSelectedItems: =LookUp(col_ApprovalTypes,ApprovalTypeCode = varMaTranPheDuyetDetail.ApprovalTypeCode)
+                                                            Font: =fxFontFamily
+                                                            InputTextPlaceholder: =""
+                                                            IsSearchable: =false
+                                                            ItemDisplayText: =ThisItem.ApprovalTypeNameVI
+                                                            Items: =col_ApprovalTypes
+                                                            LayoutMinWidth: |
+                                                              =123
+                                                            SelectMultiple: =false
+                                                            Size: =fxFontSizeMD
+                                    - con_ApprovalMatrixSteps:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.Regular
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          Height: =If(scrMaTranPheDuyetForm.Size = 1, 520, 360)
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =5
+                                          PaddingBottom: =8
+                                          PaddingLeft: =8
+                                          PaddingRight: =8
+                                          PaddingTop: =8
+                                          RadiusBottomLeft: =5
+                                          RadiusBottomRight: =5
+                                          RadiusTopLeft: =5
+                                          RadiusTopRight: =5
+                                          Visible: =!IsBlank(varMaTranPheDuyetDetail.ID)
+                                        Children:
+                                          - lbl_ApprovalMatrixSteps_Title:
+                                              Control: ModernText
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                Color: =RGBA(45, 128, 40, 1)
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeLG
+                                                Text: ="Chi tiết ma trận phê duyệt"
+                                          - con_ApprovalMatrixSteps_SearchAction:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =40
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =10
+                                                LayoutJustifyContent: =LayoutJustifyContent.End
+                                                PaddingBottom: =8
+                                                PaddingLeft: =8
+                                                PaddingRight: =8
+                                                PaddingTop: =8
+                                              Children:
+                                                - btn_Add_ApprovalMatrixSteps:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Icon: ="Add"
+                                                      OnSelect: |-
+                                                        =Set(var_ApprovalMatrixStepsDetail, {});
+                                                        UpdateContext({varShow_ApprovalMatrixStepsDetail: true});
+                                                        Reset(cmb_PopupField_RuleTypeCode);
+                                                        Reset(cmb_PopupField_RoleCode);
+                                                        Reset(cmb_PopupField_ApproverName);
+                                                        Reset(txt_PopupField_ThresholdValue);
+                                                        Reset(txt_PopupField_ThresholdPercent);
+                                                      Text: ="Thêm"
+                                                      Width: =100
+                                          - con_ApprovalMatrixSteps_ListBody:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =If(scrMaTranPheDuyetForm.Size = 1, DropShadow.None, DropShadow.Semibold)
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutOverflowX: =LayoutOverflow.Scroll
+                                                RadiusTopLeft: =If(scrMaTranPheDuyetForm.Size = 1, 0, 5)
+                                                RadiusTopRight: =0
+                                              Children:
+                                                - con_ApprovalMatrixSteps_GalleryWrapper:
+                                                    Control: GroupContainer
+                                                    Variant: ManualLayout
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Start
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =Parent.Height - lbl_ApprovalMatrixSteps_TotalRows.Height
+                                                      Width: =con_ApprovalMatrixSteps_ListBody.Width
+                                                    Children:
+                                                      - con_ApprovalMatrixSteps_TableHeader:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            DropShadow: =DropShadow.None
+                                                            Fill: =RGBA(249, 249, 249, 1)
+                                                            Height: =If(scrMaTranPheDuyetForm.Size = 1, 0, 50)
+                                                            LayoutAlignItems: =LayoutAlignItems.Center
+                                                            LayoutDirection: =LayoutDirection.Horizontal
+                                                            PaddingLeft: =10
+                                                            PaddingRight: =10
+                                                            Visible: =scrMaTranPheDuyetForm.Size <> 1
+                                                            Width: =Parent.Width
+                                                          Children:
+                                                            - lbl_ApprovalMatrixSteps_HeaderRuleTypeCode:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Stretch
+                                                                  FillPortions: =1
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightBold
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: ="Loại điều kiện"
+                                                            - lbl_ApprovalMatrixSteps_HeaderRoleCode:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Stretch
+                                                                  FillPortions: =2
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightBold
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: ="Vai trò"
+                                                            - lbl_ApprovalMatrixSteps_HeaderApproverName:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Stretch
+                                                                  FillPortions: =2
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightBold
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: ="Tên người phê duyệt"
+                                                            - lbl_ApprovalMatrixSteps_HeaderThresholdValue:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Stretch
+                                                                  FillPortions: =1
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightBold
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: ="Giá trị ngưỡng"
+                                                            - lbl_ApprovalMatrixSteps_HeaderThresholdPercent:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Stretch
+                                                                  FillPortions: =1
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightBold
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: ="Tỷ lệ giới hạn (%)"
+                                                            - lbl_ApprovalMatrixSteps_HeaderAction:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Stretch
+                                                                  FillPortions: =1
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightBold
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: ="Thao tác"
+                                                      - gal_ApprovalMatrixSteps:
+                                                          Control: Gallery
+                                                          Variant: Vertical
+                                                          Properties:
+                                                            BorderStyle: =BorderStyle.None
+                                                            Height: =Parent.Height - con_ApprovalMatrixSteps_TableHeader.Height
+                                                            Items: |-
+                                                              =Filter(
+                                                                  'QLK List Approval Matrix Steps',
+                                                                  ApprovalMatrixID = varMaTranPheDuyetDetail.ID
+                                                              )
+                                                            ShowScrollbar: =false
+                                                            TemplateSize: |-
+                                                              =If(
+                                                                  scrMaTranPheDuyetForm.Size = 1,
+                                                                  230,
+                                                                  50
+                                                              )
+                                                            Width: =Parent.Width
+                                                            Y: =con_ApprovalMatrixSteps_TableHeader.Height
+                                                          Children:
+                                                            - con_ApprovalMatrixSteps_RowDivider:
+                                                                Control: GroupContainer
+                                                                Variant: ManualLayout
+                                                                Properties:
+                                                                  DropShadow: =DropShadow.None
+                                                                  Fill: =RGBA(242, 243, 247, 1)
+                                                                  Height: =0.5
+                                                                  Visible: =scrMaTranPheDuyetForm.Size <> 1
+                                                                  Width: =Parent.Width - 10
+                                                                  Y: =gal_ApprovalMatrixSteps.TemplateHeight - 1
+                                                            - con_ApprovalMatrixSteps_RowParent:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  DropShadow: =If(scrMaTranPheDuyetForm.Size = 1, DropShadow.Light, DropShadow.None)
+                                                                  Height: =gal_ApprovalMatrixSteps.TemplateHeight
+                                                                  LayoutDirection: =LayoutDirection.Horizontal
+                                                                  LayoutGap: =If(scrMaTranPheDuyetForm.Size = 1, 5, 0)
+                                                                  Width: =Parent.Width - 10
+                                                                Children:
+                                                                  - con_ApprovalMatrixSteps_Row:
+                                                                      Control: GroupContainer
+                                                                      Variant: AutoLayout
+                                                                      Properties:
+                                                                        DropShadow: =DropShadow.None
+                                                                        FillPortions: =0
+                                                                        Height: =Parent.Height
+                                                                        LayoutAlignItems: =If(scrMaTranPheDuyetForm.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
+                                                                        LayoutDirection: =If(scrMaTranPheDuyetForm.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                                                        LayoutMinHeight: =Parent.Height
+                                                                        PaddingLeft: =If(scrMaTranPheDuyetForm.Size = 1, 10, 5)
+                                                                        PaddingRight: =10
+                                                                        PaddingTop: =If(scrMaTranPheDuyetForm.Size = 1, 10, 5)
+                                                                        Width: |-
+                                                                          =If(
+                                                                              scrMaTranPheDuyetForm.Size = 1,
+                                                                              Parent.Width / 1.25,
+                                                                              Parent.Width
+                                                                          )
+                                                                      Children:
+                                                                        - lbl_ApprovalMatrixSteps_RuleTypeCode:
+                                                                            Control: ModernText
+                                                                            Properties:
+                                                                              AlignInContainer: =If(scrMaTranPheDuyetForm.Size = 1, AlignInContainer.Stretch, AlignInContainer.SetByContainer)
+                                                                              FillPortions: =If(scrMaTranPheDuyetForm.Size = 1, 1, 0)
+                                                                              Font: =fxFontFamily
+                                                                              Height: =30
+                                                                              Size: =fxFontSizeMD
+                                                                              Text: =LookUp(col_RuleTypes,RuleTypeCode = ThisItem.RuleTypeCode).RuleTypeNameVI
+                                                                              Width: =lbl_ApprovalMatrixSteps_HeaderRuleTypeCode.Width
+                                                                              Wrap: =false
+                                                                        - lbl_ApprovalMatrixSteps_RoleCode:
+                                                                            Control: ModernText
+                                                                            Properties:
+                                                                              AlignInContainer: =If(scrMaTranPheDuyetForm.Size = 1, AlignInContainer.Stretch, AlignInContainer.SetByContainer)
+                                                                              FillPortions: =If(scrMaTranPheDuyetForm.Size = 1, 1, 0)
+                                                                              Font: =fxFontFamily
+                                                                              Height: =30
+                                                                              Size: =fxFontSizeMD
+                                                                              Text: =LookUp(col_RoleUser,RoleCode = ThisItem.RoleCode).RoleNameVI
+                                                                              Width: =lbl_ApprovalMatrixSteps_HeaderRoleCode.Width
+                                                                              Wrap: =false
+                                                                        - lbl_ApprovalMatrixSteps_ApproverName:
+                                                                            Control: ModernText
+                                                                            Properties:
+                                                                              AlignInContainer: =If(scrMaTranPheDuyetForm.Size = 1, AlignInContainer.Stretch, AlignInContainer.SetByContainer)
+                                                                              FillPortions: =If(scrMaTranPheDuyetForm.Size = 1, 1, 0)
+                                                                              Font: =fxFontFamily
+                                                                              Height: =30
+                                                                              Size: =fxFontSizeMD
+                                                                              Text: =ThisItem.UserName
+                                                                              Width: =lbl_ApprovalMatrixSteps_HeaderApproverName.Width
+                                                                              Wrap: =false
+                                                                        - lbl_ApprovalMatrixSteps_ThresholdValue:
+                                                                            Control: ModernText
+                                                                            Properties:
+                                                                              AlignInContainer: =If(scrMaTranPheDuyetForm.Size = 1, AlignInContainer.Stretch, AlignInContainer.SetByContainer)
+                                                                              FillPortions: =If(scrMaTranPheDuyetForm.Size = 1, 1, 0)
+                                                                              Font: =fxFontFamily
+                                                                              Height: =30
+                                                                              Size: =fxFontSizeMD
+                                                                              Text: =Text(ThisItem.ThresholdValue)
+                                                                              Width: =lbl_ApprovalMatrixSteps_HeaderThresholdValue.Width
+                                                                              Wrap: =false
+                                                                        - lbl_ApprovalMatrixSteps_ThresholdPercent:
+                                                                            Control: ModernText
+                                                                            Properties:
+                                                                              AlignInContainer: =If(scrMaTranPheDuyetForm.Size = 1, AlignInContainer.Stretch, AlignInContainer.SetByContainer)
+                                                                              FillPortions: =If(scrMaTranPheDuyetForm.Size = 1, 1, 0)
+                                                                              Font: =fxFontFamily
+                                                                              Height: =30
+                                                                              Size: =fxFontSizeMD
+                                                                              Text: =Text(ThisItem.ThresholdPercent)
+                                                                              Width: =lbl_ApprovalMatrixSteps_HeaderThresholdPercent.Width
+                                                                              Wrap: =false
+                                                                        - con_ApprovalMatrixSteps_Actions:
+                                                                            Control: GroupContainer
+                                                                            Variant: AutoLayout
+                                                                            Properties:
+                                                                              DropShadow: =DropShadow.None
+                                                                              FillPortions: =If(scrMaTranPheDuyetForm.Size = 1, 1, 0)
+                                                                              Height: =30
+                                                                              LayoutAlignItems: =LayoutAlignItems.Center
+                                                                              LayoutDirection: =LayoutDirection.Horizontal
+                                                                              LayoutMinHeight: =Parent.Height
+                                                                              Visible: =scrMaTranPheDuyetForm.Size <> 1
+                                                                              Width: =lbl_ApprovalMatrixSteps_HeaderAction.Width
+                                                                            Children:
+                                                                              - btn_ApprovalMatrixSteps_Edit:
+                                                                                  Control: ModernButton
+                                                                                  Properties:
+                                                                                    Appearance: =ButtonAppearance.Transparent
+                                                                                    Icon: ="Edit"
+                                                                                    Layout: =ButtonLayout.IconOnly
+                                                                                    OnSelect: |-
+                                                                                      =Set(var_ApprovalMatrixStepsDetail, ThisItem);
+                                                                                      UpdateContext({varShow_ApprovalMatrixStepsDetail: true})
+                                                                                    Width: =30
+                                                                              - btn_ApprovalMatrixSteps_Delete:
+                                                                                  Control: ModernButton
+                                                                                  Properties:
+                                                                                    Appearance: =ButtonAppearance.Transparent
+                                                                                    Icon: ="Delete"
+                                                                                    Layout: =ButtonLayout.IconOnly
+                                                                                    OnSelect: |-
+                                                                                      =Remove(
+                                                                                          'QLK List Approval Matrix Steps',
+                                                                                          ThisItem
+                                                                                      );
+                                                                                      Notify("Đã xóa thành công!", NotificationType.Success,2000)
+                                                                                    Width: =30
+                                                                  - con_ApprovalMatrixSteps_MobileAction:
+                                                                      Control: GroupContainer
+                                                                      Variant: AutoLayout
+                                                                      Properties:
+                                                                        DropShadow: =DropShadow.None
+                                                                        FillPortions: =0
+                                                                        Height: =150
+                                                                        LayoutDirection: =LayoutDirection.Vertical
+                                                                        Visible: =scrMaTranPheDuyetForm.Size = 1
+                                                                        Width: =Parent.Width - con_ApprovalMatrixSteps_Row.Width - 5
+                                                                      Children:
+                                                                        - btn_ApprovalMatrixSteps_MobileEdit:
+                                                                            Control: ModernButton
+                                                                            Properties:
+                                                                              Appearance: =ButtonAppearance.Transparent
+                                                                              Height: =Parent.Height/2
+                                                                              Icon: ="Eye"
+                                                                              Layout: =ButtonLayout.IconOnly
+                                                                              OnSelect: |-
+                                                                                =Set(var_ApprovalMatrixStepsDetail, ThisItem);
+                                                                                UpdateContext({varShow_ApprovalMatrixStepsDetail: true})
+                                                                              Width: '=Parent.Width '
+                                                                        - btn_ApprovalMatrixSteps_MobileDelete:
+                                                                            Control: ModernButton
+                                                                            Properties:
+                                                                              Appearance: =ButtonAppearance.Transparent
+                                                                              Height: =Parent.Height/2
+                                                                              Icon: ="Delete"
+                                                                              Layout: =ButtonLayout.IconOnly
+                                                                              OnSelect: |-
+                                                                                =Remove(
+                                                                                    'QLK List Approval Matrix Steps',
+                                                                                    ThisItem
+                                                                                );
+                                                                                Notify("Đã xóa thành công!", NotificationType.Success,2000)
+                                                                              Width: =Parent.Width
+                                                - lbl_ApprovalMatrixSteps_TotalRows:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Hiển thị " & CountRows(gal_ApprovalMatrixSteps.AllItems) & " dòng"
+      - con_PopupApprovalMatrixSteps:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.3)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShow_ApprovalMatrixStepsDetail
+            Width: =Parent.Width
+          Children:
+            - con_PopupApprovalMatrixSteps_Card:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.Center
+                  DropShadow: =DropShadow.None
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FillPortions: =0
+                  Height: |-
+                    =Switch(
+                        scrMaTranPheDuyetForm.Size,
+                        ScreenSize.Small,
+                        Parent.Height * 0.6,
+                        ScreenSize.Medium,
+                        Parent.Height * 0.6,
+                        ScreenSize.Large,
+                        Parent.Height * 0.6,
+                        ScreenSize.ExtraLarge,
+                        Parent.Height * 0.4
+                    )
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =10
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  PaddingBottom: =8
+                  PaddingLeft: =8
+                  PaddingRight: =8
+                  PaddingTop: =8
+                  RadiusBottomLeft: =5
+                  RadiusBottomRight: =5
+                  RadiusTopLeft: =5
+                  RadiusTopRight: =5
+                  Width: |-
+                    =Switch(
+                        scrMaTranPheDuyetForm.Size,
+                        ScreenSize.Small,
+                            Parent.Width - 10,
+                        ScreenSize.Medium,
+                            Parent.Width * 0.6,
+                        ScreenSize.Large,
+                            Parent.Width * 0.5,
+                        ScreenSize.ExtraLarge,
+                            Parent.Width * 0.45)
+                Children:
+                  - con_PopupApprovalMatrixSteps_ActionBar:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        FillPortions: =0
+                        Height: =45
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Width: =Parent.Width - 10
+                      Children:
+                        - btn_PopupApprovalMatrixSteps_Close:
+                            Control: ModernButton
+                            Properties:
+                              Appearance: =ButtonAppearance.Transparent
+                              Icon: ="ChevronLeft"
+                              Layout: =ButtonLayout.IconOnly
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: =UpdateContext({varShow_ApprovalMatrixStepsDetail:false})
+                              Width: =30
+                        - btn_PopupApprovalMatrixSteps_Save:
+                            Control: ModernButton
+                            Properties:
+                              Appearance: =ButtonAppearance.Outline
+                              BasePaletteColor: =RGBA(8, 222, 8, 1)
+                              Font: =fxFontFamily
+                              Icon: ="Save"
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              OnSelect: |-
+                                =Set(
+                                    var_ApprovalMatrixStepsDetail,
+                                    If(
+                                        IsBlank(var_ApprovalMatrixStepsDetail.ID),
+                                        // Tạo mới
+                                        Patch(
+                                            'QLK List Approval Matrix Steps',
+                                            Defaults('QLK List Approval Matrix Steps'),
+                                            {
+                                                ApprovalMatrixID:  varMaTranPheDuyetDetail.ID,
+                                                PlantCode:         varMaTranPheDuyetDetail.PlantCode,
+                                                RuleTypeCode:      cmb_PopupField_RuleTypeCode.Selected.RuleTypeCode,
+                                                RoleCode:          cmb_PopupField_RoleCode.Selected.RoleCode,
+                                                UserName:      cmb_PopupField_ApproverName.Selected.UserName,
+                                                UserEmail:     cmb_PopupField_ApproverName.Selected.UserEmail,
+                                                UserID:     cmb_PopupField_ApproverName.Selected.UserID,
+                                                ProductCategoryCode:     varMaTranPheDuyetDetail.ProductCategoryCode,
+                                                ProductTypeCode:         varMaTranPheDuyetDetail.ProductTypeCode,
+                                                BagSize:                 varMaTranPheDuyetDetail.BagSize,
+                                                ApprovalTypeCode:        varMaTranPheDuyetDetail.ApprovalTypeCode,
+                                                ThresholdValue:    If(cmb_PopupField_RuleTypeCode.Selected.RuleTypeCode = "FIXED_VALUE", txt_PopupField_ThresholdValue.Value, 0),
+                                                ThresholdPercent:  If(cmb_PopupField_RuleTypeCode.Selected.RuleTypeCode <> "FIXED_VALUE", txt_PopupField_ThresholdPercent.Value, 0)
+                                            }
+                                        ),
+                                        // Cập nhật
+                                        Patch(
+                                            'QLK List Approval Matrix Steps',
+                                            var_ApprovalMatrixStepsDetail,
+                                            {
+                                                RuleTypeCode:      cmb_PopupField_RuleTypeCode.Selected.RuleTypeCode,
+                                                PlantCode:         varMaTranPheDuyetDetail.PlantCode,
+                                                RoleCode:          cmb_PopupField_RoleCode.Selected.RoleCode,
+                                                UserName:      cmb_PopupField_ApproverName.Selected.UserName,
+                                                UserEmail:     cmb_PopupField_ApproverName.Selected.UserEmail,
+                                                UserID:     cmb_PopupField_ApproverName.Selected.UserID,
+                                                ProductCategoryCode:     varMaTranPheDuyetDetail.ProductCategoryCode,
+                                                ProductTypeCode:         varMaTranPheDuyetDetail.ProductTypeCode,
+                                                BagSize:                 varMaTranPheDuyetDetail.BagSize,
+                                                ApprovalTypeCode:        varMaTranPheDuyetDetail.ApprovalTypeCode,
+                                                ThresholdValue:    If(cmb_PopupField_RuleTypeCode.Selected.RuleTypeCode = "FIXED_VALUE", txt_PopupField_ThresholdValue.Value, 0),
+                                                ThresholdPercent:  If(cmb_PopupField_RuleTypeCode.Selected.RuleTypeCode <> "FIXED_VALUE", txt_PopupField_ThresholdPercent.Value, 0)
+                                            }
+                                        )
+                                    )
+                                );
+                                Notify(
+                                    If(IsBlank(var_ApprovalMatrixStepsDetail.ID), "Them thanh cong", "Cap nhat thanh cong"),
+                                    NotificationType.Success,
+                                    2000
+                                );
+                                UpdateContext({varShow_ApprovalMatrixStepsDetail: false})
+                              Text: ="Lưu và đóng"
+                              Width: =140
+                  - con_PopupApprovalMatrixSteps_Body:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        FillPortions: =0
+                        Height: =380
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =5
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        Width: =Parent.Width - 10
+                      Children:
+                        - lbl_PopupApprovalMatrixSteps_Title:
+                            Control: ModernText
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =RGBA(45, 128, 40, 1)
+                              Font: =fxFontFamily
+                              FontWeight: =fxFontWeightBold
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              Size: =fxFontSizeLG
+                              Text: |-
+                                =//If(IsBlank(var_ApprovalMatrixStepsDetail.ID), "Them dieu kien", "Chinh sua dieu kien")
+                                "Điều kiện"
+                        - con_PopupApprovalMatrixSteps_Grid:
+                            Control: GroupContainer
+                            Variant: GridLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =350
+                              LayoutGap: =10
+                              LayoutGridColumns: =1
+                              LayoutGridRows: =4
+                              LayoutMinHeight: =16
+                              LayoutMinWidth: =16
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Width: =Parent.Width
+                            Children:
+                              - con_PopupField_RuleTypeCode:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutGridColumnEnd: =3
+                                    LayoutGridColumnStart: =1
+                                    LayoutGridRowEnd: =1
+                                    LayoutGridRowStart: =1
+                                  Children:
+                                    - lbl_PopupField_RuleTypeCode:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          Size: =fxFontSizeMD
+                                          Text: ="Loại điều kiện *"
+                                    - cmb_PopupField_RuleTypeCode:
+                                        Control: ModernCombobox
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          DefaultSelectedItems: =LookUp(col_RuleTypes ,RuleTypeCode = var_ApprovalMatrixStepsDetail.RuleTypeCode)
+                                          Font: =fxFontFamily
+                                          InputTextPlaceholder: ="Chon loai dieu kien"
+                                          IsSearchable: =false
+                                          ItemDisplayText: =ThisItem.RuleTypeNameVI
+                                          Items: =Filter(col_RuleTypes, isActive)
+                                          LayoutMinWidth: =Parent.Width
+                                          SelectMultiple: =false
+                                          Size: =fxFontSizeMD
+                              - con_PopupField_RoleCode:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutGridColumnEnd: =3
+                                    LayoutGridColumnStart: =1
+                                    LayoutGridRowEnd: =2
+                                    LayoutGridRowStart: =2
+                                  Children:
+                                    - lbl_PopupField_RoleCode:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          Size: =fxFontSizeMD
+                                          Text: ="Vai trò *"
+                                    - cmb_PopupField_RoleCode:
+                                        Control: ModernCombobox
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          DefaultSelectedItems: =LookUp(col_RoleUser, RoleCode = cmb_PopupField_ApproverName.Selected.Role)
+                                          DisplayMode: =DisplayMode.Disabled
+                                          Font: =fxFontFamily
+                                          InputTextPlaceholder: ="Chon vai tro"
+                                          IsSearchable: =false
+                                          ItemDisplayText: =ThisItem.RoleNameVI
+                                          Items: =col_RoleUser
+                                          LayoutMinWidth: =Parent.Width
+                                          SelectMultiple: =false
+                                          Size: =fxFontSizeMD
+                              - con_PopupField_ApproverName:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutGridColumnEnd: =3
+                                    LayoutGridColumnStart: =1
+                                    LayoutGridRowEnd: =3
+                                    LayoutGridRowStart: =3
+                                  Children:
+                                    - lbl_PopupField_ApproverName:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          Size: =fxFontSizeMD
+                                          Text: ="Người phê duyệt *"
+                                    - cmb_PopupField_ApproverName:
+                                        Control: ModernCombobox
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          DefaultSelectedItems: |-
+                                            =If(
+                                                IsBlank(var_ApprovalMatrixStepsDetail.ID),
+                                                Blank(),
+                                                LookUp(
+                                                    'QLK List User In Plant',
+                                                    UserEmail = var_ApprovalMatrixStepsDetail.UserEmail
+                                                )
+                                            )
+                                          Font: =fxFontFamily
+                                          InputTextPlaceholder: ="Tim theo ten hoac email"
+                                          IsSearchable: =false
+                                          ItemDisplayText: =ThisItem.UserName
+                                          Items: |-
+                                            =Filter(
+                                                'QLK List User In Plant',
+                                                PlantCode = varUserInPlant.PlantCode
+                                            )
+                                          LayoutMinWidth: =Parent.Width
+                                          SelectMultiple: =false
+                                          Size: =fxFontSizeMD
+                              - con_PopupField_Threshold:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    LayoutGridColumnEnd: =3
+                                    LayoutGridColumnStart: =1
+                                    LayoutGridRowEnd: =4
+                                    LayoutGridRowStart: =4
+                                  Children:
+                                    - lbl_PopupField_Threshold:
+                                        Control: ModernText
+                                        Properties:
+                                          Font: =fxFontFamily
+                                          Size: =fxFontSizeMD
+                                          Text: =If(cmb_PopupField_RuleTypeCode.Selected.RuleTypeCode = "FIXED_VALUE", "Giá trị ngưỡng *", "Tỷ lệ giới hạn % *")
+                                    - txt_PopupField_ThresholdValue:
+                                        Control: ModernNumberInput
+                                        Properties:
+                                          Default: =var_ApprovalMatrixStepsDetail.ThresholdValue
+                                          Font: =fxFontFamily
+                                          LayoutMinWidth: =Parent.Width
+                                          Min: =0
+                                          Size: =fxFontSizeMD
+                                          Visible: =cmb_PopupField_RuleTypeCode.Selected.RuleTypeCode = "FIXED_VALUE"
+                                    - txt_PopupField_ThresholdPercent:
+                                        Control: ModernNumberInput
+                                        Properties:
+                                          Default: =var_ApprovalMatrixStepsDetail.ThresholdPercent
+                                          Font: =fxFontFamily
+                                          LayoutMinWidth: =Parent.Width
+                                          Max: =100
+                                          Min: =0
+                                          Size: =fxFontSizeMD
+                                          Visible: =cmb_PopupField_RuleTypeCode.Selected.RuleTypeCode <> "FIXED_VALUE"
+      - con_MenuOverlayNhapTuSanXuatHangBaoMobile_15:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =RGBA(0, 0, 0, 0.5)
+            Height: =Parent.Height - 55
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =5
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Visible: =varShowMenuUser && scrNhapTuSanXuat.Size = 1
+            Width: =Parent.Width
+            Y: =55
+          Children:
+            - con_MenuPanelNhapTuSanXuatMobile_16:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =743
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Visible: =scrNhapTuSanXuat.Size = 1
+                  Width: =Parent.Width*0.7
+                Children:
+                  - cmp_NavSidebarNhapTuSanXuatMobile_16:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width
+            - btn_CloseMenuOverlayNhapTuSanXuatMobile_16:
+                Control: ModernButton
+                Properties:
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Appearance: =ButtonAppearance.Transparent
+                  FillPortions: =1
+                  Layout: =ButtonLayout.TextOnly
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =Set(
+                        varShowMenuUser,
+                        !varShowMenuUser
+                    )
+                  Text: =
