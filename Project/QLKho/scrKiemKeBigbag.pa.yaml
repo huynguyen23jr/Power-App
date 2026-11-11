@@ -474,6 +474,19 @@ Screens:
                                           Text: ="Thao tác"
                                           Width: =80
                                           Wrap: =false
+                              - chk_KiemKhoHangBigbag_SelectAllMobile:
+                                  Control: ModernCheckbox
+                                  Properties:
+                                    Default: |-
+                                      =CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode)) > 0 &&
+                                      CountRows(col_SelectedKiemKhoHangBigbag) = CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode))
+                                    Font: =fxFontFamily
+                                    Height: =40
+                                    Label: ="Chọn tất cả phiếu nháp (" & CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode)) & ")"
+                                    OnCheck: =ClearCollect(col_SelectedKiemKhoHangBigbag, Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode))
+                                    OnUncheck: =Clear(col_SelectedKiemKhoHangBigbag)
+                                    Visible: =scrKiemKeBigbag.Size = 1 && CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode)) > 0
+                                    Width: =Parent.Width - 10
                               - gal_KiemKhoHangBigbag:
                                   Control: Gallery
                                   Variant: Vertical
@@ -623,6 +636,8 @@ Screens:
                                                       Font: =fxFontFamily
                                                       FontWeight: =fxFontWeightSemiBold
                                                       Height: =30
+                                                      PaddingBottom: =0
+                                                      PaddingTop: =0
                                                       Size: =fxFontSizeMD
                                                       Text: |-
                                                         =If(scrKiemKeBigbag.Size = 1, "Mã hàng: " & ThisItem.SAPCode, ThisItem.SAPCode)
