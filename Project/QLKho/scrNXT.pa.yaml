@@ -10,586 +10,1045 @@ Screens:
             DropShadow: =DropShadow.None
             Fill: =RGBA(0, 0, 0, 0.1)
             Height: =Parent.Height
-            LayoutAlignItems: =LayoutAlignItems.Center
-            LayoutDirection: =LayoutDirection.Vertical
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Horizontal
             RadiusBottomLeft: =0
             RadiusBottomRight: =0
             RadiusTopLeft: =0
             RadiusTopRight: =0
             Width: =Parent.Width
           Children:
-            - con_HeaderNXT_1:
+            - con_MenuNXT:
                 Control: GroupContainer
                 Variant: AutoLayout
                 Properties:
                   DropShadow: =DropShadow.None
                   FillPortions: =0
-                  Height: =55
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  Visible: =scrNXT.Size <> 1
+                  Width: =If(varShowMenuUser, 240, 64)
+                Children:
+                  - cmp_NavSidebarNXT:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width
+            - con_SideRight_MainNXT:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
                   LayoutAlignItems: =LayoutAlignItems.Stretch
                   LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
                   RadiusBottomLeft: =0
                   RadiusBottomRight: =0
                   RadiusTopLeft: =0
                   RadiusTopRight: =0
                 Children:
-                  - cmp_HeaderNXT:
-                      Control: CanvasComponent
-                      ComponentName: Header
-                      Properties:
-                        Height: =App.Height
-                        IDRecord: =100
-                        Width: =App.Width - Parent.PaddingLeft * 2 - 5
-                        varSizeScreen: =scrNXT.Size
-            - con_BodyNXT:
-                Control: GroupContainer
-                Variant: AutoLayout
-                Properties:
-                  DropShadow: =If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
-                  FillPortions: =0
-                  Height: =Parent.Height - con_HeaderNXT_1.Height
-                  LayoutAlignItems: =LayoutAlignItems.Center
-                  LayoutDirection: =LayoutDirection.Horizontal
-                  LayoutGap: =If(!varShowMenuUser, 0, 5)
-                  PaddingBottom: =If(!varShowMenuUser, 0, 5)
-                  PaddingLeft: =If(!varShowMenuUser, 0, 5)
-                  PaddingRight: =If(!varShowMenuUser, 0, 5)
-                  PaddingTop: =If(!varShowMenuUser, 0, 5)
-                Children:
-                  - con_MenuNXT:
+                  - con_HeaderNXT_1:
                       Control: GroupContainer
                       Variant: AutoLayout
                       Properties:
-                        DropShadow: =DropShadow.Semilight
+                        DropShadow: =DropShadow.None
                         FillPortions: =0
-                        LayoutDirection: =LayoutDirection.Horizontal
-                        Visible: =scrNXT.Size <> 1
-                        Width: =If(varShowMenuUser, 240, 0)
-                      Children:
-                        - cmp_NavSidebarNXT:
-                            Control: CanvasComponent
-                            ComponentName: NavSiderBar
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              Height: =Parent.Height
-                              SidebarWidth: =Parent.Width
-                              Width: =Parent.Width
-                  - con_ContentNXT:
-                      Control: GroupContainer
-                      Variant: AutoLayout
-                      Properties:
-                        DropShadow: |-
-                          =If(
-                              scrNXT.Size = 1,
-                              DropShadow.Semibold,
-                              DropShadow.None
-                          )
-                        Fill: =RGBA(255, 255, 255, 1)
-                        LayoutAlignItems: =LayoutAlignItems.Center
+                        Height: =55
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
                         LayoutDirection: =LayoutDirection.Vertical
-                        LayoutGap: =5
-                        PaddingBottom: =5
-                        PaddingLeft: =5
-                        PaddingRight: =5
-                        PaddingTop: =5
                         RadiusBottomLeft: =0
                         RadiusBottomRight: =0
-                        RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                        RadiusTopLeft: =0
                         RadiusTopRight: =0
                       Children:
-                        - con_ActionHeaderNXT:
+                        - cmp_HeaderNXT:
+                            Control: CanvasComponent
+                            ComponentName: Header
+                            Properties:
+                              Height: =App.Height
+                              IDRecord: =100
+                              Width: =Parent.Width
+                              varSizeScreen: =scrNXT.Size
+                  - con_BodyNXT:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
+                        FillPortions: =0
+                        Height: =Parent.Height - con_HeaderNXT_1.Height
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =If(!varShowMenuUser, 0, 5)
+                        PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                        PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                        PaddingRight: =If(!varShowMenuUser, 0, 5)
+                        PaddingTop: =If(!varShowMenuUser, 0, 5)
+                      Children:
+                        - con_ContentNXT:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
-                              DropShadow: =DropShadow.None
-                              FillPortions: =0
-                              Height: =40
-                              LayoutDirection: =LayoutDirection.Horizontal
-                              LayoutGap: =10
+                              DropShadow: |-
+                                =If(
+                                    scrNXT.Size = 1,
+                                    DropShadow.Semibold,
+                                    DropShadow.None
+                                )
+                              Fill: =RGBA(255, 255, 255, 1)
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
                               PaddingBottom: =5
                               PaddingLeft: =5
                               PaddingRight: =5
                               PaddingTop: =5
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                              RadiusTopRight: =0
                             Children:
-                              - btn_AddNewNXT:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Outline
-                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                    Font: =fxFontFamily
-                                    Icon: ="Add"
-                                    OnSelect: |-
-                                      =// Reset form và clear dữ liệu cũ song song trước khi chuyển màn hình
-                                      Concurrent(
-                                          Set(varNXTDetail, {}),          // Xóa phiếu đang chọn
-                                          Reset(dp_NXT_InventoryDate),    // Reset ngày về mặc định
-                                          Reset(cmb_NXT_ProductCategory)  // Reset loại sản phẩm về mặc định
-                                      );
-
-                                      // Chuyển sang màn hình form chi tiết NXT
-                                      Navigate(scrNXTForm, ScreenTransition.CoverRight)
-                                    Size: =fxFontSizeMD
-                                    Text: ="Thêm "
-                                    Visible: |-
-                                      =varUserInPlant.Role = Index(col_RoleUser,1).RoleCode ||   // FG_WH         - Thủ kho thành phẩm
-                                      varUserInPlant.Role = Index(col_RoleUser,9).RoleCode ||   // VHSX_HO       - VHSX HO
-                                      varUserInPlant.Role = Index(col_RoleUser,2).RoleCode      // FG_SUP        - Giám sát thành phẩm
-                                    Width: =120
-                              - btn_RefreshNXT:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Outline
-                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                    Font: =fxFontFamily
-                                    Icon: ="ArrowSync"
-                                    OnSelect: =Refresh('QLK List Inventory')
-                                    Size: =fxFontSizeMD
-                                    Text: ="Làm mới"
-                                    Width: =120
-                        - lbl_TitleNXT_1:
-                            Control: ModernText
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              Color: =RGBA(45, 128, 40, 1)
-                              Font: =fxFontFamily
-                              FontWeight: =fxFontWeightSemiBold
-                              Height: =40
-                              PaddingLeft: =10
-                              Size: =fxFontSizeXL
-                              Text: ="Nhập xuất tồn"
-                        - con_FilterNXT:
-                            Control: GroupContainer
-                            Variant: AutoLayout
-                            Properties:
-                              BorderColor: =RGBA(229, 231, 235, 1)
-                              BorderThickness: =If(scrNXT.Size = 1, 1, 0)
-                              DropShadow: =DropShadow.None
-                              Fill: =If(scrNXT.Size = 1, RGBA(248, 250, 252, 1), RGBA(0, 0, 0, 0))
-                              FillPortions: =0
-                              Height: =If(scrNXT.Size = 1, 96, 45)
-                              LayoutAlignItems: =LayoutAlignItems.Center
-                              LayoutDirection: =If(scrNXT.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
-                              LayoutGap: =If(scrNXT.Size = 1, 0, 8)
-                              LayoutMinWidth: =10
-                              PaddingBottom: =If(scrNXT.Size = 1, 8, 0)
-                              PaddingLeft: =8
-                              PaddingRight: =8
-                              PaddingTop: =If(scrNXT.Size = 1, 8, 0)
-                              RadiusBottomLeft: =If(scrNXT.Size = 1, 8, 0)
-                              RadiusBottomRight: =If(scrNXT.Size = 1, 8, 0)
-                              RadiusTopLeft: =If(scrNXT.Size = 1, 8, 0)
-                              RadiusTopRight: =If(scrNXT.Size = 1, 8, 0)
-                            Children:
-                              - con_SearchNXT:
+                              - con_ActionHeaderNXT:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
-                                    AlignInContainer: =AlignInContainer.Center
                                     DropShadow: =DropShadow.None
                                     FillPortions: =0
                                     Height: =40
-                                    LayoutAlignItems: =LayoutAlignItems.Center
                                     LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutMinHeight: =16
-                                    LayoutMinWidth: =16
-                                    Width: |-
-                                      =If(
-                                          scrNXT.Size = 1,
-                                          Parent.Width - Parent.PaddingLeft - Parent.PaddingRight,
-                                          Parent.Width - Parent.PaddingLeft - Parent.PaddingRight - Parent.LayoutGap - con_FilterActionsNXT.Width
-                                      )
+                                    LayoutGap: =10
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
                                   Children:
-                                    - txt_SearchNXT:
-                                        Control: ModernTextInput
-                                        Properties:
-                                          Font: =fxFontFamily
-                                          LayoutMinWidth: =16
-                                          Placeholder: ="Tìm kiếm ...."
-                                          Width: =Parent.Width
-                              - con_FilterActionsNXT:
-                                  Control: GroupContainer
-                                  Variant: AutoLayout
-                                  Properties:
-                                    AlignInContainer: =AlignInContainer.Center
-                                    DropShadow: =DropShadow.None
-                                    FillPortions: =0
-                                    Height: =40
-                                    LayoutAlignItems: =LayoutAlignItems.Center
-                                    LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =8
-                                    LayoutMinHeight: =16
-                                    LayoutMinWidth: =16
-                                    Width: =If(scrNXT.Size = 1, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 140 + 140 + 36 + 2 * 8)
-                                  Children:
-                                    - dp_FilterNgayKiemHangBao_3:
-                                        Control: ModernDatePicker
-                                        Properties:
-                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                          DefaultDate: =Today()
-                                          Font: =fxFontFamily
-                                          FontWeight: =FontWeight.Normal
-                                          Format: =DatePickerFormat.Short
-                                          Size: =fxFontSizeMD
-                                          Width: =RoundDown((Parent.Width - btn_ClearFilterNXT.Width - Parent.LayoutGap * 2) / 2, 0)
-                                    - cbo_FilterProductTypeNhapTuSanXuat_13:
-                                        Control: ModernCombobox
-                                        Properties:
-                                          AlignInContainer: =AlignInContainer.Center
-                                          DefaultSelectedItems: =LookUp(col_ProductCategories, ProductCategoryCode = varUserInPlant.ProductCategoryCode)
-                                          FillPortions: =
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightNormal
-                                          InputTextPlaceholder: ="Tất cả"
-                                          IsSearchable: =false
-                                          ItemDisplayText: =ThisItem.ProductCategoryNameVI
-                                          Items: =col_ProductCategories
-                                          SelectMultiple: =false
-                                          Width: =dp_FilterNgayKiemHangBao_3.Width
-                                    - btn_ClearFilterNXT:
+                                    - btn_AddNewNXT:
                                         Control: ModernButton
                                         Properties:
                                           Appearance: =ButtonAppearance.Outline
                                           BasePaletteColor: =RGBA(8, 222, 8, 1)
                                           Font: =fxFontFamily
-                                          Icon: ="Eraser"
-                                          Layout: =ButtonLayout.IconOnly
+                                          Icon: ="Add"
                                           OnSelect: |-
-                                            =Reset(txt_SearchNXT);
-                                            Reset(dp_FilterNgayKiemHangBao_3);
-                                            Reset(cbo_FilterProductTypeNhapTuSanXuat_13)
-                                          Text: =
-                                          Width: =36
-                        - con_ListNXT_1:
-                            Control: GroupContainer
-                            Variant: AutoLayout
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Start
-                              BorderStyle: =BorderStyle.None
-                              DropShadow: =If(scrNXT.Size = 1, DropShadow.None, DropShadow.Semibold)
-                              Fill: =RGBA(255, 255, 255, 1)
-                              LayoutAlignItems: =LayoutAlignItems.Stretch
-                              LayoutDirection: =LayoutDirection.Vertical
-                              LayoutOverflowX: =LayoutOverflow.Scroll
-                              LayoutOverflowY: =LayoutOverflow.Scroll
-                              RadiusBottomLeft: =6
-                              RadiusBottomRight: =6
-                              RadiusTopLeft: =If(scrNXT.Size = 1, 0, 5)
-                              RadiusTopRight: =6
-                              Width: =Parent.Width - Parent.PaddingLeft * 2
-                            Children:
-                              - con_TableHeaderNXT:
+                                            =// Reset form và clear dữ liệu cũ song song trước khi chuyển màn hình
+                                            Concurrent(
+                                                Set(varNXTDetail, {}),          // Xóa phiếu đang chọn
+                                                Reset(dp_NXT_InventoryDate),    // Reset ngày về mặc định
+                                                Reset(cmb_NXT_ProductCategory)  // Reset loại sản phẩm về mặc định
+                                            );
+
+                                            // Chuyển sang màn hình form chi tiết NXT
+                                            Navigate(scrNXTForm, ScreenTransition.CoverRight)
+                                          Size: =fxFontSizeMD
+                                          Text: ="Thêm "
+                                          Visible: |-
+                                            =varUserInPlant.Role = "FG_WH" ||   // FG_WH         - Thủ kho thành phẩm
+                                            varUserInPlant.Role = "VHSX_HO" ||   // VHSX_HO       - VHSX HO
+                                            varUserInPlant.Role = "FG_SUP"      // FG_SUP        - Giám sát thành phẩm
+                                          Width: =120
+                                    - btn_RefreshNXT:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =fxFontFamily
+                                          Icon: ="ArrowSync"
+                                          OnSelect: =Refresh('QLK List Inventory')
+                                          Size: =fxFontSizeMD
+                                          Text: ="Làm mới"
+                                          Width: =120
+                              - lbl_TitleNXT_1:
+                                  Control: ModernText
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =RGBA(45, 128, 40, 1)
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightSemiBold
+                                    Height: =40
+                                    PaddingLeft: =10
+                                    Size: =fxFontSizeXL
+                                    Text: ="Nhập xuất tồn"
+                              - con_FilterNXT:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
+                                    BorderColor: =RGBA(229, 231, 235, 1)
+                                    BorderThickness: =If(scrNXT.Size = 1, 1, 0)
                                     DropShadow: =DropShadow.None
-                                    Fill: =RGBA(250, 250, 250, 1)
+                                    Fill: =If(scrNXT.Size = 1, RGBA(248, 250, 252, 1), RGBA(0, 0, 0, 0))
                                     FillPortions: =0
-                                    Height: =46
+                                    Height: =If(scrNXT.Size = 1, If(varShowFilterKNXT, 288, 96), 45)
                                     LayoutAlignItems: =LayoutAlignItems.Center
-                                    LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =5
-                                    PaddingLeft: =10
-                                    PaddingRight: =10
-                                    Visible: =scrNXT.Size <> 1
+                                    LayoutDirection: =If(scrNXT.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                    LayoutGap: =If(scrNXT.Size = 1, 0, 8)
+                                    LayoutMinWidth: =10
+                                    PaddingBottom: =If(scrNXT.Size = 1, 8, 0)
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    PaddingTop: =If(scrNXT.Size = 1, 8, 0)
+                                    RadiusBottomLeft: =If(scrNXT.Size = 1, 8, 0)
+                                    RadiusBottomRight: =If(scrNXT.Size = 1, 8, 0)
+                                    RadiusTopLeft: =If(scrNXT.Size = 1, 8, 0)
+                                    RadiusTopRight: =If(scrNXT.Size = 1, 8, 0)
                                   Children:
-                                    - lbl_HeaderInventoryDateNXT:
-                                        Control: ModernText
-                                        Properties:
-                                          FillPortions: =2
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Ngày nhập tồn"
-                                          Wrap: =false
-                                    - lbl_HeaderProductCategoryNXT:
-                                        Control: ModernText
-                                        Properties:
-                                          FillPortions: =2
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Phân loại hàng"
-                                          Wrap: =false
-                                    - lbl_HeaderStatusCodeNXT:
-                                        Control: ModernText
-                                        Properties:
-                                          FillPortions: =1
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Trạng thái"
-                                          Wrap: =false
-                                    - lbl_HeaderActionNXT:
-                                        Control: ModernText
-                                        Properties:
-                                          FillPortions: =1
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Thao tác"
-                                          Width: =72
-                                          Wrap: =false
-                              - gal_NXT_1:
-                                  Control: Gallery
-                                  Variant: Vertical
-                                  Properties:
-                                    BorderStyle: =BorderStyle.None
-                                    Height: =Parent.Height - con_TableHeaderNXT.Height - con_FooterNXT.Height
-                                    Items: |-
-                                      =SortByColumns(
-                                          Filter(
-                                              'QLK List Inventory',
-                                              PlantCode = varUserInPlant.PlantCode,
-                                              IsBlank(dp_FilterNgayKiemHangBao_3.SelectedDate) || InventoryDate >= dp_FilterNgayKiemHangBao_3.SelectedDate,
-                                              IsBlank(cbo_FilterProductTypeNhapTuSanXuat_13.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_13.Selected.ProductCategoryCode
-                                          ),
-                                          "Created",
-                                          SortOrder.Descending
-                                      )
-                                    ShowScrollbar: =false
-                                    TemplateSize: |-
-                                      =If(
-                                          scrNXT.Size = 1,
-                                          3 * 30 + 2 * 5 + 8 + 5 + 45 + 16 + 12,
-                                          45
-                                      )
-                                    Width: =Parent.Width
-                                  Children:
-                                    - con_RowDividerNXT:
-                                        Control: GroupContainer
-                                        Variant: ManualLayout
-                                        Properties:
-                                          DropShadow: =DropShadow.None
-                                          Fill: =RGBA(229, 231, 235, 1)
-                                          Height: =1
-                                          Visible: =scrNXT.Size <> 1
-                                          Width: =gal_NXT_1.Width - 10
-                                          Y: =gal_NXT_1.TemplateHeight
-                                    - con_RowMasterNXT:
+                                    - con_SearchNXT:
                                         Control: GroupContainer
                                         Variant: AutoLayout
                                         Properties:
-                                          BorderColor: =RGBA(229, 231, 235, 1)
-                                          BorderStyle: =If(scrNXT.Size = 1, BorderStyle.Solid, BorderStyle.None)
-                                          BorderThickness: =If(scrNXT.Size = 1, 1, 0)
-                                          DropShadow: =If(scrNXT.Size = 1, DropShadow.Light, DropShadow.None)
-                                          Fill: =If(scrNXT.Size = 1, RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
-                                          Height: =If(scrNXT.Size = 1, gal_NXT_1.TemplateHeight - 8, gal_NXT_1.TemplateHeight)
+                                          AlignInContainer: =AlignInContainer.Center
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =40
                                           LayoutAlignItems: =LayoutAlignItems.Center
-                                          LayoutDirection: =If(scrNXT.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
-                                          LayoutGap: =If(scrNXT.Size = 1, 5, 0)
-                                          PaddingBottom: =If(scrNXT.Size = 1, 8, 0)
-                                          PaddingLeft: =If(scrNXT.Size = 1, 8, 0)
-                                          PaddingRight: =If(scrNXT.Size = 1, 8, 0)
-                                          PaddingTop: =If(scrNXT.Size = 1, 8, 0)
-                                          RadiusBottomLeft: =If(scrNXT.Size = 1, 8, 0)
-                                          RadiusBottomRight: =If(scrNXT.Size = 1, 8, 0)
-                                          RadiusTopLeft: =If(scrNXT.Size = 1, 8, 0)
-                                          RadiusTopRight: =If(scrNXT.Size = 1, 8, 0)
-                                          Width: =Parent.Width - 10
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          Visible: =scrNXT.Size <> 1
+                                          Width: |-
+                                            =If(
+                                                scrNXT.Size = 1,
+                                                Parent.Width - Parent.PaddingLeft - Parent.PaddingRight,
+                                                Parent.Width - Parent.PaddingLeft - Parent.PaddingRight - Parent.LayoutGap - con_FilterActionsNXT.Width
+                                            )
                                         Children:
-                                          - con_RowNXT_1:
+                                          - txt_SearchNXT:
+                                              Control: ModernTextInput
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                LayoutMinWidth: =16
+                                                Placeholder: ="Tìm kiếm ...."
+                                                Width: =Parent.Width
+                                    - con_FilterActionsNXT:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =40
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =8
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          Visible: =scrNXT.Size <> 1
+                                          Width: =If(scrNXT.Size = 1, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 160 + 36 + 8)
+                                        Children:
+                                          - cbo_FilterProductTypeNhapTuSanXuat_13:
+                                              Control: ModernCombobox
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                DefaultSelectedItems: =LookUp(col_ProductCategories, ProductCategoryCode = varUserInPlant.ProductCategoryCode)
+                                                FillPortions: =
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightNormal
+                                                InputTextPlaceholder: ="Tất cả"
+                                                IsSearchable: =false
+                                                ItemDisplayText: =ThisItem.ProductCategoryNameVI
+                                                Items: =col_ProductCategories
+                                                SelectMultiple: =false
+                                                Width: =Parent.Width - btn_ClearFilterNXT.Width - Parent.LayoutGap
+                                          - btn_ClearFilterNXT:
+                                              Control: ModernButton
+                                              Properties:
+                                                Appearance: =ButtonAppearance.Outline
+                                                BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                Font: =fxFontFamily
+                                                Icon: ="Eraser"
+                                                Layout: =ButtonLayout.IconOnly
+                                                OnSelect: |-
+                                                  =Reset(txt_SearchNXT);
+                                                  Reset(cbo_FilterProductTypeNhapTuSanXuat_13)
+                                                Text: =
+                                                Width: =36
+                                    - con_FilterMobKNXT:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          BorderColor: =RGBA(229, 231, 235, 1)
+                                          BorderThickness: =1
+                                          DropShadow: =DropShadow.Regular
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0
+                                          Height: =If(varShowFilterKNXT, 272, 80)
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =8
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          PaddingBottom: =12
+                                          PaddingLeft: =12
+                                          PaddingRight: =12
+                                          PaddingTop: =12
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Visible: =scrNXT.Size = 1
+                                          Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                                        Children:
+                                          - con_FilterHeadKNXT:
                                               Control: GroupContainer
                                               Variant: AutoLayout
                                               Properties:
                                                 DropShadow: =DropShadow.None
                                                 FillPortions: =0
-                                                Height: =If(scrNXT.Size = 1, gal_NXT_1.TemplateHeight - 8 - 16 - 5 - con_RowActionsNXT.Height, gal_NXT_1.TemplateHeight)
-                                                LayoutAlignItems: =If(scrNXT.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
-                                                LayoutDirection: =If(scrNXT.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
-                                                LayoutGap: =5
-                                                LayoutMinHeight: =If(scrNXT.Size = 1, 16, Parent.Height)
-                                                PaddingLeft: =10
-                                                PaddingRight: =5
-                                                PaddingTop: =If(scrNXT.Size = 1, 8, 0)
-                                                Width: |-
-                                                  =If(
-                                                      scrNXT.Size = 1,
-                                                      Parent.Width - Parent.PaddingLeft - Parent.PaddingRight,
-                                                      Parent.Width - Parent.PaddingRight * 2 - Parent.LayoutGap - con_RowActionsNXT_1.Width
-                                                  )
-                                              Children:
-                                                - lbl_RowInventoryDateNXT:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrNXT.Size = 1, "Ngày nhập tồn: " & Text(ThisItem.InventoryDate, "dd/mm/yyyy"), Text(ThisItem.InventoryDate, "dd/mm/yyyy"))
-                                                      Width: =If(scrNXT.Size = 1, Parent.Width - 20, lbl_HeaderInventoryDateNXT.Width)
-                                                      Wrap: =false
-                                                - lbl_RowProductCategoryNXT:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrNXT.Size = 1, "Phân loại hàng: " & LookUp(col_ProductCategories,ProductCategoryCode =ThisItem.ProductCategoryCode).ProductCategoryNameVI, LookUp(col_ProductCategories,ProductCategoryCode =ThisItem.ProductCategoryCode).ProductCategoryNameVI)
-                                                      Width: =If(scrNXT.Size = 1, Parent.Width - 20, lbl_HeaderProductCategoryNXT.Width)
-                                                      Wrap: =false
-                                                - lbl_RowProductCategoryNXT_1:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrNXT.Size = 1, "Trạng thái : " & LookUp(col_WorkflowStatus,StatusCode =ThisItem.StatusCode).StatusNameVI, LookUp(col_WorkflowStatus,StatusCode =ThisItem.StatusCode).StatusNameVI)
-                                                      Width: =If(scrNXT.Size = 1, Parent.Width - 20, lbl_HeaderProductCategoryNXT.Width)
-                                                      Wrap: =false
-                                          - con_RowActionsNXT:
-                                              Control: GroupContainer
-                                              Variant: AutoLayout
-                                              Properties:
-                                                AlignInContainer: =AlignInContainer.Start
-                                                DropShadow: =DropShadow.None
-                                                FillPortions: =0
-                                                Height: =45
+                                                Height: =56
                                                 LayoutAlignItems: =LayoutAlignItems.Center
                                                 LayoutDirection: =LayoutDirection.Horizontal
                                                 LayoutGap: =10
-                                                Visible: '=scrNXT.Size = 1 '
-                                                Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
                                               Children:
-                                                - btn_NXT_MobileView:
+                                                - btn_FilterIconKNXT:
                                                     Control: ModernButton
                                                     Properties:
-                                                      AlignInContainer: =AlignInContainer.Center
-                                                      BasePaletteColor: =RGBA(7, 220, 8, 1)
-                                                      Font: =Font.'Segoe UI'
-                                                      Icon: ="Eye"
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Color: =RGBA(17, 24, 39, 1)
+                                                      Icon: ="Filter"
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
                                                       OnSelect: |-
-                                                        =Set(varNXTDetail, ThisItem);
-                                                        Navigate(scrNXTForm,ScreenTransition.CoverRight)
-                                                      Size: =14
-                                                      Text: ="Xem chi tiết"
-                                                      Width: =If(btn_NXT_MobileDelete.Visible, (Parent.Width - Parent.LayoutGap) / 2, Parent.Width)
-                                                - btn_NXT_MobileDelete:
+                                                        =UpdateContext({varShowFilterKNXT: !varShowFilterKNXT})
+                                                      Width: =32
+                                                - con_FilterHeadTextKNXT:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =56
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FilterTitleKNXT:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Height: =28
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Bộ lọc" & If((If(!IsBlank(dp_DateMobKNXT.SelectedDate), 1, 0) + If(!IsBlank(cbo_StatusMobKNXT.Selected), 1, 0) + If(!IsBlank(cbo_CategoryMobKNXT.Selected), 1, 0)) > 0, " (" & (If(!IsBlank(dp_DateMobKNXT.SelectedDate), 1, 0) + If(!IsBlank(cbo_StatusMobKNXT.Selected), 1, 0) + If(!IsBlank(cbo_CategoryMobKNXT.Selected), 1, 0)) & ")", "")
+                                                            Wrap: =false
+                                                      - lbl_FilterSummaryKNXT:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Color: =RGBA(107, 114, 128, 1)
+                                                            Font: =fxFontFamily
+                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeXS
+                                                            Text: |-
+                                                              ="Ngày: " & If(IsBlank(dp_DateMobKNXT.SelectedDate), "-", Text(dp_DateMobKNXT.SelectedDate, "mm/dd/yyyy")) & "  •  Trạng thái: " & Coalesce(cbo_StatusMobKNXT.Selected.StatusNameVI, "Tất cả") & "  •  Loại sản phẩm: " & Coalesce(cbo_CategoryMobKNXT.Selected.ProductCategoryNameVI, "Tất cả")
+                                                            Wrap: =false
+                                                - btn_FilterToggleKNXT:
                                                     Control: ModernButton
                                                     Properties:
-                                                      AlignInContainer: =AlignInContainer.Center
-                                                      Appearance: =ButtonAppearance.Outline
-                                                      BasePaletteColor: =RGBA(107, 114, 128, 1)
-                                                      Font: =Font.'Segoe UI'
-                                                      Icon: ="Delete"
-                                                      OnSelect: |
-                                                        =
-                                                        If(
-                                                            Confirm(
-                                                                "Bạn có chắc muốn xóa bản ghi này không?",
-                                                                {
-                                                                    Title: "Xác nhận xóa",
-                                                                    Subtitle: "Hành động này không thể hoàn tác.",
-                                                                    ConfirmButton: "Xóa",
-                                                                    CancelButton: "Hủy"
-                                                                }
-                                                            ),
-                                                            UpdateContext({varShowPopupProcessing: true});
-                                                            IfError(
-                                                                Clear(col_InventoryDetailToDelete);
-                                                                ClearCollect(
-                                                                    col_InventoryDetailToDelete,
-                                                                    Filter('QLK List Inventory Details', InventoryID = ThisItem.ID)
-                                                                );
-                                                                Remove('QLK List Inventory Details', col_InventoryDetailToDelete);
-                                                                Remove('QLK List Inventory', ThisItem),
-                                                                UpdateContext({varShowPopupProcessing: false});
-                                                                Notify("Xóa không thành công", NotificationType.Error, 2000);
-                                                                ,
-                                                                UpdateContext({varShowPopupProcessing: false});
-                                                                Notify("Đã xoá thành công", NotificationType.Success, 2000);
-                                                            )
-                                                        )
-                                                      Size: =14
-                                                      Text: ="Xóa"
-                                                      Visible: =ThisItem.StatusCode = Index(col_WorkflowStatus,1).StatusCode
-                                                      Width: =(Parent.Width - Parent.LayoutGap) / 2
-                                          - con_RowActionsNXT_1:
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Color: =RGBA(17, 24, 39, 1)
+                                                      Height: =36
+                                                      Icon: =If(varShowFilterKNXT, "ChevronUp", "ChevronDown")
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =UpdateContext({varShowFilterKNXT: !varShowFilterKNXT})
+                                                      Width: =36
+                                          - con_FilterBodyKNXT:
                                               Control: GroupContainer
                                               Variant: AutoLayout
                                               Properties:
                                                 DropShadow: =DropShadow.None
                                                 FillPortions: =0
-                                                Height: =gal_NXT_1.TemplateHeight
-                                                LayoutAlignItems: =LayoutAlignItems.Center
-                                                LayoutDirection: =LayoutDirection.Horizontal
-                                                LayoutMinHeight: =Parent.Height
-                                                Visible: =scrNXT.Size <> 1
-                                                Width: =lbl_HeaderActionNXT.Width
+                                                Height: =184
+                                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =8
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                Visible: =varShowFilterKNXT
                                               Children:
-                                                - btn_ViewNXT_1:
-                                                    Control: ModernButton
+                                                - con_FldDateKNXT:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
                                                     Properties:
-                                                      Appearance: =ButtonAppearance.Transparent
-                                                      Icon: ="Eye"
-                                                      Layout: =ButtonLayout.IconOnly
-                                                      OnSelect: |-
-                                                        =Set(varNXTDetail, ThisItem);
-                                                        Navigate(scrNXTForm,ScreenTransition.CoverRight)
-                                                      Width: =32
-                                                - btn_DeleteNXT_1:
-                                                    Control: ModernButton
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =64
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FldDateKNXT:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =24
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeSM
+                                                            Text: ="Ngày kiểm"
+                                                      - dp_DateMobKNXT:
+                                                          Control: ModernDatePicker
+                                                          Properties:
+                                                            BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                            DefaultDate: =Blank()
+                                                            Font: =fxFontFamily
+                                                            Format: =DatePickerFormat.Short
+                                                            Height: =40
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            Placeholder: ="Chọn ngày"
+                                                - con_FldComboRowKNXT:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
                                                     Properties:
-                                                      Appearance: =ButtonAppearance.Transparent
-                                                      Icon: ="Delete"
-                                                      Layout: =ButtonLayout.IconOnly
-                                                      OnSelect: |
-                                                        =If(
-                                                            Confirm(
-                                                                "Bạn có chắc muốn xóa bản ghi này không?",
-                                                                {
-                                                                    Title: "Xác nhận xóa",
-                                                                    Subtitle: "Hành động này không thể hoàn tác.",
-                                                                    ConfirmButton: "Xóa",
-                                                                    CancelButton: "Hủy"
-                                                                }
-                                                            ),
-                                                            UpdateContext({varShowPopupProcessing: true});
-                                                            IfError(
-                                                                Clear(col_InventoryDetailToDelete);
-                                                                ClearCollect(
-                                                                    col_InventoryDetailToDelete,
-                                                                    Filter('QLK List Inventory Details', InventoryID = ThisItem.ID)
-                                                                );
-                                                                Remove('QLK List Inventory Details', col_InventoryDetailToDelete);
-                                                                Remove('QLK List Inventory', ThisItem),
-                                                                UpdateContext({varShowPopupProcessing: false});
-                                                                Notify("Xóa không thành công", NotificationType.Error, 2000);
-                                                                ,
-                                                                UpdateContext({varShowPopupProcessing: false});
-                                                                Notify("Đã xoá thành công", NotificationType.Success, 2000);
-                                                            )
-                                                        )
-                                                      Visible: |-
-                                                        =ThisItem.StatusCode = Index(col_WorkflowStatus,1).StatusCode && 
-                                                        (
-                                                            varUserInPlant.Role = Index(col_RoleUser,1).RoleCode ||   // FG_WH         - Thủ kho thành phẩm
-                                                            varUserInPlant.Role = Index(col_RoleUser,9).RoleCode ||   // VHSX_HO       - VHSX HO
-                                                            varUserInPlant.Role = Index(col_RoleUser,4).RoleCode      // RM_SUP        - Giám sát nguyên liệu
-                                                        )
-                                                      Width: =32
-                              - con_FooterNXT:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =64
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =10
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - con_FldStatusKNXT:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            DropShadow: =DropShadow.None
+                                                            Height: =64
+                                                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                            LayoutDirection: =LayoutDirection.Vertical
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                          Children:
+                                                            - lbl_FldStatusKNXT:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =24
+                                                                  LayoutMinHeight: =0
+                                                                  LayoutMinWidth: =0
+                                                                  PaddingBottom: =0
+                                                                  PaddingLeft: =0
+                                                                  PaddingTop: =0
+                                                                  Size: =fxFontSizeSM
+                                                                  Text: ="Trạng thái"
+                                                            - cbo_StatusMobKNXT:
+                                                                Control: ModernCombobox
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =40
+                                                                  InputTextPlaceholder: ="Tất cả trạng thái"
+                                                                  IsSearchable: =false
+                                                                  ItemDisplayText: =ThisItem.StatusNameVI
+                                                                  Items: =col_WorkflowStatus
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  SelectMultiple: =false
+                                                      - con_FldCategoryKNXT:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            DropShadow: =DropShadow.None
+                                                            Height: =64
+                                                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                            LayoutDirection: =LayoutDirection.Vertical
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                          Children:
+                                                            - lbl_FldCategoryKNXT:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =24
+                                                                  LayoutMinHeight: =0
+                                                                  LayoutMinWidth: =0
+                                                                  PaddingBottom: =0
+                                                                  PaddingLeft: =0
+                                                                  PaddingTop: =0
+                                                                  Size: =fxFontSizeSM
+                                                                  Text: ="Loại sản phẩm"
+                                                            - cbo_CategoryMobKNXT:
+                                                                Control: ModernCombobox
+                                                                Properties:
+                                                                  DefaultSelectedItems: =LookUp(col_ProductCategories, ProductCategoryCode = varUserInPlant.ProductCategoryCode)
+                                                                  Font: =fxFontFamily
+                                                                  Height: =40
+                                                                  InputTextPlaceholder: ="Tất cả"
+                                                                  IsSearchable: =false
+                                                                  ItemDisplayText: =ThisItem.ProductCategoryNameVI
+                                                                  Items: =col_ProductCategories
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  SelectMultiple: =false
+                                                - con_FldBtnRowKNXT:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =40
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =10
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - btn_FltClearKNXT:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Outline
+                                                            FillPortions: =1
+                                                            Font: =fxFontFamily
+                                                            Height: =40
+                                                            Icon: ="Eraser"
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnSelect: |-
+                                                              =Reset(dp_DateMobKNXT);
+                                                              Reset(cbo_StatusMobKNXT);
+                                                              Reset(cbo_CategoryMobKNXT)
+                                                            Text: ="Xóa lọc"
+                                                      - btn_FltApplyKNXT:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            BasePaletteColor: =RGBA(46, 125, 50, 1)
+                                                            FillPortions: =1
+                                                            Font: =fxFontFamily
+                                                            Height: =40
+                                                            Icon: ="Search"
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnSelect: |-
+                                                              =UpdateContext({varShowFilterKNXT: false})
+                                                            Text: ="Áp dụng"
+                              - con_ListNXT_1:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
-                                    DropShadow: =DropShadow.None
-                                    FillPortions: =0
-                                    Height: =44
-                                    LayoutAlignItems: =LayoutAlignItems.Center
-                                    LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =16
-                                    PaddingLeft: =10
-                                    PaddingRight: =10
+                                    AlignInContainer: =AlignInContainer.Start
+                                    BorderStyle: =BorderStyle.None
+                                    DropShadow: =If(scrNXT.Size = 1, DropShadow.None, DropShadow.Semibold)
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutOverflowX: =LayoutOverflow.Scroll
+                                    LayoutOverflowY: =LayoutOverflow.Scroll
+                                    RadiusBottomLeft: =6
+                                    RadiusBottomRight: =6
+                                    RadiusTopLeft: =If(scrNXT.Size = 1, 0, 5)
+                                    RadiusTopRight: =6
+                                    Width: =Parent.Width - Parent.PaddingLeft * 2
                                   Children:
-                                    - lbl_TotalRowsNXT:
-                                        Control: ModernText
+                                    - con_TableHeaderNXT:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
                                         Properties:
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Hiển thị " & CountRows(gal_NXT_1.AllItems) & " dòng"
-                                          Wrap: =false
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(250, 250, 250, 1)
+                                          FillPortions: =0
+                                          Height: =46
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =5
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Visible: =scrNXT.Size <> 1
+                                        Children:
+                                          - lbl_HeaderInventoryDateNXT:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =2
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Ngày nhập tồn"
+                                                Wrap: =false
+                                          - lbl_HeaderProductCategoryNXT:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =2
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Phân loại hàng"
+                                                Wrap: =false
+                                          - lbl_HeaderStatusCodeNXT:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =1
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Trạng thái"
+                                                Wrap: =false
+                                          - lbl_HeaderActionNXT:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =1
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Thao tác"
+                                                Width: =72
+                                                Wrap: =false
+                                    - gal_NXT_1:
+                                        Control: Gallery
+                                        Variant: Vertical
+                                        Properties:
+                                          BorderStyle: =BorderStyle.None
+                                          Height: =Parent.Height - con_TableHeaderNXT.Height - con_FooterNXT.Height
+                                          Items: |-
+                                            =// Chỉ lấy các cột đang hiển thị trên danh sách (nhanh hơn)
+                                            ShowColumns(
+                                                SortByColumns(
+                                                    Filter(
+                                                        'QLK List Inventory',
+                                                        PlantCode = varUserInPlant.PlantCode,
+                                                        IsBlank(cbo_FilterProductTypeNhapTuSanXuat_13.Selected) || scrNXT.Size = 1 || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_13.Selected.ProductCategoryCode,
+                                                        IsBlank(dp_DateMobKNXT.SelectedDate) || (InventoryDate >= dp_DateMobKNXT.SelectedDate && InventoryDate < DateAdd(dp_DateMobKNXT.SelectedDate, 1, TimeUnit.Days)),
+                                                        IsBlank(cbo_StatusMobKNXT.Selected) || StatusCode = cbo_StatusMobKNXT.Selected.StatusCode,
+                                                        IsBlank(cbo_CategoryMobKNXT.Selected) || scrNXT.Size <> 1 || ProductCategoryCode = cbo_CategoryMobKNXT.Selected.ProductCategoryCode
+                                                    ),
+                                                    "InventoryDate",
+                                                    SortOrder.Descending,
+                                                    "Created",
+                                                    SortOrder.Descending
+                                                ),
+                                                InventoryDate,
+                                                ProductCategoryCode,
+                                                StatusCode,
+                                                ID
+                                            )
+                                          ShowScrollbar: =false
+                                          TemplateSize: |-
+                                            =If(
+                                                scrNXT.Size = 1,
+                                                (12 + 28 + 6 + 22 + 6 + 24 + 6) + 8 + 16 + 5 + 40,
+                                                45
+                                            )
+                                          Width: =Parent.Width
+                                        Children:
+                                          - con_RowDividerNXT:
+                                              Control: GroupContainer
+                                              Variant: ManualLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(229, 231, 235, 1)
+                                                Height: =1
+                                                Visible: =scrNXT.Size <> 1
+                                                Width: =gal_NXT_1.Width - 10
+                                                Y: =gal_NXT_1.TemplateHeight
+                                          - con_RowMasterNXT:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                BorderColor: =RGBA(229, 231, 235, 1)
+                                                BorderStyle: =If(scrNXT.Size = 1, BorderStyle.Solid, BorderStyle.None)
+                                                BorderThickness: =If(scrNXT.Size = 1, 1, 0)
+                                                DropShadow: =If(scrNXT.Size = 1, DropShadow.Light, DropShadow.None)
+                                                Fill: =If(scrNXT.Size = 1, RGBA(255, 255, 255, 1), RGBA(0, 0, 0, 0))
+                                                Height: =If(scrNXT.Size = 1, gal_NXT_1.TemplateHeight - 8, gal_NXT_1.TemplateHeight)
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =If(scrNXT.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                                LayoutGap: =If(scrNXT.Size = 1, 5, 0)
+                                                PaddingBottom: =If(scrNXT.Size = 1, 8, 0)
+                                                PaddingLeft: =If(scrNXT.Size = 1, 8, 0)
+                                                PaddingRight: =If(scrNXT.Size = 1, 8, 0)
+                                                PaddingTop: =If(scrNXT.Size = 1, 8, 0)
+                                                RadiusBottomLeft: =If(scrNXT.Size = 1, 10, 0)
+                                                RadiusBottomRight: =If(scrNXT.Size = 1, 10, 0)
+                                                RadiusTopLeft: =If(scrNXT.Size = 1, 10, 0)
+                                                RadiusTopRight: =If(scrNXT.Size = 1, 10, 0)
+                                                Width: =Parent.Width - 10
+                                              Children:
+                                                - con_RowNXT_1:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =If(scrNXT.Size = 1, gal_NXT_1.TemplateHeight - 8 - 16 - 5 - con_RowActionsNXT.Height, gal_NXT_1.TemplateHeight)
+                                                      LayoutAlignItems: =If(scrNXT.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
+                                                      LayoutDirection: =If(scrNXT.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                                      LayoutGap: =If(scrNXT.Size = 1, 6, 5)
+                                                      LayoutMinHeight: =If(scrNXT.Size = 1, 16, Parent.Height)
+                                                      PaddingLeft: =If(scrNXT.Size = 1, 14, 10)
+                                                      PaddingRight: =If(scrNXT.Size = 1, 14, 5)
+                                                      PaddingTop: =If(scrNXT.Size = 1, 12, 0)
+                                                      Width: |-
+                                                        =If(
+                                                            scrNXT.Size = 1,
+                                                            Parent.Width - Parent.PaddingLeft - Parent.PaddingRight,
+                                                            Parent.Width - Parent.PaddingRight * 2 - Parent.LayoutGap - con_RowActionsNXT_1.Width
+                                                        )
+                                                    Children:
+                                                      - lbl_RowInventoryDateNXT:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =If(scrNXT.Size = 1, fxFontWeightBold, fxFontWeightNormal)
+                                                            Height: =If(scrNXT.Size = 1, 28, 30)
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =If(scrNXT.Size = 1, 0, 5)
+                                                            PaddingTop: =0
+                                                            Size: =If(scrNXT.Size = 1, fxFontSizeLG, fxFontSizeMD)
+                                                            Text: =Text(ThisItem.InventoryDate, "dd/mm/yyyy")
+                                                            Visible: =scrNXT.Size <> 1
+                                                            Width: =If(scrNXT.Size = 1, Parent.Width - 20, lbl_HeaderInventoryDateNXT.Width)
+                                                            Wrap: =false
+                                                      - lbl_RowProductCategoryNXT:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Color: =If(scrNXT.Size = 1, RGBA(107, 114, 128, 1), RGBA(36, 36, 36, 1))
+                                                            Font: =fxFontFamily
+                                                            Height: =If(scrNXT.Size = 1, 22, 30)
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =If(scrNXT.Size = 1, 0, 5)
+                                                            PaddingTop: =0
+                                                            Size: =If(scrNXT.Size = 1, fxFontSizeSM, fxFontSizeMD)
+                                                            Text: =LookUp(col_ProductCategories, ProductCategoryCode = ThisItem.ProductCategoryCode).ProductCategoryNameVI
+                                                            Visible: =scrNXT.Size <> 1
+                                                            Width: =If(scrNXT.Size = 1, Parent.Width - 20, lbl_HeaderProductCategoryNXT.Width)
+                                                            Wrap: =false
+                                                      - lbl_RowProductCategoryNXT_1:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Align: =Align.Center
+                                                            BorderColor: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).BorderColor, fxStatusDefaultBorder)
+                                                            BorderStyle: =BorderStyle.Solid
+                                                            BorderThickness: =1
+                                                            Color: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).TextColor, fxStatusDefaultText)
+                                                            Fill: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).BackColor, fxStatusDefaultBack)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightSemiBold
+                                                            Height: =24
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =10
+                                                            PaddingRight: =10
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeSM
+                                                            Text: =LookUp(col_WorkflowStatus, StatusCode = ThisItem.StatusCode).StatusNameVI
+                                                            Visible: =scrNXT.Size <> 1
+                                                            Width: =Min(Max(150, Len(Self.Text) * 7 + 28), lbl_HeaderStatusCodeNXT.Width)
+                                                            Wrap: =false
+                                                      - con_CardKNXT:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.SetByContainer
+                                                            DropShadow: =DropShadow.None
+                                                            FillPortions: =0
+                                                            Height: =88
+                                                            LayoutDirection: =LayoutDirection.Horizontal
+                                                            LayoutGap: =12
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            Visible: =scrNXT.Size = 1
+                                                            Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                                                          Children:
+                                                            - con_CardIconKNXT:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Start
+                                                                  DropShadow: =DropShadow.None
+                                                                  Fill: =RGBA(232, 245, 233, 1)
+                                                                  FillPortions: =0
+                                                                  Height: =52
+                                                                  LayoutAlignItems: =LayoutAlignItems.Center
+                                                                  LayoutDirection: =LayoutDirection.Horizontal
+                                                                  LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  RadiusBottomLeft: =12
+                                                                  RadiusBottomRight: =12
+                                                                  RadiusTopLeft: =12
+                                                                  RadiusTopRight: =12
+                                                                  Width: =52
+                                                                Children:
+                                                                  - btn_CardIconKNXT:
+                                                                      Control: ModernButton
+                                                                      Properties:
+                                                                        Appearance: =ButtonAppearance.Transparent
+                                                                        BasePaletteColor: =RGBA(45, 128, 40, 1)
+                                                                        Color: =RGBA(45, 128, 40, 1)
+                                                                        Height: =40
+                                                                        Icon: ="BoxMultiple"
+                                                                        Layout: =ButtonLayout.IconOnly
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                        Width: =40
+                                                            - con_CardInfoKNXT:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  DropShadow: =DropShadow.None
+                                                                  Height: =88
+                                                                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                                  LayoutDirection: =LayoutDirection.Vertical
+                                                                  LayoutGap: =4
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                Children:
+                                                                  - lbl_CardTitleKNXT:
+                                                                      Control: ModernText
+                                                                      Properties:
+                                                                        Font: =fxFontFamily
+                                                                        FontWeight: =fxFontWeightBold
+                                                                        Height: =28
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                        PaddingBottom: =0
+                                                                        PaddingTop: =0
+                                                                        Size: =fxFontSizeLG
+                                                                        Text: =Text(ThisItem.InventoryDate, "dd/mm/yyyy")
+                                                                        Wrap: =false
+                                                                  - lbl_CardSubKNXT:
+                                                                      Control: ModernText
+                                                                      Properties:
+                                                                        Color: =RGBA(107, 114, 128, 1)
+                                                                        Font: =fxFontFamily
+                                                                        Height: =22
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                        PaddingBottom: =0
+                                                                        PaddingTop: =0
+                                                                        Size: =fxFontSizeSM
+                                                                        Text: =Coalesce(LookUp(col_ProductCategories, ProductCategoryCode = ThisItem.ProductCategoryCode).ProductCategoryNameVI, ThisItem.ProductCategoryCode)
+                                                                        Wrap: =false
+                                                                  - con_CardStatusKNXT:
+                                                                      Control: GroupContainer
+                                                                      Variant: AutoLayout
+                                                                      Properties:
+                                                                        AlignInContainer: =AlignInContainer.Start
+                                                                        BorderColor: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).BorderColor, fxStatusDefaultBorder)
+                                                                        BorderThickness: =1
+                                                                        DropShadow: =DropShadow.None
+                                                                        Fill: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).BackColor, fxStatusDefaultBack)
+                                                                        FillPortions: =0
+                                                                        Height: =28
+                                                                        LayoutAlignItems: =LayoutAlignItems.Center
+                                                                        LayoutDirection: =LayoutDirection.Horizontal
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                        RadiusBottomLeft: =14
+                                                                        RadiusBottomRight: =14
+                                                                        RadiusTopLeft: =14
+                                                                        RadiusTopRight: =14
+                                                                        Width: =Len(lbl_CardStatusTextKNXT.Text) * 7 + 44
+                                                                      Children:
+                                                                        - btn_CardStatusIconKNXT:
+                                                                            Control: ModernButton
+                                                                            Properties:
+                                                                              Appearance: =ButtonAppearance.Transparent
+                                                                              Color: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).TextColor, fxStatusDefaultText)
+                                                                              Height: =28
+                                                                              Icon: =Switch(ThisItem.StatusCode, "DRAFT", "Edit", "APPROVED", "CheckmarkCircle", "RECEIPT_CONFIRMED", "CheckmarkCircle", "CLOSED", "LockClosed", "Info")
+                                                                              Layout: =ButtonLayout.IconOnly
+                                                                              LayoutMinHeight: =16
+                                                                              LayoutMinWidth: =16
+                                                                              Width: =30
+                                                                        - lbl_CardStatusTextKNXT:
+                                                                            Control: ModernText
+                                                                            Properties:
+                                                                              Color: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).TextColor, fxStatusDefaultText)
+                                                                              Font: =fxFontFamily
+                                                                              FontWeight: =fxFontWeightSemiBold
+                                                                              Height: =28
+                                                                              LayoutMinHeight: =16
+                                                                              LayoutMinWidth: =16
+                                                                              PaddingBottom: =0
+                                                                              PaddingLeft: =0
+                                                                              PaddingTop: =0
+                                                                              Size: =fxFontSizeSM
+                                                                              Text: =Coalesce(LookUp(col_WorkflowStatus, StatusCode = ThisItem.StatusCode).StatusNameVI, ThisItem.StatusCode)
+                                                                              Width: =Len(Self.Text) * 7 + 8
+                                                                              Wrap: =false
+                                                - con_RowActionsNXT:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Start
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =40
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =10
+                                                      PaddingLeft: =14
+                                                      PaddingRight: =14
+                                                      Visible: '=scrNXT.Size = 1 '
+                                                      Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                                                    Children:
+                                                      - btn_NXT_MobileView:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Center
+                                                            BasePaletteColor: =RGBA(7, 220, 8, 1)
+                                                            Font: =Font.'Segoe UI'
+                                                            Height: =36
+                                                            Icon: ="Eye"
+                                                            OnSelect: |-
+                                                              =Set(varNXTDetail, LookUp('QLK List Inventory', ID = ThisItem.ID));
+                                                              Navigate(scrNXTForm,ScreenTransition.CoverRight)
+                                                            RadiusBottomLeft: =8
+                                                            RadiusBottomRight: =8
+                                                            RadiusTopLeft: =8
+                                                            RadiusTopRight: =8
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Xem chi tiết"
+                                                            Width: =If(btn_NXT_MobileDelete.Visible, (Parent.Width - Parent.PaddingLeft - Parent.PaddingRight - Parent.LayoutGap) / 2, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight)
+                                                      - btn_NXT_MobileDelete:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Center
+                                                            Appearance: =ButtonAppearance.Outline
+                                                            BasePaletteColor: =RGBA(107, 114, 128, 1)
+                                                            Font: =Font.'Segoe UI'
+                                                            Height: =36
+                                                            Icon: ="Delete"
+                                                            OnSelect: |
+                                                              =
+                                                              If(
+                                                                  Confirm(
+                                                                      "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                      {
+                                                                          Title: "Xác nhận xóa",
+                                                                          Subtitle: "Hành động này không thể hoàn tác.",
+                                                                          ConfirmButton: "Xóa",
+                                                                          CancelButton: "Hủy"
+                                                                      }
+                                                                  ),
+                                                                  UpdateContext({varShowPopupProcessing: true});
+                                                                  IfError(
+                                                                      Clear(col_InventoryDetailToDelete);
+                                                                      ClearCollect(
+                                                                          col_InventoryDetailToDelete,
+                                                                          Filter('QLK List Inventory Details', InventoryID = ThisItem.ID)
+                                                                      );
+                                                                      Remove('QLK List Inventory Details', col_InventoryDetailToDelete);
+                                                                      Remove('QLK List Inventory', LookUp('QLK List Inventory', ID = ThisItem.ID)),
+                                                                      UpdateContext({varShowPopupProcessing: false});
+                                                                      Notify("Xóa không thành công", NotificationType.Error, 2000);
+                                                                      ,
+                                                                      UpdateContext({varShowPopupProcessing: false});
+                                                                      Notify("Đã xoá thành công", NotificationType.Success, 2000);
+                                                                  )
+                                                              )
+                                                            RadiusBottomLeft: =8
+                                                            RadiusBottomRight: =8
+                                                            RadiusTopLeft: =8
+                                                            RadiusTopRight: =8
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Xóa"
+                                                            Visible: =ThisItem.StatusCode = "DRAFT"
+                                                            Width: =(Parent.Width - Parent.PaddingLeft - Parent.PaddingRight - Parent.LayoutGap) / 2
+                                                - con_RowActionsNXT_1:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =gal_NXT_1.TemplateHeight
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutMinHeight: =Parent.Height
+                                                      Visible: =scrNXT.Size <> 1
+                                                      Width: =lbl_HeaderActionNXT.Width
+                                                    Children:
+                                                      - btn_ViewNXT_1:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Eye"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |-
+                                                              =Set(varNXTDetail, LookUp('QLK List Inventory', ID = ThisItem.ID));
+                                                              Navigate(scrNXTForm,ScreenTransition.CoverRight)
+                                                            Width: =32
+                                                      - btn_DeleteNXT_1:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Delete"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |
+                                                              =If(
+                                                                  Confirm(
+                                                                      "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                      {
+                                                                          Title: "Xác nhận xóa",
+                                                                          Subtitle: "Hành động này không thể hoàn tác.",
+                                                                          ConfirmButton: "Xóa",
+                                                                          CancelButton: "Hủy"
+                                                                      }
+                                                                  ),
+                                                                  UpdateContext({varShowPopupProcessing: true});
+                                                                  IfError(
+                                                                      Clear(col_InventoryDetailToDelete);
+                                                                      ClearCollect(
+                                                                          col_InventoryDetailToDelete,
+                                                                          Filter('QLK List Inventory Details', InventoryID = ThisItem.ID)
+                                                                      );
+                                                                      Remove('QLK List Inventory Details', col_InventoryDetailToDelete);
+                                                                      Remove('QLK List Inventory', LookUp('QLK List Inventory', ID = ThisItem.ID)),
+                                                                      UpdateContext({varShowPopupProcessing: false});
+                                                                      Notify("Xóa không thành công", NotificationType.Error, 2000);
+                                                                      ,
+                                                                      UpdateContext({varShowPopupProcessing: false});
+                                                                      Notify("Đã xoá thành công", NotificationType.Success, 2000);
+                                                                  )
+                                                              )
+                                                            Visible: |-
+                                                              =ThisItem.StatusCode = "DRAFT" && 
+                                                              (
+                                                                  varUserInPlant.Role = "FG_WH" ||   // FG_WH         - Thủ kho thành phẩm
+                                                                  varUserInPlant.Role = "VHSX_HO" ||   // VHSX_HO       - VHSX HO
+                                                                  varUserInPlant.Role = "RM_SUP"      // RM_SUP        - Giám sát nguyên liệu
+                                                              )
+                                                            Width: =32
+                                    - con_FooterNXT:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =44
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =16
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                        Children:
+                                          - lbl_TotalRowsNXT:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Hiển thị " & CountRows(gal_NXT_1.AllItems) & " dòng"
+                                                Wrap: =false
       - con_MenuOverlayNhapTuSanXuatHangBaoMobile_11:
           Control: GroupContainer
           Variant: AutoLayout

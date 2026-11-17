@@ -10,541 +10,833 @@ Screens:
             DropShadow: =DropShadow.None
             Fill: =RGBA(0, 0, 0, 0.1)
             Height: =Parent.Height
-            LayoutAlignItems: =LayoutAlignItems.Center
-            LayoutDirection: =LayoutDirection.Vertical
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Horizontal
             RadiusBottomLeft: =0
             RadiusBottomRight: =0
             RadiusTopLeft: =0
             RadiusTopRight: =0
             Width: =Parent.Width
           Children:
-            - con_HeaderXuatDaiLy_1:
+            - con_MenuXuatDaiLy:
                 Control: GroupContainer
                 Variant: AutoLayout
                 Properties:
                   DropShadow: =DropShadow.None
                   FillPortions: =0
-                  Height: =55
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  Visible: =scrXuatDaiLy.Size <> 1
+                  Width: =If(varShowMenuUser, 240, 64)
+                Children:
+                  - cmp_NavSidebarXuatDaiLy:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width
+            - con_SideRight_MainXuatDaiLy:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
                   LayoutAlignItems: =LayoutAlignItems.Stretch
                   LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
                   RadiusBottomLeft: =0
                   RadiusBottomRight: =0
                   RadiusTopLeft: =0
                   RadiusTopRight: =0
                 Children:
-                  - cmp_HeaderXuatDaiLy:
-                      Control: CanvasComponent
-                      ComponentName: Header
-                      Properties:
-                        Height: =App.Height
-                        IDRecord: =100
-                        Width: =App.Width - Parent.PaddingLeft * 2 - 5
-                        varSizeScreen: =scrXuatDaiLy.Size
-            - con_BodyXuatDaiLy:
-                Control: GroupContainer
-                Variant: AutoLayout
-                Properties:
-                  DropShadow: =If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
-                  FillPortions: =0
-                  Height: =Parent.Height - con_HeaderXuatDaiLy_1.Height
-                  LayoutAlignItems: =LayoutAlignItems.Center
-                  LayoutDirection: =LayoutDirection.Horizontal
-                  LayoutGap: =If(!varShowMenuUser, 0, 5)
-                  PaddingBottom: =If(!varShowMenuUser, 0, 5)
-                  PaddingLeft: =If(!varShowMenuUser, 0, 5)
-                  PaddingRight: =If(!varShowMenuUser, 0, 5)
-                  PaddingTop: =If(!varShowMenuUser, 0, 5)
-                Children:
-                  - con_MenuXuatDaiLy:
+                  - con_HeaderXuatDaiLy_1:
                       Control: GroupContainer
                       Variant: AutoLayout
                       Properties:
-                        DropShadow: =DropShadow.Semilight
+                        DropShadow: =DropShadow.None
                         FillPortions: =0
-                        LayoutDirection: =LayoutDirection.Horizontal
-                        Visible: =scrXuatDaiLy.Size <> 1
-                        Width: =If(varShowMenuUser, 240, 0)
-                      Children:
-                        - cmp_NavSidebarXuatDaiLy:
-                            Control: CanvasComponent
-                            ComponentName: NavSiderBar
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              Height: =Parent.Height
-                              SidebarWidth: =Parent.Width
-                              Width: =Parent.Width
-                  - con_ContentXuatDaiLy:
-                      Control: GroupContainer
-                      Variant: AutoLayout
-                      Properties:
-                        DropShadow: |-
-                          =If(
-                              scrXuatDaiLy.Size = 1,
-                              DropShadow.Semibold,
-                              DropShadow.None
-                          )
-                        Fill: =RGBA(255, 255, 255, 1)
-                        LayoutAlignItems: =LayoutAlignItems.Center
+                        Height: =55
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
                         LayoutDirection: =LayoutDirection.Vertical
-                        LayoutGap: =5
-                        PaddingBottom: =5
-                        PaddingLeft: =5
-                        PaddingRight: =5
-                        PaddingTop: =5
                         RadiusBottomLeft: =0
                         RadiusBottomRight: =0
-                        RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                        RadiusTopLeft: =0
                         RadiusTopRight: =0
                       Children:
-                        - con_ActionHeaderXuatDaiLy:
+                        - cmp_HeaderXuatDaiLy:
+                            Control: CanvasComponent
+                            ComponentName: Header
+                            Properties:
+                              Height: =App.Height
+                              IDRecord: =100
+                              Width: =Parent.Width
+                              varSizeScreen: =scrXuatDaiLy.Size
+                  - con_BodyXuatDaiLy:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
+                        FillPortions: =0
+                        Height: =Parent.Height - con_HeaderXuatDaiLy_1.Height
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =If(!varShowMenuUser, 0, 5)
+                        PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                        PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                        PaddingRight: =If(!varShowMenuUser, 0, 5)
+                        PaddingTop: =If(!varShowMenuUser, 0, 5)
+                      Children:
+                        - con_ContentXuatDaiLy:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
-                              DropShadow: =DropShadow.None
-                              FillPortions: =0
-                              Height: =40
-                              LayoutDirection: =LayoutDirection.Horizontal
-                              LayoutGap: =10
+                              DropShadow: |-
+                                =If(
+                                    scrXuatDaiLy.Size = 1,
+                                    DropShadow.Semibold,
+                                    DropShadow.None
+                                )
+                              Fill: =RGBA(255, 255, 255, 1)
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
                               PaddingBottom: =5
                               PaddingLeft: =5
                               PaddingRight: =5
                               PaddingTop: =5
-                            Children:
-                              - btn_RefreshXuatDaiLy:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Outline
-                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                    Font: =fxFontFamily
-                                    Icon: ="ArrowSync"
-                                    OnSelect: =Refresh('QLK List Issue Detail')
-                                    Size: =fxFontSizeMD
-                                    Text: ="Làm mới"
-                                    Width: =120
-                        - lbl_TitleXuatDaiLy_1:
-                            Control: ModernText
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              Color: =RGBA(45, 128, 40, 1)
-                              Font: =fxFontFamily
-                              FontWeight: =fxFontWeightSemiBold
-                              Height: =40
-                              PaddingLeft: =10
-                              Size: =fxFontSizeXL
-                              Text: ="Xuất kho đại lý"
-                        - con_FilterXuatDaiLy:
-                            Control: GroupContainer
-                            Variant: AutoLayout
-                            Properties:
-                              DropShadow: =DropShadow.None
-                              FillPortions: =0
-                              Height: =45
-                              LayoutAlignItems: =LayoutAlignItems.Center
-                              LayoutDirection: =LayoutDirection.Horizontal
-                              LayoutGap: =8
-                              PaddingLeft: =8
-                              PaddingRight: =8
                               RadiusBottomLeft: =0
                               RadiusBottomRight: =0
-                              RadiusTopLeft: =0
+                              RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
                               RadiusTopRight: =0
                             Children:
-                              - txt_SearchXuatDaiLy:
-                                  Control: ModernTextInput
-                                  Properties:
-                                    FillPortions: =1
-                                    Font: =fxFontFamily
-                                    LayoutMinWidth: =16
-                                    Placeholder: ="Tìm kiếm ...."
-                                    X: =40
-                                    Y: =40
-                              - btn_FilterXuatKho_2:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Outline
-                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                    Font: =fxFontFamily
-                                    Icon: ="Filter"
-                                    OnSelect: |-
-                                      =UpdateContext({varPopUpFilterXuatKho: true})
-                                    Text: ="Bộ lọc"
-                                    Visible: =false
-                                    Width: =110
-                                    X: =40
-                                    Y: =40
-                              - DatePicker1_5:
-                                  Control: ModernDatePicker
-                                  Properties:
-                                    DefaultDate: =Today()
-                                    Format: =DatePickerFormat.Short
-                                    LayoutMinHeight: =16
-                                    LayoutMinWidth: =16
-                                    Placeholder: ="Chọn ngày ..."
-                                    Width: =120
-                                    X: =40
-                                    Y: =40
-                              - cbo_FilterProductTypeNhapTuSanXuat_7:
-                                  Control: ModernCombobox
-                                  Properties:
-                                    DefaultSelectedItems: =LookUp(col_ProductCategories, ProductCategoryCode = varUserInPlant.ProductCategoryCode)
-                                    FillPortions: =
-                                    Font: =fxFontFamily
-                                    FontWeight: =fxFontWeightNormal
-                                    InputTextPlaceholder: ="Tất cả"
-                                    IsSearchable: =false
-                                    ItemDisplayText: =ThisItem.ProductCategoryNameVI
-                                    Items: =col_ProductCategories
-                                    SelectMultiple: =false
-                                    Width: =120
-                                    X: =40
-                                    Y: =40
-                              - Button5_6:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Transparent
-                                    Icon: ="Eraser"
-                                    LayoutMinHeight: =16
-                                    LayoutMinWidth: =16
-                                    OnSelect: |-
-                                      =Reset(cbo_FilterProductTypeNhapTuSanXuat_7);
-                                      Reset(txt_SearchXuatDaiLy);
-                                      Reset(DatePicker1_5)
-                                    Text: =
-                                    Width: =30
-                                    X: =40
-                                    Y: =40
-                        - con_ListXuatDaiLy_1:
-                            Control: GroupContainer
-                            Variant: AutoLayout
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Start
-                              BorderStyle: =BorderStyle.None
-                              DropShadow: =If(scrXuatDaiLy.Size = 1, DropShadow.None, DropShadow.Semibold)
-                              Fill: =RGBA(255, 255, 255, 1)
-                              LayoutAlignItems: =LayoutAlignItems.Stretch
-                              LayoutDirection: =LayoutDirection.Vertical
-                              LayoutOverflowX: =LayoutOverflow.Scroll
-                              LayoutOverflowY: =LayoutOverflow.Scroll
-                              RadiusBottomLeft: =6
-                              RadiusBottomRight: =6
-                              RadiusTopLeft: =If(scrXuatDaiLy.Size = 1, 0, 5)
-                              RadiusTopRight: =6
-                              Width: =Parent.Width - Parent.PaddingLeft * 2
-                            Children:
-                              - con_TableHeaderXuatDaiLy:
+                              - con_ActionHeaderXuatDaiLy:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
-                                    Fill: =RGBA(250, 250, 250, 1)
                                     FillPortions: =0
-                                    Height: =46
+                                    Height: =40
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                  Children:
+                                    - btn_RefreshXuatDaiLy:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =fxFontFamily
+                                          Icon: ="ArrowSync"
+                                          OnSelect: =Refresh('QLK List Issue Detail')
+                                          Size: =fxFontSizeMD
+                                          Text: ="Làm mới"
+                                          Width: =120
+                              - lbl_TitleXuatDaiLy_1:
+                                  Control: ModernText
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =RGBA(45, 128, 40, 1)
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightSemiBold
+                                    Height: =40
+                                    PaddingLeft: =10
+                                    Size: =fxFontSizeXL
+                                    Text: ="Xuất kho đại lý"
+                              - con_FilterXuatDaiLy:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =RGBA(229, 231, 235, 1)
+                                    BorderThickness: =If(scrXuatDaiLy.Size = 1, 1, 0)
+                                    DropShadow: =DropShadow.None
+                                    Fill: =If(scrXuatDaiLy.Size = 1, RGBA(248, 250, 252, 1), RGBA(0, 0, 0, 0))
+                                    FillPortions: =0
+                                    Height: =If(scrXuatDaiLy.Size = 1, If(varShowFilterXDL, 360, 96), 45)
                                     LayoutAlignItems: =LayoutAlignItems.Center
                                     LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =5
-                                    PaddingLeft: =10
-                                    PaddingRight: =10
-                                    Visible: =scrXuatDaiLy.Size <> 1
+                                    LayoutGap: =If(scrXuatDaiLy.Size = 1, 8, 10)
+                                    PaddingBottom: =If(scrXuatDaiLy.Size = 1, 8, 5)
+                                    PaddingLeft: =If(scrXuatDaiLy.Size = 1, 8, 5)
+                                    PaddingRight: =If(scrXuatDaiLy.Size = 1, 8, 5)
+                                    PaddingTop: =If(scrXuatDaiLy.Size = 1, 8, 5)
+                                    RadiusBottomLeft: =If(scrXuatDaiLy.Size = 1, 8, 4)
+                                    RadiusBottomRight: =If(scrXuatDaiLy.Size = 1, 8, 4)
+                                    RadiusTopLeft: =If(scrXuatDaiLy.Size = 1, 8, 4)
+                                    RadiusTopRight: =If(scrXuatDaiLy.Size = 1, 8, 4)
                                   Children:
-                                    - lbl_HeaderMovementTypeXuatDaiLy:
-                                        Control: ModernText
-                                        Properties:
-                                          FillPortions: =2
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Movement type"
-                                          Wrap: =false
-                                    - lbl_HeaderPostingDateXuatDaiLy:
-                                        Control: ModernText
-                                        Properties:
-                                          FillPortions: =2
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Ngày thực hiện"
-                                          Wrap: =false
-                                    - lbl_HeaderSAPCodeXuatDaiLy:
-                                        Control: ModernText
-                                        Properties:
-                                          FillPortions: =2
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Mã SAP"
-                                          Wrap: =false
-                                    - lbl_HeaderQuantityXuatDaiLy:
-                                        Control: ModernText
-                                        Properties:
-                                          FillPortions: =2
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Khối lượng giao"
-                                          Wrap: =false
-                                    - lbl_HeaderSLocXuatDaiLy:
-                                        Control: ModernText
+                                    - txt_SearchXuatDaiLy:
+                                        Control: ModernTextInput
                                         Properties:
                                           FillPortions: =1
                                           Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Kho"
-                                          Wrap: =false
-                                    - lbl_HeaderNoteXuatDaiLy:
-                                        Control: ModernText
-                                        Properties:
-                                          FillPortions: =2
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Chú thích"
-                                          Wrap: =false
-                                    - lbl_HeaderActionXuatDaiLy:
-                                        Control: ModernText
-                                        Properties:
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Thao tác"
-                                          Width: =72
-                                          Wrap: =false
-                              - gal_XuatDaiLy_1:
-                                  Control: Gallery
-                                  Variant: Vertical
-                                  Properties:
-                                    BorderStyle: =BorderStyle.None
-                                    Height: =Parent.Height - con_TableHeaderXuatDaiLy.Height - lbl_TotalRowsXuatDaiLy.Height
-                                    Items: |
-                                      =Switch(
-                                          varRoleCurrentFirst.Role,
-                                          Index(col_RoleUser, 15).RoleCode, // Trưởng ca
-                                          SortByColumns(
-                                              Filter(
-                                                  'QLK List Issue Detail',
-                                                  IssueTypeCode = Index(col_IssueType, 1).IssueTypeCode,
-                                                  PlantCode = varUserInPlant.PlantCode,
-                                                  'Created By'.Email = varCurrentUser.G_Email,
-                                                  IsBlank(txt_SearchXuatDaiLy.Text) || StartsWith(SAPCode, txt_SearchXuatDaiLy.Text),
-                                                  IsBlank(DatePicker1_5 .SelectedDate) ||  PostingDate >= DatePicker1_5 .SelectedDate,
-                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_7.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_7.Selected.ProductCategoryCode
-                                              ),
-                                              "Created",
-                                              SortOrder.Descending
-                                          ),
-                                          Index(col_RoleUser, 1).RoleCode, // Thủ kho thành phẩm
-                                          SortByColumns(
-                                              Filter(
-                                                  'QLK List Issue Detail',
-                                                  IssueTypeCode = Index(col_IssueType, 1).IssueTypeCode,
-                                                  ProductCategoryCode = Index(col_ProductCategories,2).ProductCategoryCode,
-                                                  PlantCode = varUserInPlant.PlantCode,
-                                                  'Created By'.Email = varCurrentUser.G_Email,
-                                                  IsBlank(txt_SearchXuatDaiLy.Text) || StartsWith(SAPCode, txt_SearchXuatDaiLy.Text),
-                                                  IsBlank(DatePicker1_5 .SelectedDate) ||  PostingDate >= DatePicker1_5 .SelectedDate,
-                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_7.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_7.Selected.ProductCategoryCode
-                                              ),
-                                              "Created",
-                                              SortOrder.Descending
-                                          ),
-                                          Index(col_RoleUser, 3).RoleCode, // Thủ kho nguyên liệu
-                                          SortByColumns(
-                                              Filter(
-                                                  'QLK List Issue Detail',
-                                                  IssueTypeCode = Index(col_IssueType, 1).IssueTypeCode,
-                                                  ProductCategoryCode = Index(col_ProductCategories,1).ProductCategoryCode,
-                                                  PlantCode = varUserInPlant.PlantCode,
-                                                  'Created By'.Email = varCurrentUser.G_Email,
-                                                  IsBlank(txt_SearchXuatDaiLy.Text) || StartsWith(SAPCode, txt_SearchXuatDaiLy.Text),
-                                                  IsBlank(DatePicker1_5 .SelectedDate) ||  PostingDate >= DatePicker1_5 .SelectedDate,
-                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_7.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_7.Selected.ProductCategoryCode
-                                              ),
-                                              "Created",
-                                              SortOrder.Descending
-                                          ),
-                                          SortByColumns(
-                                              Filter(
-                                                  'QLK List Issue Detail',
-                                                  IssueTypeCode = Index(col_IssueType, 1).IssueTypeCode,
-                                                  PlantCode = varUserInPlant.PlantCode,
-                                                  IsBlank(DatePicker1_5 .SelectedDate) ||  PostingDate >= DatePicker1_5 .SelectedDate,
-                                                  IsBlank(txt_SearchXuatDaiLy.Text) || StartsWith(SAPCode, txt_SearchXuatDaiLy.Text),
-                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_7.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_7.Selected.ProductCategoryCode
-                                              ),
-                                              "Created",
-                                              SortOrder.Descending
-                                          )
-                                      )
-                                    ShowScrollbar: =false
-                                    TemplateSize: =If(scrXuatDaiLy.Size = 1, 180, 45)
-                                    Width: =Parent.Width
-                                  Children:
-                                    - con_RowDividerXuatDaiLy:
-                                        Control: GroupContainer
-                                        Variant: ManualLayout
-                                        Properties:
-                                          DropShadow: =DropShadow.None
-                                          Fill: =RGBA(229, 231, 235, 1)
-                                          Height: =1
+                                          LayoutMinWidth: =16
+                                          Placeholder: ="Tìm kiếm ...."
                                           Visible: =scrXuatDaiLy.Size <> 1
-                                          Width: =gal_XuatDaiLy_1.Width - 10
-                                          Y: =44
-                                    - con_RowMasterXuatDaiLy:
+                                    - btn_FilterXuatKho_2:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =fxFontFamily
+                                          Icon: ="Filter"
+                                          OnSelect: |-
+                                            =UpdateContext({varPopUpFilterXuatKho: true})
+                                          Text: ="Bộ lọc"
+                                          Visible: =false
+                                          Width: =110
+                                          X: =40
+                                          Y: =40
+                                    - DatePicker1_5:
+                                        Control: ModernDatePicker
+                                        Properties:
+                                          DefaultDate: =Today()
+                                          Format: =DatePickerFormat.Short
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          Placeholder: ="Chọn ngày ..."
+                                          Visible: =scrXuatDaiLy.Size <> 1
+                                          Width: =120
+                                    - cbo_FilterProductTypeNhapTuSanXuat_7:
+                                        Control: ModernCombobox
+                                        Properties:
+                                          DefaultSelectedItems: =LookUp(col_ProductCategories, ProductCategoryCode = varUserInPlant.ProductCategoryCode)
+                                          FillPortions: =
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightNormal
+                                          InputTextPlaceholder: ="Tất cả"
+                                          IsSearchable: =false
+                                          ItemDisplayText: =ThisItem.ProductCategoryNameVI
+                                          Items: =col_ProductCategories
+                                          SelectMultiple: =false
+                                          Visible: =scrXuatDaiLy.Size <> 1
+                                          Width: =120
+                                    - Button5_6:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Transparent
+                                          Icon: ="Eraser"
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          OnSelect: |-
+                                            =Reset(cbo_FilterProductTypeNhapTuSanXuat_7);
+                                            Reset(txt_SearchXuatDaiLy);
+                                            Reset(DatePicker1_5)
+                                          Text: =
+                                          Visible: =scrXuatDaiLy.Size <> 1
+                                          Width: =30
+                                    - con_FilterMobXDL:
                                         Control: GroupContainer
                                         Variant: AutoLayout
                                         Properties:
-                                          DropShadow: =If(scrXuatDaiLy.Size = 1, DropShadow.Light, DropShadow.None)
-                                          Height: =gal_XuatDaiLy_1.TemplateHeight
-                                          LayoutAlignItems: =LayoutAlignItems.Center
-                                          LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutGap: =If(scrXuatDaiLy.Size = 1, 5, 0)
-                                          RadiusTopLeft: =If(scrXuatDaiLy.Size = 1, 4, 0)
-                                          Width: =Parent.Width - 10
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          BorderColor: =RGBA(229, 231, 235, 1)
+                                          BorderThickness: =1
+                                          DropShadow: =DropShadow.Regular
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0
+                                          Height: =If(varShowFilterXDL, 344, 80)
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =8
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          PaddingBottom: =12
+                                          PaddingLeft: =12
+                                          PaddingRight: =12
+                                          PaddingTop: =12
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Visible: =scrXuatDaiLy.Size = 1
+                                          Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
                                         Children:
-                                          - con_RowXuatDaiLy_1:
-                                              Control: GroupContainer
-                                              Variant: AutoLayout
-                                              Properties:
-                                                DropShadow: =DropShadow.None
-                                                Height: =gal_XuatDaiLy_1.TemplateHeight
-                                                LayoutAlignItems: =If(scrXuatDaiLy.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
-                                                LayoutDirection: =If(scrXuatDaiLy.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
-                                                LayoutGap: =5
-                                                LayoutMinHeight: =Parent.Height
-                                                PaddingLeft: =10
-                                                PaddingRight: =5
-                                                PaddingTop: =If(scrXuatDaiLy.Size = 1, 8, 0)
-                                              Children:
-                                                - lbl_RowMovementTypeXuatDaiLy:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrXuatDaiLy.Size = 1, "Movement type: " & ThisItem.MovementType, ThisItem.MovementType)
-                                                      Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderMovementTypeXuatDaiLy.Width)
-                                                      Wrap: =false
-                                                - lbl_RowPostingDateXuatDaiLy:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrXuatDaiLy.Size = 1, "Ngày thực hiện: " & Text(ThisItem.PostingDate, "dd/mm/yyyy"), Text(ThisItem.PostingDate, "dd/mm/yyyy"))
-                                                      Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderPostingDateXuatDaiLy.Width)
-                                                      Wrap: =false
-                                                - lbl_RowSAPCodeXuatDaiLy:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      FontWeight: =fxFontWeightSemiBold
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrXuatDaiLy.Size = 1, "Mã SAP: " & ThisItem.SAPCode, ThisItem.SAPCode)
-                                                      Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderSAPCodeXuatDaiLy.Width)
-                                                      Wrap: =false
-                                                - lbl_RowQuantityXuatDaiLy:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrXuatDaiLy.Size = 1, "Khối lượng: " & Text(ThisItem.Quantity, "#,##0"), Text(ThisItem.Quantity, "#,##0"))
-                                                      Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderQuantityXuatDaiLy.Width)
-                                                      Wrap: =false
-                                                - lbl_RowSLocXuatDaiLy:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrXuatDaiLy.Size = 1, "Kho: " & ThisItem.SLoc, ThisItem.SLoc)
-                                                      Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderSLocXuatDaiLy.Width)
-                                                      Wrap: =false
-                                                - lbl_RowNoteXuatDaiLy:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrXuatDaiLy.Size = 1, "Chú thích: " & ThisItem.Note, ThisItem.Note)
-                                                      Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderNoteXuatDaiLy.Width)
-                                                      Wrap: =false
-                                          - con_RowActionsXuatDaiLy:
+                                          - con_FilterHeadXDL:
                                               Control: GroupContainer
                                               Variant: AutoLayout
                                               Properties:
                                                 DropShadow: =DropShadow.None
                                                 FillPortions: =0
-                                                Height: =gal_XuatDaiLy_1.TemplateHeight
+                                                Height: =56
                                                 LayoutAlignItems: =LayoutAlignItems.Center
                                                 LayoutDirection: =LayoutDirection.Horizontal
-                                                LayoutMinHeight: |
-                                                  =Parent.Height
-                                                Visible: =scrXuatDaiLy.Size <> 1
-                                                Width: =lbl_HeaderActionXuatDaiLy.Width
+                                                LayoutGap: =10
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
                                               Children:
-                                                - btn_ViewXuatDaiLy:
+                                                - btn_FilterIconXDL:
                                                     Control: ModernButton
                                                     Properties:
                                                       Appearance: =ButtonAppearance.Transparent
-                                                      Icon: ="Eye"
+                                                      Color: =RGBA(17, 24, 39, 1)
+                                                      Icon: ="Filter"
                                                       Layout: =ButtonLayout.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
                                                       OnSelect: |-
-                                                        =Set(varGoodsIssue, LookUp('QLK List Issue Header',ID = ThisItem.IssueHeaderId));
-                                                        Navigate(scrXuatKhoForm, ScreenTransition.CoverRight)
+                                                        =UpdateContext({varShowFilterXDL: !varShowFilterXDL})
                                                       Width: =32
-                                          - con_MobileActionXuatKho_1:
+                                                - con_FilterHeadTextXDL:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =56
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FilterTitleXDL:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Height: =28
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Bộ lọc" & If((If(!IsBlank(dp_DateMobXDL.SelectedDate), 1, 0) + If(!IsBlank(txt_SearchMobXDL.Text), 1, 0) + If(!IsBlank(cbo_CategoryMobXDL.Selected), 1, 0)) > 0, " (" & (If(!IsBlank(dp_DateMobXDL.SelectedDate), 1, 0) + If(!IsBlank(txt_SearchMobXDL.Text), 1, 0) + If(!IsBlank(cbo_CategoryMobXDL.Selected), 1, 0)) & ")", "")
+                                                            Wrap: =false
+                                                      - lbl_FilterSummaryXDL:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Color: =RGBA(107, 114, 128, 1)
+                                                            Font: =fxFontFamily
+                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeXS
+                                                            Text: |-
+                                                              ="Ngày: " & If(IsBlank(dp_DateMobXDL.SelectedDate), "-", Text(dp_DateMobXDL.SelectedDate, "mm/dd/yyyy")) & "  •  Tìm: " & If(IsBlank(txt_SearchMobXDL.Text), "-", txt_SearchMobXDL.Text) & "  •  Loại: " & Coalesce(cbo_CategoryMobXDL.Selected.ProductCategoryNameVI, "Tất cả")
+                                                            Wrap: =false
+                                                - btn_FilterToggleXDL:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Color: =RGBA(17, 24, 39, 1)
+                                                      Height: =36
+                                                      Icon: =If(varShowFilterXDL, "ChevronUp", "ChevronDown")
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =UpdateContext({varShowFilterXDL: !varShowFilterXDL})
+                                                      Width: =36
+                                          - con_FilterBodyXDL:
                                               Control: GroupContainer
                                               Variant: AutoLayout
                                               Properties:
                                                 DropShadow: =DropShadow.None
                                                 FillPortions: =0
-                                                Height: =gal_XuatKho.TemplateHeight
+                                                Height: =256
+                                                LayoutAlignItems: =LayoutAlignItems.Stretch
                                                 LayoutDirection: =LayoutDirection.Vertical
-                                                Visible: =scrXuatDaiLy.Size = 1
-                                                Width: =Parent.Width - con_RowXuatKho.Width - 5
+                                                LayoutGap: =8
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                Visible: =varShowFilterXDL
                                               Children:
-                                                - btn_MobileOpenXuatKho_1:
-                                                    Control: ModernButton
+                                                - con_FldSearchXDL:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
                                                     Properties:
-                                                      AlignInContainer: =AlignInContainer.Start
-                                                      Appearance: =ButtonAppearance.Transparent
-                                                      FillPortions: =1
-                                                      Height: =gal_XuatKho.TemplateHeight
-                                                      Icon: ="Eye"
-                                                      Layout: =ButtonLayout.IconOnly
-                                                      OnSelect: |-
-                                                        =Set(varGoodsIssue, LookUp('QLK List Issue Header',ID = ThisItem.IssueHeaderId));
-                                                        Navigate(scrXuatKhoForm, ScreenTransition.CoverRight)
-                                                      Width: '=Parent.Width '
-                              - con_FooterXuatDaiLy:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =64
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FldSearchXDL:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =24
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeSM
+                                                            Text: ="Tìm theo mã SAP, mã hàng"
+                                                      - txt_SearchMobXDL:
+                                                          Control: ModernTextInput
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =40
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            Placeholder: ="Tìm kiếm ..."
+                                                - con_FldDateXDL:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =64
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FldDateXDL:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =24
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeSM
+                                                            Text: ="Ngày thực hiện"
+                                                      - dp_DateMobXDL:
+                                                          Control: ModernDatePicker
+                                                          Properties:
+                                                            BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                            DefaultDate: =Today()
+                                                            Font: =fxFontFamily
+                                                            Format: =DatePickerFormat.Short
+                                                            Height: =40
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            Placeholder: ="Chọn ngày ..."
+                                                - con_FldCategoryXDL:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =64
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FldCategoryXDL:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =24
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeSM
+                                                            Text: ="Loại sản phẩm"
+                                                      - cbo_CategoryMobXDL:
+                                                          Control: ModernCombobox
+                                                          Properties:
+                                                            DefaultSelectedItems: =LookUp(col_ProductCategories, ProductCategoryCode = varUserInPlant.ProductCategoryCode)
+                                                            Font: =fxFontFamily
+                                                            Height: =40
+                                                            InputTextPlaceholder: ="Tất cả"
+                                                            IsSearchable: =false
+                                                            ItemDisplayText: =ThisItem.ProductCategoryNameVI
+                                                            Items: =col_ProductCategories
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            SelectMultiple: =false
+                                                - con_FldBtnRowXDL:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =40
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =10
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - btn_FltClearXDL:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Outline
+                                                            FillPortions: =1
+                                                            Font: =fxFontFamily
+                                                            Height: =40
+                                                            Icon: ="Eraser"
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnSelect: |-
+                                                              =Reset(dp_DateMobXDL);
+                                                              Reset(txt_SearchMobXDL);
+                                                              Reset(cbo_CategoryMobXDL)
+                                                            Text: ="Xóa lọc"
+                                                      - btn_FltApplyXDL:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            BasePaletteColor: =RGBA(46, 125, 50, 1)
+                                                            FillPortions: =1
+                                                            Font: =fxFontFamily
+                                                            Height: =40
+                                                            Icon: ="Search"
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnSelect: |-
+                                                              =UpdateContext({varShowFilterXDL: false})
+                                                            Text: ="Áp dụng"
+                              - con_ListXuatDaiLy_1:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
-                                    DropShadow: =DropShadow.None
-                                    FillPortions: =0
-                                    Height: =44
-                                    LayoutAlignItems: =LayoutAlignItems.Center
-                                    LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =16
-                                    PaddingLeft: =10
-                                    PaddingRight: =10
+                                    AlignInContainer: =AlignInContainer.Start
+                                    BorderStyle: =BorderStyle.None
+                                    DropShadow: =If(scrXuatDaiLy.Size = 1, DropShadow.None, DropShadow.Semibold)
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutOverflowX: =LayoutOverflow.Scroll
+                                    LayoutOverflowY: =LayoutOverflow.Scroll
+                                    RadiusBottomLeft: =6
+                                    RadiusBottomRight: =6
+                                    RadiusTopLeft: =If(scrXuatDaiLy.Size = 1, 0, 5)
+                                    RadiusTopRight: =6
+                                    Width: =Parent.Width - Parent.PaddingLeft * 2
                                   Children:
-                                    - lbl_TotalRowsXuatDaiLy:
-                                        Control: ModernText
+                                    - con_TableHeaderXuatDaiLy:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
                                         Properties:
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          Size: =fxFontSizeMD
-                                          Text: ="Hiển thị " & CountRows(gal_XuatDaiLy_1.AllItems) & " dòng"
-                                          Wrap: =false
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(250, 250, 250, 1)
+                                          FillPortions: =0
+                                          Height: =46
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =5
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Visible: =scrXuatDaiLy.Size <> 1
+                                        Children:
+                                          - lbl_HeaderMovementTypeXuatDaiLy:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =2
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Movement type"
+                                                Wrap: =false
+                                          - lbl_HeaderPostingDateXuatDaiLy:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =2
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Ngày thực hiện"
+                                                Wrap: =false
+                                          - lbl_HeaderSAPCodeXuatDaiLy:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =2
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Mã SAP"
+                                                Wrap: =false
+                                          - lbl_HeaderQuantityXuatDaiLy:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =2
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Khối lượng giao"
+                                                Wrap: =false
+                                          - lbl_HeaderSLocXuatDaiLy:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =1
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Kho"
+                                                Wrap: =false
+                                          - lbl_HeaderNoteXuatDaiLy:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =2
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Chú thích"
+                                                Wrap: =false
+                                          - lbl_HeaderActionXuatDaiLy:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Thao tác"
+                                                Width: =72
+                                                Wrap: =false
+                                    - gal_XuatDaiLy_1:
+                                        Control: Gallery
+                                        Variant: Vertical
+                                        Properties:
+                                          BorderStyle: =BorderStyle.None
+                                          Height: =Parent.Height - con_TableHeaderXuatDaiLy.Height - lbl_TotalRowsXuatDaiLy.Height
+                                          Items: |
+                                            =Switch(
+                                                varUserInPlant.Role,
+                                                "SHIFT_LEADER", // Trưởng ca
+                                                SortByColumns(
+                                                    Filter(
+                                                        'QLK List Issue Detail',
+                                                        IssueTypeCode = "DEALER",
+                                                        PlantCode = varUserInPlant.PlantCode,
+                                                        'Created By'.Email = varCurrentUser.G_Email,
+                                                        IsBlank(txt_SearchXuatDaiLy.Text) || scrXuatDaiLy.Size = 1 || StartsWith(SAPCode, txt_SearchXuatDaiLy.Text),
+                                                        IsBlank(DatePicker1_5 .SelectedDate) || scrXuatDaiLy.Size = 1 || PostingDate >= DatePicker1_5 .SelectedDate,
+                                                        IsBlank(cbo_FilterProductTypeNhapTuSanXuat_7.Selected) || scrXuatDaiLy.Size = 1 || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_7.Selected.ProductCategoryCode,
+                                                        (IsBlank(txt_SearchMobXDL.Text) || scrXuatDaiLy.Size <> 1 || StartsWith(SAPCode, txt_SearchMobXDL.Text)),
+                                                        IsBlank(dp_DateMobXDL.SelectedDate) || scrXuatDaiLy.Size <> 1 || PostingDate >= dp_DateMobXDL.SelectedDate,
+                                                        IsBlank(cbo_CategoryMobXDL.Selected) || scrXuatDaiLy.Size <> 1 || ProductCategoryCode = cbo_CategoryMobXDL.Selected.ProductCategoryCode
+                                                    ),
+                                                    "Created",
+                                                    SortOrder.Descending
+                                                ),
+                                                "FG_WH", // Thủ kho thành phẩm
+                                                SortByColumns(
+                                                    Filter(
+                                                        'QLK List Issue Detail',
+                                                        IssueTypeCode = "DEALER",
+                                                        ProductCategoryCode = LookUp(col_ProductCategories, ID = 2).ProductCategoryCode,
+                                                        PlantCode = varUserInPlant.PlantCode,
+                                                        'Created By'.Email = varCurrentUser.G_Email,
+                                                        IsBlank(txt_SearchXuatDaiLy.Text) || scrXuatDaiLy.Size = 1 || StartsWith(SAPCode, txt_SearchXuatDaiLy.Text),
+                                                        IsBlank(DatePicker1_5 .SelectedDate) || scrXuatDaiLy.Size = 1 || PostingDate >= DatePicker1_5 .SelectedDate,
+                                                        IsBlank(cbo_FilterProductTypeNhapTuSanXuat_7.Selected) || scrXuatDaiLy.Size = 1 || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_7.Selected.ProductCategoryCode,
+                                                        (IsBlank(txt_SearchMobXDL.Text) || scrXuatDaiLy.Size <> 1 || StartsWith(SAPCode, txt_SearchMobXDL.Text)),
+                                                        IsBlank(dp_DateMobXDL.SelectedDate) || scrXuatDaiLy.Size <> 1 || PostingDate >= dp_DateMobXDL.SelectedDate,
+                                                        IsBlank(cbo_CategoryMobXDL.Selected) || scrXuatDaiLy.Size <> 1 || ProductCategoryCode = cbo_CategoryMobXDL.Selected.ProductCategoryCode
+                                                    ),
+                                                    "Created",
+                                                    SortOrder.Descending
+                                                ),
+                                                "RM_WH", // Thủ kho nguyên liệu
+                                                SortByColumns(
+                                                    Filter(
+                                                        'QLK List Issue Detail',
+                                                        IssueTypeCode = "DEALER",
+                                                        ProductCategoryCode = LookUp(col_ProductCategories, ID = 1).ProductCategoryCode,
+                                                        PlantCode = varUserInPlant.PlantCode,
+                                                        'Created By'.Email = varCurrentUser.G_Email,
+                                                        IsBlank(txt_SearchXuatDaiLy.Text) || scrXuatDaiLy.Size = 1 || StartsWith(SAPCode, txt_SearchXuatDaiLy.Text),
+                                                        IsBlank(DatePicker1_5 .SelectedDate) || scrXuatDaiLy.Size = 1 || PostingDate >= DatePicker1_5 .SelectedDate,
+                                                        IsBlank(cbo_FilterProductTypeNhapTuSanXuat_7.Selected) || scrXuatDaiLy.Size = 1 || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_7.Selected.ProductCategoryCode,
+                                                        (IsBlank(txt_SearchMobXDL.Text) || scrXuatDaiLy.Size <> 1 || StartsWith(SAPCode, txt_SearchMobXDL.Text)),
+                                                        IsBlank(dp_DateMobXDL.SelectedDate) || scrXuatDaiLy.Size <> 1 || PostingDate >= dp_DateMobXDL.SelectedDate,
+                                                        IsBlank(cbo_CategoryMobXDL.Selected) || scrXuatDaiLy.Size <> 1 || ProductCategoryCode = cbo_CategoryMobXDL.Selected.ProductCategoryCode
+                                                    ),
+                                                    "Created",
+                                                    SortOrder.Descending
+                                                ),
+                                                SortByColumns(
+                                                    Filter(
+                                                        'QLK List Issue Detail',
+                                                        IssueTypeCode = "DEALER",
+                                                        PlantCode = varUserInPlant.PlantCode,
+                                                        IsBlank(DatePicker1_5 .SelectedDate) || scrXuatDaiLy.Size = 1 || PostingDate >= DatePicker1_5 .SelectedDate,
+                                                        IsBlank(txt_SearchXuatDaiLy.Text) || scrXuatDaiLy.Size = 1 || StartsWith(SAPCode, txt_SearchXuatDaiLy.Text),
+                                                        IsBlank(cbo_FilterProductTypeNhapTuSanXuat_7.Selected) || scrXuatDaiLy.Size = 1 || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_7.Selected.ProductCategoryCode,
+                                                        (IsBlank(txt_SearchMobXDL.Text) || scrXuatDaiLy.Size <> 1 || StartsWith(SAPCode, txt_SearchMobXDL.Text)),
+                                                        IsBlank(dp_DateMobXDL.SelectedDate) || scrXuatDaiLy.Size <> 1 || PostingDate >= dp_DateMobXDL.SelectedDate,
+                                                        IsBlank(cbo_CategoryMobXDL.Selected) || scrXuatDaiLy.Size <> 1 || ProductCategoryCode = cbo_CategoryMobXDL.Selected.ProductCategoryCode
+                                                    ),
+                                                    "Created",
+                                                    SortOrder.Descending
+                                                )
+                                            )
+                                          ShowScrollbar: =false
+                                          TemplateSize: =If(scrXuatDaiLy.Size = 1, 180, 45)
+                                          Width: =Parent.Width
+                                        Children:
+                                          - con_RowDividerXuatDaiLy:
+                                              Control: GroupContainer
+                                              Variant: ManualLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(229, 231, 235, 1)
+                                                Height: =1
+                                                Visible: =scrXuatDaiLy.Size <> 1
+                                                Width: =gal_XuatDaiLy_1.Width - 10
+                                                Y: =44
+                                          - con_RowMasterXuatDaiLy:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =If(scrXuatDaiLy.Size = 1, DropShadow.Light, DropShadow.None)
+                                                Height: =gal_XuatDaiLy_1.TemplateHeight
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =If(scrXuatDaiLy.Size = 1, 5, 0)
+                                                RadiusTopLeft: =If(scrXuatDaiLy.Size = 1, 4, 0)
+                                                Width: =Parent.Width - 10
+                                              Children:
+                                                - con_RowXuatDaiLy_1:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =gal_XuatDaiLy_1.TemplateHeight
+                                                      LayoutAlignItems: =If(scrXuatDaiLy.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
+                                                      LayoutDirection: =If(scrXuatDaiLy.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                                      LayoutGap: =5
+                                                      LayoutMinHeight: =Parent.Height
+                                                      PaddingLeft: =10
+                                                      PaddingRight: =5
+                                                      PaddingTop: =If(scrXuatDaiLy.Size = 1, 8, 0)
+                                                    Children:
+                                                      - lbl_RowMovementTypeXuatDaiLy:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =30
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrXuatDaiLy.Size = 1, "Movement type: " & ThisItem.MovementType, ThisItem.MovementType)
+                                                            Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderMovementTypeXuatDaiLy.Width)
+                                                            Wrap: =false
+                                                      - lbl_RowPostingDateXuatDaiLy:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =30
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrXuatDaiLy.Size = 1, "Ngày thực hiện: " & Text(ThisItem.PostingDate, "dd/mm/yyyy"), Text(ThisItem.PostingDate, "dd/mm/yyyy"))
+                                                            Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderPostingDateXuatDaiLy.Width)
+                                                            Wrap: =false
+                                                      - lbl_RowSAPCodeXuatDaiLy:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightSemiBold
+                                                            Height: =30
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrXuatDaiLy.Size = 1, "Mã SAP: " & ThisItem.SAPCode, ThisItem.SAPCode)
+                                                            Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderSAPCodeXuatDaiLy.Width)
+                                                            Wrap: =false
+                                                      - lbl_RowQuantityXuatDaiLy:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =30
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrXuatDaiLy.Size = 1, "Khối lượng: " & Text(ThisItem.Quantity, "#,##0"), Text(ThisItem.Quantity, "#,##0"))
+                                                            Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderQuantityXuatDaiLy.Width)
+                                                            Wrap: =false
+                                                      - lbl_RowSLocXuatDaiLy:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =30
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrXuatDaiLy.Size = 1, "Kho: " & ThisItem.SLoc, ThisItem.SLoc)
+                                                            Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderSLocXuatDaiLy.Width)
+                                                            Wrap: =false
+                                                      - lbl_RowNoteXuatDaiLy:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =30
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrXuatDaiLy.Size = 1, "Chú thích: " & ThisItem.Note, ThisItem.Note)
+                                                            Width: =If(scrXuatDaiLy.Size = 1, Parent.Width - 20, lbl_HeaderNoteXuatDaiLy.Width)
+                                                            Wrap: =false
+                                                - con_RowActionsXuatDaiLy:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =gal_XuatDaiLy_1.TemplateHeight
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutMinHeight: |
+                                                        =Parent.Height
+                                                      Visible: =scrXuatDaiLy.Size <> 1
+                                                      Width: =lbl_HeaderActionXuatDaiLy.Width
+                                                    Children:
+                                                      - btn_ViewXuatDaiLy:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Icon: ="Eye"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |-
+                                                              =Set(varGoodsIssue, LookUp('QLK List Issue Header',ID = ThisItem.IssueHeaderId));
+                                                              Navigate(scrXuatKhoForm, ScreenTransition.CoverRight)
+                                                            Width: =32
+                                                - con_MobileActionXuatKho_1:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =gal_XuatKho.TemplateHeight
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      Visible: =scrXuatDaiLy.Size = 1
+                                                      Width: =Parent.Width - con_RowXuatKho.Width - 5
+                                                    Children:
+                                                      - btn_MobileOpenXuatKho_1:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Start
+                                                            Appearance: =ButtonAppearance.Transparent
+                                                            FillPortions: =1
+                                                            Height: =gal_XuatKho.TemplateHeight
+                                                            Icon: ="Eye"
+                                                            Layout: =ButtonLayout.IconOnly
+                                                            OnSelect: |-
+                                                              =Set(varGoodsIssue, LookUp('QLK List Issue Header',ID = ThisItem.IssueHeaderId));
+                                                              Navigate(scrXuatKhoForm, ScreenTransition.CoverRight)
+                                                            Width: '=Parent.Width '
+                                    - con_FooterXuatDaiLy:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =44
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =16
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                        Children:
+                                          - lbl_TotalRowsXuatDaiLy:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Hiển thị " & CountRows(gal_XuatDaiLy_1.AllItems) & " dòng"
+                                                Wrap: =false
       - con_MenuOverlayNhapTuSanXuatHangBaoMobile_4:
           Control: GroupContainer
           Variant: AutoLayout

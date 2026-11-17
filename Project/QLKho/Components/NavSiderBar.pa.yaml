@@ -3,6 +3,16 @@ ComponentDefinitions:
     DefinitionType: CanvasComponent
     AccessAppScope: true
     CustomProperties:
+      MenuNeedsScroll:
+        PropertyKind: Output
+        DisplayName: Menu Needs Scroll
+        Description: Menu dài hơn vùng hiển thị; không phụ thuộc chiều cao của dải gợi ý.
+        DataType: Boolean
+      MenuRowCount:
+        PropertyKind: Output
+        DisplayName: Menu Row Count
+        Description: Đếm cả tiêu đề nhóm và mục menu đang hiển thị theo quyền.
+        DataType: Number
       SidebarWidth:
         PropertyKind: Input
         DisplayName: Sidebar Width
@@ -11,6 +21,37 @@ ComponentDefinitions:
         Default: =240
     Properties:
       Height: =App.Height
+      MenuNeedsScroll: |-
+        =// So sánh toàn bộ menu theo quyền với chiều cao thực tế còn lại của sidebar.
+        // Trừ logo, hai nút cuối, padding, 4 khoảng cách (4px) và đường phân cách (1px).
+        // Không đọc chiều cao dải gợi ý vì nó phụ thuộc chính kết quả này.
+        With(
+            {
+                requiredHeight: If(
+                    NavSiderBar.MenuRowCount > 0,
+                    NavSiderBar.MenuRowCount * (galMain.TemplateHeight + galMain.TemplatePadding) + galMain.TemplatePadding,
+                    0
+                ),
+                availableHeight: Max(
+                    0,
+                    conSiderPanel.Height - conSiderPanel.PaddingTop - conSiderPanel.PaddingBottom -
+                    conNavBrand.Height - btnNavCollapse.Height - btnNavLogout.Height - 4 * 4 - 1
+                )
+            },
+            requiredHeight > availableHeight
+        )
+      MenuRowCount: |-
+        =Sum(
+            Filter(colNavigationItems, Visible) As menuGroup,
+            With(
+                {subMenuCount: CountRows(Filter(menuGroup.SubMenu, Visible))},
+                If(
+                    subMenuCount > 0,
+                    subMenuCount + If(NavSiderBar.SidebarWidth >= 120, 1, 0),
+                    1
+                )
+            )
+        )
       Width: =App.Width
     Children:
       - conNavContainer:
@@ -32,269 +73,271 @@ ComponentDefinitions:
                 Variant: AutoLayout
                 Properties:
                   DropShadow: =DropShadow.Regular
-                  Fill: =RGBA(255, 255, 255, 1)
+                  Fill: =RGBA(24, 64, 41, 1)
                   FillPortions: =0
+                  Height: =Parent.Height
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
                   LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =4
                   LayoutMinHeight: =0
                   LayoutMinWidth: =16
-                  PaddingBottom: =5
-                  PaddingTop: =5
+                  PaddingBottom: =12
+                  PaddingLeft: =If(NavSiderBar.SidebarWidth < 120, 8, 10)
+                  PaddingRight: =If(NavSiderBar.SidebarWidth < 120, 8, 10)
+                  PaddingTop: =12
                   RadiusBottomLeft: =0
                   RadiusBottomRight: =0
                   RadiusTopLeft: =0
                   RadiusTopRight: =0
                   Width: =NavSiderBar.SidebarWidth
                 Children:
-                  - galMain:
-                      Control: Gallery
-                      Variant: VariableHeight
+                  - conNavBrand:
+                      Control: GroupContainer
+                      Variant: AutoLayout
                       Properties:
-                        BorderColor: =RGBA(0, 18, 107, 1)
-                        Items: =Filter(colNavigationItems,Visible)
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =64
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutJustifyContent: =If(NavSiderBar.SidebarWidth < 120, LayoutJustifyContent.Center, LayoutJustifyContent.Start)
                         LayoutMinHeight: =0
-                        LayoutMinWidth: =16
-                        ShowScrollbar: =false
-                        TemplateFill: |-
-                          =If(
-                              ThisItem.ID = varSelectedMenuId,
-                              RGBA(220, 252, 231, 1),
-                              RGBA(255, 255, 255, 1)
-                          )
-                        TemplatePadding: =10
-                        TemplateSize: =galSubMenu.TemplateHeight + galSubMenu.TemplatePadding
+                        LayoutMinWidth: =0
+                        PaddingBottom: =8
+                        PaddingLeft: =If(NavSiderBar.SidebarWidth < 120, 0, 4)
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
                       Children:
-                        - conMenuItemContainer:
+                        - imgNavBrandLogo:
+                            Control: Image
+                            Properties:
+                              AccessibleLabel: ="Logo Quản lý kho"
+                              AlignInContainer: =AlignInContainer.Center
+                              Height: =40
+                              Image: =fxAppLogo
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
+                              RadiusBottomLeft: =8
+                              RadiusBottomRight: =8
+                              RadiusTopLeft: =8
+                              RadiusTopRight: =8
+                              Tooltip: ="Quản lý kho"
+                              Width: =40
+                        - conNavBrandText:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
+                              AlignInContainer: =AlignInContainer.Center
                               DropShadow: =DropShadow.None
-                              Fill: |-
-                                =If(
-                                    ThisItem.ID = varSelectedMenuId,
-                                    RGBA(220, 252, 231, 1),
-                                    RGBA(0, 0, 0, 0)
-                                )
-                              Height: =conMenuItemSpacer.Y + conMenuItemSpacer.Height
+                              Height: =44
                               LayoutDirection: =LayoutDirection.Vertical
+                              LayoutJustifyContent: =LayoutJustifyContent.Center
+                              LayoutMinHeight: =0
+                              LayoutMinWidth: =0
                               RadiusBottomLeft: =0
                               RadiusBottomRight: =0
                               RadiusTopLeft: =0
                               RadiusTopRight: =0
-                              Width: =Parent.TemplateWidth
+                              Visible: =NavSiderBar.SidebarWidth >= 120
                             Children:
-                              - conMenuItemButton:
-                                  Control: GroupContainer
-                                  Variant: AutoLayout
+                              - lblNavBrandName:
+                                  Control: ModernText
                                   Properties:
-                                    AlignInContainer: =AlignInContainer.SetByContainer
-                                    DropShadow: =DropShadow.None
-                                    Fill: =RGBA(0,0,0,0)
-                                    FillPortions: =0
-                                    Height: =50
-                                    LayoutAlignItems: =LayoutAlignItems.Stretch
-                                    LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutMinHeight: =16
-                                    LayoutMinWidth: =16
-                                    RadiusBottomLeft: =0
-                                    RadiusBottomRight: =0
-                                    RadiusTopLeft: =0
-                                    RadiusTopRight: =0
-                                    Width: =Parent.Width
-                                  Children:
-                                    - btnMenuItem:
-                                        Control: ModernButton
-                                        Properties:
-                                          Align: =Align.Left
-                                          AlignInContainer: =AlignInContainer.Stretch
-                                          Appearance: =ButtonAppearance.Transparent
-                                          Color: |-
-                                            =If(
-                                                ThisItem.ID = varSelectedMenuId,
-                                                RGBA(22, 163, 74, 1),
-                                                RGBA(31, 41, 55, 1)
-                                            )
-                                          FillPortions: =1
-                                          Font: =fxFontFamily
-                                          Height: =Parent.Height
-                                          Icon: =ThisItem.Icon
-                                          IconStyle: |-
-                                            =If(
-                                                ThisItem.ID = varSelectedMenuId Or
-                                                (
-                                                    CountRows(
-                                                        Filter(
-                                                            ThisItem.SubMenu,
-                                                            ID = varSelectedMenuId
-                                                        )
-                                                    ) > 0 And !ThisItem.IsGroup
-                                                ),
-                                                "Filled",
-                                                "Outline"
-                                            )
-                                          LayoutMinHeight: =16
-                                          LayoutMinWidth: =16
-                                          OnSelect: |-
-                                            =// ==========================================
-                                            // Xử lý click menu navigation
-                                            // ==========================================
-                                            If(
-
-                                                // --------------------------------------
-                                                // Menu Thoát ứng dụng (ID = 99)
-                                                // --------------------------------------
-                                                ThisItem.ID = 99,
-                                                Exit(),
-
-                                                // --------------------------------------
-                                                // Menu có submenu
-                                                // Expand / Collapse nhóm menu
-                                                // --------------------------------------
-                                                CountRows(ThisItem.SubMenu) > 0,
-                                                Patch(
-                                                    colNavigationItems,
-                                                    ThisItem,
-                                                    {
-                                                        IsGroup: !ThisItem.IsGroup
-                                                    }
-                                                ),
-
-                                                // --------------------------------------
-                                                // Menu màn hình thông thường
-                                                // Chọn menu + đóng nav + điều hướng
-                                                // --------------------------------------
-                                                Set(
-                                                    varSelectedMenuId,
-                                                    ThisItem.ID
-                                                );
-
-                                                Set(
-                                                    varIsNavVisible,
-                                                    false
-                                                );
-
-                                                Navigate(
-                                                    ThisItem.Screen,
-                                                    ScreenTransition.Fade
-                                                )
-                                            )
-                                          Size: =fxFontSizeLG
-                                          Text: =ThisItem.Title
-                                          VerticalAlign: =VerticalAlign.Middle
-                                    - btnOpenSubMenu:
-                                        Control: ModernButton
-                                        Properties:
-                                          AlignInContainer: =AlignInContainer.Stretch
-                                          Appearance: =ButtonAppearance.Transparent
-                                          Font: =fxFontFamily
-                                          Height: =Parent.Height
-                                          Icon: =If(ThisItem.IsGroup, "ChevronUp", "ChevronDown")
-                                          Layout: =ButtonLayout.IconOnly
-                                          LayoutMinHeight: =16
-                                          LayoutMinWidth: =16
-                                          OnSelect: |-
-                                            =Patch(
-                                                    colNavigationItems,
-                                                    ThisItem,
-                                                    {IsGroup: !ThisItem.IsGroup}
-                                                )
-                                          Text: =""
-                                          Visible: =!IsEmpty(ThisItem.SubMenu)
-                                          Width: =30
-                              - galSubMenu:
-                                  Control: Gallery
-                                  Variant: Vertical
-                                  Properties:
-                                    AlignInContainer: =AlignInContainer.Start
-                                    BorderColor: =RGBA(0, 18, 107, 1)
-                                    DelayItemLoading: =false
-                                    Fill: |-
-                                      =If(
-                                          ThisItem.ID = varSelectedMenuId,
-                                          RGBA(220, 252, 231, 1),
-                                          RGBA(255, 255, 255, 1)
-                                      )
-                                    FillPortions: =0
-                                    Height: =(CountRows(Filter(ThisItem.SubMenu,Visible = true)) * Self.TemplateHeight)+ (CountRows(Filter(ThisItem.SubMenu,Visible = true)) * Self.TemplatePadding)
-                                    Items: =Filter(ThisItem.SubMenu,Visible = true)
-                                    LayoutMaxHeight: |
-                                      =CountRows(ThisItem.SubMenu) * Self.TemplateHeight
-                                    LayoutMinHeight: |
-                                      =0
-                                    LayoutMinWidth: =16
-                                    LoadingSpinner: =LoadingSpinner.None
-                                    ShowScrollbar: =false
-                                    TemplateSize: =35
-                                    Visible: =ThisItem.IsGroup && CountRows(ThisItem.SubMenu) > 0
-                                    Width: =Parent.Width
-                                  Children:
-                                    - conSubmenuItemButton:
-                                        Control: GroupContainer
-                                        Variant: AutoLayout
-                                        Properties:
-                                          DropShadow: =DropShadow.None
-                                          Height: =Parent.TemplateHeight
-                                          LayoutDirection: =LayoutDirection.Horizontal
-                                          PaddingLeft: =23
-                                          RadiusBottomLeft: =0
-                                          RadiusBottomRight: =0
-                                          RadiusTopLeft: =0
-                                          RadiusTopRight: =0
-                                          Width: =galSubMenu.Width
-                                        Children:
-                                          - conSubmenuIndicator:
-                                              Control: GroupContainer
-                                              Variant: ManualLayout
-                                              Properties:
-                                                DropShadow: =DropShadow.None
-                                                Fill: |-
-                                                  =If(
-                                                      ThisItem.ID = varSelectedMenuId,
-                                                      App.Theme.Colors.Primary,
-                                                      ColorFade(Color.LightGray, 40%)
-                                                  )
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                LayoutMinWidth: =16
-                                                RadiusBottomLeft: =0
-                                                RadiusBottomRight: =0
-                                                RadiusTopLeft: =0
-                                                RadiusTopRight: =0
-                                                Width: =2
-                                          - btnSubmenuItem:
-                                              Control: ModernButton
-                                              Properties:
-                                                Align: =Align.Left
-                                                AlignInContainer: =AlignInContainer.Stretch
-                                                Appearance: =ButtonAppearance.Transparent
-                                                Color: |-
-                                                  =If(
-                                                      ThisItem.ID = varSelectedMenuId,
-                                                      App.Theme.Colors.Primary,
-                                                      fxTextSecondary
-                                                  )
-                                                FillPortions: =1
-                                                Font: =fxFontFamily
-                                                LayoutMinHeight: =16
-                                                LayoutMinWidth: =16
-                                                OnSelect: |-
-                                                  =Set(varSelectedMenuId, ThisItem.ID);
-                                                  Set(varIsNavVisible, false);
-                                                  //UpdateIf(colNavigationItems, IsGroup, {IsGroup: false});
-                                                  Navigate(ThisItem.Screen, ScreenTransition.Fade)
-                                                Size: =fxFontSizeLG
-                                                Text: =ThisItem.Title
-                              - conMenuItemSpacer:
-                                  Control: GroupContainer
-                                  Variant: ManualLayout
-                                  Properties:
-                                    AlignInContainer: =AlignInContainer.SetByContainer
-                                    DropShadow: =DropShadow.None
-                                    FillPortions: =0
-                                    Height: =3
-                                    LayoutMinHeight: =1
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =RGBA(255, 255, 255, 1)
+                                    Font: =fxFontFamily
+                                    FontWeight: =FontWeight.Bold
+                                    Height: =24
+                                    LayoutMinHeight: =0
                                     LayoutMinWidth: =0
-                                    RadiusBottomLeft: =1
-                                    RadiusBottomRight: =1
-                                    RadiusTopLeft: =1
-                                    RadiusTopRight: =1
-                                    Width: =Parent.Width
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Size: =fxFontSizeLG
+                                    Text: ="Quản lý kho"
+                                    Wrap: =false
+                              - lblNavBrandSub:
+                                  Control: ModernText
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =RGBA(143, 184, 158, 1)
+                                    Font: =fxFontFamily
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =18
+                                    LayoutMinHeight: =0
+                                    LayoutMinWidth: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Size: =fxFontSizeSM
+                                    Text: ="GREENFEED · FEED"
+                                    Wrap: =false
+                  - galMain:
+                      Control: Gallery
+                      Variant: Vertical
+                      Properties:
+                        AccessibleLabel: =If(NavSiderBar.MenuNeedsScroll, "Menu điều hướng. Cuộn chuột hoặc vuốt để xem các mục còn lại.", "Menu điều hướng. Tất cả mục menu đã hiển thị.")
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        Items: |-
+                          =// Làm phẳng menu: mỗi nhóm có submenu → 1 dòng tiêu đề (Kind "H") + các dòng mục con (Kind "I");
+                          // mục không có submenu → 1 dòng mục (Kind "I")
+                          // Khi menu thu gọn (rail icon) → ẩn các dòng tiêu đề nhóm, chỉ còn icon mục
+                          Filter(
+                              Ungroup(
+                                  ForAll(
+                                      SortByColumns(Filter(colNavigationItems, Visible), "Sort", SortOrder.Ascending) As g,
+                                      {
+                                          Rows: If(
+                                              CountRows(Filter(g.SubMenu, Visible)) > 0,
+                                              Ungroup(
+                                                  Table(
+                                                      {R: Table({Kind: "H", ID: g.ID, Title: g.Title, Icon: g.Icon, Screen: g.Screen})},
+                                                      {R: ForAll(Filter(g.SubMenu, Visible) As s, {Kind: "I", ID: s.ID, Title: s.Title, Icon: s.Icon, Screen: s.Screen})}
+                                                  ),
+                                                  R
+                                              ),
+                                              Table({Kind: "I", ID: g.ID, Title: g.Title, Icon: g.Icon, Screen: g.Screen})
+                                          )
+                                      }
+                                  ),
+                                  Rows
+                              ),
+                              NavSiderBar.SidebarWidth >= 120 || Kind = "I"
+                          )
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =16
+                        ShowScrollbar: =false
+                        TemplatePadding: =2
+                        TemplateSize: =40
+                      Children:
+                        - lblMenuGroup:
+                            Control: ModernText
+                            Properties:
+                              Color: =RGBA(143, 184, 158, 1)
+                              Font: =fxFontFamily
+                              FontWeight: =FontWeight.Semibold
+                              Height: =Parent.TemplateHeight
+                              PaddingBottom: =2
+                              PaddingLeft: =12
+                              Size: =fxFontSizeSM
+                              Text: =Upper(ThisItem.Title)
+                              VerticalAlign: =VerticalAlign.Bottom
+                              Visible: =ThisItem.Kind = "H"
+                              Width: =Parent.TemplateWidth
+                              Wrap: =false
+                        - btnMenuItem:
+                            Control: ModernButton
+                            Properties:
+                              AccessibleLabel: =ThisItem.Title
+                              Align: =If(NavSiderBar.SidebarWidth < 120, Align.Center, Align.Left)
+                              Appearance: =If(ThisItem.ID = varSelectedMenuId, ButtonAppearance.Primary, ButtonAppearance.Transparent)
+                              BasePaletteColor: =RGBA(22, 163, 74, 1)
+                              Color: =If(ThisItem.ID = varSelectedMenuId, RGBA(255, 255, 255, 1), RGBA(214, 230, 219, 1))
+                              Font: =fxFontFamily
+                              FontWeight: =If(ThisItem.ID = varSelectedMenuId, FontWeight.Semibold, FontWeight.Normal)
+                              Height: =Parent.TemplateHeight
+                              Icon: =ThisItem.Icon
+                              IconStyle: =If(ThisItem.ID = varSelectedMenuId, IconStyle.Filled, IconStyle.Outline)
+                              Layout: =If(NavSiderBar.SidebarWidth < 120, ButtonLayout.IconOnly, ButtonLayout.IconBefore)
+                              OnSelect: |-
+                                =// Xử lý click menu navigation
+                                If(
+                                    // Menu Thoát ứng dụng (ID = 99)
+                                    ThisItem.ID = 99,
+                                    Exit(),
+
+                                    // Menu màn hình thông thường: chọn menu + đóng nav + điều hướng
+                                    Set(varSelectedMenuId, ThisItem.ID);
+                                    Set(varIsNavVisible, false);
+                                    Navigate(ThisItem.Screen, ScreenTransition.Fade)
+                                )
+                              PaddingLeft: =If(NavSiderBar.SidebarWidth < 120, 0, 12)
+                              RadiusBottomLeft: =8
+                              RadiusBottomRight: =8
+                              RadiusTopLeft: =8
+                              RadiusTopRight: =8
+                              Size: =fxFontSizeMD
+                              Text: =ThisItem.Title
+                              Tooltip: =ThisItem.Title
+                              VerticalAlign: =VerticalAlign.Middle
+                              Visible: =ThisItem.Kind = "I"
+                              Width: =Parent.TemplateWidth
+                  - lblNavFooterLine:
+                      Control: ModernText
+                      Properties:
+                        AccessibleLabel: =If(NavSiderBar.MenuNeedsScroll, "Cuộn danh sách menu để xem thêm mục", "")
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Color: =RGBA(214, 230, 219, 1)
+                        Fill: =If(NavSiderBar.MenuNeedsScroll, RGBA(40, 112, 72, 0.18), RGBA(255, 255, 255, 0.14))
+                        Font: =fxFontFamily
+                        FontWeight: =FontWeight.Semibold
+                        Height: =If(NavSiderBar.MenuNeedsScroll, 36, 1)
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        RadiusBottomLeft: =6
+                        RadiusBottomRight: =6
+                        RadiusTopLeft: =6
+                        RadiusTopRight: =6
+                        Size: =12
+                        Text: =If(NavSiderBar.MenuNeedsScroll, If(NavSiderBar.SidebarWidth >= 120, "⌄  Cuộn để xem thêm", "⌄"), "")
+                        Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                        Wrap: =false
+                  - btnNavCollapse:
+                      Control: ModernButton
+                      Properties:
+                        AccessibleLabel: =If(NavSiderBar.SidebarWidth < 120, "Mở rộng menu", "Thu gọn menu")
+                        Align: =If(NavSiderBar.SidebarWidth < 120, Align.Center, Align.Left)
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Appearance: =ButtonAppearance.Transparent
+                        Color: =RGBA(214, 230, 219, 1)
+                        Font: =fxFontFamily
+                        Height: =44
+                        Icon: ="ChevronLeft"
+                        IconRotation: =If(NavSiderBar.SidebarWidth < 120, 180, 0)
+                        Layout: =If(NavSiderBar.SidebarWidth < 120, ButtonLayout.IconOnly, ButtonLayout.IconBefore)
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        OnSelect: =Set(varShowMenuUser, !varShowMenuUser); Set(varIsNavVisible, false)
+                        PaddingLeft: =If(NavSiderBar.SidebarWidth < 120, 0, 12)
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Size: =fxFontSizeMD
+                        Text: ="Thu gọn menu"
+                        Tooltip: =If(NavSiderBar.SidebarWidth < 120, "Mở rộng menu", "Thu gọn menu")
+                        Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                  - btnNavLogout:
+                      Control: ModernButton
+                      Properties:
+                        AccessibleLabel: ="Log out"
+                        Align: =If(NavSiderBar.SidebarWidth < 120, Align.Center, Align.Left)
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Appearance: =ButtonAppearance.Transparent
+                        Color: =RGBA(214, 230, 219, 1)
+                        Font: =fxFontFamily
+                        Height: =44
+                        Icon: ="ArrowExit"
+                        Layout: =If(NavSiderBar.SidebarWidth < 120, ButtonLayout.IconOnly, ButtonLayout.IconBefore)
+                        LayoutMinHeight: =16
+                        LayoutMinWidth: =16
+                        OnSelect: =Exit()
+                        PaddingLeft: =If(NavSiderBar.SidebarWidth < 120, 0, 12)
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Size: =fxFontSizeMD
+                        Text: ="Log out"
+                        Tooltip: ="Log out"
+                        Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight

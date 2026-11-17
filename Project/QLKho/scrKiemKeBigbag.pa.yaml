@@ -13,733 +13,1594 @@ Screens:
             DropShadow: =DropShadow.None
             Fill: =RGBA(0, 0, 0, 0.1)
             Height: =Parent.Height
-            LayoutAlignItems: =LayoutAlignItems.Center
-            LayoutDirection: =LayoutDirection.Vertical
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Horizontal
             RadiusBottomLeft: =0
             RadiusBottomRight: =0
             RadiusTopLeft: =0
             RadiusTopRight: =0
             Width: =Parent.Width
           Children:
-            - con_HeaderKiemKhoHangBigbag:
+            - con_MenuKiemKhoHangBigbag:
                 Control: GroupContainer
                 Variant: AutoLayout
                 Properties:
                   DropShadow: =DropShadow.None
                   FillPortions: =0
-                  Height: =55
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  Visible: =scrKiemKeBigbag.Size <> 1
+                  Width: =If(varShowMenuUser, 240, 64)
+                Children:
+                  - cmp_NavSidebarKiemKhoHangBigbag:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width
+            - con_SideRight_MainKiemKhoHangBigbag:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
                   LayoutAlignItems: =LayoutAlignItems.Stretch
                   LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
                   RadiusBottomLeft: =0
                   RadiusBottomRight: =0
                   RadiusTopLeft: =0
                   RadiusTopRight: =0
                 Children:
-                  - cmp_HeaderKiemKhoHangBigbag:
-                      Control: CanvasComponent
-                      ComponentName: Header
-                      Properties:
-                        Height: =App.Height
-                        IDRecord: =100
-                        Width: =App.Width - Parent.PaddingLeft * 2 - 5
-                        varSizeScreen: =scrKiemKeBigbag.Size
-            - con_BodyKiemKhoHangBigbag:
-                Control: GroupContainer
-                Variant: AutoLayout
-                Properties:
-                  DropShadow: =If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
-                  FillPortions: =0
-                  Height: =Parent.Height - con_HeaderKiemKhoHangBigbag.Height
-                  LayoutAlignItems: =LayoutAlignItems.Center
-                  LayoutDirection: =LayoutDirection.Horizontal
-                  LayoutGap: =If(!varShowMenuUser, 0, 5)
-                  PaddingBottom: =If(!varShowMenuUser, 0, 5)
-                  PaddingLeft: =If(!varShowMenuUser, 0, 5)
-                  PaddingRight: =If(!varShowMenuUser, 0, 5)
-                  PaddingTop: =If(!varShowMenuUser, 0, 5)
-                Children:
-                  - con_MenuKiemKhoHangBigbag:
+                  - con_HeaderKiemKhoHangBigbag:
                       Control: GroupContainer
                       Variant: AutoLayout
                       Properties:
-                        DropShadow: =DropShadow.Semilight
+                        DropShadow: =DropShadow.None
                         FillPortions: =0
-                        LayoutDirection: =LayoutDirection.Horizontal
-                        Visible: =scrKiemKeBigbag.Size <> 1
-                        Width: =If(varShowMenuUser, 240, 0)
-                      Children:
-                        - cmp_NavSidebarKiemKhoHangBigbag:
-                            Control: CanvasComponent
-                            ComponentName: NavSiderBar
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              Height: =Parent.Height
-                              SidebarWidth: =Parent.Width
-                              Width: =Parent.Width
-                  - con_ContentKiemKhoHangBigbag:
-                      Control: GroupContainer
-                      Variant: AutoLayout
-                      Properties:
-                        DropShadow: |-
-                          =If(
-                              scrKiemKeBigbag.Size = 1,
-                              DropShadow.Semibold,
-                              DropShadow.None
-                          )
-                        Fill: =RGBA(255, 255, 255, 1)
-                        LayoutAlignItems: =LayoutAlignItems.Center
+                        Height: =55
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
                         LayoutDirection: =LayoutDirection.Vertical
-                        LayoutGap: =5
-                        PaddingBottom: =5
-                        PaddingLeft: =5
-                        PaddingRight: =5
-                        PaddingTop: =5
                         RadiusBottomLeft: =0
                         RadiusBottomRight: =0
-                        RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                        RadiusTopLeft: =0
                         RadiusTopRight: =0
                       Children:
-                        - con_ActionHeaderKiemKhoHangBigbag:
+                        - cmp_HeaderKiemKhoHangBigbag:
+                            Control: CanvasComponent
+                            ComponentName: Header
+                            Properties:
+                              Height: =App.Height
+                              IDRecord: =100
+                              Width: =Parent.Width
+                              varSizeScreen: =scrKiemKeBigbag.Size
+                  - con_BodyKiemKhoHangBigbag:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
+                        FillPortions: =0
+                        Height: =Parent.Height - con_HeaderKiemKhoHangBigbag.Height
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =If(!varShowMenuUser, 0, 5)
+                        PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                        PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                        PaddingRight: =If(!varShowMenuUser, 0, 5)
+                        PaddingTop: =If(!varShowMenuUser, 0, 5)
+                      Children:
+                        - con_ContentKiemKhoHangBigbag:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
-                              DropShadow: =DropShadow.None
-                              FillPortions: =0
-                              Height: =40
-                              LayoutDirection: =LayoutDirection.Horizontal
-                              LayoutGap: =10
-                              PaddingBottom: =5
-                              PaddingLeft: =5
-                              PaddingRight: =5
-                              PaddingTop: =5
-                            Children:
-                              - btn_AddKiemKhoHangBao_1:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Outline
-                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                    Font: =fxFontFamily
-                                    Icon: ="Add"
-                                    OnSelect: |-
-                                      =Set(
-                                          varStockCountDetail,
-                                          {}
-                                      );
-
-                                      Set(
-                                          varStockCountType,
-                                          Index(col_ProductTypes, 2).ProductTypeCode
-                                      );
-                                      Reset(cmb_ProductCode);
-                                      Reset(num_PalletQty);
-                                      Reset(num_OddBagQty);
-                                      Reset(dp_ProductionDate);
-                                      Reset(num_BrokenBagQty);
-                                      Reset(num_OddBoxQty);
-                                      Reset(num_OddKgQty);
-                                      Reset(txt_Note_Bao);
-                                      Reset(txt_LocationName_Bao);
-                                      Reset(cmb_XaDensityCode);
-                                      Reset(cmb_XaBinCode);
-                                      Reset(num_Measure1);
-                                      Reset(num_Measure2);
-                                      Reset(num_Measure3);
-                                      Reset(num_DustSteamQty);
-                                      Reset(cmb_ProductCode_Bigbag);
-                                      Reset(num_BigBagQty);
-                                      Reset(num_BigBagWeight);
-                                      Reset(num_NetBigBagWeight);
-                                      Reset(cmb_ProductCategory);
-                                      Reset(cmb_StockCountType);
-
-                                      Navigate(
-                                          scrKiemKhoForm,
-                                          ScreenTransition.CoverRight
-                                      );
-                                    Size: =fxFontSizeMD
-                                    Text: ="Thêm"
-                                    Visible: =(varUserInPlant.Role = Index(col_RoleUser,16).RoleCode || varUserInPlant.Role = Index(col_RoleUser,1).RoleCode || varUserInPlant.Role = Index(col_RoleUser,9).RoleCode)
-                              - btn_RefreshKiemKhoHangBigbag:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Outline
-                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                    Font: =fxFontFamily
-                                    Icon: ="ArrowSync"
-                                    OnSelect: =Refresh('QLK List Stock Count Details')
-                                    Size: =fxFontSizeMD
-                                    Text: ="Làm mới"
-                                    Width: =120
-                              - btn_RefreshKiemKhoHangXa_3:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Outline
-                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                    Font: =fxFontFamily
-                                    Icon: ="CheckmarkCircle"
-                                    OnSelect: |
-                                      =If(
-                                          Confirm(
-                                              "Bạn có chắc muốn xác nhận kiểm kê " & CountRows(col_SelectedKiemKhoHangBigbag) & " bản ghi đã chọn không?",
-                                              {
-                                                  Title: "Xác nhận",
-                                                  ConfirmButton: "Xác nhận",
-                                                  CancelButton: "Hủy"
-                                              }
-                                          ),
-                                          UpdateContext({varShowPopupProcessing: true});
-                                          Clear(updateKiemKhoBigBag);
-                                          ForAll(
-                                              col_SelectedKiemKhoHangBigbag As item,
-                                              Collect(
-                                                  updateKiemKhoBigBag,
-                                                  {
-                                                      ID          : item.ID,
-                                                      StatusCode  : "COUNT_CONFIRMED"
-                                                  }
-                                              )
-                                          );
-                                          IfError(
-                                              Patch('QLK List Stock Count Details', updateKiemKhoBigBag),
-                                              Notify("Cập nhật thất bại", NotificationType.Error, 2000),
-                                              Notify("Cập nhật thành công", NotificationType.Success, 2000);
-                                              Clear(col_SelectedKiemKhoHangBigbag);
-                                              Clear(updateKiemKhoBigBag);
-                                          );
-                                          UpdateContext({varShowPopupProcessing: false})
-                                      )
-                                    Size: =fxFontSizeMD
-                                    Text: ="Xác nhận"
-                                    Visible: |-
-                                      =CountRows(
-                                          Filter(
-                                              col_SelectedKiemKhoHangBigbag,
-                                              StatusCode = Index(col_WorkflowStatus,1).StatusCode
-                                          )
-                                      ) > 0
-                                    Width: =120
-                        - lbl_TitleKiemKhoHangBigbag:
-                            Control: ModernText
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              Color: =RGBA(45, 128, 40, 1)
-                              Font: =fxFontFamily
-                              FontWeight: =fxFontWeightSemiBold
-                              Height: =40
-                              PaddingLeft: =10
-                              Size: =fxFontSizeXL
-                              Text: ="Kiểm kê bigbag"
-                        - con_FilterKiemKhoHangBao_2:
-                            Control: GroupContainer
-                            Variant: AutoLayout
-                            Properties:
-                              DropShadow: =DropShadow.None
-                              FillPortions: =0
-                              Height: =If(scrKiemKeBigbag.Size = 1 ,90 ,45)
-                              LayoutDirection: =If(scrKiemKhoHangBao.Size = 1 ,LayoutDirection.Vertical ,LayoutDirection.Horizontal)
+                              DropShadow: |-
+                                =If(
+                                    scrKiemKeBigbag.Size = 1,
+                                    DropShadow.Semibold,
+                                    DropShadow.None
+                                )
+                              Fill: =RGBA(255, 255, 255, 1)
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
                               LayoutGap: =5
-                              LayoutJustifyContent: =LayoutJustifyContent.Center
                               PaddingBottom: =5
                               PaddingLeft: =5
                               PaddingRight: =5
                               PaddingTop: =5
                               RadiusBottomLeft: =0
                               RadiusBottomRight: =0
-                              RadiusTopLeft: =0
+                              RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
                               RadiusTopRight: =0
                             Children:
-                              - con_Row1_2:
+                              - con_FormButtonMobile_KiemKeBigbag:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
-                                    AlignInContainer: =AlignInContainer.SetByContainer
-                                    DropShadow: =DropShadow.None
+                                    AlignInContainer: =AlignInContainer.Start
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
                                     FillPortions: =0
-                                    Height: =40
+                                    Height: =56
                                     LayoutAlignItems: =LayoutAlignItems.Center
                                     LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =5
-                                    LayoutMinHeight: |
-                                      =0
-                                    RadiusBottomLeft: =0
-                                    RadiusBottomRight: =0
-                                    RadiusTopLeft: =0
-                                    RadiusTopRight: =0
-                                    Width: =If(scrKiemKhoHangBao.Size = 1 ,Parent.Width ,Parent.Width/2 - 10)
+                                    LayoutGap: =8
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    PaddingBottom: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    PaddingTop: =8
+                                    RadiusBottomLeft: =5
+                                    RadiusBottomRight: =5
+                                    RadiusTopLeft: =5
+                                    RadiusTopRight: =5
+                                    Visible: =scrKiemKeBigbag.Size = 1
+                                    Width: =Parent.Width - 10
                                   Children:
-                                    - dp_FilterNgayKiemHangBao_2:
-                                        Control: ModernDatePicker
+                                    - lbl_MobileActionPos_KiemKeBigbag:
+                                        Control: ModernText
                                         Properties:
-                                          BasePaletteColor: =RGBA(8,222,8,1)
-                                          DefaultDate: =Today()
-                                          Font: =fxFontFamily
-                                          FontWeight: =FontWeight.Normal
-                                          Format: =DatePickerFormat.Short
-                                          Size: =fxFontSizeMD
-                                          Width: =160
-                                    - txt_SearchKiemKhoHangBigbag:
-                                        Control: ModernTextInput
+                                          Text: =Concat(Filter(Sequence(4), Switch(Value, 1, btn_AddKiemKhoHangBao_1.Visible, 2, btn_RefreshKiemKhoHangBigbag.Visible, 3, btn_ExportKiemKhoHangBigbag.Visible, 4, btn_RefreshKiemKhoHangXa_3.Visible, false)), Value, ",")
+                                          Visible: =false
+                                    - lbl_MobileActionCount_KiemKeBigbag:
+                                        Control: ModernText
                                         Properties:
-                                          Font: =fxFontFamily
-                                          Placeholder: ="Tìm kiếm ...."
-                                          Width: |-
-                                            =
-                                            If(scrKiemKhoHangBao.Size = 1 ,Parent.Width - dp_FilterNgayKiemHangBao_2.Width - 60 ,Parent.Width - dp_FilterNgayKiemHangBao_2.Width - 10)
-                              - con_Row2_2:
-                                  Control: GroupContainer
-                                  Variant: AutoLayout
-                                  Properties:
-                                    AlignInContainer: =AlignInContainer.SetByContainer
-                                    DropShadow: =DropShadow.None
-                                    FillPortions: =0
-                                    Height: =40
-                                    LayoutAlignItems: =LayoutAlignItems.Center
-                                    LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =5
-                                    LayoutMinHeight: =0
-                                    RadiusBottomLeft: =0
-                                    RadiusBottomRight: =0
-                                    RadiusTopLeft: =0
-                                    RadiusTopRight: =0
-                                    Width: =If(scrKiemKhoHangBao.Size = 1 ,Parent.Width ,Parent.Width/2 - 10)
-                                  Children:
-                                    - cbo_FilterStatusKiemKho_2:
-                                        Control: ModernCombobox
-                                        Properties:
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightNormal
-                                          InputTextPlaceholder: ="Tất cả"
-                                          IsSearchable: =false
-                                          ItemDisplayText: =ThisItem.StatusNameVI
-                                          Items: =Filter(col_WorkflowStatus,StatusCode="DRAFT" || StatusCode="COUNT_CONFIRMED")
-                                          SelectMultiple: =false
-                                          Width: =160
-                                    - cbo_FilterProductTypeNhapTuSanXuat_10:
-                                        Control: ModernCombobox
-                                        Properties:
-                                          DefaultSelectedItems: =LookUp(col_ProductCategories,ProductCategoryCode=varUserInPlant.ProductCategoryCode)
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightNormal
-                                          InputTextPlaceholder: ="Tất cả"
-                                          IsSearchable: =false
-                                          ItemDisplayText: =ThisItem.ProductCategoryNameVI
-                                          Items: =col_ProductCategories
-                                          SelectMultiple: =false
-                                          Width: =Parent.Width - cbo_FilterStatusKiemKho_2.Width - Button1_2.Width - 10
-                                    - Button1_2:
+                                          Text: =If(IsBlank(lbl_MobileActionPos_KiemKeBigbag.Text), 0, CountRows(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ",")))
+                                          Visible: =false
+                                    - btn_MobileAction1_KiemKeBigbag:
                                         Control: ModernButton
-                                        Properties:
-                                          Appearance: =ButtonAppearance.Transparent
-                                          Icon: ="Eraser"
-                                          OnSelect: |-
-                                            =Reset(cbo_FilterStatusKiemKho_2);
-                                            Reset(cbo_FilterProductTypeNhapTuSanXuat_10);
-                                            Reset(txt_SearchKiemKhoHangBigbag);
-                                          Text: =
-                                          Width: =50
-                        - con_ListKiemKhoHangBigbag:
-                            Control: GroupContainer
-                            Variant: AutoLayout
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Start
-                              BorderStyle: =BorderStyle.None
-                              DropShadow: =If(scrKiemKeBigbag.Size = 1, DropShadow.None, DropShadow.Semibold)
-                              Fill: =RGBA(255, 255, 255, 1)
-                              LayoutAlignItems: =LayoutAlignItems.Stretch
-                              LayoutDirection: =LayoutDirection.Vertical
-                              LayoutOverflowX: =LayoutOverflow.Scroll
-                              LayoutOverflowY: =LayoutOverflow.Scroll
-                              RadiusBottomLeft: =6
-                              RadiusBottomRight: =6
-                              RadiusTopLeft: =If(scrKiemKeBigbag.Size = 1, 0, 5)
-                              RadiusTopRight: =6
-                              Width: =Parent.Width - Parent.PaddingLeft * 2
-                            Children:
-                              - con_TableHeaderKiemKhoHangBigbag:
-                                  Control: GroupContainer
-                                  Variant: AutoLayout
-                                  Properties:
-                                    DropShadow: =DropShadow.None
-                                    Fill: =RGBA(250, 250, 250, 1)
-                                    FillPortions: =0
-                                    Height: =46
-                                    LayoutAlignItems: =LayoutAlignItems.Center
-                                    LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =5
-                                    PaddingLeft: =10
-                                    PaddingRight: =10
-                                    Visible: =scrKiemKeBigbag.Size <> 1
-                                  Children:
-                                    - chk_KiemKhoHangBigbag_SelectAll:
-                                        Control: ModernCheckbox
-                                        Properties:
-                                          Default: |-
-                                            =CountRows(col_SelectedKiemKhoHangBigbag) = CountRows(gal_KiemKhoHangBigbag.AllItems) &&
-                                            CountRows(gal_KiemKhoHangBigbag.AllItems) > 0
-                                          DisplayMode: |
-                                            =If(
-                                                CountRows(
-                                                    Filter(
-                                                        gal_KiemKhoHangBigbag.AllItems,
-                                                        StatusCode = Index(col_WorkflowStatus, 1).StatusCode
-                                                    )
-                                                ) > 0,
-                                                DisplayMode.Edit,
-                                                DisplayMode.Disabled
-                                            )
-                                          FontWeight: =""
-                                          Label: =""
-                                          OnCheck: =ClearCollect(col_SelectedKiemKhoHangBigbag, Filter(gal_KiemKhoHangBigbag.AllItems,StatusCode = Index(col_WorkflowStatus,1).StatusCode))
-                                          OnUncheck: =Clear(col_SelectedKiemKhoHangBigbag)
-                                          Width: =32
-                                    - lbl_HeaderBigbagSAPCode:
-                                        Control: ModernText
-                                        Properties:
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          PaddingTop: =0
-                                          Size: =fxFontSizeMD
-                                          Text: ="Mã hàng"
-                                          Width: |
-                                            =Parent.Width * 0.1
-                                          Wrap: =false
-                                    - lbl_HeaderStockCountDateBigbag:
-                                        Control: ModernText
-                                        Properties:
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          PaddingTop: =0
-                                          Size: =fxFontSizeMD
-                                          Text: ="Ngày kiểm kê"
-                                          Width: =Parent.Width * 0.1
-                                          Wrap: =false
-                                    - lbl_HeaderStatusCodeKiemKhoHangBigbag:
-                                        Control: ModernText
-                                        Properties:
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          PaddingTop: =0
-                                          Size: =fxFontSizeMD
-                                          Text: ="Trạng thái"
-                                          Width: |
-                                            =Parent.Width * 0.15
-                                          Wrap: =false
-                                    - lbl_HeaderBigbagBagQty:
-                                        Control: ModernText
-                                        Properties:
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          PaddingTop: =0
-                                          Size: =fxFontSizeMD
-                                          Text: ="Số lượng túi"
-                                          Width: =Parent.Width * 0.15
-                                          Wrap: =false
-                                    - lbl_HeaderBigbagTotalWeight:
-                                        Control: ModernText
-                                        Properties:
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          PaddingTop: =0
-                                          Size: =fxFontSizeMD
-                                          Text: ="Tổng KL (kg)"
-                                          Width: =Parent.Width * 0.15
-                                          Wrap: =false
-                                    - lbl_HeaderBigbagBigbagWeight:
-                                        Control: ModernText
                                         Properties:
                                           FillPortions: =1
                                           Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          PaddingTop: =0
-                                          Size: =fxFontSizeMD
-                                          Text: ="KL tịnh bigbag (kg)"
-                                          Wrap: =false
-                                    - lbl_HeaderActualQtyBigbag:
-                                        Control: ModernText
+                                          Height: =40
+                                          Icon: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 1), 1)).Value), 1, "Add", 2, "ArrowSync", 3, "ArrowDownload", 4, "CheckmarkCircle", "Save")
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          OnSelect: |-
+                                            =Switch(
+                                                Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 1), 1)).Value),
+                                                1, Select(btn_AddKiemKhoHangBao_1),
+                                                2, Select(btn_RefreshKiemKhoHangBigbag),
+                                                3, Select(btn_ExportKiemKhoHangBigbag),
+                                                4, Select(btn_RefreshKiemKhoHangXa_3)
+                                            )
+                                          RadiusBottomLeft: =8
+                                          RadiusBottomRight: =8
+                                          RadiusTopLeft: =8
+                                          RadiusTopRight: =8
+                                          Text: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 1), 1)).Value), 1, "Thêm", 2, "Làm mới", 3, "Xuất Excel", 4, "Xác nhận", "")
+                                          Tooltip: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 1), 1)).Value), 1, "Thêm", 2, "Làm mới", 3, "Xuất Excel", 4, "Xác nhận", "")
+                                          Visible: =Value(lbl_MobileActionCount_KiemKeBigbag.Text) >= 1
+                                    - btn_MobileAction2_KiemKeBigbag:
+                                        Control: ModernButton
                                         Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          FillPortions: =1
                                           Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          PaddingTop: =0
-                                          Size: =fxFontSizeMD
-                                          Text: ="Số kg tồn (Kg)"
-                                          Width: =Parent.Width * 0.1
-                                          Wrap: =false
-                                    - lbl_HeaderActionKiemKhoHangBigbag:
-                                        Control: ModernText
+                                          Height: =40
+                                          Icon: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 2), 1)).Value), 1, "Add", 2, "ArrowSync", 3, "ArrowDownload", 4, "CheckmarkCircle", "Save")
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          OnSelect: |-
+                                            =Switch(
+                                                Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 2), 1)).Value),
+                                                1, Select(btn_AddKiemKhoHangBao_1),
+                                                2, Select(btn_RefreshKiemKhoHangBigbag),
+                                                3, Select(btn_ExportKiemKhoHangBigbag),
+                                                4, Select(btn_RefreshKiemKhoHangXa_3)
+                                            )
+                                          RadiusBottomLeft: =8
+                                          RadiusBottomRight: =8
+                                          RadiusTopLeft: =8
+                                          RadiusTopRight: =8
+                                          Text: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 2), 1)).Value), 1, "Thêm", 2, "Làm mới", 3, "Xuất Excel", 4, "Xác nhận", "")
+                                          Tooltip: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 2), 1)).Value), 1, "Thêm", 2, "Làm mới", 3, "Xuất Excel", 4, "Xác nhận", "")
+                                          Visible: =Value(lbl_MobileActionCount_KiemKeBigbag.Text) >= 2
+                                    - btn_MobileMore_KiemKeBigbag:
+                                        Control: ModernButton
                                         Properties:
-                                          Font: =fxFontFamily
-                                          FontWeight: =fxFontWeightBold
-                                          PaddingTop: =0
-                                          Size: =fxFontSizeMD
-                                          Text: ="Thao tác"
-                                          Width: =80
-                                          Wrap: =false
-                              - chk_KiemKhoHangBigbag_SelectAllMobile:
-                                  Control: ModernCheckbox
+                                          Appearance: =ButtonAppearance.Secondary
+                                          Height: =40
+                                          Icon: ="MoreHorizontal"
+                                          Layout: =ButtonLayout.IconOnly
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          OnSelect: |-
+                                            =UpdateContext({varShowMoreActionsMobile_KiemKeBigbag: !varShowMoreActionsMobile_KiemKeBigbag})
+                                          RadiusBottomLeft: =8
+                                          RadiusBottomRight: =8
+                                          RadiusTopLeft: =8
+                                          RadiusTopRight: =8
+                                          Tooltip: ="Thêm thao tác"
+                                          Visible: =Value(lbl_MobileActionCount_KiemKeBigbag.Text) >= 3
+                                          Width: =40
+                              - con_ActionHeaderKiemKhoHangBigbag:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
                                   Properties:
-                                    Default: |-
-                                      =CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode)) > 0 &&
-                                      CountRows(col_SelectedKiemKhoHangBigbag) = CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode))
-                                    Font: =fxFontFamily
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
                                     Height: =40
-                                    Label: ="Chọn tất cả phiếu nháp (" & CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode)) & ")"
-                                    OnCheck: =ClearCollect(col_SelectedKiemKhoHangBigbag, Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode))
-                                    OnUncheck: =Clear(col_SelectedKiemKhoHangBigbag)
-                                    Visible: =scrKiemKeBigbag.Size = 1 && CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = Index(col_WorkflowStatus, 1).StatusCode)) > 0
-                                    Width: =Parent.Width - 10
-                              - gal_KiemKhoHangBigbag:
-                                  Control: Gallery
-                                  Variant: Vertical
-                                  Properties:
-                                    BorderStyle: =BorderStyle.None
-                                    Height: =Parent.Height - con_TableHeaderKiemKhoHangBigbag.Height - lbl_TotalRowsKiemKhoHangBigbag.Height
-                                    Items: |-
-                                      =Switch(
-                                          varRoleCurrentFirst.Role,
-                                          Index(col_RoleUser, 16).RoleCode, // Nhân viên kho thành phẩm
-                                          SortByColumns(
-                                              Filter(
-                                                  'QLK List Stock Count Details',
-                                                  PlantCode      = varUserInPlant.PlantCode,
-                                                  StockCountType = "BIGBAG",
-                                                  IsBlank(dp_FilterNgayKiemHangBao_2.SelectedDate) || StockCountDate = dp_FilterNgayKiemHangBao_2.SelectedDate,
-                                                  IsBlank(cbo_FilterStatusKiemKho_2.Selected) || StatusCode = cbo_FilterStatusKiemKho_2.Selected.StatusCode,
-                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_10.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_10.Selected.ProductCategoryCode,
-                                                  (IsBlank(txt_SearchKiemKhoHangBigbag.Text) ||  StartsWith(SAPCode, txt_SearchKiemKhoHangBigbag.Text)),
-                                                  UserID = varUserInPlant.UserID
-                                              ),
-                                              "Created",
-                                              SortOrder.Descending
-                                          ),
-                                          Index(col_RoleUser, 1).RoleCode, // Thủ kho thành phẩm
-                                          SortByColumns(
-                                              Filter(
-                                                  'QLK List Stock Count Details',
-                                                  PlantCode      = varUserInPlant.PlantCode,
-                                                  StockCountType = "BIGBAG",
-                                                  IsBlank(dp_FilterNgayKiemHangBao_2.SelectedDate) || StockCountDate = dp_FilterNgayKiemHangBao_2.SelectedDate,
-                                                  IsBlank(cbo_FilterStatusKiemKho_2.Selected) || StatusCode = cbo_FilterStatusKiemKho_2.Selected.StatusCode,
-                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_10.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_10.Selected.ProductCategoryCode,
-                                                  (IsBlank(txt_SearchKiemKhoHangBigbag.Text) ||  StartsWith(SAPCode, txt_SearchKiemKhoHangBigbag.Text)),
-                                                  UserID = varUserInPlant.UserID
-                                              ),
-                                              "Created",
-                                              SortOrder.Descending
-                                          ),
-                                          Index(col_RoleUser, 9).RoleCode, // VHSX_HO
-                                          SortByColumns(
-                                              Filter(
-                                                  'QLK List Stock Count Details',
-                                                  PlantCode      = varUserInPlant.PlantCode,
-                                                  StockCountType = "BIGBAG",
-                                                  IsBlank(dp_FilterNgayKiemHangBao_2.SelectedDate) || StockCountDate = dp_FilterNgayKiemHangBao_2.SelectedDate,
-                                                  IsBlank(cbo_FilterStatusKiemKho_2.Selected) || StatusCode = cbo_FilterStatusKiemKho_2.Selected.StatusCode,
-                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_10.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_10.Selected.ProductCategoryCode,
-                                                  (IsBlank(txt_SearchKiemKhoHangBigbag.Text) ||  StartsWith(SAPCode, txt_SearchKiemKhoHangBigbag.Text))
-                                              ),
-                                              "Created",
-                                              SortOrder.Descending
-                                          ),
-                                          SortByColumns(
-                                              Filter(
-                                                  'QLK List Stock Count Details',
-                                                  PlantCode      = varUserInPlant.PlantCode,
-                                                  StockCountType = "BIGBAG",
-                                                  (IsBlank(txt_SearchKiemKhoHangBigbag.Text) ||  StartsWith(SAPCode, txt_SearchKiemKhoHangBigbag.Text)),
-                                                  IsBlank(cbo_FilterStatusKiemKho_2.Selected) || StatusCode = cbo_FilterStatusKiemKho_2.Selected.StatusCode,
-                                                  IsBlank(cbo_FilterProductTypeNhapTuSanXuat_10.Selected) || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_10.Selected.ProductCategoryCode,
-                                                  IsBlank(dp_FilterNgayKiemHangBao_2.SelectedDate) || StockCountDate = dp_FilterNgayKiemHangBao_2.SelectedDate
-                                              ),
-                                              "Created",
-                                              SortOrder.Descending
-                                          )
-                                      )
-                                    ShowScrollbar: =false
-                                    TemplateSize: |-
-                                      =If(
-                                          scrKiemKeBigbag.Size = 1,
-                                          32 * 7 + 10,
-                                          45
-                                      )
-                                    Width: =Parent.Width
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                    Visible: =scrKiemKeBigbag.Size <> 1
                                   Children:
-                                    - con_RowDividerKiemKhoHangBigbag:
-                                        Control: GroupContainer
-                                        Variant: ManualLayout
+                                    - btn_AddKiemKhoHangBao_1:
+                                        Control: ModernButton
                                         Properties:
-                                          DropShadow: =DropShadow.None
-                                          Fill: =RGBA(229, 231, 235, 1)
-                                          Height: =1
-                                          Visible: =scrKiemKeBigbag.Size <> 1
-                                          Width: =Parent.Width - 10
-                                          Y: =gal_KiemKhoHangBigbag.TemplateHeight
-                                    - con_RowMasterKiemKhoHangBigbag:
+                                          Appearance: =ButtonAppearance.Outline
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =fxFontFamily
+                                          Icon: ="Add"
+                                          OnSelect: |-
+                                            =Set(
+                                                varStockCountDetail,
+                                                {}
+                                            );
+
+                                            Set(
+                                                varStockCountType,
+                                                "BIGBAG"
+                                            );
+                                            Reset(cmb_ProductCode);
+                                            Reset(num_PalletQty);
+                                            Reset(num_OddBagQty);
+                                            Reset(dp_ProductionDate);
+                                            Reset(num_BrokenBagQty);
+                                            Reset(num_OddBoxQty);
+                                            Reset(num_OddKgQty);
+                                            Reset(txt_Note_Bao);
+                                            Reset(txt_LocationName_Bao);
+                                            Reset(cmb_XaDensityCode);
+                                            Reset(cmb_XaBinCode);
+                                            Reset(num_Measure1);
+                                            Reset(num_Measure2);
+                                            Reset(num_Measure3);
+                                            Reset(num_DustSteamQty);
+                                            Reset(cmb_ProductCode_Bigbag);
+                                            Reset(num_BigBagQty);
+                                            Reset(num_BigBagWeight);
+                                            Reset(num_NetBigBagWeight);
+                                            Reset(cmb_ProductCategory);
+                                            Reset(cmb_StockCountType);
+
+                                            Navigate(
+                                                scrKiemKhoForm,
+                                                ScreenTransition.CoverRight
+                                            );
+                                          Size: =fxFontSizeMD
+                                          Text: ="Thêm"
+                                          Visible: =(varUserInPlant.Role = "FG_STAFF" || varUserInPlant.Role = "FG_WH" || varUserInPlant.Role = "FG_SUP" || varUserInPlant.Role = "VHSX_HO")
+                                    - btn_RefreshKiemKhoHangBigbag:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =fxFontFamily
+                                          Icon: ="ArrowSync"
+                                          OnSelect: =Refresh('QLK List Stock Count Details')
+                                          Size: =fxFontSizeMD
+                                          Text: ="Làm mới"
+                                          Width: =120
+                                    - btn_ExportKiemKhoHangBigbag:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =fxFontFamily
+                                          Icon: ="ArrowDownload"
+                                          OnSelect: |-
+                                            =If(
+                                                IsBlank(dp_FilterNgayKiemHangBao_2.SelectedDate),
+                                                Notify("Vui lòng chọn ngày kiểm kê trước khi xuất Excel", NotificationType.Warning, 3000),
+                                                UpdateContext({varShowPopupProcessing: true});
+                                                With(
+                                                    {
+                                                        _result: 'QLK|ExportStockCountData'.Run(
+                                                            If(varUserInPlant.Role = "VHSX_HO", "", varUserInPlant.PlantCode), // Mã plant (VHSX_HO xem tất cả)
+                                                            "BIGBAG", // Loại kiểm kê
+                                                            If(IsBlank(dp_FilterNgayKiemHangBao_2.SelectedDate), "", Text(dp_FilterNgayKiemHangBao_2.SelectedDate, "yyyy-mm-dd")), // Ngày kiểm kê
+                                                            If(IsBlank(cbo_FilterStatusKiemKho_2.Selected), "", cbo_FilterStatusKiemKho_2.Selected.StatusCode), // Trạng thái
+                                                            If(IsBlank(cbo_FilterProductTypeNhapTuSanXuat_10.Selected), "", cbo_FilterProductTypeNhapTuSanXuat_10.Selected.ProductCategoryCode) // Nhóm hàng
+                                                        )
+                                                    },
+                                                    If(
+                                                        _result.status = "200",
+                                                        Launch(_result.fileurl);
+                                                        Notify("Đã xuất " & _result.rowcount & " dòng ra file Excel", NotificationType.Success, 2000),
+                                                        Notify(_result.message, NotificationType.Error, 2000)
+                                                    )
+                                                );
+                                                UpdateContext({varShowPopupProcessing: false})
+                                            )
+                                          Size: =fxFontSizeMD
+                                          Text: ="Xuất Excel"
+                                          Width: =140
+                                    - btn_RefreshKiemKhoHangXa_3:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =fxFontFamily
+                                          Icon: ="CheckmarkCircle"
+                                          OnSelect: |
+                                            =If(
+                                                Confirm(
+                                                    "Bạn có chắc muốn xác nhận kiểm kê " & CountRows(col_SelectedKiemKhoHangBigbag) & " bản ghi đã chọn không?",
+                                                    {
+                                                        Title: "Xác nhận",
+                                                        ConfirmButton: "Xác nhận",
+                                                        CancelButton: "Hủy"
+                                                    }
+                                                ),
+                                                UpdateContext({varShowPopupProcessing: true});
+                                                Clear(updateKiemKhoBigBag);
+                                                ForAll(
+                                                    col_SelectedKiemKhoHangBigbag As item,
+                                                    Collect(
+                                                        updateKiemKhoBigBag,
+                                                        {
+                                                            ID          : item.ID,
+                                                            StatusCode  : "COUNT_CONFIRMED"
+                                                        }
+                                                    )
+                                                );
+                                                IfError(
+                                                    Patch('QLK List Stock Count Details', updateKiemKhoBigBag),
+                                                    Notify("Cập nhật thất bại", NotificationType.Error, 2000),
+                                                    Notify("Cập nhật thành công", NotificationType.Success, 2000);
+                                                    Clear(col_SelectedKiemKhoHangBigbag);
+                                                    Clear(updateKiemKhoBigBag);
+                                                );
+                                                UpdateContext({varShowPopupProcessing: false})
+                                            )
+                                          Size: =fxFontSizeMD
+                                          Text: ="Xác nhận"
+                                          Visible: |-
+                                            =CountRows(
+                                                Filter(
+                                                    col_SelectedKiemKhoHangBigbag,
+                                                    StatusCode = "DRAFT"
+                                                )
+                                            ) > 0
+                                          Width: =120
+                              - lbl_TitleKiemKhoHangBigbag:
+                                  Control: ModernText
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =RGBA(45, 128, 40, 1)
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightSemiBold
+                                    Height: =40
+                                    PaddingLeft: =10
+                                    Size: =fxFontSizeXL
+                                    Text: ="Kiểm kê bigbag"
+                              - con_FilterKiemKhoHangBao_2:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =If(scrKiemKeBigbag.Size = 1, If(varShowFilterKKB, 360, 96), 45)
+                                    LayoutDirection: =If(scrKiemKhoHangBao.Size = 1 ,LayoutDirection.Vertical ,LayoutDirection.Horizontal)
+                                    LayoutGap: =5
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
+                                  Children:
+                                    - con_Row1_2:
                                         Control: GroupContainer
                                         Variant: AutoLayout
                                         Properties:
-                                          DropShadow: =If(scrKiemKeBigbag.Size = 1, DropShadow.Light, DropShadow.None)
-                                          Height: =gal_KiemKhoHangBigbag.TemplateHeight
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =40
                                           LayoutAlignItems: =LayoutAlignItems.Center
-                                          LayoutDirection: |-
-                                            =If(
-                                                scrKiemKeBigbag.Size = 1,
-                                                LayoutDirection.Vertical,
-                                                LayoutDirection.Horizontal
-                                            )
-                                          LayoutGap: =If(scrKiemKeBigbag.Size = 1, 5, 0)
-                                          PaddingLeft: =5
-                                          RadiusTopLeft: =If(scrKiemKeBigbag.Size = 1, 4, 0)
-                                          Width: =Parent.Width - 10
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =5
+                                          LayoutMinHeight: |
+                                            =0
+                                          RadiusBottomLeft: =0
+                                          RadiusBottomRight: =0
+                                          RadiusTopLeft: =0
+                                          RadiusTopRight: =0
+                                          Visible: =scrKiemKeBigbag.Size <> 1
+                                          Width: =If(scrKiemKhoHangBao.Size = 1 ,Parent.Width ,Parent.Width/2 - 10)
                                         Children:
-                                          - chk_KiemKhoHangBigbag_SelectRow:
+                                          - lbl_FilterNgayBigbag:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Size: =fxFontSizeMD
+                                                Text: ="Ngày kiểm kê"
+                                                Width: =100
+                                                Wrap: =false
+                                          - dp_FilterNgayKiemHangBao_2:
+                                              Control: ModernDatePicker
+                                              Properties:
+                                                BasePaletteColor: =RGBA(8,222,8,1)
+                                                DefaultDate: =Today()
+                                                Font: =fxFontFamily
+                                                FontWeight: =FontWeight.Normal
+                                                Format: =DatePickerFormat.Short
+                                                Size: =fxFontSizeMD
+                                                Width: =160
+                                          - txt_SearchKiemKhoHangBigbag:
+                                              Control: ModernTextInput
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                Placeholder: ="Tìm theo mã SAP ..."
+                                                Width: |-
+                                                  =
+                                                  If(scrKiemKhoHangBao.Size = 1 ,Parent.Width - dp_FilterNgayKiemHangBao_2.Width - lbl_FilterNgayBigbag.Width - 60 ,Parent.Width - dp_FilterNgayKiemHangBao_2.Width - lbl_FilterNgayBigbag.Width - 10)
+                                    - con_Row2_2:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =40
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =5
+                                          LayoutMinHeight: =0
+                                          RadiusBottomLeft: =0
+                                          RadiusBottomRight: =0
+                                          RadiusTopLeft: =0
+                                          RadiusTopRight: =0
+                                          Visible: =scrKiemKeBigbag.Size <> 1
+                                          Width: =If(scrKiemKhoHangBao.Size = 1 ,Parent.Width ,Parent.Width/2 - 10)
+                                        Children:
+                                          - cbo_FilterStatusKiemKho_2:
+                                              Control: ModernCombobox
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightNormal
+                                                InputTextPlaceholder: ="Tất cả trạng thái"
+                                                IsSearchable: =false
+                                                ItemDisplayText: =ThisItem.StatusNameVI
+                                                Items: =Filter(col_WorkflowStatus,StatusCode="DRAFT" || StatusCode="COUNT_CONFIRMED")
+                                                SelectMultiple: =false
+                                                Width: =160
+                                          - cbo_FilterProductTypeNhapTuSanXuat_10:
+                                              Control: ModernCombobox
+                                              Properties:
+                                                DefaultSelectedItems: =If(varUserInPlant.Role = "VHSX_HO", Blank(), LookUp(col_ProductCategories,ProductCategoryCode=varUserInPlant.ProductCategoryCode))
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightNormal
+                                                InputTextPlaceholder: ="Tất cả nhóm hàng"
+                                                IsSearchable: =false
+                                                ItemDisplayText: =ThisItem.ProductCategoryNameVI
+                                                Items: =col_ProductCategories
+                                                SelectMultiple: =false
+                                                Width: =Parent.Width - cbo_FilterStatusKiemKho_2.Width - Button1_2.Width - 10
+                                          - Button1_2:
+                                              Control: ModernButton
+                                              Properties:
+                                                Appearance: =ButtonAppearance.Transparent
+                                                Icon: ="Eraser"
+                                                OnSelect: |-
+                                                  =Reset(cbo_FilterStatusKiemKho_2);
+                                                  Reset(cbo_FilterProductTypeNhapTuSanXuat_10);
+                                                  Reset(txt_SearchKiemKhoHangBigbag);
+                                                Text: =
+                                                Width: =50
+                                    - con_FilterMobKKB:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          BorderColor: =RGBA(229, 231, 235, 1)
+                                          BorderThickness: =1
+                                          DropShadow: =DropShadow.Regular
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0
+                                          Height: =If(varShowFilterKKB, 344, 80)
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =8
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          PaddingBottom: =12
+                                          PaddingLeft: =12
+                                          PaddingRight: =12
+                                          PaddingTop: =12
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Visible: =scrKiemKeBigbag.Size = 1
+                                          Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                                        Children:
+                                          - con_FilterHeadKKB:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =56
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =10
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                              Children:
+                                                - btn_FilterIconKKB:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Color: =RGBA(17, 24, 39, 1)
+                                                      Icon: ="Filter"
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =UpdateContext({varShowFilterKKB: !varShowFilterKKB})
+                                                      Width: =32
+                                                - con_FilterHeadTextKKB:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =56
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FilterTitleKKB:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightBold
+                                                            Height: =28
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeMD
+                                                            Text: ="Bộ lọc" & If((If(!IsBlank(dp_FilterNgayMobKKB.SelectedDate), 1, 0) + If(!IsBlank(txt_SearchMobKKB.Text), 1, 0) + If(!IsBlank(cbo_StatusMobKKB.Selected), 1, 0) + If(!IsBlank(cbo_CategoryMobKKB.Selected), 1, 0)) > 0, " (" & (If(!IsBlank(dp_FilterNgayMobKKB.SelectedDate), 1, 0) + If(!IsBlank(txt_SearchMobKKB.Text), 1, 0) + If(!IsBlank(cbo_StatusMobKKB.Selected), 1, 0) + If(!IsBlank(cbo_CategoryMobKKB.Selected), 1, 0)) & ")", "")
+                                                            Wrap: =false
+                                                      - lbl_FilterSummaryKKB:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Color: =RGBA(107, 114, 128, 1)
+                                                            Font: =fxFontFamily
+                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeXS
+                                                            Text: |-
+                                                              ="Ngày: " & If(IsBlank(dp_FilterNgayMobKKB.SelectedDate), "-", Text(dp_FilterNgayMobKKB.SelectedDate, "mm/dd/yyyy")) & "  •  Mã SAP: " & If(IsBlank(txt_SearchMobKKB.Text), "-", txt_SearchMobKKB.Text) & "  •  Trạng thái: " & Coalesce(cbo_StatusMobKKB.Selected.StatusNameVI, "Tất cả") & "  •  Nhóm hàng: " & Coalesce(cbo_CategoryMobKKB.Selected.ProductCategoryNameVI, "Tất cả")
+                                                            Wrap: =false
+                                                - btn_FilterToggleKKB:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Color: =RGBA(17, 24, 39, 1)
+                                                      Height: =36
+                                                      Icon: =If(varShowFilterKKB, "ChevronUp", "ChevronDown")
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =UpdateContext({varShowFilterKKB: !varShowFilterKKB})
+                                                      Width: =36
+                                          - con_FilterBodyKKB:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =256
+                                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =8
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                Visible: =varShowFilterKKB
+                                              Children:
+                                                - con_FldDateKKB:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =64
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FldDateKKB:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =24
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeSM
+                                                            Text: ="Ngày kiểm kê"
+                                                      - dp_FilterNgayMobKKB:
+                                                          Control: ModernDatePicker
+                                                          Properties:
+                                                            BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                            DefaultDate: =Today()
+                                                            Font: =fxFontFamily
+                                                            Format: =DatePickerFormat.Short
+                                                            Height: =40
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                - con_FldSearchKKB:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =64
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FldSearchKKB:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =24
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeSM
+                                                            Text: ="Tìm theo mã SAP"
+                                                      - txt_SearchMobKKB:
+                                                          Control: ModernTextInput
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =40
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            Placeholder: ="Tìm theo mã SAP ..."
+                                                - con_FldComboRowKKB:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =64
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =10
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - con_FldStatusKKB:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            DropShadow: =DropShadow.None
+                                                            Height: =64
+                                                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                            LayoutDirection: =LayoutDirection.Vertical
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                          Children:
+                                                            - lbl_FldStatusKKB:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =24
+                                                                  LayoutMinHeight: =0
+                                                                  LayoutMinWidth: =0
+                                                                  PaddingBottom: =0
+                                                                  PaddingLeft: =0
+                                                                  PaddingTop: =0
+                                                                  Size: =fxFontSizeSM
+                                                                  Text: ="Trạng thái"
+                                                            - cbo_StatusMobKKB:
+                                                                Control: ModernCombobox
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =40
+                                                                  InputTextPlaceholder: ="Tất cả trạng thái"
+                                                                  IsSearchable: =false
+                                                                  ItemDisplayText: =ThisItem.StatusNameVI
+                                                                  Items: =Filter(col_WorkflowStatus, StatusCode = "DRAFT" || StatusCode = "COUNT_CONFIRMED")
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  SelectMultiple: =false
+                                                      - con_FldCategoryKKB:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            DropShadow: =DropShadow.None
+                                                            Height: =64
+                                                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                            LayoutDirection: =LayoutDirection.Vertical
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                          Children:
+                                                            - lbl_FldCategoryKKB:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =24
+                                                                  LayoutMinHeight: =0
+                                                                  LayoutMinWidth: =0
+                                                                  PaddingBottom: =0
+                                                                  PaddingLeft: =0
+                                                                  PaddingTop: =0
+                                                                  Size: =fxFontSizeSM
+                                                                  Text: ="Nhóm hàng"
+                                                            - cbo_CategoryMobKKB:
+                                                                Control: ModernCombobox
+                                                                Properties:
+                                                                  DefaultSelectedItems: =If(varUserInPlant.Role = "VHSX_HO", Blank(), LookUp(col_ProductCategories, ProductCategoryCode = varUserInPlant.ProductCategoryCode))
+                                                                  Font: =fxFontFamily
+                                                                  Height: =40
+                                                                  InputTextPlaceholder: ="Tất cả nhóm hàng"
+                                                                  IsSearchable: =false
+                                                                  ItemDisplayText: =ThisItem.ProductCategoryNameVI
+                                                                  Items: =col_ProductCategories
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  SelectMultiple: =false
+                                                - con_FldBtnRowKKB:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =40
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =10
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - btn_FltClearKKB:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            Appearance: =ButtonAppearance.Outline
+                                                            FillPortions: =1
+                                                            Font: =fxFontFamily
+                                                            Height: =40
+                                                            Icon: ="Eraser"
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnSelect: |-
+                                                              =Reset(dp_FilterNgayMobKKB);
+                                                              Reset(txt_SearchMobKKB);
+                                                              Reset(cbo_StatusMobKKB);
+                                                              Reset(cbo_CategoryMobKKB)
+                                                            Text: ="Xóa lọc"
+                                                      - btn_FltApplyKKB:
+                                                          Control: ModernButton
+                                                          Properties:
+                                                            BasePaletteColor: =RGBA(46, 125, 50, 1)
+                                                            FillPortions: =1
+                                                            Font: =fxFontFamily
+                                                            Height: =40
+                                                            Icon: ="Search"
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnSelect: |-
+                                                              =UpdateContext({varShowFilterKKB: false})
+                                                            Text: ="Áp dụng"
+                              - con_ListKiemKhoHangBigbag:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    BorderStyle: =BorderStyle.None
+                                    DropShadow: =If(scrKiemKeBigbag.Size = 1, DropShadow.None, DropShadow.Semibold)
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutOverflowX: =LayoutOverflow.Scroll
+                                    LayoutOverflowY: =LayoutOverflow.Scroll
+                                    RadiusBottomLeft: =6
+                                    RadiusBottomRight: =6
+                                    RadiusTopLeft: =If(scrKiemKeBigbag.Size = 1, 0, 5)
+                                    RadiusTopRight: =6
+                                    Width: =Parent.Width - Parent.PaddingLeft * 2
+                                  Children:
+                                    - con_TableHeaderKiemKhoHangBigbag:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          Fill: =RGBA(250, 250, 250, 1)
+                                          FillPortions: =0
+                                          Height: =46
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =5
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          Visible: =scrKiemKeBigbag.Size <> 1
+                                        Children:
+                                          - chk_KiemKhoHangBigbag_SelectAll:
                                               Control: ModernCheckbox
                                               Properties:
-                                                Default: =ThisItem.ID in col_SelectedKiemKhoHangBigbag.ID
-                                                DisplayMode: |-
+                                                Default: |-
+                                                  =CountRows(col_SelectedKiemKhoHangBigbag) = CountRows(gal_KiemKhoHangBigbag.AllItems) &&
+                                                  CountRows(gal_KiemKhoHangBigbag.AllItems) > 0
+                                                DisplayMode: |
                                                   =If(
-                                                      ThisItem.StatusCode = "DRAFT" ,
+                                                      CountRows(
+                                                          Filter(
+                                                              gal_KiemKhoHangBigbag.AllItems,
+                                                              StatusCode = "DRAFT"
+                                                          )
+                                                      ) > 0,
                                                       DisplayMode.Edit,
                                                       DisplayMode.Disabled
                                                   )
                                                 FontWeight: =""
                                                 Label: =""
-                                                OnCheck: =Collect(col_SelectedKiemKhoHangBigbag, ThisItem)
-                                                OnUncheck: =Remove(col_SelectedKiemKhoHangBigbag, ThisItem)
-                                                Visible: =scrKiemKeBigbag.Size <> 1
+                                                OnCheck: =ClearCollect(col_SelectedKiemKhoHangBigbag, Filter(gal_KiemKhoHangBigbag.AllItems,StatusCode = "DRAFT"))
+                                                OnUncheck: =Clear(col_SelectedKiemKhoHangBigbag)
                                                 Width: =32
-                                          - con_RowKiemKhoHangBigbag:
+                                          - lbl_HeaderBigbagSAPCode:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                PaddingTop: =0
+                                                Size: =fxFontSizeMD
+                                                Text: ="Mã hàng"
+                                                Width: |
+                                                  =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_HeaderStockCountDateBigbag:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                PaddingTop: =0
+                                                Size: =fxFontSizeMD
+                                                Text: ="Ngày kiểm kê"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_HeaderStatusCodeKiemKhoHangBigbag:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                PaddingTop: =0
+                                                Size: =fxFontSizeMD
+                                                Text: ="Trạng thái"
+                                                Width: |
+                                                  =Parent.Width * 0.15
+                                                Wrap: =false
+                                          - lbl_HeaderBigbagBagQty:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                PaddingTop: =0
+                                                Size: =fxFontSizeMD
+                                                Text: ="Số lượng túi"
+                                                Width: =Parent.Width * 0.15
+                                                Wrap: =false
+                                          - lbl_HeaderBigbagTotalWeight:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                PaddingTop: =0
+                                                Size: =fxFontSizeMD
+                                                Text: ="Tổng KL (kg)"
+                                                Width: =Parent.Width * 0.15
+                                                Wrap: =false
+                                          - lbl_HeaderBigbagBigbagWeight:
+                                              Control: ModernText
+                                              Properties:
+                                                FillPortions: =1
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                PaddingTop: =0
+                                                Size: =fxFontSizeMD
+                                                Text: ="KL tịnh bigbag (kg)"
+                                                Wrap: =false
+                                          - lbl_HeaderActualQtyBigbag:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                PaddingTop: =0
+                                                Size: =fxFontSizeMD
+                                                Text: ="Số kg tồn (Kg)"
+                                                Width: =Parent.Width * 0.1
+                                                Wrap: =false
+                                          - lbl_HeaderActionKiemKhoHangBigbag:
+                                              Control: ModernText
+                                              Properties:
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                PaddingTop: =0
+                                                Size: =fxFontSizeMD
+                                                Text: ="Thao tác"
+                                                Width: =80
+                                                Wrap: =false
+                                    - chk_KiemKhoHangBigbag_SelectAllMobile:
+                                        Control: ModernCheckbox
+                                        Properties:
+                                          Default: |-
+                                            =CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = "DRAFT")) > 0 &&
+                                            CountRows(col_SelectedKiemKhoHangBigbag) = CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = "DRAFT"))
+                                          Font: =fxFontFamily
+                                          Height: =40
+                                          Label: ="Chọn tất cả (" & CountRows(col_SelectedKiemKhoHangBigbag) & "/" & CountRows(gal_KiemKhoHangBigbag.AllItems) & " dòng)"
+                                          OnCheck: =ClearCollect(col_SelectedKiemKhoHangBigbag, Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = "DRAFT"))
+                                          OnUncheck: =Clear(col_SelectedKiemKhoHangBigbag)
+                                          Visible: =scrKiemKeBigbag.Size = 1 && CountRows(Filter(gal_KiemKhoHangBigbag.AllItems, StatusCode = "DRAFT")) > 0
+                                          Width: =Parent.Width - 10
+                                    - gal_KiemKhoHangBigbag:
+                                        Control: Gallery
+                                        Variant: Vertical
+                                        Properties:
+                                          BorderStyle: =BorderStyle.None
+                                          Height: =Parent.Height - con_TableHeaderKiemKhoHangBigbag.Height - lbl_TotalRowsKiemKhoHangBigbag.Height
+                                          Items: |-
+                                            =// Chỉ lấy các cột đang hiển thị trên danh sách (nhanh hơn)
+                                            ShowColumns(
+                                                Switch(
+                                                    varUserInPlant.Role,
+                                                    "FG_STAFF", // Nhân viên kho thành phẩm
+                                                    SortByColumns(
+                                                        Filter(
+                                                            'QLK List Stock Count Details',
+                                                            PlantCode      = varUserInPlant.PlantCode,
+                                                            StockCountType = "BIGBAG",
+                                                            IsBlank(dp_FilterNgayKiemHangBao_2.SelectedDate) || scrKiemKeBigbag.Size = 1 || (StockCountDate >= dp_FilterNgayKiemHangBao_2.SelectedDate && StockCountDate < DateAdd(dp_FilterNgayKiemHangBao_2.SelectedDate, 1, TimeUnit.Days)),
+                                                            IsBlank(cbo_FilterStatusKiemKho_2.Selected) || scrKiemKeBigbag.Size = 1 || StatusCode = cbo_FilterStatusKiemKho_2.Selected.StatusCode,
+                                                            IsBlank(cbo_FilterProductTypeNhapTuSanXuat_10.Selected) || scrKiemKeBigbag.Size = 1 || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_10.Selected.ProductCategoryCode,
+                                                            IsBlank(dp_FilterNgayMobKKB.SelectedDate) || scrKiemKeBigbag.Size <> 1 || (StockCountDate >= dp_FilterNgayMobKKB.SelectedDate && StockCountDate < DateAdd(dp_FilterNgayMobKKB.SelectedDate, 1, TimeUnit.Days)),
+                                                            (IsBlank(txt_SearchMobKKB.Text) || scrKiemKeBigbag.Size <> 1 || StartsWith(SAPCode, txt_SearchMobKKB.Text)),
+                                                            IsBlank(cbo_StatusMobKKB.Selected) || scrKiemKeBigbag.Size <> 1 || StatusCode = cbo_StatusMobKKB.Selected.StatusCode,
+                                                            IsBlank(cbo_CategoryMobKKB.Selected) || scrKiemKeBigbag.Size <> 1 || ProductCategoryCode = cbo_CategoryMobKKB.Selected.ProductCategoryCode,
+                                                            (IsBlank(txt_SearchKiemKhoHangBigbag.Text) || scrKiemKeBigbag.Size = 1 || StartsWith(SAPCode, txt_SearchKiemKhoHangBigbag.Text)),
+                                                            UserID = varUserInPlant.UserID
+                                                        ),
+                                                        "Created",
+                                                        SortOrder.Descending
+                                                    ),
+                                                    "FG_WH", // Thủ kho thành phẩm
+                                                    SortByColumns(
+                                                        Filter(
+                                                            'QLK List Stock Count Details',
+                                                            PlantCode      = varUserInPlant.PlantCode,
+                                                            StockCountType = "BIGBAG",
+                                                            IsBlank(dp_FilterNgayKiemHangBao_2.SelectedDate) || scrKiemKeBigbag.Size = 1 || (StockCountDate >= dp_FilterNgayKiemHangBao_2.SelectedDate && StockCountDate < DateAdd(dp_FilterNgayKiemHangBao_2.SelectedDate, 1, TimeUnit.Days)),
+                                                            IsBlank(cbo_FilterStatusKiemKho_2.Selected) || scrKiemKeBigbag.Size = 1 || StatusCode = cbo_FilterStatusKiemKho_2.Selected.StatusCode,
+                                                            IsBlank(cbo_FilterProductTypeNhapTuSanXuat_10.Selected) || scrKiemKeBigbag.Size = 1 || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_10.Selected.ProductCategoryCode,
+                                                            IsBlank(dp_FilterNgayMobKKB.SelectedDate) || scrKiemKeBigbag.Size <> 1 || (StockCountDate >= dp_FilterNgayMobKKB.SelectedDate && StockCountDate < DateAdd(dp_FilterNgayMobKKB.SelectedDate, 1, TimeUnit.Days)),
+                                                            (IsBlank(txt_SearchMobKKB.Text) || scrKiemKeBigbag.Size <> 1 || StartsWith(SAPCode, txt_SearchMobKKB.Text)),
+                                                            IsBlank(cbo_StatusMobKKB.Selected) || scrKiemKeBigbag.Size <> 1 || StatusCode = cbo_StatusMobKKB.Selected.StatusCode,
+                                                            IsBlank(cbo_CategoryMobKKB.Selected) || scrKiemKeBigbag.Size <> 1 || ProductCategoryCode = cbo_CategoryMobKKB.Selected.ProductCategoryCode,
+                                                            (IsBlank(txt_SearchKiemKhoHangBigbag.Text) || scrKiemKeBigbag.Size = 1 || StartsWith(SAPCode, txt_SearchKiemKhoHangBigbag.Text)),
+                                                            UserID = varUserInPlant.UserID
+                                                        ),
+                                                        "Created",
+                                                        SortOrder.Descending
+                                                    ),
+                                                    "VHSX_HO", // VHSX_HO
+                                                    SortByColumns(
+                                                        Filter(
+                                                            'QLK List Stock Count Details',
+                                                            StockCountType = "BIGBAG",
+                                                            IsBlank(dp_FilterNgayKiemHangBao_2.SelectedDate) || scrKiemKeBigbag.Size = 1 || (StockCountDate >= dp_FilterNgayKiemHangBao_2.SelectedDate && StockCountDate < DateAdd(dp_FilterNgayKiemHangBao_2.SelectedDate, 1, TimeUnit.Days)),
+                                                            IsBlank(cbo_FilterStatusKiemKho_2.Selected) || scrKiemKeBigbag.Size = 1 || StatusCode = cbo_FilterStatusKiemKho_2.Selected.StatusCode,
+                                                            IsBlank(cbo_FilterProductTypeNhapTuSanXuat_10.Selected) || scrKiemKeBigbag.Size = 1 || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_10.Selected.ProductCategoryCode,
+                                                            IsBlank(dp_FilterNgayMobKKB.SelectedDate) || scrKiemKeBigbag.Size <> 1 || (StockCountDate >= dp_FilterNgayMobKKB.SelectedDate && StockCountDate < DateAdd(dp_FilterNgayMobKKB.SelectedDate, 1, TimeUnit.Days)),
+                                                            (IsBlank(txt_SearchMobKKB.Text) || scrKiemKeBigbag.Size <> 1 || StartsWith(SAPCode, txt_SearchMobKKB.Text)),
+                                                            IsBlank(cbo_StatusMobKKB.Selected) || scrKiemKeBigbag.Size <> 1 || StatusCode = cbo_StatusMobKKB.Selected.StatusCode,
+                                                            IsBlank(cbo_CategoryMobKKB.Selected) || scrKiemKeBigbag.Size <> 1 || ProductCategoryCode = cbo_CategoryMobKKB.Selected.ProductCategoryCode,
+                                                            (IsBlank(txt_SearchKiemKhoHangBigbag.Text) || scrKiemKeBigbag.Size = 1 || StartsWith(SAPCode, txt_SearchKiemKhoHangBigbag.Text))
+                                                        ),
+                                                        "Created",
+                                                        SortOrder.Descending
+                                                    ),
+                                                    SortByColumns(
+                                                        Filter(
+                                                            'QLK List Stock Count Details',
+                                                            PlantCode      = varUserInPlant.PlantCode,
+                                                            StockCountType = "BIGBAG",
+                                                            (IsBlank(txt_SearchKiemKhoHangBigbag.Text) || scrKiemKeBigbag.Size = 1 || StartsWith(SAPCode, txt_SearchKiemKhoHangBigbag.Text)),
+                                                            IsBlank(cbo_FilterStatusKiemKho_2.Selected) || scrKiemKeBigbag.Size = 1 || StatusCode = cbo_FilterStatusKiemKho_2.Selected.StatusCode,
+                                                            IsBlank(cbo_FilterProductTypeNhapTuSanXuat_10.Selected) || scrKiemKeBigbag.Size = 1 || ProductCategoryCode = cbo_FilterProductTypeNhapTuSanXuat_10.Selected.ProductCategoryCode,
+                                                            IsBlank(dp_FilterNgayMobKKB.SelectedDate) || scrKiemKeBigbag.Size <> 1 || (StockCountDate >= dp_FilterNgayMobKKB.SelectedDate && StockCountDate < DateAdd(dp_FilterNgayMobKKB.SelectedDate, 1, TimeUnit.Days)),
+                                                            (IsBlank(txt_SearchMobKKB.Text) || scrKiemKeBigbag.Size <> 1 || StartsWith(SAPCode, txt_SearchMobKKB.Text)),
+                                                            IsBlank(cbo_StatusMobKKB.Selected) || scrKiemKeBigbag.Size <> 1 || StatusCode = cbo_StatusMobKKB.Selected.StatusCode,
+                                                            IsBlank(cbo_CategoryMobKKB.Selected) || scrKiemKeBigbag.Size <> 1 || ProductCategoryCode = cbo_CategoryMobKKB.Selected.ProductCategoryCode,
+                                                            IsBlank(dp_FilterNgayKiemHangBao_2.SelectedDate) || scrKiemKeBigbag.Size = 1 || (StockCountDate >= dp_FilterNgayKiemHangBao_2.SelectedDate && StockCountDate < DateAdd(dp_FilterNgayKiemHangBao_2.SelectedDate, 1, TimeUnit.Days))
+                                                        ),
+                                                        "Created",
+                                                        SortOrder.Descending
+                                                    )
+                                                ),
+                                                StatusCode,
+                                                ID,
+                                                SAPCode,
+                                                StockCountDate,
+                                                BigBagQty,
+                                                BigBagWeight,
+                                                NetBigBagWeight,
+                                                ActualQty
+                                            )
+                                          ShowScrollbar: =false
+                                          TemplateSize: |-
+                                            =If(
+                                                scrKiemKeBigbag.Size = 1,
+                                                10 + 84 + 10 + 45 + 10 + 8,
+                                                45
+                                            )
+                                          Width: =Parent.Width
+                                        Children:
+                                          - con_RowDividerKiemKhoHangBigbag:
+                                              Control: GroupContainer
+                                              Variant: ManualLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(229, 231, 235, 1)
+                                                Height: =1
+                                                Visible: =scrKiemKeBigbag.Size <> 1
+                                                Width: =Parent.Width - 10
+                                                Y: =gal_KiemKhoHangBigbag.TemplateHeight
+                                          - con_RowMasterKiemKhoHangBigbag:
                                               Control: GroupContainer
                                               Variant: AutoLayout
                                               Properties:
-                                                BorderColor: =RGBA(229, 231, 235, 1)
-                                                DropShadow: =DropShadow.None
-                                                Fill: =RGBA(255, 255, 255, 1)
-                                                FillPortions: =0
-                                                Height: |-
+                                                DropShadow: =If(scrKiemKeBigbag.Size = 1, DropShadow.Light, DropShadow.None)
+                                                Height: =gal_KiemKhoHangBigbag.TemplateHeight
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: |-
                                                   =If(
                                                       scrKiemKeBigbag.Size = 1,
-                                                      gal_KiemKhoHangBigbag.TemplateHeight - con_MobileActionKiemKhoHangBigbag.Height - 10,
-                                                      48
+                                                      LayoutDirection.Vertical,
+                                                      LayoutDirection.Horizontal
                                                   )
-                                                LayoutAlignItems: =If(scrKiemKeBigbag.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
-                                                LayoutDirection: =If(scrKiemKeBigbag.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
-                                                LayoutGap: =5
-                                                LayoutMinHeight: =10
-                                                PaddingLeft: =If(scrKiemKeBigbag.Size = 1, 10, 5)
-                                                PaddingRight: =If(scrKiemKeBigbag.Size = 1, 10, 5)
-                                                PaddingTop: =If(scrKiemKeBigbag.Size = 1, 10, 5)
-                                                Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width / 1.2, Parent.Width - 32 - 10)
+                                                LayoutGap: =If(scrKiemKeBigbag.Size = 1, 5, 0)
+                                                PaddingLeft: =5
+                                                RadiusTopLeft: =If(scrKiemKeBigbag.Size = 1, 4, 0)
+                                                Width: =Parent.Width - 10
                                               Children:
-                                                - lbl_BigbagSAPCode:
-                                                    Control: ModernText
+                                                - chk_KiemKhoHangBigbag_SelectRow:
+                                                    Control: ModernCheckbox
                                                     Properties:
-                                                      Font: =fxFontFamily
-                                                      FontWeight: =fxFontWeightSemiBold
-                                                      Height: =30
-                                                      PaddingBottom: =0
-                                                      PaddingTop: =0
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrKiemKeBigbag.Size = 1, "Mã hàng: " & ThisItem.SAPCode, ThisItem.SAPCode)
-                                                      Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width - 20, lbl_HeaderBigbagSAPCode.Width)
-                                                      Wrap: =false
-                                                - lbl_BigbagStockCountDate:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrKiemKeBigbag.Size = 1, "Ngày kiểm kê: " & Text(ThisItem.StockCountDate, "dd/mm/yyyy"), Text(ThisItem.StockCountDate, "dd/mm/yyyy"))
-                                                      Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width - 20, lbl_HeaderStockCountDateBigbag.Width)
-                                                      Wrap: =false
-                                                - lbl_StatusCodeKiemKhoHangBigbag:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =With(
-                                                            {_s: LookUp(col_WorkflowStatus, StatusCode = ThisItem.StatusCode)},
-                                                            If(
-                                                                scrKiemKeBigbag.Size = 1,
-                                                                "Trạng thái: " & Coalesce(_s.StatusNameVI, ThisItem.StatusCode),
-                                                                Coalesce(_s.StatusNameVI, ThisItem.StatusCode)
-                                                            )
+                                                      Default: =ThisItem.ID in col_SelectedKiemKhoHangBigbag.ID
+                                                      DisplayMode: |-
+                                                        =If(
+                                                            ThisItem.StatusCode = "DRAFT" ,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
                                                         )
-                                                      Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width - 20, lbl_HeaderStatusCodeKiemKhoHangBigbag.Width)
-                                                      Wrap: =false
-                                                - lbl_BigbagBagQty:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrKiemKeBigbag.Size = 1, "Số lượng túi: " & Text(ThisItem.BigBagQty), Text(ThisItem.BigBagQty))
-                                                      Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width - 20, lbl_HeaderBigbagBagQty.Width)
-                                                      Wrap: =false
-                                                - lbl_BigbagTotalWeight:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrKiemKeBigbag.Size = 1, "Tổng KL: " & Text(ThisItem.BigBagWeight) & " kg", Text(ThisItem.BigBagWeight))
-                                                      Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width - 20, lbl_HeaderBigbagTotalWeight.Width)
-                                                      Wrap: =false
-                                                - lbl_BigbagBigbagWeight:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      FillPortions: =If(scrKiemKeBigbag.Size = 1, 0, 1)
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrKiemKeBigbag.Size = 1, "KL túi bigbag: " & Text(ThisItem.NetBigBagWeight) & " kg", Text(ThisItem.NetBigBagWeight))
-                                                      Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width - 20, lbl_HeaderBigbagBigbagWeight.Width)
-                                                      Wrap: =false
-                                                - lbl_BigbagActualQty:
-                                                    Control: ModernText
-                                                    Properties:
-                                                      Font: =fxFontFamily
-                                                      Height: =30
-                                                      Size: =fxFontSizeMD
-                                                      Text: |-
-                                                        =If(scrKiemKeBigbag.Size = 1, "Số kg tồn: " & Text(ThisItem.ActualQty), Text(ThisItem.ActualQty))
-                                                      Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width - 20, lbl_HeaderActualQtyBigbag.Width)
-                                                      Wrap: =false
-                                                - con_ActionKiemKhoHangBigbag:
+                                                      FontWeight: =""
+                                                      Label: =""
+                                                      OnCheck: =Collect(col_SelectedKiemKhoHangBigbag, ThisItem)
+                                                      OnUncheck: =Remove(col_SelectedKiemKhoHangBigbag, ThisItem)
+                                                      Visible: =scrKiemKeBigbag.Size <> 1
+                                                      Width: =32
+                                                - con_RowKiemKhoHangBigbag:
                                                     Control: GroupContainer
                                                     Variant: AutoLayout
                                                     Properties:
-                                                      AlignInContainer: =AlignInContainer.SetByContainer
+                                                      BorderColor: =RGBA(229, 231, 235, 1)
+                                                      DropShadow: =DropShadow.None
+                                                      Fill: =RGBA(255, 255, 255, 1)
+                                                      FillPortions: =0
+                                                      Height: |-
+                                                        =If(
+                                                            scrKiemKeBigbag.Size = 1,
+                                                            gal_KiemKhoHangBigbag.TemplateHeight - con_MobileActionKiemKhoHangBigbag.Height - 10,
+                                                            48
+                                                        )
+                                                      LayoutAlignItems: =If(scrKiemKeBigbag.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =If(scrKiemKeBigbag.Size = 1, 6, 5)
+                                                      LayoutMinHeight: =10
+                                                      LayoutWrap: =scrKiemKeBigbag.Size = 1
+                                                      PaddingLeft: =If(scrKiemKeBigbag.Size = 1, 10, 5)
+                                                      PaddingRight: =If(scrKiemKeBigbag.Size = 1, 10, 5)
+                                                      PaddingTop: =If(scrKiemKeBigbag.Size = 1, 10, 5)
+                                                      Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width - 10, Parent.Width - 32 - 10)
+                                                    Children:
+                                                      - chk_KiemKhoHangBigbag_SelectRowMobile:
+                                                          Control: ModernCheckbox
+                                                          Properties:
+                                                            Default: =ThisItem.ID in col_SelectedKiemKhoHangBigbag.ID
+                                                            Height: =30
+                                                            Label: =""
+                                                            OnCheck: =Collect(col_SelectedKiemKhoHangBigbag, ThisItem)
+                                                            OnUncheck: =Remove(col_SelectedKiemKhoHangBigbag, ThisItem)
+                                                            Visible: =false
+                                                            Width: =32
+                                                      - lbl_BigbagSAPCode:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =If(scrKiemKeBigbag.Size = 1, fxFontWeightBold, fxFontWeightSemiBold)
+                                                            Height: =30
+                                                            PaddingBottom: =0
+                                                            PaddingTop: =0
+                                                            Size: =If(scrKiemKeBigbag.Size = 1, fxFontSizeLG, fxFontSizeMD)
+                                                            Text: =ThisItem.SAPCode
+                                                            Visible: =scrKiemKeBigbag.Size <> 1
+                                                            Width: =If(scrKiemKeBigbag.Size = 1, (Parent.Width - Parent.PaddingLeft - Parent.PaddingRight - If(chk_KiemKhoHangBigbag_SelectRowMobile.Visible, chk_KiemKhoHangBigbag_SelectRowMobile.Width + Parent.LayoutGap, 0)) - 2, lbl_HeaderBigbagSAPCode.Width)
+                                                            Wrap: =false
+                                                      - lbl_BigbagStockCountDate:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =If(scrKiemKeBigbag.Size = 1, 40, 30)
+                                                            PaddingBottom: =0
+                                                            PaddingTop: =0
+                                                            Size: =If(scrKiemKeBigbag.Size = 1, fxFontSizeSM, fxFontSizeMD)
+                                                            Text: =If(scrKiemKeBigbag.Size = 1, "Ngày kiểm kê" & Char(10) & Text(ThisItem.StockCountDate, "dd/mm/yyyy"), Text(ThisItem.StockCountDate, "dd/mm/yyyy"))
+                                                            Visible: =scrKiemKeBigbag.Size <> 1
+                                                            Width: =If(scrKiemKeBigbag.Size = 1, (Parent.Width - Parent.PaddingLeft - Parent.PaddingRight - lbl_StatusCodeKiemKhoHangBigbag.Width - Parent.LayoutGap) - 2, lbl_HeaderStockCountDateBigbag.Width)
+                                                            Wrap: =scrKiemKeBigbag.Size = 1
+                                                      - lbl_StatusCodeKiemKhoHangBigbag:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Align: =Align.Center
+                                                            AlignInContainer: =AlignInContainer.Center
+                                                            BorderColor: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).BorderColor, fxStatusDefaultBorder)
+                                                            BorderStyle: =BorderStyle.Solid
+                                                            BorderThickness: =1
+                                                            Color: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).TextColor, fxStatusDefaultText)
+                                                            Fill: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).BackColor, fxStatusDefaultBack)
+                                                            Font: =fxFontFamily
+                                                            FontWeight: =fxFontWeightSemiBold
+                                                            Height: =24
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =10
+                                                            PaddingRight: =10
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeSM
+                                                            Text: =Coalesce(LookUp(col_WorkflowStatus, StatusCode = ThisItem.StatusCode).StatusNameVI, ThisItem.StatusCode)
+                                                            Visible: =scrKiemKeBigbag.Size <> 1
+                                                            Width: =If(scrKiemKeBigbag.Size = 1, Max(150, Len(Self.Text) * 7 + 28), Min(Max(150, Len(Self.Text) * 7 + 28), lbl_HeaderStatusCodeKiemKhoHangBigbag.Width))
+                                                            Wrap: =false
+                                                      - lbl_StatusSpacerKiemKeBigbag:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Height: =24
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            Text: =""
+                                                            Visible: =scrKiemKeBigbag.Size <> 1
+                                                            Width: =Max(0, lbl_HeaderStatusCodeKiemKhoHangBigbag.Width - lbl_StatusCodeKiemKhoHangBigbag.Width - Parent.LayoutGap)
+                                                      - lbl_BigbagBagQty:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =If(scrKiemKeBigbag.Size = 1, 40, 30)
+                                                            PaddingBottom: =0
+                                                            PaddingTop: =0
+                                                            Size: =If(scrKiemKeBigbag.Size = 1, fxFontSizeSM, fxFontSizeMD)
+                                                            Text: =If(scrKiemKeBigbag.Size = 1, "Số túi" & Char(10) & Text(ThisItem.BigBagQty, "#,##0"), Text(ThisItem.BigBagQty, "#,##0"))
+                                                            Visible: =scrKiemKeBigbag.Size <> 1
+                                                            Width: =If(scrKiemKeBigbag.Size = 1, (Parent.Width - Parent.PaddingLeft - Parent.PaddingRight - Parent.LayoutGap) / 2 - 1, lbl_HeaderBigbagBagQty.Width)
+                                                            Wrap: =scrKiemKeBigbag.Size = 1
+                                                      - lbl_BigbagTotalWeight:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =30
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrKiemKeBigbag.Size = 1, "Tổng KL: " & Text(ThisItem.BigBagWeight) & " kg", Text(ThisItem.BigBagWeight))
+                                                            Visible: =!(scrKiemKeBigbag.Size = 1)
+                                                            Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width - 20, lbl_HeaderBigbagTotalWeight.Width)
+                                                            Wrap: =false
+                                                      - lbl_BigbagBigbagWeight:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            FillPortions: =If(scrKiemKeBigbag.Size = 1, 0, 1)
+                                                            Font: =fxFontFamily
+                                                            Height: =30
+                                                            Size: =fxFontSizeMD
+                                                            Text: |-
+                                                              =If(scrKiemKeBigbag.Size = 1, "KL túi bigbag: " & Text(ThisItem.NetBigBagWeight) & " kg", Text(ThisItem.NetBigBagWeight))
+                                                            Visible: =!(scrKiemKeBigbag.Size = 1)
+                                                            Width: =If(scrKiemKeBigbag.Size = 1, Parent.Width - 20, lbl_HeaderBigbagBigbagWeight.Width)
+                                                            Wrap: =false
+                                                      - lbl_BigbagActualQty:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            Height: =If(scrKiemKeBigbag.Size = 1, 40, 30)
+                                                            PaddingBottom: =0
+                                                            PaddingTop: =0
+                                                            Size: =If(scrKiemKeBigbag.Size = 1, fxFontSizeSM, fxFontSizeMD)
+                                                            Text: =If(scrKiemKeBigbag.Size = 1, "Số kg tồn" & Char(10) & Text(ThisItem.ActualQty, "#,##0"), Text(ThisItem.ActualQty, "#,##0"))
+                                                            Visible: =scrKiemKeBigbag.Size <> 1
+                                                            Width: =If(scrKiemKeBigbag.Size = 1, (Parent.Width - Parent.PaddingLeft - Parent.PaddingRight - Parent.LayoutGap) / 2 - 1, lbl_HeaderActualQtyBigbag.Width)
+                                                            Wrap: =scrKiemKeBigbag.Size = 1
+                                                      - con_ActionKiemKhoHangBigbag:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.SetByContainer
+                                                            DropShadow: =DropShadow.None
+                                                            FillPortions: =0
+                                                            Height: =32
+                                                            LayoutAlignItems: =LayoutAlignItems.Center
+                                                            LayoutDirection: =LayoutDirection.Horizontal
+                                                            LayoutMinHeight: =Parent.Height
+                                                            Visible: =scrKiemKeBigbag.Size <> 1
+                                                            Width: =80
+                                                          Children:
+                                                            - btn_ViewKiemKhoHangBigbag:
+                                                                Control: ModernButton
+                                                                Properties:
+                                                                  Appearance: =ButtonAppearance.Transparent
+                                                                  Icon: ="Eye"
+                                                                  Layout: =ButtonLayout.IconOnly
+                                                                  OnSelect: |+
+                                                                    =Set(varStockCountDetail, LookUp('QLK List Stock Count Details', ID = ThisItem.ID));
+
+                                                                    Set(
+                                                                        varStockCountType,
+                                                                        "BIGBAG"
+                                                                    );
+
+                                                                    Navigate(
+                                                                        scrKiemKhoForm,
+                                                                        ScreenTransition.CoverRight
+                                                                    );
+                                                                    Reset(cmb_ProductCode_Bigbag);
+                                                                    Reset(num_BigBagQty);
+                                                                    Reset(num_BigBagWeight);
+                                                                    Reset(num_NetBigBagWeight);
+
+
+                                                                  Width: =32
+                                                            - btn_DeleteKiemKhoHangBigbag:
+                                                                Control: ModernButton
+                                                                Properties:
+                                                                  Appearance: =ButtonAppearance.Transparent
+                                                                  Icon: ="Delete"
+                                                                  Layout: =ButtonLayout.IconOnly
+                                                                  OnSelect: |-
+                                                                    =If(
+                                                                        Confirm(
+                                                                            "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                            {
+                                                                                Title: "Xác nhận xóa",
+                                                                                Subtitle: "Hành động này không thể hoàn tác.",
+                                                                                ConfirmButton: "Xóa",
+                                                                                CancelButton: "Hủy"
+                                                                            }
+                                                                        ),
+                                                                        IfError(
+                                                                            Remove('QLK List Stock Count Details', LookUp('QLK List Stock Count Details', ID = ThisItem.ID)),
+                                                                            Notify("Xóa không thành công", NotificationType.Error,2000),
+                                                                            Notify("Xóa thành công", NotificationType.Success,2000)
+                                                                        )
+                                                                    )
+                                                                  Visible: =ThisItem.StatusCode = "DRAFT"
+                                                                  Width: =32
+                                                      - con_CardKKB:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
+                                                          Properties:
+                                                            AlignInContainer: =AlignInContainer.Start
+                                                            DropShadow: =DropShadow.None
+                                                            FillPortions: =0
+                                                            Height: =84
+                                                            LayoutDirection: =LayoutDirection.Horizontal
+                                                            LayoutGap: =10
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            Visible: =scrKiemKeBigbag.Size = 1
+                                                            Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                                                          Children:
+                                                            - chk_CardSelectKKB:
+                                                                Control: ModernCheckbox
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Start
+                                                                  Default: =ThisItem.ID in col_SelectedKiemKhoHangBigbag.ID
+                                                                  DisplayMode: =If(ThisItem.StatusCode = "DRAFT", DisplayMode.Edit, DisplayMode.Disabled)
+                                                                  Height: =52
+                                                                  Label: =""
+                                                                  OnCheck: =Collect(col_SelectedKiemKhoHangBigbag, ThisItem)
+                                                                  OnUncheck: =Remove(col_SelectedKiemKhoHangBigbag, ThisItem)
+                                                                  Width: =28
+                                                            - con_CardIconKKB:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Start
+                                                                  DropShadow: =DropShadow.None
+                                                                  Fill: =RGBA(232, 245, 233, 1)
+                                                                  FillPortions: =0
+                                                                  Height: =52
+                                                                  LayoutAlignItems: =LayoutAlignItems.Center
+                                                                  LayoutDirection: =LayoutDirection.Horizontal
+                                                                  LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  RadiusBottomLeft: =12
+                                                                  RadiusBottomRight: =12
+                                                                  RadiusTopLeft: =12
+                                                                  RadiusTopRight: =12
+                                                                  Width: =52
+                                                                Children:
+                                                                  - btn_CardIconKKB:
+                                                                      Control: ModernButton
+                                                                      Properties:
+                                                                        Appearance: =ButtonAppearance.Transparent
+                                                                        BasePaletteColor: =RGBA(45, 128, 40, 1)
+                                                                        Color: =RGBA(45, 128, 40, 1)
+                                                                        Height: =40
+                                                                        Icon: ="BoxMultiple"
+                                                                        Layout: =ButtonLayout.IconOnly
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                        Width: =40
+                                                            - con_CardInfoKKB:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  DropShadow: =DropShadow.None
+                                                                  Height: =84
+                                                                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                                  LayoutDirection: =LayoutDirection.Vertical
+                                                                  LayoutGap: =6
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                Children:
+                                                                  - con_CardTopKKB:
+                                                                      Control: GroupContainer
+                                                                      Variant: AutoLayout
+                                                                      Properties:
+                                                                        DropShadow: =DropShadow.None
+                                                                        FillPortions: =0
+                                                                        Height: =30
+                                                                        LayoutAlignItems: =LayoutAlignItems.Center
+                                                                        LayoutDirection: =LayoutDirection.Horizontal
+                                                                        LayoutGap: =8
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                      Children:
+                                                                        - lbl_CardCodeKKB:
+                                                                            Control: ModernText
+                                                                            Properties:
+                                                                              FillPortions: =1
+                                                                              Font: =fxFontFamily
+                                                                              FontWeight: =fxFontWeightBold
+                                                                              Height: =30
+                                                                              LayoutMinHeight: =0
+                                                                              LayoutMinWidth: =0
+                                                                              PaddingBottom: =0
+                                                                              PaddingLeft: =0
+                                                                              PaddingTop: =0
+                                                                              Size: =fxFontSizeLG
+                                                                              Text: =ThisItem.SAPCode
+                                                                              Wrap: =false
+                                                                        - lbl_CardStatusKKB:
+                                                                            Control: ModernText
+                                                                            Properties:
+                                                                              Align: =Align.Center
+                                                                              BorderColor: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).BorderColor, fxStatusDefaultBorder)
+                                                                              BorderStyle: =BorderStyle.Solid
+                                                                              BorderThickness: =1
+                                                                              Color: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).TextColor, fxStatusDefaultText)
+                                                                              Fill: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).BackColor, fxStatusDefaultBack)
+                                                                              Font: =fxFontFamily
+                                                                              FontWeight: =fxFontWeightSemiBold
+                                                                              Height: =26
+                                                                              LayoutMinHeight: =0
+                                                                              LayoutMinWidth: =0
+                                                                              PaddingBottom: =0
+                                                                              PaddingLeft: =10
+                                                                              PaddingRight: =10
+                                                                              PaddingTop: =0
+                                                                              Size: =fxFontSizeSM
+                                                                              Text: =Coalesce(LookUp(col_WorkflowStatus, StatusCode = ThisItem.StatusCode).StatusNameVI, ThisItem.StatusCode)
+                                                                              Width: =Len(Self.Text) * 7 + 28
+                                                                              Wrap: =false
+                                                                  - con_CardStatsKKB:
+                                                                      Control: GroupContainer
+                                                                      Variant: AutoLayout
+                                                                      Properties:
+                                                                        DropShadow: =DropShadow.None
+                                                                        FillPortions: =0
+                                                                        Height: =48
+                                                                        LayoutAlignItems: =LayoutAlignItems.Center
+                                                                        LayoutDirection: =LayoutDirection.Horizontal
+                                                                        LayoutGap: =10
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                      Children:
+                                                                        - con_CardStat1KKB:
+                                                                            Control: GroupContainer
+                                                                            Variant: AutoLayout
+                                                                            Properties:
+                                                                              DropShadow: =DropShadow.None
+                                                                              Height: =48
+                                                                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                                              LayoutDirection: =LayoutDirection.Vertical
+                                                                              LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                                              LayoutMinHeight: =16
+                                                                              LayoutMinWidth: =16
+                                                                            Children:
+                                                                              - lbl_CardStat1CapKKB:
+                                                                                  Control: ModernText
+                                                                                  Properties:
+                                                                                    Color: =RGBA(107, 114, 128, 1)
+                                                                                    Font: =fxFontFamily
+                                                                                    Height: =20
+                                                                                    LayoutMinHeight: =0
+                                                                                    LayoutMinWidth: =0
+                                                                                    PaddingBottom: =0
+                                                                                    PaddingLeft: =0
+                                                                                    PaddingTop: =0
+                                                                                    Size: =fxFontSizeXS
+                                                                                    Text: ="Ngày kiểm kê"
+                                                                                    Wrap: =false
+                                                                              - lbl_CardStat1ValKKB:
+                                                                                  Control: ModernText
+                                                                                  Properties:
+                                                                                    Font: =fxFontFamily
+                                                                                    FontWeight: =fxFontWeightSemiBold
+                                                                                    Height: =26
+                                                                                    LayoutMinHeight: =0
+                                                                                    LayoutMinWidth: =0
+                                                                                    PaddingBottom: =0
+                                                                                    PaddingLeft: =0
+                                                                                    PaddingTop: =0
+                                                                                    Size: =fxFontSizeSM
+                                                                                    Text: =Text(ThisItem.StockCountDate, "dd/mm/yyyy")
+                                                                                    Wrap: =false
+                                                                        - rec_CardDiv2KKB:
+                                                                            Control: Rectangle
+                                                                            Properties:
+                                                                              Fill: =RGBA(229, 231, 235, 1)
+                                                                              Height: =36
+                                                                              LayoutMinHeight: =0
+                                                                              LayoutMinWidth: =0
+                                                                              Width: =1
+                                                                        - con_CardStat2KKB:
+                                                                            Control: GroupContainer
+                                                                            Variant: AutoLayout
+                                                                            Properties:
+                                                                              DropShadow: =DropShadow.None
+                                                                              Height: =48
+                                                                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                                              LayoutDirection: =LayoutDirection.Vertical
+                                                                              LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                                              LayoutMinHeight: =16
+                                                                              LayoutMinWidth: =16
+                                                                            Children:
+                                                                              - lbl_CardStat2CapKKB:
+                                                                                  Control: ModernText
+                                                                                  Properties:
+                                                                                    Color: =RGBA(107, 114, 128, 1)
+                                                                                    Font: =fxFontFamily
+                                                                                    Height: =20
+                                                                                    LayoutMinHeight: =0
+                                                                                    LayoutMinWidth: =0
+                                                                                    PaddingBottom: =0
+                                                                                    PaddingLeft: =0
+                                                                                    PaddingTop: =0
+                                                                                    Size: =fxFontSizeXS
+                                                                                    Text: ="Số túi"
+                                                                                    Wrap: =false
+                                                                              - lbl_CardStat2ValKKB:
+                                                                                  Control: ModernText
+                                                                                  Properties:
+                                                                                    Font: =fxFontFamily
+                                                                                    FontWeight: =fxFontWeightSemiBold
+                                                                                    Height: =26
+                                                                                    LayoutMinHeight: =0
+                                                                                    LayoutMinWidth: =0
+                                                                                    PaddingBottom: =0
+                                                                                    PaddingLeft: =0
+                                                                                    PaddingTop: =0
+                                                                                    Size: =fxFontSizeSM
+                                                                                    Text: =Text(ThisItem.BigBagQty, "#,##0")
+                                                                                    Wrap: =false
+                                                                        - rec_CardDiv3KKB:
+                                                                            Control: Rectangle
+                                                                            Properties:
+                                                                              Fill: =RGBA(229, 231, 235, 1)
+                                                                              Height: =36
+                                                                              LayoutMinHeight: =0
+                                                                              LayoutMinWidth: =0
+                                                                              Width: =1
+                                                                        - con_CardStat3KKB:
+                                                                            Control: GroupContainer
+                                                                            Variant: AutoLayout
+                                                                            Properties:
+                                                                              DropShadow: =DropShadow.None
+                                                                              Height: =48
+                                                                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                                              LayoutDirection: =LayoutDirection.Vertical
+                                                                              LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                                              LayoutMinHeight: =16
+                                                                              LayoutMinWidth: =16
+                                                                            Children:
+                                                                              - lbl_CardStat3CapKKB:
+                                                                                  Control: ModernText
+                                                                                  Properties:
+                                                                                    Color: =RGBA(107, 114, 128, 1)
+                                                                                    Font: =fxFontFamily
+                                                                                    Height: =20
+                                                                                    LayoutMinHeight: =0
+                                                                                    LayoutMinWidth: =0
+                                                                                    PaddingBottom: =0
+                                                                                    PaddingLeft: =0
+                                                                                    PaddingTop: =0
+                                                                                    Size: =fxFontSizeXS
+                                                                                    Text: ="Số kg tồn"
+                                                                                    Wrap: =false
+                                                                              - lbl_CardStat3ValKKB:
+                                                                                  Control: ModernText
+                                                                                  Properties:
+                                                                                    Font: =fxFontFamily
+                                                                                    FontWeight: =fxFontWeightSemiBold
+                                                                                    Height: =26
+                                                                                    LayoutMinHeight: =0
+                                                                                    LayoutMinWidth: =0
+                                                                                    PaddingBottom: =0
+                                                                                    PaddingLeft: =0
+                                                                                    PaddingTop: =0
+                                                                                    Size: =fxFontSizeSM
+                                                                                    Text: =Text(ThisItem.ActualQty, "#,##0")
+                                                                                    Wrap: =false
+                                                - con_MobileActionKiemKhoHangBigbag:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Start
                                                       DropShadow: =DropShadow.None
                                                       FillPortions: =0
-                                                      Height: =32
+                                                      Height: =45
                                                       LayoutAlignItems: =LayoutAlignItems.Center
                                                       LayoutDirection: =LayoutDirection.Horizontal
-                                                      LayoutMinHeight: =Parent.Height
-                                                      Visible: =scrKiemKeBigbag.Size <> 1
-                                                      Width: =80
+                                                      LayoutGap: =5
+                                                      PaddingLeft: =5
+                                                      Visible: =scrKiemKeBigbag.Size = 1
+                                                      Width: =Parent.Width - 10
                                                     Children:
-                                                      - btn_ViewKiemKhoHangBigbag:
+                                                      - btn_MobileOpenKiemKhoHangBigbag:
                                                           Control: ModernButton
                                                           Properties:
-                                                            Appearance: =ButtonAppearance.Transparent
                                                             Icon: ="Eye"
-                                                            Layout: =ButtonLayout.IconOnly
                                                             OnSelect: |+
-                                                              =Set(
-                                                                  varStockCountDetail,
-                                                                  ThisItem
-                                                              );
+                                                              =Set(varStockCountDetail, LookUp('QLK List Stock Count Details', ID = ThisItem.ID));
 
                                                               Set(
                                                                   varStockCountType,
-                                                                  Index(col_ProductTypes, 2).ProductTypeCode
+                                                                  "BIGBAG"
                                                               );
 
                                                               Navigate(
@@ -752,13 +1613,13 @@ Screens:
                                                               Reset(num_NetBigBagWeight);
 
 
-                                                            Width: =32
-                                                      - btn_DeleteKiemKhoHangBigbag:
+                                                            Text: ="Xem chi tiết"
+                                                            Width: =If(ThisItem.StatusCode = "DRAFT",Parent.Width/2 - 10,Parent.Width - 10)
+                                                      - btn_DeleteKiemKhoHangBigbag_1:
                                                           Control: ModernButton
                                                           Properties:
-                                                            Appearance: =ButtonAppearance.Transparent
+                                                            Appearance: =ButtonAppearance.Outline
                                                             Icon: ="Delete"
-                                                            Layout: =ButtonLayout.IconOnly
                                                             OnSelect: |-
                                                               =If(
                                                                   Confirm(
@@ -771,90 +1632,24 @@ Screens:
                                                                       }
                                                                   ),
                                                                   IfError(
-                                                                      Remove('QLK List Stock Count Details', ThisItem),
+                                                                      Remove('QLK List Stock Count Details', LookUp('QLK List Stock Count Details', ID = ThisItem.ID)),
                                                                       Notify("Xóa không thành công", NotificationType.Error,2000),
                                                                       Notify("Xóa thành công", NotificationType.Success,2000)
                                                                   )
                                                               )
-                                                            Visible: =ThisItem.StatusCode = Index(col_WorkflowStatus,1).StatusCode
-                                                            Width: =32
-                                          - con_MobileActionKiemKhoHangBigbag:
-                                              Control: GroupContainer
-                                              Variant: AutoLayout
-                                              Properties:
-                                                AlignInContainer: =AlignInContainer.Start
-                                                DropShadow: =DropShadow.None
-                                                FillPortions: =0
-                                                Height: =45
-                                                LayoutAlignItems: =LayoutAlignItems.Center
-                                                LayoutDirection: =LayoutDirection.Horizontal
-                                                LayoutGap: =5
-                                                PaddingLeft: =5
-                                                Visible: =scrKiemKeBigbag.Size = 1
-                                                Width: =Parent.Width - 10
-                                              Children:
-                                                - btn_MobileOpenKiemKhoHangBigbag:
-                                                    Control: ModernButton
-                                                    Properties:
-                                                      Icon: ="Eye"
-                                                      OnSelect: |+
-                                                        =Set(
-                                                            varStockCountDetail,
-                                                            ThisItem
-                                                        );
-
-                                                        Set(
-                                                            varStockCountType,
-                                                            Index(col_ProductTypes, 2).ProductTypeCode
-                                                        );
-
-                                                        Navigate(
-                                                            scrKiemKhoForm,
-                                                            ScreenTransition.CoverRight
-                                                        );
-                                                        Reset(cmb_ProductCode_Bigbag);
-                                                        Reset(num_BigBagQty);
-                                                        Reset(num_BigBagWeight);
-                                                        Reset(num_NetBigBagWeight);
-
-
-                                                      Text: ="Xem chi tiết"
-                                                      Width: =If(ThisItem.StatusCode = Index(col_WorkflowStatus,1).StatusCode,Parent.Width/2 - 10,Parent.Width - 10)
-                                                - btn_DeleteKiemKhoHangBigbag_1:
-                                                    Control: ModernButton
-                                                    Properties:
-                                                      Appearance: =ButtonAppearance.Outline
-                                                      Icon: ="Delete"
-                                                      OnSelect: |-
-                                                        =If(
-                                                            Confirm(
-                                                                "Bạn có chắc muốn xóa bản ghi này không?",
-                                                                {
-                                                                    Title: "Xác nhận xóa",
-                                                                    Subtitle: "Hành động này không thể hoàn tác.",
-                                                                    ConfirmButton: "Xóa",
-                                                                    CancelButton: "Hủy"
-                                                                }
-                                                            ),
-                                                            IfError(
-                                                                Remove('QLK List Stock Count Details', ThisItem),
-                                                                Notify("Xóa không thành công", NotificationType.Error,2000),
-                                                                Notify("Xóa thành công", NotificationType.Success,2000)
-                                                            )
-                                                        )
-                                                      Text: ="Xóa"
-                                                      Visible: =ThisItem.StatusCode = Index(col_WorkflowStatus,1).StatusCode
-                                                      Width: =If(ThisItem.StatusCode = Index(col_WorkflowStatus,1).StatusCode,Parent.Width/2 - 10,Parent.Width - 10)
-                              - lbl_TotalRowsKiemKhoHangBigbag:
-                                  Control: ModernText
-                                  Properties:
-                                    AlignInContainer: =AlignInContainer.Stretch
-                                    Font: =fxFontFamily
-                                    FontWeight: =fxFontWeightBold
-                                    PaddingLeft: =10
-                                    Size: =fxFontSizeMD
-                                    Text: |-
-                                      ="Tổng: " & CountRows(gal_KiemKhoHangBigbag.AllItems) & " bản ghi"
+                                                            Text: ="Xóa"
+                                                            Visible: =ThisItem.StatusCode = "DRAFT"
+                                                            Width: =If(ThisItem.StatusCode = "DRAFT",Parent.Width/2 - 10,Parent.Width - 10)
+                                    - lbl_TotalRowsKiemKhoHangBigbag:
+                                        Control: ModernText
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Font: =fxFontFamily
+                                          FontWeight: =fxFontWeightBold
+                                          PaddingLeft: =10
+                                          Size: =fxFontSizeMD
+                                          Text: |-
+                                            ="Tổng: " & CountRows(gal_KiemKhoHangBigbag.AllItems) & " bản ghi"
       - con_MenuOverlayNhapTuSanXuatHangBaoMobile_9:
           Control: GroupContainer
           Variant: AutoLayout
@@ -932,3 +1727,91 @@ Screens:
                 Properties:
                   Height: =App.Height
                   Width: =App.Width
+      - btn_CloseMoreOverlay_KiemKeBigbag:
+          Control: ModernButton
+          Properties:
+            Appearance: =ButtonAppearance.Transparent
+            Height: =Parent.Height - con_HeaderKiemKhoHangBigbag.Height
+            Layout: =ButtonLayout.TextOnly
+            OnSelect: |-
+              =UpdateContext({varShowMoreActionsMobile_KiemKeBigbag: false})
+            Text: =""
+            Visible: =varShowMoreActionsMobile_KiemKeBigbag && scrKiemKeBigbag.Size = 1 && Value(lbl_MobileActionCount_KiemKeBigbag.Text) >= 3
+            Width: =Parent.Width
+            Y: =con_HeaderKiemKhoHangBigbag.Height
+      - con_PopoverMore_KiemKeBigbag:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            BorderColor: =RGBA(229, 231, 235, 1)
+            BorderThickness: =1
+            DropShadow: =DropShadow.Regular
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =44 * Max(1, (Value(lbl_MobileActionCount_KiemKeBigbag.Text) - 2)) + 2 * Max(0, (Value(lbl_MobileActionCount_KiemKeBigbag.Text) - 2) - 1) + 12 + If(CountRows(Filter(LastN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), Max(0, (Value(lbl_MobileActionCount_KiemKeBigbag.Text) - 2))), Value = "0")) > 0 && (Value(lbl_MobileActionCount_KiemKeBigbag.Text) - 2) > 1, 3, 0)
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =2
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            PaddingBottom: =6
+            PaddingLeft: =6
+            PaddingRight: =6
+            PaddingTop: =6
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            Visible: =varShowMoreActionsMobile_KiemKeBigbag && scrKiemKeBigbag.Size = 1 && Value(lbl_MobileActionCount_KiemKeBigbag.Text) >= 3
+            Width: =230
+            X: =Parent.Width - 245
+            Y: =con_HeaderKiemKhoHangBigbag.Height + If(!varShowMenuUser, 0, 5) + 5 + 56 + 4
+          Children:
+            - btn_MoreItem1_KiemKeBigbag:
+                Control: ModernButton
+                Properties:
+                  Align: =Align.Left
+                  Appearance: =ButtonAppearance.Transparent
+                  Color: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 3), 1)).Value), 4, RGBA(45, 128, 40, 1), RGBA(55, 65, 81, 1))
+                  Font: =fxFontFamily
+                  Height: =44
+                  Icon: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 3), 1)).Value), 1, "Add", 2, "ArrowSync", 3, "ArrowDownload", 4, "CheckmarkCircle", "Save")
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =UpdateContext({varShowMoreActionsMobile_KiemKeBigbag: false});
+                    Switch(
+                        Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 3), 1)).Value),
+                        1, Select(btn_AddKiemKhoHangBao_1),
+                        2, Select(btn_RefreshKiemKhoHangBigbag),
+                        3, Select(btn_ExportKiemKhoHangBigbag),
+                        4, Select(btn_RefreshKiemKhoHangXa_3)
+                    )
+                  PaddingLeft: =12
+                  Size: =fxFontSizeMD
+                  Text: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 3), 1)).Value), 1, "Thêm", 2, "Làm mới", 3, "Xuất Excel", 4, "Xác nhận", "")
+                  Visible: =Value(lbl_MobileActionCount_KiemKeBigbag.Text) >= 3
+                  Width: =218
+            - btn_MoreItem2_KiemKeBigbag:
+                Control: ModernButton
+                Properties:
+                  Align: =Align.Left
+                  Appearance: =ButtonAppearance.Transparent
+                  Color: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 4), 1)).Value), 4, RGBA(45, 128, 40, 1), RGBA(55, 65, 81, 1))
+                  Font: =fxFontFamily
+                  Height: =44
+                  Icon: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 4), 1)).Value), 1, "Add", 2, "ArrowSync", 3, "ArrowDownload", 4, "CheckmarkCircle", "Save")
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =UpdateContext({varShowMoreActionsMobile_KiemKeBigbag: false});
+                    Switch(
+                        Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 4), 1)).Value),
+                        1, Select(btn_AddKiemKhoHangBao_1),
+                        2, Select(btn_RefreshKiemKhoHangBigbag),
+                        3, Select(btn_ExportKiemKhoHangBigbag),
+                        4, Select(btn_RefreshKiemKhoHangXa_3)
+                    )
+                  PaddingLeft: =12
+                  Size: =fxFontSizeMD
+                  Text: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_KiemKeBigbag.Text, ","), 4), 1)).Value), 1, "Thêm", 2, "Làm mới", 3, "Xuất Excel", 4, "Xác nhận", "")
+                  Visible: =Value(lbl_MobileActionCount_KiemKeBigbag.Text) >= 4
+                  Width: =218

@@ -1,5 +1,7 @@
 Screens:
   scrAgingStockCount:
+    Properties:
+      OnVisible: =Clear(col_SelectedAgingStockCount)
     Children:
       - con_MainAgingStockCount:
           Control: GroupContainer
@@ -8,612 +10,1324 @@ Screens:
             DropShadow: =DropShadow.None
             Fill: =RGBA(0, 0, 0, 0.1)
             Height: =Parent.Height
-            LayoutAlignItems: =LayoutAlignItems.Center
-            LayoutDirection: =LayoutDirection.Vertical
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Horizontal
             RadiusBottomLeft: =0
             RadiusBottomRight: =0
             RadiusTopLeft: =0
             RadiusTopRight: =0
             Width: =Parent.Width
           Children:
-            - con_HeaderAgingStockCount:
+            - con_MenuAgingStockCount:
                 Control: GroupContainer
                 Variant: AutoLayout
                 Properties:
                   DropShadow: =DropShadow.None
                   FillPortions: =0
-                  Height: =55
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  Visible: =scrAgingStockCount.Size <> 1
+                  Width: =If(varShowMenuUser, 240, 64)
+                Children:
+                  - cmp_NavSidebarAgingStockCount:
+                      Control: CanvasComponent
+                      ComponentName: NavSiderBar
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Height: =Parent.Height
+                        SidebarWidth: =Parent.Width
+                        Width: =Parent.Width
+            - con_SideRight_MainAgingStockCount:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
                   LayoutAlignItems: =LayoutAlignItems.Stretch
                   LayoutDirection: =LayoutDirection.Vertical
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
                   RadiusBottomLeft: =0
                   RadiusBottomRight: =0
                   RadiusTopLeft: =0
                   RadiusTopRight: =0
                 Children:
-                  - cmp_HeaderAgingStockCount:
-                      Control: CanvasComponent
-                      ComponentName: Header
-                      Properties:
-                        Height: =App.Height
-                        IDRecord: =100
-                        Width: =App.Width - Parent.PaddingLeft * 2 - 5
-                        varSizeScreen: =scrAgingStockCount.Size
-            - con_BodyAgingStockCount:
-                Control: GroupContainer
-                Variant: AutoLayout
-                Properties:
-                  DropShadow: =If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
-                  FillPortions: =0
-                  Height: =Parent.Height - con_HeaderAgingStockCount.Height
-                  LayoutAlignItems: =LayoutAlignItems.Center
-                  LayoutDirection: =LayoutDirection.Horizontal
-                  LayoutGap: =If(!varShowMenuUser, 0, 5)
-                  PaddingBottom: =If(!varShowMenuUser, 0, 5)
-                  PaddingLeft: =If(!varShowMenuUser, 0, 5)
-                  PaddingRight: =If(!varShowMenuUser, 0, 5)
-                  PaddingTop: =If(!varShowMenuUser, 0, 5)
-                Children:
-                  - con_MenuAgingStockCount:
+                  - con_HeaderAgingStockCount:
                       Control: GroupContainer
                       Variant: AutoLayout
                       Properties:
-                        DropShadow: =DropShadow.Semilight
+                        DropShadow: =DropShadow.None
                         FillPortions: =0
-                        LayoutDirection: =LayoutDirection.Horizontal
-                        Visible: =scrAgingStockCount.Size <> 1
-                        Width: =If(varShowMenuUser, 240, 0)
-                      Children:
-                        - cmp_NavSidebarAgingStockCount:
-                            Control: CanvasComponent
-                            ComponentName: NavSiderBar
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              Height: =Parent.Height
-                              SidebarWidth: =Parent.Width
-                              Width: =Parent.Width
-                  - con_ContentAgingStockCount:
-                      Control: GroupContainer
-                      Variant: AutoLayout
-                      Properties:
-                        DropShadow: |-
-                          =If(
-                              scrAgingStockCount.Size = 1,
-                              DropShadow.Semibold,
-                              DropShadow.None
-                          )
-                        Fill: =RGBA(255, 255, 255, 1)
-                        LayoutAlignItems: =LayoutAlignItems.Center
+                        Height: =55
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
                         LayoutDirection: =LayoutDirection.Vertical
-                        LayoutGap: =5
-                        PaddingBottom: =5
-                        PaddingLeft: =5
-                        PaddingRight: =5
-                        PaddingTop: =5
                         RadiusBottomLeft: =0
                         RadiusBottomRight: =0
-                        RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
+                        RadiusTopLeft: =0
                         RadiusTopRight: =0
                       Children:
-                        - con_ActionHeaderAgingStockCount:
+                        - cmp_HeaderAgingStockCount:
+                            Control: CanvasComponent
+                            ComponentName: Header
+                            Properties:
+                              Height: =App.Height
+                              IDRecord: =100
+                              Width: =Parent.Width
+                              varSizeScreen: =scrAgingStockCount.Size
+                  - con_BodyAgingStockCount:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =If(!varShowMenuUser, DropShadow.None, DropShadow.Semibold)
+                        FillPortions: =0
+                        Height: =Parent.Height - con_HeaderAgingStockCount.Height
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =If(!varShowMenuUser, 0, 5)
+                        PaddingBottom: =If(!varShowMenuUser, 0, 5)
+                        PaddingLeft: =If(!varShowMenuUser, 0, 5)
+                        PaddingRight: =If(!varShowMenuUser, 0, 5)
+                        PaddingTop: =If(!varShowMenuUser, 0, 5)
+                      Children:
+                        - con_ContentAgingStockCount:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
-                              DropShadow: =DropShadow.None
-                              FillPortions: =0
-                              Height: =40
-                              LayoutDirection: =LayoutDirection.Horizontal
-                              LayoutGap: =10
+                              DropShadow: |-
+                                =If(
+                                    scrAgingStockCount.Size = 1,
+                                    DropShadow.Semibold,
+                                    DropShadow.None
+                                )
+                              Fill: =RGBA(255, 255, 255, 1)
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =5
                               PaddingBottom: =5
                               PaddingLeft: =5
                               PaddingRight: =5
                               PaddingTop: =5
-                            Children:
-                              - btn_AddNewNXT_1:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Outline
-                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                    Font: =fxFontFamily
-                                    Icon: ="Add"
-                                    OnSelect: |-
-                                      =// Reset form và clear dữ liệu cũ song song trước khi chuyển màn hình
-                                      Set(varAgingStockCountDetail,{});
-
-                                      Reset(cmb_AgingStockCountForm_SAPCode);
-                                                          Reset(dp_AgingStockCountForm_ProductionDate);
-                                                          Reset(num_AgingStockCountForm_ActualQty);
-                                                          Reset(txt_AgingStockCountForm_AgingDays);
-                                                          Reset(txt_AgingStockCountForm_Reason);
-                                                          Reset(txt_AgingStockCountForm_Note);
-
-                                      // Chuyển sang màn hình form chi tiết NXT
-                                      Navigate(scrAgingStockCountForm, ScreenTransition.CoverRight)
-                                    Size: =fxFontSizeMD
-                                    Text: ="Thêm mới"
-                                    Visible: =varUserInPlant.Role = Index(col_RoleUser,1).RoleCode
-                                    Width: =120
-                              - btn_RefreshAgingStockCount:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Outline
-                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                    Font: =fxFontFamily
-                                    Icon: ="ArrowSync"
-                                    OnSelect: =Refresh('QLK List Aging Stock Count')
-                                    Size: =fxFontSizeMD
-                                    Text: ="Làm mới"
-                                    Width: =120
-                              - btn_DeleteAgingStockCount:
-                                  Control: ModernButton
-                                  Properties:
-                                    Appearance: =ButtonAppearance.Outline
-                                    BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                    Font: =fxFontFamily
-                                    Icon: ="Delete"
-                                    OnSelect: |-
-                                      =If(
-                                          Confirm(
-                                              "Bạn có chắc muốn xóa " & CountRows(col_SelectedAgingStockCount) & " bản ghi đã chọn không?",
-                                              {
-                                                  Title: "Xác nhận xóa",
-                                                  Subtitle: "Hành động này không thể hoàn tác.",
-                                                  ConfirmButton: "Xóa",
-                                                  CancelButton: "Hủy"
-                                              }
-                                          ),
-                                          IfError(
-                                              Remove('QLK List Aging Stock Count', col_SelectedAgingStockCount),
-                                              Notify("Xóa không thành công", NotificationType.Error, 2000),
-                                              Clear(col_SelectedAgingStockCount);
-                                              Refresh('QLK List Aging Stock Count');
-                                              Notify("Đã xóa thành công.", NotificationType.Success, 2000)
-                                          )
-                                      )
-                                    Size: =fxFontSizeMD
-                                    Text: ="Xóa"
-                                    Visible: =CountRows(col_SelectedAgingStockCount) > 0
-                                    Width: =120
-                        - lbl_TitleAgingStockCount:
-                            Control: ModernText
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              Color: =RGBA(45, 128, 40, 1)
-                              Font: =fxFontFamily
-                              FontWeight: =fxFontWeightSemiBold
-                              Height: =40
-                              PaddingLeft: =10
-                              Size: =fxFontSizeXL
-                              Text: ="Quá hạn lưu kho"
-                        - con_FilterAgingStockCount:
-                            Control: GroupContainer
-                            Variant: AutoLayout
-                            Properties:
-                              DropShadow: =DropShadow.None
-                              FillPortions: =0
-                              Height: =45
-                              LayoutAlignItems: =LayoutAlignItems.Center
-                              LayoutDirection: =LayoutDirection.Horizontal
-                              LayoutGap: =8
-                              PaddingLeft: =8
-                              PaddingRight: =8
                               RadiusBottomLeft: =0
                               RadiusBottomRight: =0
-                              RadiusTopLeft: =0
+                              RadiusTopLeft: =If(!varShowMenuUser, 0, 5)
                               RadiusTopRight: =0
                             Children:
-                              - con_SearchAgingStockCount:
+                              - con_FormButtonMobile_AgingStockCount:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
-                                    AlignInContainer: =AlignInContainer.Center
-                                    DropShadow: =DropShadow.None
-                                    Height: =35
+                                    AlignInContainer: =AlignInContainer.Start
+                                    DropShadow: =DropShadow.Regular
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    FillPortions: =0
+                                    Height: =56
                                     LayoutAlignItems: =LayoutAlignItems.Center
                                     LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =5
+                                    LayoutGap: =8
+                                    LayoutMinHeight: =16
+                                    LayoutMinWidth: =16
+                                    PaddingBottom: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    PaddingTop: =8
+                                    RadiusBottomLeft: =5
+                                    RadiusBottomRight: =5
+                                    RadiusTopLeft: =5
+                                    RadiusTopRight: =5
+                                    Visible: =scrAgingStockCount.Size = 1
+                                    Width: =Parent.Width - 10
                                   Children:
-                                    - dp_FilterNgayKiemNXTDanhMucChenhLech_1:
-                                        Control: ModernDatePicker
+                                    - lbl_MobileActionPos_AgingStockCount:
+                                        Control: ModernText
                                         Properties:
-                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
-                                          DefaultDate: =Today()
-                                          Font: =fxFontFamily
-                                          FontWeight: =FontWeight.Normal
-                                          Format: =DatePickerFormat.Short
-                                          Size: =fxFontSizeMD
-                                          Width: =160
-                                    - txt_SearchAgingStockCount:
-                                        Control: ModernTextInput
+                                          Text: =Concat(Filter(Sequence(3), Switch(Value, 1, btn_AddNewNXT_1.Visible, 2, btn_RefreshAgingStockCount.Visible, 3, btn_DeleteAgingStockCount.Visible, false)), Value, ",")
+                                          Visible: =false
+                                    - lbl_MobileActionCount_AgingStockCount:
+                                        Control: ModernText
+                                        Properties:
+                                          Text: =If(IsBlank(lbl_MobileActionPos_AgingStockCount.Text), 0, CountRows(Split(lbl_MobileActionPos_AgingStockCount.Text, ",")))
+                                          Visible: =false
+                                    - btn_MobileAction1_AgingStockCount:
+                                        Control: ModernButton
                                         Properties:
                                           FillPortions: =1
                                           Font: =fxFontFamily
+                                          Height: =40
+                                          Icon: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 1), 1)).Value), 1, "Add", 2, "ArrowSync", 3, "Delete", "Save")
+                                          LayoutMinHeight: =16
                                           LayoutMinWidth: =16
-                                          Placeholder: ="Tìm kiếm ...."
-                              - con_FilterActionsAgingStockCount:
+                                          OnSelect: |-
+                                            =Switch(
+                                                Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 1), 1)).Value),
+                                                1, Select(btn_AddNewNXT_1),
+                                                2, Select(btn_RefreshAgingStockCount),
+                                                3, Select(btn_DeleteAgingStockCount)
+                                            )
+                                          RadiusBottomLeft: =8
+                                          RadiusBottomRight: =8
+                                          RadiusTopLeft: =8
+                                          RadiusTopRight: =8
+                                          Text: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 1), 1)).Value), 1, "Thêm mới", 2, "Làm mới", 3, "Xóa", "")
+                                          Tooltip: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 1), 1)).Value), 1, "Thêm mới", 2, "Làm mới", 3, "Xóa", "")
+                                          Visible: =Value(lbl_MobileActionCount_AgingStockCount.Text) >= 1
+                                    - btn_MobileAction2_AgingStockCount:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          FillPortions: =1
+                                          Font: =fxFontFamily
+                                          Height: =40
+                                          Icon: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 2), 1)).Value), 1, "Add", 2, "ArrowSync", 3, "Delete", "Save")
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          OnSelect: |-
+                                            =Switch(
+                                                Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 2), 1)).Value),
+                                                1, Select(btn_AddNewNXT_1),
+                                                2, Select(btn_RefreshAgingStockCount),
+                                                3, Select(btn_DeleteAgingStockCount)
+                                            )
+                                          RadiusBottomLeft: =8
+                                          RadiusBottomRight: =8
+                                          RadiusTopLeft: =8
+                                          RadiusTopRight: =8
+                                          Text: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 2), 1)).Value), 1, "Thêm mới", 2, "Làm mới", 3, "Xóa", "")
+                                          Tooltip: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 2), 1)).Value), 1, "Thêm mới", 2, "Làm mới", 3, "Xóa", "")
+                                          Visible: =Value(lbl_MobileActionCount_AgingStockCount.Text) >= 2
+                                    - btn_MobileMore_AgingStockCount:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Secondary
+                                          Height: =40
+                                          Icon: ="MoreHorizontal"
+                                          Layout: =ButtonLayout.IconOnly
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          OnSelect: |-
+                                            =UpdateContext({varShowMoreActionsMobile_AgingStockCount: !varShowMoreActionsMobile_AgingStockCount})
+                                          RadiusBottomLeft: =8
+                                          RadiusBottomRight: =8
+                                          RadiusTopLeft: =8
+                                          RadiusTopRight: =8
+                                          Tooltip: ="Thêm thao tác"
+                                          Visible: =Value(lbl_MobileActionCount_AgingStockCount.Text) >= 3
+                                          Width: =40
+                              - con_ActionHeaderAgingStockCount:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
-                                    AlignInContainer: =AlignInContainer.Center
                                     DropShadow: =DropShadow.None
                                     FillPortions: =0
-                                    Height: =35
-                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    Height: =40
                                     LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =5
-                                    Width: =btn_ClearFilterNXT_1.Width   + 10
+                                    LayoutGap: =10
+                                    PaddingBottom: =5
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =5
+                                    Visible: =scrAgingStockCount.Size <> 1
                                   Children:
-                                    - btn_ClearFilterNXT_1:
+                                    - btn_AddNewNXT_1:
                                         Control: ModernButton
                                         Properties:
                                           Appearance: =ButtonAppearance.Outline
                                           BasePaletteColor: =RGBA(8, 222, 8, 1)
                                           Font: =fxFontFamily
-                                          Icon: ="Eraser"
-                                          Layout: =ButtonLayout.IconOnly
+                                          Icon: ="Add"
                                           OnSelect: |-
-                                            =Reset(txt_SearchAgingStockCount);
-                                            Reset(dp_FilterNgayKiemNXTDanhMucChenhLech_1)
-                                          Text: =
-                                          Width: =40
-                                    - btn_FilterAgingStockCount:
+                                            =// Reset form và clear dữ liệu cũ song song trước khi chuyển màn hình
+                                            Set(varAgingStockCountDetail,{});
+
+                                            Reset(cmb_AgingStockCountForm_SAPCode);
+                                                                Reset(dp_AgingStockCountForm_ProductionDate);
+                                                                Reset(num_AgingStockCountForm_ActualQty);
+                                                                Reset(txt_AgingStockCountForm_AgingDays);
+                                                                Reset(txt_AgingStockCountForm_Reason);
+                                                                Reset(txt_AgingStockCountForm_Note);
+
+                                            // Chuyển sang màn hình form chi tiết NXT
+                                            Navigate(scrAgingStockCountForm, ScreenTransition.CoverRight)
+                                          Size: =fxFontSizeMD
+                                          Text: ="Thêm mới"
+                                          Visible: =varUserInPlant.Role = "FG_WH"
+                                          Width: =120
+                                    - btn_RefreshAgingStockCount:
                                         Control: ModernButton
                                         Properties:
                                           Appearance: =ButtonAppearance.Outline
                                           BasePaletteColor: =RGBA(8, 222, 8, 1)
                                           Font: =fxFontFamily
-                                          Icon: ="Filter"
+                                          Icon: ="ArrowSync"
+                                          OnSelect: =Refresh('QLK List Aging Stock Count')
+                                          Size: =fxFontSizeMD
+                                          Text: ="Làm mới"
+                                          Width: =120
+                                    - btn_DeleteAgingStockCount:
+                                        Control: ModernButton
+                                        Properties:
+                                          Appearance: =ButtonAppearance.Outline
+                                          BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                          Font: =fxFontFamily
+                                          Icon: ="Delete"
                                           OnSelect: |-
-                                            =UpdateContext({varPopUpFilterAgingStockCount: true})
-                                          Text: ="Bộ lọc"
-                                          Visible: =false
-                                          Width: =110
-                        - con_ListAgingStockCount:
-                            Control: GroupContainer
-                            Variant: AutoLayout
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Start
-                              BorderStyle: =BorderStyle.None
-                              DropShadow: =If(scrAgingStockCount.Size = 1, DropShadow.None, DropShadow.Semibold)
-                              Fill: =RGBA(255, 255, 255, 1)
-                              LayoutAlignItems: =LayoutAlignItems.Stretch
-                              LayoutDirection: =LayoutDirection.Vertical
-                              LayoutOverflowX: =LayoutOverflow.Scroll
-                              LayoutOverflowY: =LayoutOverflow.Scroll
-                              RadiusBottomLeft: =6
-                              RadiusBottomRight: =6
-                              RadiusTopLeft: =If(scrAgingStockCount.Size = 1, 0, 5)
-                              RadiusTopRight: =6
-                              Width: =Parent.Width - Parent.PaddingLeft * 2
-                            Children:
-                              - con_InnerAgingStockCount:
+                                            =If(
+                                                Confirm(
+                                                    "Bạn có chắc muốn xóa " & CountRows(col_SelectedAgingStockCount) & " bản ghi đã chọn không?",
+                                                    {
+                                                        Title: "Xác nhận xóa",
+                                                        Subtitle: "Hành động này không thể hoàn tác.",
+                                                        ConfirmButton: "Xóa",
+                                                        CancelButton: "Hủy"
+                                                    }
+                                                ),
+                                                IfError(
+                                                    // Đếm trên collection cục bộ; đủ dữ liệu và dưới 500 dòng mới dùng nhánh xóa theo phạm vi.
+                                                    ClearCollect(col_DeleteScopeAging, Filter('QLK List Aging Stock Count', PlantCode = varUserInPlant.PlantCode));
+                                                    If(
+                                                        // Chọn hết, không tìm kiếm và không lọc ngày.
+                                                        CountRows(col_SelectedAgingStockCount) = CountRows(gal_AgingStockCount.AllItems) &&
+                                                        IsBlank(txt_SearchAgingStockCount.Text) &&
+                                                        IsBlank(dp_FilterNgayKiemNXTDanhMucChenhLech_1.SelectedDate) &&
+                                                        CountRows(col_SelectedAgingStockCount) = CountRows(col_DeleteScopeAging) &&
+                                                        CountRows(Filter(col_DeleteScopeAging, !(ID in col_SelectedAgingStockCount.ID))) = 0 &&
+                                                        CountRows(col_SelectedAgingStockCount) > 0 && CountRows(col_DeleteScopeAging) < 500,
+                                                        RemoveIf('QLK List Aging Stock Count', PlantCode = varUserInPlant.PlantCode),
+                                                        // Chọn một phần → giữ xóa theo ID, không bỏ sót dòng ngoài giới hạn collection
+                                                        ForAll(col_SelectedAgingStockCount As item, Remove('QLK List Aging Stock Count', LookUp('QLK List Aging Stock Count', ID = item.ID)))
+                                                    ),
+                                                    Notify("Xóa không thành công", NotificationType.Error, 2000),
+                                                    Clear(col_SelectedAgingStockCount);
+                                                    Refresh('QLK List Aging Stock Count');
+                                                    Notify("Đã xóa thành công.", NotificationType.Success, 2000)
+                                                )
+                                            )
+                                          Size: =fxFontSizeMD
+                                          Text: ="Xóa"
+                                          Visible: =CountRows(col_SelectedAgingStockCount) > 0
+                                          Width: =120
+                              - lbl_TitleAgingStockCount:
+                                  Control: ModernText
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =RGBA(45, 128, 40, 1)
+                                    Font: =fxFontFamily
+                                    FontWeight: =fxFontWeightSemiBold
+                                    Height: =40
+                                    PaddingLeft: =10
+                                    Size: =fxFontSizeXL
+                                    Text: ="Quá hạn lưu kho"
+                              - con_FilterAgingStockCount:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
-                                    AlignInContainer: |-
-                                      =If(
-                                          scrAgingStockCount.Size = 1,
-                                          AlignInContainer.Stretch,
-                                          AlignInContainer.Start
-                                      )
-                                    BorderStyle: =BorderStyle.None
                                     DropShadow: =DropShadow.None
-                                    LayoutAlignItems: =LayoutAlignItems.Stretch
-                                    LayoutDirection: =LayoutDirection.Vertical
-                                    Width: =Max(Parent.Width, 1400)
+                                    FillPortions: =0
+                                    Height: =If(scrAgingStockCount.Size = 1, If(varShowFilterKAG, 288, 96), 45)
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    PaddingLeft: =8
+                                    PaddingRight: =8
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
                                   Children:
-                                    - con_TableHeaderAgingStockCount_1:
+                                    - con_SearchAgingStockCount:
                                         Control: GroupContainer
                                         Variant: AutoLayout
                                         Properties:
+                                          AlignInContainer: =AlignInContainer.Center
                                           DropShadow: =DropShadow.None
-                                          Fill: =RGBA(255, 255, 255, 1)
-                                          FillPortions: =0
-                                          Height: =46
+                                          Height: =35
                                           LayoutAlignItems: =LayoutAlignItems.Center
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutGap: =5
-                                          PaddingLeft: =10
-                                          PaddingRight: =10
-                                          Visible: =scrAgingStockCount.Size = 1
-                                        Children:
-                                          - chk_SelectAllAgingStockCount_1:
-                                              Control: ModernCheckbox
-                                              Properties:
-                                                Default: |-
-                                                  =CountRows(col_SelectedAgingStockCount) = CountRows(gal_AgingStockCount.AllItems) &&
-                                                  CountRows(gal_AgingStockCount.AllItems) > 0
-                                                DisplayMode: |-
-                                                  =If(
-                                                      CountRows(gal_AgingStockCount.AllItems) > 0,
-                                                      DisplayMode.Edit,
-                                                      DisplayMode.Disabled
-                                                  )
-                                                FontWeight: =""
-                                                Label: =""
-                                                OnCheck: =ClearCollect(col_SelectedAgingStockCount, gal_AgingStockCount.AllItems)
-                                                OnUncheck: =Clear(col_SelectedAgingStockCount)
-                                                Width: =32
-                                    - con_TableHeaderAgingStockCount:
-                                        Control: GroupContainer
-                                        Variant: AutoLayout
-                                        Properties:
-                                          DropShadow: =DropShadow.None
-                                          Fill: =RGBA(250, 250, 250, 1)
-                                          FillPortions: =0
-                                          Height: =46
-                                          LayoutAlignItems: =LayoutAlignItems.Center
-                                          LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutGap: =5
-                                          PaddingLeft: =10
-                                          PaddingRight: =10
                                           Visible: =scrAgingStockCount.Size <> 1
                                         Children:
-                                          - chk_SelectAllAgingStockCount:
-                                              Control: ModernCheckbox
+                                          - dp_FilterNgayKiemNXTDanhMucChenhLech_1:
+                                              Control: ModernDatePicker
                                               Properties:
-                                                Default: |-
-                                                  =CountRows(col_SelectedAgingStockCount) = CountRows(gal_AgingStockCount.AllItems) &&
-                                                  CountRows(gal_AgingStockCount.AllItems) > 0
-                                                DisplayMode: |-
-                                                  =If(
-                                                      CountRows(gal_AgingStockCount.AllItems) > 0,
-                                                      DisplayMode.Edit,
-                                                      DisplayMode.Disabled
-                                                  )
-                                                FontWeight: =""
-                                                Label: =""
-                                                OnCheck: =ClearCollect(col_SelectedAgingStockCount, gal_AgingStockCount.AllItems)
-                                                OnUncheck: =Clear(col_SelectedAgingStockCount)
-                                                Width: =32
-                                          - lbl_HeaderAgingSAPCode:
-                                              Control: ModernText
-                                              Properties:
+                                                BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                DefaultDate: =Today()
                                                 Font: =fxFontFamily
-                                                FontWeight: =fxFontWeightBold
+                                                FontWeight: =FontWeight.Normal
+                                                Format: =DatePickerFormat.Short
                                                 Size: =fxFontSizeMD
-                                                Text: ="Mã SAP"
-                                                Width: =Parent.Width * 0.11
-                                                Wrap: =false
-                                          - lbl_HeaderAgingProductCategory:
-                                              Control: ModernText
-                                              Properties:
-                                                Font: =fxFontFamily
-                                                FontWeight: =fxFontWeightBold
-                                                Size: =fxFontSizeMD
-                                                Text: ="Loại hàng"
-                                                Width: =Parent.Width * 0.11
-                                                Wrap: =false
-                                          - lbl_HeaderAgingStockCountDate:
-                                              Control: ModernText
-                                              Properties:
-                                                Font: =fxFontFamily
-                                                FontWeight: =fxFontWeightBold
-                                                Size: =fxFontSizeMD
-                                                Text: ="Ngày kiểm kê"
-                                                Width: =Parent.Width * 0.11
-                                                Wrap: =false
-                                          - lbl_HeaderAgingProductionDate:
-                                              Control: ModernText
-                                              Properties:
-                                                Font: =fxFontFamily
-                                                FontWeight: =fxFontWeightBold
-                                                Size: =fxFontSizeMD
-                                                Text: ="Ngày sản xuất"
-                                                Width: =Parent.Width * 0.11
-                                                Wrap: =false
-                                          - lbl_HeaderAgingQuantity:
-                                              Control: ModernText
-                                              Properties:
-                                                Font: =fxFontFamily
-                                                FontWeight: =fxFontWeightBold
-                                                Size: =fxFontSizeMD
-                                                Text: ="Khối lượng"
-                                                Width: =Parent.Width * 0.11
-                                                Wrap: =false
-                                          - lbl_HeaderAgingDays:
-                                              Control: ModernText
-                                              Properties:
-                                                Font: =fxFontFamily
-                                                FontWeight: =fxFontWeightBold
-                                                Size: =fxFontSizeMD
-                                                Text: ="Số ngày lưu kho"
-                                                Width: =Parent.Width * 0.11
-                                                Wrap: =false
-                                          - lbl_HeaderAgingReason:
-                                              Control: ModernText
+                                                Width: =160
+                                          - txt_SearchAgingStockCount:
+                                              Control: ModernTextInput
                                               Properties:
                                                 FillPortions: =1
                                                 Font: =fxFontFamily
-                                                FontWeight: =fxFontWeightBold
-                                                Size: =fxFontSizeMD
-                                                Text: ="Nội dung"
-                                                Wrap: =false
-                                          - lbl_HeaderAgingNote:
-                                              Control: ModernText
-                                              Properties:
-                                                Font: =fxFontFamily
-                                                FontWeight: =fxFontWeightBold
-                                                Size: =fxFontSizeMD
-                                                Text: ="Ghi chú"
-                                                Width: =Parent.Width * 0.11
-                                                Wrap: =false
-                                          - lbl_HeaderAgingActions:
-                                              Control: ModernText
-                                              Properties:
-                                                Font: =fxFontFamily
-                                                FontWeight: =fxFontWeightBold
-                                                Size: =fxFontSizeMD
-                                                Text: =""
-                                                Width: =80
-                                                Wrap: =false
-                                    - gal_AgingStockCount:
-                                        Control: Gallery
-                                        Variant: Vertical
+                                                LayoutMinWidth: =16
+                                                Placeholder: ="Tìm kiếm ...."
+                                    - con_FilterActionsAgingStockCount:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
                                         Properties:
-                                          BorderStyle: =BorderStyle.None
-                                          Height: =Parent.Height - con_TableHeaderAgingStockCount.Height - con_FooterAgingStockCount.Height
-                                          Items: |
-                                            =SortByColumns(
-                                                Filter(
-                                                    'QLK List Aging Stock Count',
-                                                    PlantCode = varUserInPlant.PlantCode,
-                                                    IsBlank(txt_SearchAgingStockCount.Text) || StartsWith(SAPCode, txt_SearchAgingStockCount.Text),
-                                                    IsBlank(dp_FilterNgayKiemNXTDanhMucChenhLech_1.SelectedDate) || StockCountDate = dp_FilterNgayKiemNXTDanhMucChenhLech_1.SelectedDate
-                                                ),
-                                                "ProductionDate",
-                                                SortOrder.Ascending
-                                            )
-                                          ShowScrollbar: =false
-                                          TemplateSize: =If(scrAgingStockCount.Size = 1, lbl_AgingSAPCode.Height* 11 + 10, 45)
-                                          Width: =Parent.Width
+                                          AlignInContainer: =AlignInContainer.Center
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =35
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =5
+                                          Visible: =scrAgingStockCount.Size <> 1
+                                          Width: =btn_ClearFilterNXT_1.Width   + 10
                                         Children:
-                                          - con_RowDividerAgingStockCount:
-                                              Control: GroupContainer
-                                              Variant: ManualLayout
+                                          - btn_ClearFilterNXT_1:
+                                              Control: ModernButton
                                               Properties:
-                                                DropShadow: =DropShadow.None
-                                                Fill: =RGBA(229, 231, 235, 1)
-                                                Height: =1
-                                                Visible: =scrAgingStockCount.Size <> 1
-                                                Width: =gal_AgingStockCount.Width - 10
-                                                Y: =44
-                                          - con_RowMasterAgingStockCount:
+                                                Appearance: =ButtonAppearance.Outline
+                                                BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                Font: =fxFontFamily
+                                                Icon: ="Eraser"
+                                                Layout: =ButtonLayout.IconOnly
+                                                OnSelect: |-
+                                                  =Reset(txt_SearchAgingStockCount);
+                                                  Reset(dp_FilterNgayKiemNXTDanhMucChenhLech_1)
+                                                Text: =
+                                                Width: =40
+                                          - btn_FilterAgingStockCount:
+                                              Control: ModernButton
+                                              Properties:
+                                                Appearance: =ButtonAppearance.Outline
+                                                BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                Font: =fxFontFamily
+                                                Icon: ="Filter"
+                                                OnSelect: |-
+                                                  =UpdateContext({varPopUpFilterAgingStockCount: true})
+                                                Text: ="Bộ lọc"
+                                                Visible: =false
+                                                Width: =110
+                                    - con_FilterMobKAG:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          BorderColor: =RGBA(229, 231, 235, 1)
+                                          BorderThickness: =1
+                                          DropShadow: =DropShadow.Regular
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0
+                                          Height: =If(varShowFilterKAG, 272, 80)
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =8
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          PaddingBottom: =12
+                                          PaddingLeft: =12
+                                          PaddingRight: =12
+                                          PaddingTop: =12
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Visible: =scrAgingStockCount.Size = 1
+                                          Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                                        Children:
+                                          - con_FilterHeadKAG:
                                               Control: GroupContainer
                                               Variant: AutoLayout
                                               Properties:
-                                                DropShadow: =If(scrAgingStockCount.Size = 1, DropShadow.Light, DropShadow.None)
-                                                Height: =gal_AgingStockCount.TemplateHeight
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =56
                                                 LayoutAlignItems: =LayoutAlignItems.Center
                                                 LayoutDirection: =LayoutDirection.Horizontal
-                                                LayoutGap: =If(scrAgingStockCount.Size = 1, 5, 0)
-                                                RadiusTopLeft: =If(scrAgingStockCount.Size = 1, 4, 0)
-                                                Width: =Parent.Width - 10
+                                                LayoutGap: =10
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
                                               Children:
-                                                - con_RowAgingStockCount:
+                                                - btn_FilterIconKAG:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Color: =RGBA(17, 24, 39, 1)
+                                                      Icon: ="Filter"
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =UpdateContext({varShowFilterKAG: !varShowFilterKAG})
+                                                      Width: =32
+                                                - con_FilterHeadTextKAG:
                                                     Control: GroupContainer
                                                     Variant: AutoLayout
                                                     Properties:
                                                       DropShadow: =DropShadow.None
-                                                      Height: =gal_AgingStockCount.TemplateHeight
-                                                      LayoutAlignItems: =If(scrAgingStockCount.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
-                                                      LayoutDirection: =If(scrAgingStockCount.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
-                                                      LayoutGap: =5
-                                                      LayoutMinHeight: =Parent.Height
-                                                      PaddingLeft: =5
-                                                      PaddingRight: =5
-                                                      PaddingTop: =If(scrAgingStockCount.Size = 1, 8, 0)
+                                                      Height: =56
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
                                                     Children:
-                                                      - chk_AgingSelect:
-                                                          Control: ModernCheckbox
-                                                          Properties:
-                                                            Default: =!IsBlank(LookUp(col_SelectedAgingStockCount, ID = ThisItem.ID))
-                                                            FontWeight: =""
-                                                            Label: =""
-                                                            OnCheck: =Collect(col_SelectedAgingStockCount, ThisItem)
-                                                            OnUncheck: =RemoveIf(col_SelectedAgingStockCount, ID = ThisItem.ID)
-                                                            Width: =32
-                                                      - lbl_AgingSAPCode:
+                                                      - lbl_FilterTitleKAG:
                                                           Control: ModernText
                                                           Properties:
                                                             Font: =fxFontFamily
-                                                            FontWeight: =fxFontWeightSemiBold
-                                                            Height: =30
+                                                            FontWeight: =fxFontWeightBold
+                                                            Height: =28
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
                                                             Size: =fxFontSizeMD
-                                                            Text: |-
-                                                              =If(scrAgingStockCount.Size = 1, "Mã SAP: " & ThisItem.SAPCode, ThisItem.SAPCode)
-                                                            Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingSAPCode.Width)
+                                                            Text: ="Bộ lọc" & If((If(!IsBlank(dp_FilterNgayMobKAG.SelectedDate), 1, 0) + If(!IsBlank(txt_SearchMobKAG.Text), 1, 0)) > 0, " (" & (If(!IsBlank(dp_FilterNgayMobKAG.SelectedDate), 1, 0) + If(!IsBlank(txt_SearchMobKAG.Text), 1, 0)) & ")", "")
                                                             Wrap: =false
-                                                      - lbl_AgingProductCategory:
+                                                      - lbl_FilterSummaryKAG:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Color: =RGBA(107, 114, 128, 1)
+                                                            Font: =fxFontFamily
+                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeXS
+                                                            Text: |-
+                                                              ="Ngày: " & If(IsBlank(dp_FilterNgayMobKAG.SelectedDate), "-", Text(dp_FilterNgayMobKAG.SelectedDate, "mm/dd/yyyy")) & "  •  Mã SAP: " & If(IsBlank(txt_SearchMobKAG.Text), "-", txt_SearchMobKAG.Text)
+                                                            Wrap: =false
+                                                - btn_FilterToggleKAG:
+                                                    Control: ModernButton
+                                                    Properties:
+                                                      Appearance: =ButtonAppearance.Transparent
+                                                      Color: =RGBA(17, 24, 39, 1)
+                                                      Height: =36
+                                                      Icon: =If(varShowFilterKAG, "ChevronUp", "ChevronDown")
+                                                      Layout: =ButtonLayout.IconOnly
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      OnSelect: |-
+                                                        =UpdateContext({varShowFilterKAG: !varShowFilterKAG})
+                                                      Width: =36
+                                          - con_FilterBodyKAG:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =184
+                                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =8
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                Visible: =varShowFilterKAG
+                                              Children:
+                                                - con_FldDateKAG:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =64
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FldDateKAG:
                                                           Control: ModernText
                                                           Properties:
                                                             Font: =fxFontFamily
-                                                            Height: =30
-                                                            Size: =fxFontSizeMD
-                                                            Text: |-
-                                                              =With(
-                                                                  {_cat: LookUp(col_ProductCategories, ProductCategoryCode = ThisItem.ProductCategoryCode)},
-                                                                  If(
-                                                                      scrAgingStockCount.Size = 1,
-                                                                      "Loại sản phẩm: " & _cat.ProductCategoryNameVI,
-                                                                      _cat.ProductCategoryNameVI
-                                                                  )
-                                                              )
-                                                            Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingProductCategory.Width)
-                                                            Wrap: =false
-                                                      - lbl_AgingStockCountDate:
+                                                            Height: =24
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeSM
+                                                            Text: ="Ngày kiểm kê"
+                                                      - dp_FilterNgayMobKAG:
+                                                          Control: ModernDatePicker
+                                                          Properties:
+                                                            BasePaletteColor: =RGBA(8, 222, 8, 1)
+                                                            DefaultDate: =Today()
+                                                            Font: =fxFontFamily
+                                                            Format: =DatePickerFormat.Short
+                                                            Height: =40
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                - con_FldSearchKAG:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =64
+                                                      LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                      LayoutDirection: =LayoutDirection.Vertical
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - lbl_FldSearchKAG:
                                                           Control: ModernText
                                                           Properties:
                                                             Font: =fxFontFamily
-                                                            Height: =30
-                                                            Size: =fxFontSizeMD
-                                                            Text: |-
-                                                              =If(scrAgingStockCount.Size = 1, "Ngày kiểm kê: " & Text(ThisItem.StockCountDate, "dd/mm/yyyy"), Text(ThisItem.StockCountDate, "dd/mm/yyyy"))
-                                                            Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingStockCountDate.Width)
-                                                            Wrap: =false
-                                                      - lbl_AgingProductionDate:
-                                                          Control: ModernText
+                                                            Height: =24
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Size: =fxFontSizeSM
+                                                            Text: ="Tìm theo mã SAP"
+                                                      - txt_SearchMobKAG:
+                                                          Control: ModernTextInput
                                                           Properties:
                                                             Font: =fxFontFamily
-                                                            Height: =30
-                                                            Size: =fxFontSizeMD
-                                                            Text: |-
-                                                              =If(scrAgingStockCount.Size = 1, "Ngày sản xuất: " & Text(ThisItem.ProductionDate, "dd/mm/yyyy"), Text(ThisItem.ProductionDate, "dd/mm/yyyy"))
-                                                            Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingProductionDate.Width)
-                                                            Wrap: =false
-                                                      - lbl_AgingQuantity:
-                                                          Control: ModernText
+                                                            Height: =40
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            Placeholder: ="Tìm theo mã SAP ..."
+                                                - con_FldBtnRowKAG:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      FillPortions: =0
+                                                      Height: =40
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =10
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                    Children:
+                                                      - btn_FltClearKAG:
+                                                          Control: ModernButton
                                                           Properties:
+                                                            Appearance: =ButtonAppearance.Outline
+                                                            FillPortions: =1
                                                             Font: =fxFontFamily
-                                                            Height: =30
-                                                            Size: =fxFontSizeMD
-                                                            Text: |-
-                                                              =If(
-                                                                  scrAgingStockCount.Size = 1,
-                                                                  "Khối lượng: " &Text(ThisItem.Quantity, "#,##0"),
-                                                                  Text(ThisItem.Quantity, "#,##0")
-                                                              )
-                                                            Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingQuantity.Width)
-                                                            Wrap: =false
-                                                      - lbl_AgingDays:
-                                                          Control: ModernText
+                                                            Height: =40
+                                                            Icon: ="Eraser"
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnSelect: |-
+                                                              =Reset(dp_FilterNgayMobKAG);
+                                                              Reset(txt_SearchMobKAG)
+                                                            Text: ="Xóa lọc"
+                                                      - btn_FltApplyKAG:
+                                                          Control: ModernButton
                                                           Properties:
+                                                            BasePaletteColor: =RGBA(46, 125, 50, 1)
+                                                            FillPortions: =1
                                                             Font: =fxFontFamily
-                                                            Height: =30
-                                                            Size: =fxFontSizeMD
-                                                            Text: |-
-                                                              =If(scrAgingStockCount.Size = 1, "Số ngày lưu kho: " & Text(ThisItem.AgingDays), Text(ThisItem.AgingDays))
-                                                            Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingDays.Width)
-                                                            Wrap: =false
-                                                      - lbl_AgingReason:
-                                                          Control: ModernText
+                                                            Height: =40
+                                                            Icon: ="Search"
+                                                            LayoutMinHeight: =16
+                                                            LayoutMinWidth: =16
+                                                            OnSelect: |-
+                                                              =UpdateContext({varShowFilterKAG: false})
+                                                            Text: ="Áp dụng"
+                              - con_ListAgingStockCount:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    BorderStyle: =BorderStyle.None
+                                    DropShadow: =If(scrAgingStockCount.Size = 1, DropShadow.None, DropShadow.Semibold)
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutOverflowX: =LayoutOverflow.Scroll
+                                    LayoutOverflowY: =LayoutOverflow.Scroll
+                                    RadiusBottomLeft: =6
+                                    RadiusBottomRight: =6
+                                    RadiusTopLeft: =If(scrAgingStockCount.Size = 1, 0, 5)
+                                    RadiusTopRight: =6
+                                    Width: =Parent.Width - Parent.PaddingLeft * 2
+                                  Children:
+                                    - con_InnerAgingStockCount:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: |-
+                                            =If(
+                                                scrAgingStockCount.Size = 1,
+                                                AlignInContainer.Stretch,
+                                                AlignInContainer.Start
+                                            )
+                                          BorderStyle: =BorderStyle.None
+                                          DropShadow: =DropShadow.None
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          Width: =Max(Parent.Width, 1400)
+                                        Children:
+                                          - con_TableHeaderAgingStockCount_1:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(255, 255, 255, 1)
+                                                FillPortions: =0
+                                                Height: =46
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =5
+                                                PaddingLeft: =10
+                                                PaddingRight: =10
+                                                Visible: =scrAgingStockCount.Size = 1
+                                              Children:
+                                                - chk_SelectAllAgingStockCount_1:
+                                                    Control: ModernCheckbox
+                                                    Properties:
+                                                      Default: |-
+                                                        =CountRows(col_SelectedAgingStockCount) = CountRows(gal_AgingStockCount.AllItems) &&
+                                                        CountRows(gal_AgingStockCount.AllItems) > 0
+                                                      DisplayMode: |-
+                                                        =If(
+                                                            CountRows(gal_AgingStockCount.AllItems) > 0,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
+                                                        )
+                                                      FontWeight: =""
+                                                      Label: =""
+                                                      OnCheck: =ClearCollect(col_SelectedAgingStockCount, gal_AgingStockCount.AllItems)
+                                                      OnUncheck: =Clear(col_SelectedAgingStockCount)
+                                                      Width: =32
+                                          - con_TableHeaderAgingStockCount:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(250, 250, 250, 1)
+                                                FillPortions: =0
+                                                Height: =46
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =5
+                                                PaddingLeft: =10
+                                                PaddingRight: =10
+                                                Visible: =scrAgingStockCount.Size <> 1
+                                              Children:
+                                                - chk_SelectAllAgingStockCount:
+                                                    Control: ModernCheckbox
+                                                    Properties:
+                                                      Default: |-
+                                                        =CountRows(col_SelectedAgingStockCount) = CountRows(gal_AgingStockCount.AllItems) &&
+                                                        CountRows(gal_AgingStockCount.AllItems) > 0
+                                                      DisplayMode: |-
+                                                        =If(
+                                                            CountRows(gal_AgingStockCount.AllItems) > 0,
+                                                            DisplayMode.Edit,
+                                                            DisplayMode.Disabled
+                                                        )
+                                                      FontWeight: =""
+                                                      Label: =""
+                                                      OnCheck: =ClearCollect(col_SelectedAgingStockCount, gal_AgingStockCount.AllItems)
+                                                      OnUncheck: =Clear(col_SelectedAgingStockCount)
+                                                      Width: =32
+                                                - lbl_HeaderAgingSAPCode:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Mã SAP"
+                                                      Width: =Parent.Width * 0.11
+                                                      Wrap: =false
+                                                - lbl_HeaderAgingProductCategory:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Loại hàng"
+                                                      Width: =Parent.Width * 0.11
+                                                      Wrap: =false
+                                                - lbl_HeaderAgingStockCountDate:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Ngày kiểm kê"
+                                                      Width: =Parent.Width * 0.11
+                                                      Wrap: =false
+                                                - lbl_HeaderAgingProductionDate:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Ngày sản xuất"
+                                                      Width: =Parent.Width * 0.11
+                                                      Wrap: =false
+                                                - lbl_HeaderAgingQuantity:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Khối lượng"
+                                                      Width: =Parent.Width * 0.11
+                                                      Wrap: =false
+                                                - lbl_HeaderAgingDays:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Số ngày lưu kho"
+                                                      Width: =Parent.Width * 0.11
+                                                      Wrap: =false
+                                                - lbl_HeaderAgingReason:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      FillPortions: =1
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Nội dung"
+                                                      Wrap: =false
+                                                - lbl_HeaderAgingNote:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Ghi chú"
+                                                      Width: =Parent.Width * 0.11
+                                                      Wrap: =false
+                                                - lbl_HeaderAgingActions:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: =""
+                                                      Width: =80
+                                                      Wrap: =false
+                                          - gal_AgingStockCount:
+                                              Control: Gallery
+                                              Variant: Vertical
+                                              Properties:
+                                                BorderStyle: =BorderStyle.None
+                                                Height: =Parent.Height - con_TableHeaderAgingStockCount.Height - con_FooterAgingStockCount.Height
+                                                Items: |
+                                                  =// Chỉ lấy các cột đang hiển thị trên danh sách (nhanh hơn)
+                                                  ShowColumns(
+                                                      SortByColumns(
+                                                          Filter(
+                                                              'QLK List Aging Stock Count',
+                                                              PlantCode = varUserInPlant.PlantCode,
+                                                              IsBlank(txt_SearchAgingStockCount.Text) || scrAgingStockCount.Size = 1 || StartsWith(SAPCode, txt_SearchAgingStockCount.Text),
+                                                              IsBlank(dp_FilterNgayKiemNXTDanhMucChenhLech_1.SelectedDate) || scrAgingStockCount.Size = 1 || StockCountDate = dp_FilterNgayKiemNXTDanhMucChenhLech_1.SelectedDate,                                                               IsBlank(dp_FilterNgayMobKAG.SelectedDate) || scrAgingStockCount.Size <> 1 || StockCountDate = dp_FilterNgayMobKAG.SelectedDate,                                                               IsBlank(txt_SearchMobKAG.Text) || scrAgingStockCount.Size <> 1 || StartsWith(SAPCode, txt_SearchMobKAG.Text)
+                                                          ),
+                                                          "ProductionDate",
+                                                          SortOrder.Ascending
+                                                      ),
+                                                      ID,
+                                                      SAPCode,
+                                                      ProductCategoryCode,
+                                                      StockCountDate,
+                                                      ProductionDate,
+                                                      Quantity,
+                                                      AgingDays,
+                                                      Reason,
+                                                      Note
+                                                  )
+                                                ShowScrollbar: =false
+                                                TemplateSize: =If(scrAgingStockCount.Size = 1, 184, 45)
+                                                Width: =Parent.Width
+                                              Children:
+                                                - con_RowDividerAgingStockCount:
+                                                    Control: GroupContainer
+                                                    Variant: ManualLayout
+                                                    Properties:
+                                                      DropShadow: =DropShadow.None
+                                                      Fill: =RGBA(229, 231, 235, 1)
+                                                      Height: =1
+                                                      Visible: =scrAgingStockCount.Size <> 1
+                                                      Width: =gal_AgingStockCount.Width - 10
+                                                      Y: =44
+                                                - con_RowMasterAgingStockCount:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      DropShadow: =If(scrAgingStockCount.Size = 1, DropShadow.Light, DropShadow.None)
+                                                      Height: =gal_AgingStockCount.TemplateHeight
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =If(scrAgingStockCount.Size = 1, 5, 0)
+                                                      RadiusTopLeft: =If(scrAgingStockCount.Size = 1, 4, 0)
+                                                      Width: =Parent.Width - 10
+                                                    Children:
+                                                      - con_RowAgingStockCount:
+                                                          Control: GroupContainer
+                                                          Variant: AutoLayout
                                                           Properties:
-                                                            FillPortions: =If(scrAgingStockCount.Size = 1, 0, 1)
-                                                            Font: =fxFontFamily
-                                                            Height: =30
-                                                            Size: =fxFontSizeMD
-                                                            Text: |-
-                                                              =If(
-                                                                  scrAgingStockCount.Size = 1,
-                                                                  "Nội dung : " & ThisItem.Reason,
-                                                                  ThisItem.Reason
-                                                              )
-                                                            Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingReason.Width)
-                                                            Wrap: =false
-                                                      - lbl_AgingNote:
-                                                          Control: ModernText
-                                                          Properties:
-                                                            Font: =fxFontFamily
-                                                            Height: =30
-                                                            Size: =fxFontSizeMD
-                                                            Text: |-
-                                                              =If(
-                                                                  scrAgingStockCount.Size = 1,
-                                                                  "Ghi chú: " & ThisItem.Note,
-                                                                  ThisItem.Note
-                                                              )
-                                                            Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingNote.Width)
-                                                            Wrap: =false
-                                                      - con_RowActionsAgingStockCount:
+                                                            DropShadow: =DropShadow.None
+                                                            Height: =gal_AgingStockCount.TemplateHeight
+                                                            LayoutAlignItems: =If(scrAgingStockCount.Size = 1, LayoutAlignItems.Start, LayoutAlignItems.Center)
+                                                            LayoutDirection: =If(scrAgingStockCount.Size = 1, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                                                            LayoutGap: =5
+                                                            LayoutMinHeight: =Parent.Height
+                                                            PaddingLeft: =5
+                                                            PaddingRight: =5
+                                                            PaddingTop: =If(scrAgingStockCount.Size = 1, 8, 0)
+                                                          Children:
+                                                            - chk_AgingSelect:
+                                                                Control: ModernCheckbox
+                                                                Properties:
+                                                                  Default: =!IsBlank(LookUp(col_SelectedAgingStockCount, ID = ThisItem.ID))
+                                                                  FontWeight: =""
+                                                                  Label: =""
+                                                                  OnCheck: =Collect(col_SelectedAgingStockCount, ThisItem)
+                                                                  OnUncheck: =RemoveIf(col_SelectedAgingStockCount, ID = ThisItem.ID)
+                                                                  Visible: =scrAgingStockCount.Size <> 1
+                                                                  Width: =32
+                                                            - lbl_AgingSAPCode:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  FontWeight: =fxFontWeightSemiBold
+                                                                  Height: =30
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(scrAgingStockCount.Size = 1, "Mã SAP: " & ThisItem.SAPCode, ThisItem.SAPCode)
+                                                                  Visible: =scrAgingStockCount.Size <> 1
+                                                                  Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingSAPCode.Width)
+                                                                  Wrap: =false
+                                                            - lbl_AgingProductCategory:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =30
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =With(
+                                                                        {_cat: LookUp(col_ProductCategories, ProductCategoryCode = ThisItem.ProductCategoryCode)},
+                                                                        If(
+                                                                            scrAgingStockCount.Size = 1,
+                                                                            "Loại sản phẩm: " & _cat.ProductCategoryNameVI,
+                                                                            _cat.ProductCategoryNameVI
+                                                                        )
+                                                                    )
+                                                                  Visible: =scrAgingStockCount.Size <> 1
+                                                                  Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingProductCategory.Width)
+                                                                  Wrap: =false
+                                                            - lbl_AgingStockCountDate:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =30
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(scrAgingStockCount.Size = 1, "Ngày kiểm kê: " & Text(ThisItem.StockCountDate, "dd/mm/yyyy"), Text(ThisItem.StockCountDate, "dd/mm/yyyy"))
+                                                                  Visible: =scrAgingStockCount.Size <> 1
+                                                                  Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingStockCountDate.Width)
+                                                                  Wrap: =false
+                                                            - lbl_AgingProductionDate:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =30
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(scrAgingStockCount.Size = 1, "Ngày sản xuất: " & Text(ThisItem.ProductionDate, "dd/mm/yyyy"), Text(ThisItem.ProductionDate, "dd/mm/yyyy"))
+                                                                  Visible: =scrAgingStockCount.Size <> 1
+                                                                  Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingProductionDate.Width)
+                                                                  Wrap: =false
+                                                            - lbl_AgingQuantity:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =30
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrAgingStockCount.Size = 1,
+                                                                        "Khối lượng: " &Text(ThisItem.Quantity, "#,##0"),
+                                                                        Text(ThisItem.Quantity, "#,##0")
+                                                                    )
+                                                                  Visible: =scrAgingStockCount.Size <> 1
+                                                                  Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingQuantity.Width)
+                                                                  Wrap: =false
+                                                            - lbl_AgingDays:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =30
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(scrAgingStockCount.Size = 1, "Số ngày lưu kho: " & Text(ThisItem.AgingDays), Text(ThisItem.AgingDays))
+                                                                  Visible: =scrAgingStockCount.Size <> 1
+                                                                  Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingDays.Width)
+                                                                  Wrap: =false
+                                                            - lbl_AgingReason:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  FillPortions: =If(scrAgingStockCount.Size = 1, 0, 1)
+                                                                  Font: =fxFontFamily
+                                                                  Height: =30
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrAgingStockCount.Size = 1,
+                                                                        "Nội dung : " & ThisItem.Reason,
+                                                                        ThisItem.Reason
+                                                                    )
+                                                                  Visible: =scrAgingStockCount.Size <> 1
+                                                                  Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingReason.Width)
+                                                                  Wrap: =false
+                                                            - lbl_AgingNote:
+                                                                Control: ModernText
+                                                                Properties:
+                                                                  Font: =fxFontFamily
+                                                                  Height: =30
+                                                                  Size: =fxFontSizeMD
+                                                                  Text: |-
+                                                                    =If(
+                                                                        scrAgingStockCount.Size = 1,
+                                                                        "Ghi chú: " & ThisItem.Note,
+                                                                        ThisItem.Note
+                                                                    )
+                                                                  Visible: =scrAgingStockCount.Size <> 1
+                                                                  Width: =If(scrAgingStockCount.Size = 1, Parent.Width - 20, lbl_HeaderAgingNote.Width)
+                                                                  Wrap: =false
+                                                            - con_RowActionsAgingStockCount:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  DropShadow: =DropShadow.None
+                                                                  FillPortions: =0
+                                                                  Height: =30
+                                                                  LayoutAlignItems: =LayoutAlignItems.Center
+                                                                  LayoutDirection: =LayoutDirection.Horizontal
+                                                                  LayoutGap: =4
+                                                                  LayoutMinHeight: =Parent.LayoutMinHeight
+                                                                  Visible: =scrAgingStockCount.Size <> 1
+                                                                  Width: =lbl_HeaderAgingActions.Width
+                                                                Children:
+                                                                  - btn_AgingStockCount_Detail:
+                                                                      Control: ModernButton
+                                                                      Properties:
+                                                                        Appearance: =ButtonAppearance.Transparent
+                                                                        Icon: ="Eye"
+                                                                        Layout: =ButtonLayout.IconOnly
+                                                                        OnSelect: |-
+                                                                          =Set(varAgingStockCountDetail, LookUp('QLK List Aging Stock Count', ID = ThisItem.ID));
+                                                                          Navigate(scrAgingStockCountForm)
+                                                                        Width: =36
+                                                                  - btn_AgingStockCount_Delete:
+                                                                      Control: ModernButton
+                                                                      Properties:
+                                                                        Appearance: =ButtonAppearance.Transparent
+                                                                        BasePaletteColor: =RGBA(220, 38, 38, 1)
+                                                                        Icon: ="Delete"
+                                                                        Layout: =ButtonLayout.IconOnly
+                                                                        OnSelect: |-
+                                                                          =If(
+                                                                              Confirm(
+                                                                                  "Bạn có chắc muốn xóa bản ghi này không?",
+                                                                                  {
+                                                                                      Title: "Xác nhận xóa",
+                                                                                      ConfirmButton: "Xóa",
+                                                                                      CancelButton: "Hủy"
+                                                                                  }
+                                                                              ),
+                                                                              With(
+                                                                                  {_id: ThisItem.ID},
+                                                                                  IfError(
+                                                                                      Remove('QLK List Aging Stock Count', LookUp('QLK List Aging Stock Count', ID = ThisItem.ID)),
+                                                                                      Notify("Xóa không thành công", NotificationType.Error, 2000),
+                                                                                      RemoveIf(col_SelectedAgingStockCount, ID = _id);
+                                                                                      Refresh('QLK List Aging Stock Count');
+                                                                                      Notify("Đã xóa thành công.", NotificationType.Success, 2000)
+                                                                                  )
+                                                                              )
+                                                                          )
+                                                                        Width: =36
+                                                            - con_CardKAG:
+                                                                Control: GroupContainer
+                                                                Variant: AutoLayout
+                                                                Properties:
+                                                                  AlignInContainer: =AlignInContainer.Start
+                                                                  DropShadow: =DropShadow.None
+                                                                  FillPortions: =0
+                                                                  Height: =160
+                                                                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                                  LayoutDirection: =LayoutDirection.Vertical
+                                                                  LayoutGap: =8
+                                                                  LayoutMinHeight: =16
+                                                                  LayoutMinWidth: =16
+                                                                  Visible: =scrAgingStockCount.Size = 1
+                                                                  Width: =gal_AgingStockCount.Width - 40
+                                                                Children:
+                                                                  - con_CardHeadKAG:
+                                                                      Control: GroupContainer
+                                                                      Variant: AutoLayout
+                                                                      Properties:
+                                                                        DropShadow: =DropShadow.None
+                                                                        FillPortions: =0
+                                                                        Height: =112
+                                                                        LayoutDirection: =LayoutDirection.Horizontal
+                                                                        LayoutGap: =10
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                      Children:
+                                                                        - chk_CardSelectKAG:
+                                                                            Control: ModernCheckbox
+                                                                            Properties:
+                                                                              AlignInContainer: =AlignInContainer.Start
+                                                                              Default: =!IsBlank(LookUp(col_SelectedAgingStockCount, ID = ThisItem.ID))
+                                                                              Height: =52
+                                                                              Label: =""
+                                                                              OnCheck: =Collect(col_SelectedAgingStockCount, ThisItem)
+                                                                              OnUncheck: =RemoveIf(col_SelectedAgingStockCount, ID = ThisItem.ID)
+                                                                              Width: =28
+                                                                        - con_CardIconKAG:
+                                                                            Control: GroupContainer
+                                                                            Variant: AutoLayout
+                                                                            Properties:
+                                                                              AlignInContainer: =AlignInContainer.Start
+                                                                              DropShadow: =DropShadow.None
+                                                                              Fill: =RGBA(232, 245, 233, 1)
+                                                                              FillPortions: =0
+                                                                              Height: =52
+                                                                              LayoutAlignItems: =LayoutAlignItems.Center
+                                                                              LayoutDirection: =LayoutDirection.Horizontal
+                                                                              LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                                              LayoutMinHeight: =16
+                                                                              LayoutMinWidth: =16
+                                                                              RadiusBottomLeft: =12
+                                                                              RadiusBottomRight: =12
+                                                                              RadiusTopLeft: =12
+                                                                              RadiusTopRight: =12
+                                                                              Width: =52
+                                                                            Children:
+                                                                              - btn_CardIconKAG:
+                                                                                  Control: ModernButton
+                                                                                  Properties:
+                                                                                    Appearance: =ButtonAppearance.Transparent
+                                                                                    BasePaletteColor: =RGBA(45, 128, 40, 1)
+                                                                                    Color: =RGBA(45, 128, 40, 1)
+                                                                                    Height: =40
+                                                                                    Icon: ="BoxMultiple"
+                                                                                    Layout: =ButtonLayout.IconOnly
+                                                                                    LayoutMinHeight: =16
+                                                                                    LayoutMinWidth: =16
+                                                                                    Width: =40
+                                                                        - con_CardInfoKAG:
+                                                                            Control: GroupContainer
+                                                                            Variant: AutoLayout
+                                                                            Properties:
+                                                                              DropShadow: =DropShadow.None
+                                                                              Height: =112
+                                                                              LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                                              LayoutDirection: =LayoutDirection.Vertical
+                                                                              LayoutGap: =4
+                                                                              LayoutMinHeight: =16
+                                                                              LayoutMinWidth: =16
+                                                                            Children:
+                                                                              - con_CardTopKAG:
+                                                                                  Control: GroupContainer
+                                                                                  Variant: AutoLayout
+                                                                                  Properties:
+                                                                                    DropShadow: =DropShadow.None
+                                                                                    FillPortions: =0
+                                                                                    Height: =30
+                                                                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                                                                    LayoutDirection: =LayoutDirection.Horizontal
+                                                                                    LayoutGap: =8
+                                                                                    LayoutMinHeight: =16
+                                                                                    LayoutMinWidth: =16
+                                                                                  Children:
+                                                                                    - lbl_CardCodeKAG:
+                                                                                        Control: ModernText
+                                                                                        Properties:
+                                                                                          FillPortions: =1
+                                                                                          Font: =fxFontFamily
+                                                                                          FontWeight: =fxFontWeightBold
+                                                                                          Height: =30
+                                                                                          LayoutMinHeight: =0
+                                                                                          LayoutMinWidth: =0
+                                                                                          PaddingBottom: =0
+                                                                                          PaddingLeft: =0
+                                                                                          PaddingTop: =0
+                                                                                          Size: =fxFontSizeLG
+                                                                                          Text: =ThisItem.SAPCode
+                                                                                          Wrap: =false
+                                                                                    - lbl_CardDaysKAG:
+                                                                                        Control: ModernText
+                                                                                        Properties:
+                                                                                          Align: =Align.Center
+                                                                                          Color: =RGBA(180, 83, 9, 1)
+                                                                                          Fill: =RGBA(255, 243, 224, 1)
+                                                                                          Font: =fxFontFamily
+                                                                                          FontWeight: =fxFontWeightSemiBold
+                                                                                          Height: =26
+                                                                                          LayoutMinHeight: =0
+                                                                                          LayoutMinWidth: =0
+                                                                                          PaddingBottom: =0
+                                                                                          PaddingLeft: =10
+                                                                                          PaddingRight: =10
+                                                                                          PaddingTop: =0
+                                                                                          Size: =fxFontSizeSM
+                                                                                          Text: =Text(ThisItem.AgingDays) & " ngày"
+                                                                                          Width: =Len(Self.Text) * 7 + 28
+                                                                                          Wrap: =false
+                                                                              - lbl_CardSubKAG:
+                                                                                  Control: ModernText
+                                                                                  Properties:
+                                                                                    Color: =RGBA(107, 114, 128, 1)
+                                                                                    Font: =fxFontFamily
+                                                                                    Height: =22
+                                                                                    LayoutMinHeight: =0
+                                                                                    LayoutMinWidth: =0
+                                                                                    PaddingBottom: =0
+                                                                                    PaddingLeft: =0
+                                                                                    PaddingTop: =0
+                                                                                    Size: =fxFontSizeSM
+                                                                                    Text: =LookUp(col_ProductCategories, ProductCategoryCode = ThisItem.ProductCategoryCode).ProductCategoryNameVI & "  |  Kiểm kê " & Text(ThisItem.StockCountDate, "dd/mm/yyyy")
+                                                                                    Wrap: =false
+                                                                              - con_CardStatsKAG:
+                                                                                  Control: GroupContainer
+                                                                                  Variant: AutoLayout
+                                                                                  Properties:
+                                                                                    DropShadow: =DropShadow.None
+                                                                                    FillPortions: =0
+                                                                                    Height: =48
+                                                                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                                                                    LayoutDirection: =LayoutDirection.Horizontal
+                                                                                    LayoutGap: =10
+                                                                                    LayoutMinHeight: =16
+                                                                                    LayoutMinWidth: =16
+                                                                                  Children:
+                                                                                    - con_CardStat1KAG:
+                                                                                        Control: GroupContainer
+                                                                                        Variant: AutoLayout
+                                                                                        Properties:
+                                                                                          DropShadow: =DropShadow.None
+                                                                                          Height: =48
+                                                                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                                                          LayoutDirection: =LayoutDirection.Vertical
+                                                                                          LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                                                          LayoutMinHeight: =16
+                                                                                          LayoutMinWidth: =16
+                                                                                        Children:
+                                                                                          - lbl_CardStat1CapKAG:
+                                                                                              Control: ModernText
+                                                                                              Properties:
+                                                                                                Color: =RGBA(107, 114, 128, 1)
+                                                                                                Font: =fxFontFamily
+                                                                                                Height: =20
+                                                                                                LayoutMinHeight: =0
+                                                                                                LayoutMinWidth: =0
+                                                                                                PaddingBottom: =0
+                                                                                                PaddingLeft: =0
+                                                                                                PaddingTop: =0
+                                                                                                Size: =fxFontSizeXS
+                                                                                                Text: ="Ngày sản xuất"
+                                                                                                Wrap: =false
+                                                                                          - lbl_CardStat1ValKAG:
+                                                                                              Control: ModernText
+                                                                                              Properties:
+                                                                                                Font: =fxFontFamily
+                                                                                                FontWeight: =fxFontWeightSemiBold
+                                                                                                Height: =26
+                                                                                                LayoutMinHeight: =0
+                                                                                                LayoutMinWidth: =0
+                                                                                                PaddingBottom: =0
+                                                                                                PaddingLeft: =0
+                                                                                                PaddingTop: =0
+                                                                                                Size: =fxFontSizeSM
+                                                                                                Text: =Text(ThisItem.ProductionDate, "dd/mm/yyyy")
+                                                                                                Wrap: =false
+                                                                                    - rec_CardDivKAG:
+                                                                                        Control: Rectangle
+                                                                                        Properties:
+                                                                                          Fill: =RGBA(229, 231, 235, 1)
+                                                                                          Height: =36
+                                                                                          LayoutMinHeight: =0
+                                                                                          LayoutMinWidth: =0
+                                                                                          Width: =1
+                                                                                    - con_CardStat2KAG:
+                                                                                        Control: GroupContainer
+                                                                                        Variant: AutoLayout
+                                                                                        Properties:
+                                                                                          DropShadow: =DropShadow.None
+                                                                                          Height: =48
+                                                                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                                                                          LayoutDirection: =LayoutDirection.Vertical
+                                                                                          LayoutJustifyContent: =LayoutJustifyContent.Center
+                                                                                          LayoutMinHeight: =16
+                                                                                          LayoutMinWidth: =16
+                                                                                        Children:
+                                                                                          - lbl_CardStat2CapKAG:
+                                                                                              Control: ModernText
+                                                                                              Properties:
+                                                                                                Color: =RGBA(107, 114, 128, 1)
+                                                                                                Font: =fxFontFamily
+                                                                                                Height: =20
+                                                                                                LayoutMinHeight: =0
+                                                                                                LayoutMinWidth: =0
+                                                                                                PaddingBottom: =0
+                                                                                                PaddingLeft: =0
+                                                                                                PaddingTop: =0
+                                                                                                Size: =fxFontSizeXS
+                                                                                                Text: ="Khối lượng"
+                                                                                                Wrap: =false
+                                                                                          - lbl_CardStat2ValKAG:
+                                                                                              Control: ModernText
+                                                                                              Properties:
+                                                                                                Font: =fxFontFamily
+                                                                                                FontWeight: =fxFontWeightSemiBold
+                                                                                                Height: =26
+                                                                                                LayoutMinHeight: =0
+                                                                                                LayoutMinWidth: =0
+                                                                                                PaddingBottom: =0
+                                                                                                PaddingLeft: =0
+                                                                                                PaddingTop: =0
+                                                                                                Size: =fxFontSizeSM
+                                                                                                Text: =Text(ThisItem.Quantity, "#,##0")
+                                                                                                Wrap: =false
+                                                                  - con_CardBtnsKAG:
+                                                                      Control: GroupContainer
+                                                                      Variant: AutoLayout
+                                                                      Properties:
+                                                                        DropShadow: =DropShadow.None
+                                                                        FillPortions: =0
+                                                                        Height: =40
+                                                                        LayoutAlignItems: =LayoutAlignItems.Center
+                                                                        LayoutDirection: =LayoutDirection.Horizontal
+                                                                        LayoutGap: =10
+                                                                        LayoutMinHeight: =16
+                                                                        LayoutMinWidth: =16
+                                                                      Children:
+                                                                        - btn_CardViewKAG:
+                                                                            Control: ModernButton
+                                                                            Properties:
+                                                                              BasePaletteColor: =RGBA(7, 220, 8, 1)
+                                                                              FillPortions: =1
+                                                                              Font: =fxFontFamily
+                                                                              Height: =40
+                                                                              Icon: ="Eye"
+                                                                              LayoutMinHeight: =16
+                                                                              LayoutMinWidth: =16
+                                                                              OnSelect: =Select(btn_AgingStockCount_Detail_1)
+                                                                              Text: ="Xem chi tiết"
+                                                                        - btn_CardDeleteKAG:
+                                                                            Control: ModernButton
+                                                                            Properties:
+                                                                              Appearance: =ButtonAppearance.Outline
+                                                                              BasePaletteColor: =RGBA(107, 114, 128, 1)
+                                                                              FillPortions: =1
+                                                                              Font: =fxFontFamily
+                                                                              Height: =40
+                                                                              Icon: ="Delete"
+                                                                              LayoutMinHeight: =16
+                                                                              LayoutMinWidth: =16
+                                                                              OnSelect: =Select(btn_AgingStockCount_Delete_1)
+                                                                              Text: ="Xóa"
+                                                      - con_RowActionsAgingStockCount_1:
                                                           Control: GroupContainer
                                                           Variant: AutoLayout
                                                           Properties:
@@ -621,27 +1335,31 @@ Screens:
                                                             FillPortions: =0
                                                             Height: =30
                                                             LayoutAlignItems: =LayoutAlignItems.Center
-                                                            LayoutDirection: =LayoutDirection.Horizontal
+                                                            LayoutDirection: =LayoutDirection.Vertical
                                                             LayoutGap: =4
-                                                            LayoutMinHeight: =Parent.LayoutMinHeight
-                                                            Visible: =scrAgingStockCount.Size <> 1
+                                                            LayoutMinHeight: =10
+                                                            Visible: =false
                                                             Width: =lbl_HeaderAgingActions.Width
                                                           Children:
-                                                            - btn_AgingStockCount_Detail:
+                                                            - btn_AgingStockCount_Detail_1:
                                                                 Control: ModernButton
                                                                 Properties:
+                                                                  AlignInContainer: =AlignInContainer.Start
                                                                   Appearance: =ButtonAppearance.Transparent
+                                                                  Height: =Parent.Height/2 - 10
                                                                   Icon: ="Eye"
                                                                   Layout: =ButtonLayout.IconOnly
                                                                   OnSelect: |-
-                                                                    =Set(varAgingStockCountDetail, ThisItem);
+                                                                    =Set(varAgingStockCountDetail, LookUp('QLK List Aging Stock Count', ID = ThisItem.ID));
                                                                     Navigate(scrAgingStockCountForm)
-                                                                  Width: =36
-                                                            - btn_AgingStockCount_Delete:
+                                                                  Width: =Parent.Width
+                                                            - btn_AgingStockCount_Delete_1:
                                                                 Control: ModernButton
                                                                 Properties:
+                                                                  AlignInContainer: =AlignInContainer.Start
                                                                   Appearance: =ButtonAppearance.Transparent
                                                                   BasePaletteColor: =RGBA(220, 38, 38, 1)
+                                                                  Height: =Parent.Height/2 - 10
                                                                   Icon: ="Delete"
                                                                   Layout: =ButtonLayout.IconOnly
                                                                   OnSelect: |-
@@ -657,7 +1375,7 @@ Screens:
                                                                         With(
                                                                             {_id: ThisItem.ID},
                                                                             IfError(
-                                                                                Remove('QLK List Aging Stock Count', ThisItem),
+                                                                                Remove('QLK List Aging Stock Count', LookUp('QLK List Aging Stock Count', ID = ThisItem.ID)),
                                                                                 Notify("Xóa không thành công", NotificationType.Error, 2000),
                                                                                 RemoveIf(col_SelectedAgingStockCount, ID = _id);
                                                                                 Refresh('QLK List Aging Stock Count');
@@ -665,85 +1383,28 @@ Screens:
                                                                             )
                                                                         )
                                                                     )
-                                                                  Width: =36
-                                                - con_RowActionsAgingStockCount_1:
-                                                    Control: GroupContainer
-                                                    Variant: AutoLayout
-                                                    Properties:
-                                                      DropShadow: =DropShadow.None
-                                                      FillPortions: =0
-                                                      Height: =30
-                                                      LayoutAlignItems: =LayoutAlignItems.Center
-                                                      LayoutDirection: =LayoutDirection.Vertical
-                                                      LayoutGap: =4
-                                                      LayoutMinHeight: =10
-                                                      Visible: =scrAgingStockCount.Size = 1
-                                                      Width: =lbl_HeaderAgingActions.Width
-                                                    Children:
-                                                      - btn_AgingStockCount_Detail_1:
-                                                          Control: ModernButton
-                                                          Properties:
-                                                            AlignInContainer: =AlignInContainer.Start
-                                                            Appearance: =ButtonAppearance.Transparent
-                                                            Height: =Parent.Height/2 - 10
-                                                            Icon: ="Eye"
-                                                            Layout: =ButtonLayout.IconOnly
-                                                            OnSelect: |-
-                                                              =Set(varAgingStockCountDetail, ThisItem);
-                                                              Navigate(scrAgingStockCountForm)
-                                                            Width: =Parent.Width
-                                                      - btn_AgingStockCount_Delete_1:
-                                                          Control: ModernButton
-                                                          Properties:
-                                                            AlignInContainer: =AlignInContainer.Start
-                                                            Appearance: =ButtonAppearance.Transparent
-                                                            BasePaletteColor: =RGBA(220, 38, 38, 1)
-                                                            Height: =Parent.Height/2 - 10
-                                                            Icon: ="Delete"
-                                                            Layout: =ButtonLayout.IconOnly
-                                                            OnSelect: |-
-                                                              =If(
-                                                                  Confirm(
-                                                                      "Bạn có chắc muốn xóa bản ghi này không?",
-                                                                      {
-                                                                          Title: "Xác nhận xóa",
-                                                                          ConfirmButton: "Xóa",
-                                                                          CancelButton: "Hủy"
-                                                                      }
-                                                                  ),
-                                                                  With(
-                                                                      {_id: ThisItem.ID},
-                                                                      IfError(
-                                                                          Remove('QLK List Aging Stock Count', ThisItem),
-                                                                          Notify("Xóa không thành công", NotificationType.Error, 2000),
-                                                                          RemoveIf(col_SelectedAgingStockCount, ID = _id);
-                                                                          Refresh('QLK List Aging Stock Count');
-                                                                          Notify("Đã xóa thành công.", NotificationType.Success, 2000)
-                                                                      )
-                                                                  )
-                                                              )
-                                                            Width: =Parent.Width
-                                    - con_FooterAgingStockCount:
-                                        Control: GroupContainer
-                                        Variant: AutoLayout
-                                        Properties:
-                                          DropShadow: =DropShadow.None
-                                          FillPortions: =0
-                                          Height: =44
-                                          LayoutAlignItems: =LayoutAlignItems.Center
-                                          LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutGap: =16
-                                          PaddingLeft: =10
-                                          PaddingRight: =10
-                                        Children:
-                                          - lbl_TotalRowsAgingStockCount:
-                                              Control: ModernText
+                                                                  Width: =Parent.Width
+                                          - con_FooterAgingStockCount:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
                                               Properties:
-                                                Font: =fxFontFamily
-                                                FontWeight: =fxFontWeightBold
-                                                Size: =fxFontSizeMD
-                                                Text: ="Hiển thị " & CountRows(gal_AgingStockCount.AllItems) & " dòng"
-                                                Wrap: =false
+                                                DropShadow: =DropShadow.None
+                                                FillPortions: =0
+                                                Height: =44
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =16
+                                                PaddingLeft: =10
+                                                PaddingRight: =10
+                                              Children:
+                                                - lbl_TotalRowsAgingStockCount:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightBold
+                                                      Size: =fxFontSizeMD
+                                                      Text: ="Hiển thị " & CountRows(gal_AgingStockCount.AllItems) & " dòng"
+                                                      Wrap: =false
       - con_MenuOverlayNhapTuSanXuatHangBaoMobile_17:
           Control: GroupContainer
           Variant: AutoLayout
@@ -800,3 +1461,65 @@ Screens:
                         !varShowMenuUser
                     )
                   Text: =
+      - btn_CloseMoreOverlay_AgingStockCount:
+          Control: ModernButton
+          Properties:
+            Appearance: =ButtonAppearance.Transparent
+            Height: =Parent.Height - con_HeaderAgingStockCount.Height
+            Layout: =ButtonLayout.TextOnly
+            OnSelect: |-
+              =UpdateContext({varShowMoreActionsMobile_AgingStockCount: false})
+            Text: =""
+            Visible: =varShowMoreActionsMobile_AgingStockCount && scrAgingStockCount.Size = 1 && Value(lbl_MobileActionCount_AgingStockCount.Text) >= 3
+            Width: =Parent.Width
+            Y: =con_HeaderAgingStockCount.Height
+      - con_PopoverMore_AgingStockCount:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            BorderColor: =RGBA(229, 231, 235, 1)
+            BorderThickness: =1
+            DropShadow: =DropShadow.Regular
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =44 * Max(1, (Value(lbl_MobileActionCount_AgingStockCount.Text) - 2)) + 2 * Max(0, (Value(lbl_MobileActionCount_AgingStockCount.Text) - 2) - 1) + 12 + If(CountRows(Filter(LastN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), Max(0, (Value(lbl_MobileActionCount_AgingStockCount.Text) - 2))), Value = "3")) > 0 && (Value(lbl_MobileActionCount_AgingStockCount.Text) - 2) > 1, 3, 0)
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =2
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            PaddingBottom: =6
+            PaddingLeft: =6
+            PaddingRight: =6
+            PaddingTop: =6
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            Visible: =varShowMoreActionsMobile_AgingStockCount && scrAgingStockCount.Size = 1 && Value(lbl_MobileActionCount_AgingStockCount.Text) >= 3
+            Width: =230
+            X: =Parent.Width - 245
+            Y: =con_HeaderAgingStockCount.Height + If(!varShowMenuUser, 0, 5) + 5 + 56 + 4
+          Children:
+            - btn_MoreItem1_AgingStockCount:
+                Control: ModernButton
+                Properties:
+                  Align: =Align.Left
+                  Appearance: =ButtonAppearance.Transparent
+                  Color: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 3), 1)).Value), 3, RGBA(220, 38, 38, 1), RGBA(55, 65, 81, 1))
+                  Font: =fxFontFamily
+                  Height: =44
+                  Icon: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 3), 1)).Value), 1, "Add", 2, "ArrowSync", 3, "Delete", "Save")
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  OnSelect: |-
+                    =UpdateContext({varShowMoreActionsMobile_AgingStockCount: false});
+                    Switch(
+                        Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 3), 1)).Value),
+                        1, Select(btn_AddNewNXT_1),
+                        2, Select(btn_RefreshAgingStockCount),
+                        3, Select(btn_DeleteAgingStockCount)
+                    )
+                  PaddingLeft: =12
+                  Size: =fxFontSizeMD
+                  Text: =Switch(Value(First(LastN(FirstN(Split(lbl_MobileActionPos_AgingStockCount.Text, ","), 3), 1)).Value), 1, "Thêm mới", 2, "Làm mới", 3, "Xóa", "")
+                  Visible: =Value(lbl_MobileActionCount_AgingStockCount.Text) >= 3
+                  Width: =218

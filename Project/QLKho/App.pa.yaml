@@ -9,11 +9,128 @@ App:
       // Tên ứng dụng — dùng chung toàn app
       varAppName = "Quản Lý Kho";
 
+      // Logo app (hiển thị ở menu trái) — ảnh trong Media
+      fxAppLogo = 'Designer (1)';
+
+      // ============================================================
+      // USER / ROLE (named formula → tự cache, dùng chung cho StartScreen + OnStart,
+      // tránh gọi SharePoint 2 lần lúc mở app)
+      // ============================================================
+      fxUserInPlant = LookUp('QLK List User In Plant', UserEmail = User().Email);
+      fxRoleCodes   = ShowColumns(col_RoleUser, RoleCode);
+
+      // ============================================================
+      // BREADCRUMB (thanh điều hướng phân cấp ở Header)
+      // ============================================================
+
+      // Menu làm phẳng (chỉ mục đang hiển thị theo role): GID/GT = nhóm cha (0/"" nếu không có nhóm)
+      fxNavFlat =
+          Ungroup(
+              ForAll(
+                  SortByColumns(Filter(colNavigationItems, Visible), "Sort", SortOrder.Ascending) As g,
+                  {
+                      R: If(
+                          CountRows(Filter(g.SubMenu, Visible)) > 0,
+                          ForAll(Filter(g.SubMenu, Visible) As s, {GID: g.ID, GT: g.Title, ID: s.ID, Title: s.Title, Screen: s.Screen}),
+                          Table({GID: 0, GT: "", ID: g.ID, Title: g.Title, Screen: g.Screen})
+                      )
+                  }
+              ),
+              R
+          );
+
+      // Các cấp breadcrumb: 1 = Quản lý kho (trang đầu menu), 2 = nhóm cha, 3 = mục menu đang chọn. Id = mục menu sẽ mở khi click
+      fxBreadcrumb =
+          With(
+              {
+                  _cur: LookUp(fxNavFlat, ID = varSelectedMenuId),
+                  _home: First(Filter(fxNavFlat, !IsBlank(Screen)))
+              },
+              If(
+                  IsBlank(_cur),
+                  Table({Lvl: 1, Txt: "Quản lý kho", Id: 0, Link: false, Show: true}),
+                  Filter(
+                      Table(
+                          {Lvl: 1, Txt: "Quản lý kho", Id: Coalesce(_home.ID, 0), Link: !IsBlank(_home), Show: true},
+                          {
+                              Lvl: 2,
+                              Txt: _cur.GT,
+                              Id: Coalesce(First(Filter(fxNavFlat, GID = _cur.GID && !IsBlank(Screen))).ID, 0),
+                              Link: !IsBlank(First(Filter(fxNavFlat, GID = _cur.GID && !IsBlank(Screen)))),
+                              Show: _cur.GID <> 0
+                          },
+                          {Lvl: 3, Txt: _cur.Title, Id: _cur.ID, Link: false, Show: true}
+                      ),
+                      Show
+                  )
+              )
+          );
+
       // ============================================================
       // FONT FAMILY
       // ============================================================
 
       fxFontFamily = Font.'Segoe UI';
+
+      // ============================================================
+      // Danh sách tab (Hàng bao / Hàng xá / Bigbag) hiển thị ở màn hình scrNhapTuSanXuatForm
+      // theo loại sản phẩm + vai trò của user (giữ nguyên điều kiện hiển thị cũ của từng danh sách)
+      // ============================================================
+      fxProductionReceiptTabs =
+          With(
+              {
+                  _base: !IsBlank(varProductionReceiptDetail.ID) && varProductionReceiptDetail.ProductCategoryCode = LookUp(col_ProductCategories, ID = 2).ProductCategoryCode,
+                  _role: varUserInPlant.Role,
+                  _short: App.Width <= 600
+              },
+              With(
+                  {
+                      _common: _role = "SHIFT_LEADER" || _role = "PROD_STAT" || _role = "PROD_ASST" || _role = "VHSX_HO" || _role = "FG_SUP"
+                  },
+                  Filter(
+                      Table(
+                          {Code: "HANGBAO", Name: If(_short, "Hàng bao", "Nhập sản xuất - Hàng bao"), Show: _base && (_role = "FG_STAFF" || _common)},
+                          {Code: "HANGXA",  Name: If(_short, "Hàng xá", "Nhập sản xuất - Hàng xá"), Show: _base && (_role = "FG_WH" || _common)},
+                          {Code: "BIGBAG",  Name: If(_short, "Bigbag", "Nhập sản xuất - Hàng bigbag"), Show: _base && (_role = "FG_WH" || _common)}
+                      ),
+                      Show
+                  )
+              )
+          );
+
+      // ============================================================
+      // Tab danh sách (Xuất đại lý / Xuất nội bộ / Xuất khác) của màn hình scrXuatKhoForm
+      // Giữ nguyên điều kiện hiển thị cũ của 3 danh sách
+      // ============================================================
+      fxIssueTabs =
+          With(
+              {
+                  _ok: !IsBlank(varGoodsIssue.ID) && varGoodsIssue.ProductCategoryCode = LookUp(col_ProductCategories, ID = 2).ProductCategoryCode && (varUserInPlant.Role = "INV_STAFF" || varUserInPlant.Role = "FG_WH" || varUserInPlant.Role = "FG_SUP" || varUserInPlant.Role = "VHSX_HO"),
+                  _short: App.Width <= 600
+              },
+              Filter(
+                  Table(
+                      {Code: "XUATDAILY", Name: If(_short, "Xuất đại lý", "Xuất kho - Xuất đại lý"), Show: _ok},
+                      {Code: "XUATNOIBO", Name: If(_short, "Xuất nội bộ", "Xuất kho - Xuất nội bộ"), Show: _ok},
+                      {Code: "XUATKHAC",  Name: If(_short, "Xuất khác", "Xuất kho - Xuất khác"),     Show: _ok}
+                  ),
+                  Show
+              )
+          );
+
+      // ============================================================
+      // Tab danh sách (Bao qui cách / Bigbag / Xá bin) của màn hình scrNXTForm
+      // ============================================================
+      fxNXTTabs =
+          Filter(
+              Table(
+                  {Code: "ALL",    Name: "Tất cả",       Show: !IsBlank(varNXTDetail.ID)},
+                  {Code: "BAOQC",  Name: "Bao qui cách", Show: !IsBlank(varNXTDetail.ID)},
+                  {Code: "BIGBAG", Name: "Bigbag",       Show: !IsBlank(varNXTDetail.ID)},
+                  {Code: "XABIN",  Name: "Xá bin",       Show: !IsBlank(varNXTDetail.ID)}
+              ),
+              Show
+          );
 
       // ============================================================
       // FONT SIZE
@@ -110,6 +227,33 @@ App:
       // ============================================================
 
       col_WorkflowStatus = 'QLK List Workflow Status';
+
+      // ------------------------------------------------------------
+      // MÀU HIỂN THỊ CỦA STATUS
+      // Nơi DUY NHẤT định nghĩa màu chip trạng thái (nền + chữ) cho mọi màn hình / mobile + web.
+      // Dùng trong control:
+      //   Fill:  =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).BackColor, fxStatusDefaultBack)
+      //   Color: =Coalesce(LookUp(fxStatusStyles, Code = ThisItem.StatusCode).TextColor, fxStatusDefaultText)
+      // Thêm trạng thái mới: chỉ cần thêm 1 dòng vào bảng bên dưới.
+      // ------------------------------------------------------------
+      fxStatusStyles =
+          Table(
+              {Code: "DRAFT",              BackColor: RGBA(255, 255, 255, 1),   TextColor: RGBA(55, 65, 81, 1), BorderColor: RGBA(209, 213, 219, 1)},   // Nháp                          - trắng
+              {Code: "PENDING",            BackColor: RGBA(254, 249, 195, 1),   TextColor: RGBA(133, 77, 14, 1), BorderColor: RGBA(253, 224, 71, 1)},   // Chờ duyệt                     - vàng
+              {Code: "WAREHOUSE_PENDING",  BackColor: RGBA(254, 249, 195, 1),   TextColor: RGBA(133, 77, 14, 1), BorderColor: RGBA(253, 224, 71, 1)},   // Chờ kho xác nhận              - vàng
+              {Code: "RECEIPT_CONFIRMED",  BackColor: RGBA(224, 242, 254, 1),   TextColor: RGBA(3, 105, 161, 1), BorderColor: RGBA(147, 197, 253, 1)},   // Đang nhập kho                 - xanh dương
+              {Code: "COUNT_CONFIRMED",    BackColor: RGBA(232, 245, 233, 1),   TextColor: RGBA(45, 128, 40, 1), BorderColor: RGBA(165, 214, 167, 1)},   // Đã xác nhận kiểm kê           - xanh lá
+              {Code: "APPROVED",           BackColor: RGBA(232, 245, 233, 1),   TextColor: RGBA(45, 128, 40, 1), BorderColor: RGBA(165, 214, 167, 1)},   // Đã duyệt                      - xanh lá
+              {Code: "CLOSED",             BackColor: RGBA(232, 245, 233, 1),   TextColor: RGBA(45, 128, 40, 1), BorderColor: RGBA(165, 214, 167, 1)},   // Đã đóng phiếu                 - xanh lá
+              {Code: "REJECTED",           BackColor: RGBA(254, 226, 226, 1),   TextColor: RGBA(185, 28, 28, 1), BorderColor: RGBA(252, 165, 165, 1)},   // Từ chối                       - đỏ
+              {Code: "RECOUNT_REQUIRED",   BackColor: RGBA(254, 226, 226, 1),   TextColor: RGBA(185, 28, 28, 1), BorderColor: RGBA(252, 165, 165, 1)},   // Cần kiểm lại                  - đỏ
+              {Code: "CALCULATED",         BackColor: RGBA(227, 242, 253, 1),   TextColor: RGBA(21, 101, 192, 1), BorderColor: RGBA(147, 197, 253, 1)}    // Đã tính chênh lệch            - xanh dương
+          );
+
+      // Mã trạng thái chưa khai báo ở bảng trên sẽ dùng màu xám này
+      fxStatusDefaultBack = RGBA(243, 244, 246, 1);
+      fxStatusDefaultText = RGBA(55, 65, 81, 1);
+      fxStatusDefaultBorder = RGBA(209, 213, 219, 1);
 
       // ============================================================
       // SHIFT NAME
@@ -280,11 +424,14 @@ App:
       )
     OnStart: |
       =// varCurrentUser phải load trước
-      Set(varCurrentUser, LookUp('GFVN_SharePointListHREmployeesURL', G_Email = User().Email));
-      //Set(varCurrentUser, LookUp('GFVN_SharePointListHREmployeesURL', G_Email = "thukhotp.bl@greenfeed.com.vn"));
-
-      // varUserInPlant phụ thuộc varCurrentUser, và các mục bên dưới phụ thuộc varUserInPlant.Role
-      Set(varUserInPlant, LookUp('QLK List User In Plant', UserEmail = varCurrentUser.G_Email));
+      // Hai truy vấn người dùng đều theo email đăng nhập → chạy song song thay vì nối tiếp
+      Concurrent(
+           Set(varCurrentUser, LookUp('GFVN_SharePointListHREmployeesURL', G_Email = User().Email)),
+          //Set(varCurrentUser, LookUp('GFVN_SharePointListHREmployeesURL', G_Email = "thukhotp.bl@greenfeed.com.vn")),
+          Set(varUserInPlant, fxUserInPlant)
+      );
+      // Giữ đúng logic cũ: không có hồ sơ nhân sự thì cũng không có varUserInPlant
+      If(IsBlank(varCurrentUser), Set(varUserInPlant, Blank()));
 
       // Các lệnh còn lại độc lập → chạy song song
       Concurrent(
@@ -294,27 +441,29 @@ App:
           Set(varLoad,       1),
           // Trước đây biến này chỉ được gán ở scrUsers.OnVisible; giờ vào thẳng màn hình theo role (App.StartScreen) nên khởi tạo ở đây (màn rộng: hiện menu, mobile: ẩn)
           Set(varShowMenuUser,         App.Width > 600),
-          Set(varSelectedWarehouseTab, LookUp(col_WarehouseFormTabs, Code = "GENERAL")),
+          Set(varSelectedWarehouseTab, "GENERAL"),                              // reset tab về mặc định
+          With(
+              {_roles: fxRoleCodes},   // danh sách role (named formula, đã cache)
           With(
               {
-                  rc1:  Index(col_RoleUser,1).RoleCode,   // FG_WH         - Thủ kho thành phẩm
-                  rc2:  Index(col_RoleUser,2).RoleCode,   // FG_SUP        - Giám sát thành phẩm
-                  rc3:  Index(col_RoleUser,3).RoleCode,   // RM_WH         - Thủ kho nguyên liệu
-                  rc4:  Index(col_RoleUser,4).RoleCode,   // RM_SUP        - Giám sát nguyên liệu
-                  rc5:  Index(col_RoleUser,5).RoleCode,   // WH_STAT       - Thống kê kho
-                  rc6:  Index(col_RoleUser,6).RoleCode,   // PROD_STAT     - Thống kê sản xuất
-                  rc7:  Index(col_RoleUser,7).RoleCode,   // WH_MGR        - Trưởng bộ phận kho
-                  rc8:  Index(col_RoleUser,8).RoleCode,   // PLANT_DIR     - Giám đốc nhà máy
-                  rc9:  Index(col_RoleUser,9).RoleCode,   // VHSX_HO       - VHSX HO
-                  rc10: Index(col_RoleUser,10).RoleCode,  // FUNC_HEAD     - Trưởng khối chức năng
-                  rc11: Index(col_RoleUser,11).RoleCode,  // SYS_ADMIN     - Quản trị hệ thống
-                  rc12: Index(col_RoleUser,12).RoleCode,  // PROD_ASST     - Trợ lý sản xuất
-                  rc13: Index(col_RoleUser,13).RoleCode,  // VHSX_DD       - P.TGĐ VHSX
-                  rc14: Index(col_RoleUser,14).RoleCode,  // INV_STAFF     - Nhân viên kiểm kê/xe nâng
-                  rc15: Index(col_RoleUser,15).RoleCode,  // SHIFT_LEADER  - Trưởng ca
-                  rc16: Index(col_RoleUser,16).RoleCode,  // FG_STAFF      - Nhân viên kho thành phẩm
-                  rc17: Index(col_RoleUser,17).RoleCode,  // WH_ACC        - Kế toán kho
-                  rc18: Index(col_RoleUser,18).RoleCode   // SALES_ACC     - Kế toán bán hàng
+                  rc1:  Index(_roles,1).RoleCode,   // FG_WH         - Thủ kho thành phẩm
+                  rc2:  Index(_roles,2).RoleCode,   // FG_SUP        - Giám sát thành phẩm
+                  rc3:  Index(_roles,3).RoleCode,   // RM_WH         - Thủ kho nguyên liệu
+                  rc4:  Index(_roles,4).RoleCode,   // RM_SUP        - Giám sát nguyên liệu
+                  rc5:  Index(_roles,5).RoleCode,   // WH_STAT       - Thống kê kho
+                  rc6:  Index(_roles,6).RoleCode,   // PROD_STAT     - Thống kê sản xuất
+                  rc7:  Index(_roles,7).RoleCode,   // WH_MGR        - Trưởng bộ phận kho
+                  rc8:  Index(_roles,8).RoleCode,   // PLANT_DIR     - Giám đốc nhà máy
+                  rc9:  Index(_roles,9).RoleCode,   // VHSX_HO       - VHSX HO
+                  rc10: Index(_roles,10).RoleCode,  // FUNC_HEAD     - Trưởng khối chức năng
+                  rc11: Index(_roles,11).RoleCode,  // SYS_ADMIN     - Quản trị hệ thống
+                  rc12: Index(_roles,12).RoleCode,  // PROD_ASST     - Trợ lý sản xuất
+                  rc13: Index(_roles,13).RoleCode,  // VHSX_DD       - P.TGĐ VHSX
+                  rc14: Index(_roles,14).RoleCode,  // INV_STAFF     - Nhân viên kiểm kê/xe nâng
+                  rc15: Index(_roles,15).RoleCode,  // SHIFT_LEADER  - Trưởng ca
+                  rc16: Index(_roles,16).RoleCode,  // FG_STAFF      - Nhân viên kho thành phẩm
+                  rc17: Index(_roles,17).RoleCode,  // WH_ACC        - Kế toán kho
+                  rc18: Index(_roles,18).RoleCode   // SALES_ACC     - Kế toán bán hàng
               },
               ClearCollect(
                   colNavigationItems,
@@ -328,11 +477,11 @@ App:
                       Visible: varUserInPlant.Role in [rc7, rc6, rc12, rc9, rc2],
                       SubMenu: [
                           {
-                              ID: 21, Title: "Master data sản phẩm", Icon: "Tag", Screen: scrMasterSanPham, Sort: 2.1,
+                              ID: 21, Title: "Master data sản phẩm", Icon: "BoxMultiple", Screen: scrMasterSanPham, Sort: 2.1,
                               Visible: varUserInPlant.Role in [rc7, rc6, rc12, rc9, rc2]
                           },
                           {
-                              ID: 22, Title: "Danh mục bin", Icon: "GridView", Screen: scrDanhMucBin, Sort: 2.2,
+                              ID: 22, Title: "Danh mục bin", Icon: "GridDots", Screen: scrDanhMucBin, Sort: 2.2,
                               Visible: varUserInPlant.Role in [rc7, rc9, rc2]
                           },
                           {
@@ -340,7 +489,7 @@ App:
                               Visible: varUserInPlant.Role in [rc7, rc9, rc2]
                           },
                           {
-                              ID: 24, Title: "Ma trận phê duyệt", Icon: "CheckBadge", Screen: scrMaTranPheDuyet, Sort: 2.4,
+                              ID: 24, Title: "Ma trận phê duyệt", Icon: "CheckmarkCircle", Screen: scrMaTranPheDuyet, Sort: 2.4,
                               Visible: varUserInPlant.Role in [rc9]
                           },
                           /*{
@@ -352,7 +501,7 @@ App:
                               Visible: false
                           },
                           {
-                              ID: 27, Title: "Nhà máy", Icon: "Warning", Screen: scrPlant, Sort: 2.7,
+                              ID: 27, Title: "Nhà máy", Icon: "BuildingFactory", Screen: scrPlant, Sort: 2.7,
                               Visible: varUserInPlant.Role in [rc9]
                           }
                       ]
@@ -362,8 +511,8 @@ App:
                       Visible: varUserInPlant.Role in [rc15, rc6, rc12, rc9, rc17, rc18, rc1, rc16, rc2],
                       SubMenu: [
                           {
-                              ID: 31, Title: "Nhập kho sản xuất", Icon: "Factory", Screen: scrNhapTuSanXuat, Sort: 3.1,
-                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc12, rc16, rc1]
+                              ID: 31, Title: "Nhập kho sản xuất", Icon: "ArrowDownload", Screen: scrNhapTuSanXuat, Sort: 3.1,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc12, rc16, rc1,rc2]
                           },
                           /*{
                               ID: 32, Title: "Nhập từ hàng bao", Icon: "Factory", Screen: scrNhapTuSanXuatHangBao, Sort: 3.2,
@@ -374,14 +523,14 @@ App:
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc15, rc6, rc1]
                           },*/
                           {
-                              ID: 34, Title: "Nhập khác", Icon: "Document", Screen: scrNhapKhac, Sort: 3.4,
+                              ID: 34, Title: "Nhập khác", Icon: "ArrowImport", Screen: scrNhapKhac, Sort: 3.4,
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2]
                           }
                       ]
                       //SubMenu : []
                   },
                   {
-                      ID: 4, Title: "Xuất kho", Icon: "ArrowUp", Screen: scrXuatKho, IsGroup: true, Sort: 4,
+                      ID: 4, Title: "Xuất kho", Icon: "VehicleTruck", Screen: scrXuatKho, IsGroup: true, Sort: 4,
                       Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2,rc6],
                       /*SubMenu: [
                           {
@@ -401,22 +550,28 @@ App:
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2,rc6]
                           }
                       ]*/
-                      SubMenu : []
+                      // Tách "Xuất kho" thành 1 nhóm riêng trên menu (tiêu đề nhóm XUẤT KHO + mục Xuất kho)
+                      SubMenu: [
+                          {
+                              ID: 41, Title: "Xuất kho", Icon: "VehicleTruck", Screen: scrXuatKho, Sort: 4.1,
+                              Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc6]
+                          }
+                      ]
                   },
                   {
                       ID: 5, Title: "Kiểm kho", Icon: "DocumentBulletList", Screen: Blank(), IsGroup: true, Sort: 5,
                       Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16],
                       SubMenu: [
                           {
-                              ID: 51, Title: "Kiểm kho hàng bao", Icon: "Check", Screen: scrKiemKhoHangBao, Sort: 5.1,
+                              ID: 51, Title: "Kiểm kho hàng bao", Icon: "AppsList", Screen: scrKiemKhoHangBao, Sort: 5.1,
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16]
                           },
                           {
-                              ID: 52, Title: "Kiểm kho hàng xá", Icon: "Check", Screen: scrKiemKhoHangXa, Sort: 5.2,
+                              ID: 52, Title: "Kiểm kho hàng xá", Icon: "Document", Screen: scrKiemKhoHangXa, Sort: 5.2,
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc1, rc2, rc7, rc6, rc12, rc16]
                           },
                           {
-                              ID: 53, Title: "Kiểm kho hàng bigbag", Icon: "Check", Screen: scrKiemKeBigbag, Sort: 5.3,
+                              ID: 53, Title: "Kiểm kho hàng bigbag", Icon: "Cube", Screen: scrKiemKeBigbag, Sort: 5.3,
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc16, rc1, rc7, rc6,rc2]
                           },
                           {
@@ -430,7 +585,7 @@ App:
                       Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc15, rc12, rc8, rc13, rc1, rc7, rc6],
                       SubMenu: [
                           {
-                              ID: 61, Title: "Danh sách XNT", Icon: "Check", Screen: scrNXT, Sort: 6.1,
+                              ID: 61, Title: "Danh sách XNT", Icon: "DocumentBulletList", Screen: scrNXT, Sort: 6.1,
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc15, rc12, rc8, rc13, rc1, rc7, rc6]
                           }
                       ]
@@ -440,7 +595,7 @@ App:
                       Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc15, rc6, rc12, rc13, rc1, rc8],
                       SubMenu: [
                           {
-                              ID: 71, Title: "Quá hạn lưu kho", Icon: "Cube", Screen: scrAgingStockCount, Sort: 7.1,
+                              ID: 71, Title: "Quá hạn lưu kho", Icon: "Document", Screen: scrAgingStockCount, Sort: 7.1,
                               Visible: varUserInPlant.Role in [rc9, rc17, rc18, rc2, rc7, rc15, rc6, rc12, rc13, rc1, rc8]
                           },
                           /*{
@@ -472,28 +627,29 @@ App:
                   }
               )
           )
+          )
       );
     StartScreen: |-
       =// Vào thẳng màn hình theo role (thay cho timer tmr_AutoNavigate ở scrUsers).
-      // StartScreen không dùng được biến Set() trong OnStart nên tra role trực tiếp theo email.
+      // StartScreen không dùng được biến Set() trong OnStart nên dùng named formula fxUserInPlant / fxRoleCodes (cache chung với OnStart).
       // Role không có trong danh sách → scrUsers như trước đây
       IfError(
           With(
-              { _role: LookUp('QLK List User In Plant', UserEmail = User().Email).Role },
+              { _role: fxUserInPlant.Role, _roles: fxRoleCodes },
               Switch(
                   _role,
-                  Index(col_RoleUser,9).RoleCode,  scrUsers,           // VHSX_HO       - VHSX HO
-                  Index(col_RoleUser,16).RoleCode, srcLogin,           // FG_STAFF      - Nhân viên kho thành phẩm
-                  Index(col_RoleUser,3).RoleCode,  srcLogin,           // RM_WH         - Thủ kho nguyên liệu
-                  Index(col_RoleUser,2).RoleCode,  scrMasterSanPham,   // FG_SUP        - Giám sát thành phẩm
-                  Index(col_RoleUser,7).RoleCode,  scrMasterSanPham,   // WH_MGR        - Trưởng bộ phận kho
-                  Index(col_RoleUser,6).RoleCode,  scrMasterSanPham,   // PROD_STAT     - Thống kê sản xuất
-                  Index(col_RoleUser,12).RoleCode, scrMasterSanPham,   // PROD_ASST     - Trợ lý sản xuất
-                  Index(col_RoleUser,15).RoleCode, scrNhapTuSanXuat,   // SHIFT_LEADER  - Trưởng ca
-                  Index(col_RoleUser,17).RoleCode, scrNhapTuSanXuat,   // WH_ACC        - Kế toán kho
-                  Index(col_RoleUser,18).RoleCode, scrNhapTuSanXuat,   // SALES_ACC     - Kế toán bán hàng
-                  Index(col_RoleUser,8).RoleCode,  scrNXT,             // PLANT_DIR     - Giám đốc nhà máy
-                  Index(col_RoleUser,13).RoleCode, scrNXT,             // VHSX_DD       - P.TGĐ VHSX
+                  Index(_roles,9).RoleCode,  scrUsers,           // VHSX_HO       - VHSX HO
+                  Index(_roles,16).RoleCode, srcLogin,           // FG_STAFF      - Nhân viên kho thành phẩm
+                  Index(_roles,3).RoleCode,  srcLogin,           // RM_WH         - Thủ kho nguyên liệu
+                  Index(_roles,2).RoleCode,  scrMasterSanPham,   // FG_SUP        - Giám sát thành phẩm
+                  Index(_roles,7).RoleCode,  scrMasterSanPham,   // WH_MGR        - Trưởng bộ phận kho
+                  Index(_roles,6).RoleCode,  scrMasterSanPham,   // PROD_STAT     - Thống kê sản xuất
+                  Index(_roles,12).RoleCode, scrMasterSanPham,   // PROD_ASST     - Trợ lý sản xuất
+                  Index(_roles,15).RoleCode, scrNhapTuSanXuat,   // SHIFT_LEADER  - Trưởng ca
+                  Index(_roles,17).RoleCode, scrNhapTuSanXuat,   // WH_ACC        - Kế toán kho
+                  Index(_roles,18).RoleCode, scrNhapTuSanXuat,   // SALES_ACC     - Kế toán bán hàng
+                  Index(_roles,8).RoleCode,  scrNXT,             // PLANT_DIR     - Giám đốc nhà máy
+                  Index(_roles,13).RoleCode, scrNXT,             // VHSX_DD       - P.TGĐ VHSX
                   scrUsers
               )
           ),

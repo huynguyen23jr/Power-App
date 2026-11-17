@@ -9,6 +9,11 @@ ComponentDefinitions:
         Description: A custom property
         DataType: Number
         Default: =100
+      IsDetail:
+        PropertyKind: Output
+        DisplayName: IsDetail
+        Description: Đang ở màn hình chi tiết (khác màn hình của mục menu đang chọn)
+        DataType: Boolean
       varSizeScreen:
         PropertyKind: Input
         DisplayName: varSizeScreen
@@ -17,31 +22,37 @@ ComponentDefinitions:
         Default: =100
     Properties:
       Height: =App.Height
+      IsDetail: |-
+        =With(
+            {_scr: LookUp(fxNavFlat, ID = varSelectedMenuId).Screen},
+            !IsBlank(_scr) && App.ActiveScreen <> _scr
+        )
       Width: =App.Width
     Children:
       - Container1:
           Control: GroupContainer
           Variant: AutoLayout
           Properties:
+            BorderColor: =RGBA(229, 231, 235, 1)
             DropShadow: =DropShadow.None
-            Fill: =RGBA(45, 128, 40, 1)
+            Fill: =RGBA(255, 255, 255, 1)
             Height: =55
-            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutAlignItems: =LayoutAlignItems.Center
             LayoutDirection: =LayoutDirection.Horizontal
-            LayoutGap: =10
-            PaddingLeft: =20
-            PaddingRight: =20
+            LayoutGap: =If(Header.varSizeScreen = 1, 8, 14)
+            PaddingLeft: =If(Header.varSizeScreen = 1, 12, 16)
+            PaddingRight: =If(Header.varSizeScreen = 1, 12, 20)
             RadiusBottomLeft: =0
             RadiusBottomRight: =0
             RadiusTopLeft: =0
             RadiusTopRight: =0
-            Width: =App.Width
+            Width: =Header.Width
           Children:
             - icoToggleMenu:
                 Control: Classic/Icon
                 Properties:
-                  Color: =fxTextWhite
-                  Height: =30
+                  Color: =RGBA(31, 41, 55, 1)
+                  Height: =24
                   Icon: |-
                     =If(
                         Header.varSizeScreen = 1 && Header.IDRecord = 2,
@@ -58,32 +69,238 @@ ComponentDefinitions:
                         varShowMenuUser,
                         !varShowMenuUser
                     )
-                  Width: =30
-            - Image1:
-                Control: Image
+                  Width: =24
+            - conHeaderBreadcrumb:
+                Control: GroupContainer
+                Variant: AutoLayout
                 Properties:
-                  Image: ='Designer (1)'
-                  LayoutMinHeight: =16
-                  LayoutMinWidth: =16
-                  Width: =60
-            - Text1:
-                Control: ModernText
-                Properties:
-                  AlignInContainer: =AlignInContainer.Stretch
-                  Color: =fxTextWhite
-                  FillPortions: =1
-                  Font: =fxFontFamily
-                  FontWeight: =FontWeight.Bold
-                  LayoutMinHeight: =16
-                  LayoutMinWidth: =16
-                  Size: =fxFontSizeXL
-                  Text: =Upper(varAppName)
+                  AlignInContainer: =AlignInContainer.SetByContainer
+                  DropShadow: =DropShadow.None
+                  Height: =40
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutJustifyContent: =If(Header.varSizeScreen = 1, LayoutJustifyContent.Center, LayoutJustifyContent.Start)
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - btnBc1:
+                      Control: ModernButton
+                      Properties:
+                        AccessibleLabel: =btnBc1.Text
+                        Appearance: =ButtonAppearance.Transparent
+                        BasePaletteColor: =RGBA(22, 163, 74, 1)
+                        Color: =If(btnBc1.DisplayMode = DisplayMode.Edit, RGBA(107, 114, 128, 1), RGBA(17, 24, 39, 1))
+                        DisplayMode: =If(LookUp(fxBreadcrumb, Lvl = 1).Link, DisplayMode.Edit, DisplayMode.View)
+                        Font: =fxFontFamily
+                        FontWeight: =If(btnBc1.DisplayMode = DisplayMode.Edit, FontWeight.Normal, FontWeight.Semibold)
+                        Layout: =ButtonLayout.TextOnly
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        OnSelect: |-
+                          =If(
+                              LookUp(fxBreadcrumb, Lvl = 1).Id > 0,
+                              Set(varSelectedMenuId, LookUp(fxBreadcrumb, Lvl = 1).Id);
+                              Navigate(LookUp(fxNavFlat, ID = LookUp(fxBreadcrumb, Lvl = 1).Id).Screen, ScreenTransition.Fade)
+                          )
+                        PaddingLeft: =6
+                        PaddingRight: =6
+                        Size: =fxFontSizeMD
+                        Text: =LookUp(fxBreadcrumb, Lvl = 1).Txt
+                        Tooltip: =If(btnBc1.DisplayMode = DisplayMode.Edit, "Đi tới " & btnBc1.Text, "")
+                        Visible: =Header.varSizeScreen <> 1
+                        Width: =Len(btnBc1.Text) * 9 + 22
+                  - lblBcSep2:
+                      Control: ModernText
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(156, 163, 175, 1)
+                        Font: =fxFontFamily
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =fxFontSizeMD
+                        Text: ="/"
+                        Visible: =Header.varSizeScreen <> 1 && !IsBlank(LookUp(fxBreadcrumb, Lvl = 2))
+                        Width: =10
+                        Wrap: =false
+                  - btnBc2:
+                      Control: ModernButton
+                      Properties:
+                        AccessibleLabel: =btnBc2.Text
+                        Appearance: =ButtonAppearance.Transparent
+                        BasePaletteColor: =RGBA(22, 163, 74, 1)
+                        Color: =If(btnBc2.DisplayMode = DisplayMode.Edit, RGBA(107, 114, 128, 1), RGBA(17, 24, 39, 1))
+                        DisplayMode: =If(LookUp(fxBreadcrumb, Lvl = 2).Link, DisplayMode.Edit, DisplayMode.View)
+                        Font: =fxFontFamily
+                        FontWeight: =If(btnBc2.DisplayMode = DisplayMode.Edit, FontWeight.Normal, FontWeight.Semibold)
+                        Layout: =ButtonLayout.TextOnly
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        OnSelect: |-
+                          =If(
+                              LookUp(fxBreadcrumb, Lvl = 2).Id > 0,
+                              Set(varSelectedMenuId, LookUp(fxBreadcrumb, Lvl = 2).Id);
+                              Navigate(LookUp(fxNavFlat, ID = LookUp(fxBreadcrumb, Lvl = 2).Id).Screen, ScreenTransition.Fade)
+                          )
+                        PaddingLeft: =6
+                        PaddingRight: =6
+                        Size: =fxFontSizeMD
+                        Text: =LookUp(fxBreadcrumb, Lvl = 2).Txt
+                        Tooltip: =If(btnBc2.DisplayMode = DisplayMode.Edit, "Đi tới " & btnBc2.Text, "")
+                        Visible: =Header.varSizeScreen <> 1 && !IsBlank(LookUp(fxBreadcrumb, Lvl = 2))
+                        Width: =Len(btnBc2.Text) * 9 + 22
+                  - lblBcSep3:
+                      Control: ModernText
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(156, 163, 175, 1)
+                        Font: =fxFontFamily
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =fxFontSizeMD
+                        Text: ="/"
+                        Visible: =Header.varSizeScreen <> 1 && !IsBlank(LookUp(fxBreadcrumb, Lvl = 3))
+                        Width: =10
+                        Wrap: =false
+                  - btnBc3:
+                      Control: ModernButton
+                      Properties:
+                        AccessibleLabel: =btnBc3.Text
+                        Appearance: =ButtonAppearance.Transparent
+                        BasePaletteColor: =RGBA(22, 163, 74, 1)
+                        Color: =If(btnBc3.DisplayMode = DisplayMode.Edit, RGBA(107, 114, 128, 1), RGBA(17, 24, 39, 1))
+                        DisplayMode: =If(Header.IsDetail, DisplayMode.Edit, DisplayMode.View)
+                        Font: =fxFontFamily
+                        FontWeight: =If(btnBc3.DisplayMode = DisplayMode.Edit, FontWeight.Normal, FontWeight.Semibold)
+                        Layout: =ButtonLayout.TextOnly
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        OnSelect: |-
+                          =If(
+                              LookUp(fxBreadcrumb, Lvl = 3).Id > 0,
+                              Set(varSelectedMenuId, LookUp(fxBreadcrumb, Lvl = 3).Id);
+                              Navigate(LookUp(fxNavFlat, ID = LookUp(fxBreadcrumb, Lvl = 3).Id).Screen, ScreenTransition.Fade)
+                          )
+                        PaddingLeft: =6
+                        PaddingRight: =6
+                        Size: =fxFontSizeMD
+                        Text: =LookUp(fxBreadcrumb, Lvl = 3).Txt
+                        Tooltip: =If(btnBc3.DisplayMode = DisplayMode.Edit, "Đi tới " & btnBc3.Text, "")
+                        Visible: =!IsBlank(LookUp(fxBreadcrumb, Lvl = 3))
+                        Width: =If(Header.varSizeScreen = 1, Header.Width - 88 - If(Header.IsDetail, 90, 0), Len(btnBc3.Text) * 9 + 22)
+                  - lblBcSep4:
+                      Control: ModernText
+                      Properties:
+                        Align: =Align.Center
+                        Color: =RGBA(156, 163, 175, 1)
+                        Font: =fxFontFamily
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =fxFontSizeMD
+                        Text: ="/"
+                        Visible: =Header.IsDetail && !IsBlank(LookUp(fxBreadcrumb, Lvl = 3))
+                        Width: =10
+                        Wrap: =false
+                  - btnBc4:
+                      Control: ModernButton
+                      Properties:
+                        AccessibleLabel: ="Chi tiết"
+                        Appearance: =ButtonAppearance.Transparent
+                        BasePaletteColor: =RGBA(22, 163, 74, 1)
+                        Color: =RGBA(17, 24, 39, 1)
+                        DisplayMode: =DisplayMode.View
+                        Font: =fxFontFamily
+                        FontWeight: =FontWeight.Semibold
+                        Layout: =ButtonLayout.TextOnly
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        PaddingLeft: =6
+                        PaddingRight: =6
+                        Size: =fxFontSizeMD
+                        Text: ="Chi tiết"
+                        Visible: =Header.IsDetail && !IsBlank(LookUp(fxBreadcrumb, Lvl = 3))
+                        Width: =70
             - Avatar1:
                 Control: Avatar
                 Properties:
-                  AlignInContainer: =AlignInContainer.Center
-                  Badge: ='Avatar.Badge'.Available
-                  Height: =45
+                  Badge: ='Avatar.Badge'.None
+                  Height: =If(Header.varSizeScreen = 1, 32, 36)
                   LayoutMinHeight: =16
                   LayoutMinWidth: =16
-                  Width: =45
+                  Name: =Coalesce(varCurrentUser.FullName, User().FullName)
+                  Visible: =Header.varSizeScreen <> 1
+                  Width: =If(Header.varSizeScreen = 1, 32, 36)
+            - con_HeaderUserInfo:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.Center
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =40
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutJustifyContent: =LayoutJustifyContent.Center
+                  LayoutMinHeight: =16
+                  LayoutMinWidth: =16
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                  Visible: =Header.varSizeScreen <> 1
+                  Width: =If(Header.varSizeScreen = 1, 92, 170)
+                Children:
+                  - lblHeaderUserName:
+                      Control: ModernText
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Color: =RGBA(17, 24, 39, 1)
+                        Font: =fxFontFamily
+                        FontWeight: =FontWeight.Semibold
+                        Height: =20
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingTop: =0
+                        Size: =If(Header.varSizeScreen = 1, fxFontSizeSM, fxFontSizeMD)
+                        Text: |-
+                          =With(
+                              {_name: Upper(Coalesce(varCurrentUser.FullName, User().FullName))},
+                              If(Header.varSizeScreen = 1 && Len(_name) > 11, Left(_name, 10) & "…", _name)
+                          )
+                        Wrap: =false
+                  - lblHeaderUserRole:
+                      Control: ModernText
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Color: =RGBA(107, 114, 128, 1)
+                        Font: =fxFontFamily
+                        Height: =18
+                        LayoutMinHeight: =0
+                        LayoutMinWidth: =0
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingTop: =0
+                        Size: =If(Header.varSizeScreen = 1, fxFontSizeXS, fxFontSizeSM)
+                        Text: =LookUp(col_RoleUser, RoleCode = varUserInPlant.Role).RoleNameVI
+                        Wrap: =false
+            - con_HeaderSpacerMobile:
+                Control: GroupContainer
+                Variant: ManualLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  Height: =24
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  Visible: =Header.varSizeScreen = 1
+                  Width: =24
