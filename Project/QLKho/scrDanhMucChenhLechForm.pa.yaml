@@ -152,7 +152,6 @@ Screens:
                                         Control: ModernButton
                                         Properties:
                                           Appearance: =ButtonAppearance.Secondary
-                                          Height: =40
                                           Icon: ="ChevronLeft"
                                           Layout: =ButtonLayout.IconOnly
                                           LayoutMinHeight: =16
@@ -178,7 +177,6 @@ Screens:
                                         Properties:
                                           FillPortions: =1
                                           Font: =fxFontFamily
-                                          Height: =40
                                           Icon: =Switch(IfError(Value(Index(Split(lbl_MobileActionPos_KCLF.Text, ","), 1).Value), 0), 1, "Save", 2, "ArrowClockwise", "Save")
                                           LayoutMinHeight: =16
                                           LayoutMinWidth: =16
@@ -201,7 +199,6 @@ Screens:
                                           Appearance: =ButtonAppearance.Outline
                                           FillPortions: =1
                                           Font: =fxFontFamily
-                                          Height: =40
                                           Icon: =Switch(IfError(Value(Index(Split(lbl_MobileActionPos_KCLF.Text, ","), 2).Value), 0), 1, "Save", 2, "ArrowClockwise", "Save")
                                           LayoutMinHeight: =16
                                           LayoutMinWidth: =16
@@ -222,7 +219,6 @@ Screens:
                                         Control: ModernButton
                                         Properties:
                                           Appearance: =ButtonAppearance.Secondary
-                                          Height: =40
                                           Icon: ="MoreHorizontal"
                                           Layout: =ButtonLayout.IconOnly
                                           LayoutMinHeight: =16
@@ -353,12 +349,13 @@ Screens:
                                           Height: |-
                                             =If(
                                                 scrDanhMucChenhLechForm.Size = 1,
-                                                10 + 30 + 8 + (4 * 78 + 3 * 12 + 10) + 8 + 128 + 10 + 8,
-                                                10 + 30 + 8 + (4 * 78 + 3 * 10 + 10) + 8 + 128 + 10 + 8
+                                                10 + 36 + 8 + (4 * 78 + 3 * 12 + 10) + 8 + 134 + 10 + 8,
+                                                10 + 36 + 8 + (2 * 78 + 1 * 10 + 10) + 8 + 104 + 10 + 8
                                             )
                                           LayoutAlignItems: =LayoutAlignItems.Stretch
                                           LayoutDirection: =LayoutDirection.Vertical
                                           LayoutGap: =8
+                                          LayoutOverflowY: =LayoutOverflow.Hide
                                           LayoutMinHeight: =16
                                           LayoutMinWidth: =16
                                           PaddingBottom: =10
@@ -377,8 +374,13 @@ Screens:
                                                 Color: =RGBA(45, 128, 40, 1)
                                                 Font: =fxFontFamily
                                                 FontWeight: =fxFontWeightBold
-                                                Height: =30
+                                                Height: =36
+                                                LayoutMinWidth: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingTop: =0
                                                 Size: =fxFontSizeLG
+                                                LayoutMinHeight: =0
                                                 Text: ="Thông tin chênh lệch"
                                                 Wrap: =false
                                           - con_GridChenhLech:
@@ -387,10 +389,11 @@ Screens:
                                               Properties:
                                                 DropShadow: =DropShadow.None
                                                 FillPortions: =0
-                                                Height: =If(scrDanhMucChenhLechForm.Size = 1, 4 * 78 + 3 * 12 + 10, 4 * 78 + 3 * 10 + 10)
+                                                Height: =If(scrDanhMucChenhLechForm.Size = 1, 4 * 78 + 3 * 12 + 10, 2 * 78 + 1 * 10 + 10)
                                                 LayoutGap: =If(scrDanhMucChenhLechForm.Size = 1, 12, 10)
-                                                LayoutGridColumns: =2
-                                                LayoutGridRows: =4
+                                                LayoutOverflowY: =LayoutOverflow.Hide
+                                                LayoutGridColumns: =If(scrDanhMucChenhLechForm.Size = 1, 2, 4)
+                                                LayoutGridRows: =If(scrDanhMucChenhLechForm.Size = 1, 4, 2)
                                                 PaddingBottom: =5
                                                 PaddingLeft: =5
                                                 PaddingRight: =5
@@ -403,6 +406,7 @@ Screens:
                                                       DropShadow: =DropShadow.None
                                                       LayoutDirection: =LayoutDirection.Vertical
                                                       LayoutGap: =6
+                                                      LayoutOverflowY: =LayoutOverflow.Hide
                                                     Children:
                                                       - lbl_NgayKiem_FormLbl:
                                                           Control: ModernText
@@ -411,7 +415,13 @@ Screens:
                                                             Color: =RGBA(55, 65, 81, 1)
                                                             Font: =fxFontFamily
                                                             FontWeight: =fxFontWeightNormal
-                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Wrap: =false
+                                                            Height: =28
                                                             Size: =fxFontSizeMD
                                                             Text: ="Ngày kiểm"
                                                       - datePicker_NgayKiem_FormVal:
@@ -431,6 +441,7 @@ Screens:
                                                       DropShadow: =DropShadow.None
                                                       LayoutDirection: =LayoutDirection.Vertical
                                                       LayoutGap: =6
+                                                      LayoutOverflowY: =LayoutOverflow.Hide
                                                     Children:
                                                       - lbl_LoaiHang_FormLbl:
                                                           Control: ModernText
@@ -439,7 +450,13 @@ Screens:
                                                             Color: =RGBA(55, 65, 81, 1)
                                                             Font: =fxFontFamily
                                                             FontWeight: =fxFontWeightNormal
-                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Wrap: =false
+                                                            Height: =28
                                                             Size: =fxFontSizeMD
                                                             Text: ="Loại hàng"
                                                       - cbb_LoaiHang_FormVal:
@@ -464,6 +481,7 @@ Screens:
                                                       DropShadow: =DropShadow.None
                                                       LayoutDirection: =LayoutDirection.Vertical
                                                       LayoutGap: =6
+                                                      LayoutOverflowY: =LayoutOverflow.Hide
                                                     Children:
                                                       - lbl_MaSAP_FormLbl:
                                                           Control: ModernText
@@ -472,7 +490,13 @@ Screens:
                                                             Color: =RGBA(55, 65, 81, 1)
                                                             Font: =fxFontFamily
                                                             FontWeight: =fxFontWeightNormal
-                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Wrap: =false
+                                                            Height: =28
                                                             Size: =fxFontSizeMD
                                                             Text: ="Mã SAP"
                                                       - cbb_MaSAP_FormLbl:
@@ -495,6 +519,7 @@ Screens:
                                                       DropShadow: =DropShadow.None
                                                       LayoutDirection: =LayoutDirection.Vertical
                                                       LayoutGap: =6
+                                                      LayoutOverflowY: =LayoutOverflow.Hide
                                                     Children:
                                                       - lbl_TonSoSach_FormLbl:
                                                           Control: ModernText
@@ -503,13 +528,20 @@ Screens:
                                                             Color: =RGBA(55, 65, 81, 1)
                                                             Font: =fxFontFamily
                                                             FontWeight: =fxFontWeightNormal
-                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Wrap: =false
+                                                            Height: =28
                                                             Size: =fxFontSizeMD
                                                             Text: ="Tồn sổ sách"
                                                       - num_TonSoSach_Form:
                                                           Control: ModernNumberInput
                                                           Properties:
                                                             AlignInContainer: =AlignInContainer.Stretch
+                                                            Appearance: =Appearance.Outline
                                                             Default: =varStockCountDifferenceDetail.BookQty
                                                             DisplayMode: =DisplayMode.Disabled
                                                             Font: =fxFontFamily
@@ -522,6 +554,7 @@ Screens:
                                                       DropShadow: =DropShadow.None
                                                       LayoutDirection: =LayoutDirection.Vertical
                                                       LayoutGap: =6
+                                                      LayoutOverflowY: =LayoutOverflow.Hide
                                                     Children:
                                                       - lbl_TonThucTe_FormLbl:
                                                           Control: ModernText
@@ -530,7 +563,13 @@ Screens:
                                                             Color: =RGBA(55, 65, 81, 1)
                                                             Font: =fxFontFamily
                                                             FontWeight: =fxFontWeightNormal
-                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Wrap: =false
+                                                            Height: =28
                                                             Size: =fxFontSizeMD
                                                             Text: ="Tồn thực tế *"
                                                       - num_TonThucTe_Form:
@@ -550,6 +589,7 @@ Screens:
                                                       DropShadow: =DropShadow.None
                                                       LayoutDirection: =LayoutDirection.Vertical
                                                       LayoutGap: =6
+                                                      LayoutOverflowY: =LayoutOverflow.Hide
                                                     Children:
                                                       - lbl_SaiLech_FormLbl:
                                                           Control: ModernText
@@ -558,13 +598,20 @@ Screens:
                                                             Color: =RGBA(55, 65, 81, 1)
                                                             Font: =fxFontFamily
                                                             FontWeight: =fxFontWeightNormal
-                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Wrap: =false
+                                                            Height: =28
                                                             Size: =fxFontSizeMD
                                                             Text: ="Sai lệch"
                                                       - num_SaiLech_Form:
                                                           Control: ModernNumberInput
                                                           Properties:
                                                             AlignInContainer: =AlignInContainer.Stretch
+                                                            Appearance: =Appearance.Outline
                                                             Default: =varStockCountDifferenceDetail.VarianceQty
                                                             DisplayMode: =DisplayMode.Disabled
                                                             Font: =fxFontFamily
@@ -577,6 +624,7 @@ Screens:
                                                       DropShadow: =DropShadow.None
                                                       LayoutDirection: =LayoutDirection.Vertical
                                                       LayoutGap: =6
+                                                      LayoutOverflowY: =LayoutOverflow.Hide
                                                     Children:
                                                       - lbl_KiemLai_FormLbl:
                                                           Control: ModernText
@@ -585,7 +633,13 @@ Screens:
                                                             Color: =RGBA(55, 65, 81, 1)
                                                             Font: =fxFontFamily
                                                             FontWeight: =fxFontWeightNormal
-                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Wrap: =false
+                                                            Height: =28
                                                             Size: =fxFontSizeMD
                                                             Text: ="Kiểm lại"
                                                       - chk_KiemLai_Form:
@@ -601,6 +655,7 @@ Screens:
                                                       DropShadow: =DropShadow.None
                                                       LayoutDirection: =LayoutDirection.Vertical
                                                       LayoutGap: =6
+                                                      LayoutOverflowY: =LayoutOverflow.Hide
                                                     Children:
                                                       - lbl_TrangThai_FormLbl:
                                                           Control: ModernText
@@ -609,7 +664,13 @@ Screens:
                                                             Color: =RGBA(55, 65, 81, 1)
                                                             Font: =fxFontFamily
                                                             FontWeight: =fxFontWeightNormal
-                                                            Height: =22
+                                                            LayoutMinHeight: =0
+                                                            LayoutMinWidth: =0
+                                                            PaddingBottom: =0
+                                                            PaddingLeft: =0
+                                                            PaddingTop: =0
+                                                            Wrap: =false
+                                                            Height: =28
                                                             Size: =fxFontSizeMD
                                                             Text: ="Trạng thái"
                                                       - lbl_TrangThai_FormBadge:
@@ -645,9 +706,10 @@ Screens:
                                               Properties:
                                                 DropShadow: =DropShadow.None
                                                 FillPortions: =0
-                                                Height: =22 + 6 + 100
+                                                Height: =If(scrDanhMucChenhLechForm.Size = 1, 28 + 6 + 100, 28 + 6 + 70)
                                                 LayoutDirection: =LayoutDirection.Vertical
                                                 LayoutGap: =6
+                                                LayoutOverflowY: =LayoutOverflow.Hide
                                                 PaddingLeft: =5
                                                 PaddingRight: =5
                                               Children:
@@ -658,21 +720,483 @@ Screens:
                                                       Color: =RGBA(55, 65, 81, 1)
                                                       Font: =fxFontFamily
                                                       FontWeight: =fxFontWeightNormal
-                                                      Height: =22
+                                                      LayoutMinHeight: =0
+                                                      LayoutMinWidth: =0
+                                                      PaddingBottom: =0
+                                                      PaddingLeft: =0
+                                                      PaddingTop: =0
+                                                      Wrap: =false
+                                                      Height: =28
                                                       Size: =fxFontSizeMD
                                                       Text: ="Giải trình"
                                                 - txt_Explanation_Form:
                                                     Control: ModernTextInput
                                                     Properties:
                                                       AlignInContainer: =AlignInContainer.Stretch
+                                                      Appearance: =Appearance.Outline
                                                       Default: =varStockCountDifferenceDetail.Explanation
                                                       DisplayMode: =If(varStockCountDifferenceDetail.StatusCode = "DRAFT", DisplayMode.Edit, DisplayMode.View)
                                                       Font: =fxFontFamily
-                                                      Height: =100
+                                                      Height: =If(scrDanhMucChenhLechForm.Size = 1, 100, 70)
                                                       LayoutMinWidth: =16
                                                       Placeholder: ="Nhập giải trình..."
                                                       Size: =fxFontSizeMD
                                                       Type: =TextInputType.Multiline
+                                    - con_SectionNXTDetail_KCLF:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          DropShadow: =DropShadow.Regular
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0
+                                          Height: =10 + 36 + 8 + 36 + 220 + 10 + 8
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =8
+                                          LayoutOverflowY: =LayoutOverflow.Hide
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          PaddingBottom: =10
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          PaddingTop: =10
+                                          RadiusBottomLeft: =5
+                                          RadiusBottomRight: =5
+                                          RadiusTopLeft: =5
+                                          RadiusTopRight: =5
+                                          Width: =Parent.Width - 20
+                                        Children:
+                                          - lbl_TitleNXTDetail_KCLF:
+                                              Control: ModernText
+                                              Properties:
+                                                Color: =RGBA(45, 128, 40, 1)
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Height: =36
+                                                LayoutMinWidth: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingTop: =0
+                                                Size: =fxFontSizeLG
+                                                LayoutMinHeight: =0
+                                                Text: ="Chi tiết nhập xuất tồn (NXT)"
+                                                Wrap: =false
+                                          - con_HeaderNXTDetail_KCLF:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(243, 244, 246, 1)
+                                                FillPortions: =0
+                                                Height: =36
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =5
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                PaddingLeft: =8
+                                                PaddingRight: =8
+                                              Children:
+                                                - lbl_HNXTDetail_KCLF_1:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Mã SAP"
+                                                      Wrap: =false
+                                                      FillPortions: =2
+                                                - lbl_HNXTDetail_KCLF_2:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Align: =Align.Right
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Tồn đầu"
+                                                      Wrap: =false
+                                                      FillPortions: =1
+                                                - lbl_HNXTDetail_KCLF_3:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Align: =Align.Right
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Nhập"
+                                                      Wrap: =false
+                                                      FillPortions: =1
+                                                - lbl_HNXTDetail_KCLF_4:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Align: =Align.Right
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Xuất"
+                                                      Wrap: =false
+                                                      FillPortions: =1
+                                                - lbl_HNXTDetail_KCLF_5:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Align: =Align.Right
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Tồn sổ sách"
+                                                      Wrap: =false
+                                                      FillPortions: =1
+                                                - lbl_HNXTDetail_KCLF_6:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Align: =Align.Right
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Tồn thực tế"
+                                                      Wrap: =false
+                                                      FillPortions: =1
+                                          - gal_NXTDetail_KCLF:
+                                              Control: Gallery
+                                              Variant: Vertical
+                                              Properties:
+                                                BorderStyle: =BorderStyle.None
+                                                FillPortions: =0
+                                                Height: =220
+                                                Items: |-
+                                                  =Filter(
+                                                      'QLK List Inventory Details',
+                                                      ID = Value(varStockCountDifferenceDetail.IDInventoryDetails)
+                                                  )
+                                                OnSelect: |-
+                                                  =// Mở phiếu NXT chứa dòng chi tiết đang chọn
+                                                  Set(varNXTDetail, LookUp('QLK List Inventory', ID = ThisItem.InventoryID));
+                                                  Navigate(scrNXTForm, ScreenTransition.CoverRight)
+                                                TemplateSize: =36
+                                                TemplatePadding: =0
+                                                ShowScrollbar: =true
+                                              Children:
+                                                - con_RowNXTDetail_KCLF:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      BorderColor: =RGBA(229, 231, 235, 1)
+                                                      BorderThickness: =1
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =gal_NXTDetail_KCLF.TemplateHeight
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =5
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      PaddingLeft: =8
+                                                      PaddingRight: =8
+                                                      Width: =Parent.Width
+                                                    Children:
+                                                      - lbl_RNXTDetail_KCLF_1:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =ThisItem.SAPCode
+                                                            Wrap: =false
+                                                            FillPortions: =2
+                                                      - lbl_RNXTDetail_KCLF_2:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Align: =Align.Right
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =Text(Coalesce(ThisItem.OpeningQty, 0), "#,##0.##")
+                                                            Wrap: =false
+                                                            FillPortions: =1
+                                                      - lbl_RNXTDetail_KCLF_3:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Align: =Align.Right
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =Text(Coalesce(ThisItem.TotalReceiptQty, 0), "#,##0.##")
+                                                            Wrap: =false
+                                                            FillPortions: =1
+                                                      - lbl_RNXTDetail_KCLF_4:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Align: =Align.Right
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =Text(Coalesce(ThisItem.TotalIssueQty, 0), "#,##0.##")
+                                                            Wrap: =false
+                                                            FillPortions: =1
+                                                      - lbl_RNXTDetail_KCLF_5:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Align: =Align.Right
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =Text(Coalesce(ThisItem.ClosingQty, 0), "#,##0.##")
+                                                            Wrap: =false
+                                                            FillPortions: =1
+                                                      - lbl_RNXTDetail_KCLF_6:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Align: =Align.Right
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =Text(Coalesce(ThisItem.ActualQty, 0), "#,##0.##")
+                                                            Wrap: =false
+                                                            FillPortions: =1
+                                    - con_SectionStockCountDetail_KCLF:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.SetByContainer
+                                          DropShadow: =DropShadow.Regular
+                                          Fill: =RGBA(255, 255, 255, 1)
+                                          FillPortions: =0
+                                          Height: =10 + 36 + 8 + 36 + 220 + 10 + 8
+                                          LayoutAlignItems: =LayoutAlignItems.Stretch
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          LayoutGap: =8
+                                          LayoutOverflowY: =LayoutOverflow.Hide
+                                          LayoutMinHeight: =16
+                                          LayoutMinWidth: =16
+                                          PaddingBottom: =10
+                                          PaddingLeft: =10
+                                          PaddingRight: =10
+                                          PaddingTop: =10
+                                          RadiusBottomLeft: =5
+                                          RadiusBottomRight: =5
+                                          RadiusTopLeft: =5
+                                          RadiusTopRight: =5
+                                          Width: =Parent.Width - 20
+                                        Children:
+                                          - lbl_TitleStockCountDetail_KCLF:
+                                              Control: ModernText
+                                              Properties:
+                                                Color: =RGBA(45, 128, 40, 1)
+                                                Font: =fxFontFamily
+                                                FontWeight: =fxFontWeightBold
+                                                Height: =36
+                                                LayoutMinWidth: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingTop: =0
+                                                Size: =fxFontSizeLG
+                                                LayoutMinHeight: =0
+                                                Text: ="Chi tiết các mã kiểm kê liên quan"
+                                                Wrap: =false
+                                          - con_HeaderStockCountDetail_KCLF:
+                                              Control: GroupContainer
+                                              Variant: AutoLayout
+                                              Properties:
+                                                DropShadow: =DropShadow.None
+                                                Fill: =RGBA(243, 244, 246, 1)
+                                                FillPortions: =0
+                                                Height: =36
+                                                LayoutAlignItems: =LayoutAlignItems.Center
+                                                LayoutDirection: =LayoutDirection.Horizontal
+                                                LayoutGap: =5
+                                                LayoutMinHeight: =16
+                                                LayoutMinWidth: =16
+                                                PaddingLeft: =8
+                                                PaddingRight: =8
+                                              Children:
+                                                - lbl_HStockCountDetail_KCLF_1:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="ID"
+                                                      Wrap: =false
+                                                      FillPortions: =1
+                                                - lbl_HStockCountDetail_KCLF_2:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Mã SAP"
+                                                      Wrap: =false
+                                                      FillPortions: =2
+                                                - lbl_HStockCountDetail_KCLF_3:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Ngày kiểm"
+                                                      Wrap: =false
+                                                      FillPortions: =1
+                                                - lbl_HStockCountDetail_KCLF_4:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Loại kiểm"
+                                                      Wrap: =false
+                                                      FillPortions: =1
+                                                - lbl_HStockCountDetail_KCLF_5:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Align: =Align.Right
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Số lượng kiểm"
+                                                      Wrap: =false
+                                                      FillPortions: =1
+                                                - lbl_HStockCountDetail_KCLF_6:
+                                                    Control: ModernText
+                                                    Properties:
+                                                      Font: =fxFontFamily
+                                                      FontWeight: =fxFontWeightSemiBold
+                                                      LayoutMinWidth: =16
+                                                      Size: =fxFontSizeSM
+                                                      Text: ="Trạng thái"
+                                                      Wrap: =false
+                                                      FillPortions: =1
+                                          - gal_StockCountDetail_KCLF:
+                                              Control: Gallery
+                                              Variant: Vertical
+                                              Properties:
+                                                BorderStyle: =BorderStyle.None
+                                                FillPortions: =0
+                                                Height: =220
+                                                Items: |-
+                                                  =With(
+                                                      {
+                                                          _ids: ForAll(Split(varStockCountDifferenceDetail.IDStockCountDetails, ";"), Value(Value)),
+                                                          _src: Filter(
+                                                              'QLK List Stock Count Details',
+                                                              PlantCode = varStockCountDifferenceDetail.PlantCode,
+                                                              SAPCode = varStockCountDifferenceDetail.SAPCode
+                                                          )
+                                                      },
+                                                      Filter(_src, ID in _ids)
+                                                  )
+                                                OnSelect: |-
+                                                  =// Mở form kiểm kê của mã kiểm kê đang chọn
+                                                  Set(varStockCountDetail, LookUp('QLK List Stock Count Details', ID = ThisItem.ID));
+                                                  Set(varStockCountType, ThisItem.StockCountType);
+                                                  Navigate(scrKiemKhoForm, ScreenTransition.CoverRight);
+                                                  Reset(cmb_ProductCode);
+                                                  Reset(num_PalletQty);
+                                                  Reset(num_OddBagQty);
+                                                  Reset(dp_ProductionDate);
+                                                  Reset(num_BrokenBagQty);
+                                                  Reset(num_OddBoxQty);
+                                                  Reset(num_OddKgQty);
+                                                  Reset(txt_Note_Bao);
+                                                  Reset(txt_LocationName_Bao);
+                                                  Reset(cmb_XaDensityCode);
+                                                  Reset(cmb_XaBinCode);
+                                                  Reset(num_Measure1);
+                                                  Reset(num_Measure2);
+                                                  Reset(num_Measure3);
+                                                  Reset(num_DustSteamQty);
+                                                  Reset(cmb_ProductCode_Bigbag);
+                                                  Reset(num_BigBagQty);
+                                                  Reset(num_BigBagWeight);
+                                                  Reset(num_NetBigBagWeight);
+                                                  Reset(cmb_ProductCategory);
+                                                  Reset(cmb_StockCountType)
+                                                TemplateSize: =36
+                                                TemplatePadding: =0
+                                                ShowScrollbar: =true
+                                              Children:
+                                                - con_RowStockCountDetail_KCLF:
+                                                    Control: GroupContainer
+                                                    Variant: AutoLayout
+                                                    Properties:
+                                                      BorderColor: =RGBA(229, 231, 235, 1)
+                                                      BorderThickness: =1
+                                                      DropShadow: =DropShadow.None
+                                                      Height: =gal_StockCountDetail_KCLF.TemplateHeight
+                                                      LayoutAlignItems: =LayoutAlignItems.Center
+                                                      LayoutDirection: =LayoutDirection.Horizontal
+                                                      LayoutGap: =5
+                                                      LayoutMinHeight: =16
+                                                      LayoutMinWidth: =16
+                                                      PaddingLeft: =8
+                                                      PaddingRight: =8
+                                                      Width: =Parent.Width
+                                                    Children:
+                                                      - lbl_RStockCountDetail_KCLF_1:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =Text(ThisItem.ID)
+                                                            Wrap: =false
+                                                            FillPortions: =1
+                                                      - lbl_RStockCountDetail_KCLF_2:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =ThisItem.SAPCode
+                                                            Wrap: =false
+                                                            FillPortions: =2
+                                                      - lbl_RStockCountDetail_KCLF_3:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =Text(ThisItem.StockCountDate, "dd/mm/yyyy")
+                                                            Wrap: =false
+                                                            FillPortions: =1
+                                                      - lbl_RStockCountDetail_KCLF_4:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =ThisItem.StockCountType
+                                                            Wrap: =false
+                                                            FillPortions: =1
+                                                      - lbl_RStockCountDetail_KCLF_5:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Align: =Align.Right
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =Text(Coalesce(ThisItem.ActualQty, 0), "#,##0.##")
+                                                            Wrap: =false
+                                                            FillPortions: =1
+                                                      - lbl_RStockCountDetail_KCLF_6:
+                                                          Control: ModernText
+                                                          Properties:
+                                                            Font: =fxFontFamily
+                                                            LayoutMinWidth: =16
+                                                            Size: =fxFontSizeMD
+                                                            Text: =Coalesce(LookUp(col_WorkflowStatus, StatusCode = ThisItem.StatusCode).StatusNameVI, ThisItem.StatusCode)
+                                                            Wrap: =false
+                                                            FillPortions: =1
       - con_MenuOverlayNhapTuSanXuatHangBaoMobile_19:
           Control: GroupContainer
           Variant: AutoLayout
